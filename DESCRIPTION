@@ -7,12 +7,8 @@ Description: What the package does (one paragraph).
 License: What license it uses
 Encoding: UTF-8
 LazyData: true
-Imports: texmex,
-    fitdistrplus,
-    tweedie,
-    MASS,
-    VGAM,
-    copula,
+Imports: texmex, fitdistrplus, tweedie,
+    MASS, VGAM, copula,
     GeneralizedHyperbolic,
     statmod,
     RColorBrewer,
