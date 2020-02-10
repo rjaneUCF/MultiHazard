@@ -1,0 +1,2 @@
+#' @import GeneralizedHyperbolic
+NULL
