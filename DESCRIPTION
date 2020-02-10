@@ -1,0 +1,29 @@
+Package: MultiHazard
+Title: Tools for modeling compound events
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Robert",
+           family = "Jane",
+           role = c("aut", "cre"),
+           email = "r.jane@ucf.edu")
+Description: What the package does (one paragraph).
+License: What license it uses
+Encoding: UTF-8
+LazyData: true
+Imports: 
+    texmex,
+    fitdistrplus,
+    tweedie,
+    MASS,
+    VGAM,
+    copula,
+    GeneralizedHyperbolic,
+    statmod,
+    RColorBrewer,
+    VineCopula,
+    CDVine,
+    ks,
+    truncnorm,
+    actuar,
+    dplyr
+RoxygenNote: 6.1.1
