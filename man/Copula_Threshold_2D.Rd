@@ -16,7 +16,7 @@ Copula_Threshold_2D(Data_Detrend, Data_Declust, Thres = seq(0.9, 0.99,
 
 \item{Thres}{A single or sequence of thresholds, given as a quantile of the observations of the conditioning variable. Default, sequence from \code{0.9} to \code{0.99} at intervals of \code{0.01}.}
 
-\item{x_lim_min}{Numeric vector of length one specifying x-axis minimum. Default is the maximum argument in \cpde{Thres}.}
+\item{x_lim_min}{Numeric vector of length one specifying x-axis minimum. Default is the maximum argument in \code{Thres}.}
 
 \item{x_lim_max}{Numeric vector of length one specifying x-axis maximum. Default is the minimum argument in \code{Thres}.}
 
@@ -32,7 +32,7 @@ Copula_Threshold_2D(Data_Detrend, Data_Declust, Thres = seq(0.9, 0.99,
 }
 \value{
 List comprising: \itemize{
-\item \code{Kendalls_Tau_Var1} \newline Kendalls tau of a sample
+\item \code{Kendalls_Tau_Var1} Kendalls tau of a sample
 \item \code{p_value_Var1}
 p-value when testing the null hypiothesis \code{H_0} i.e. that there is no correlation between the variables
 \item \code{N_Var1}

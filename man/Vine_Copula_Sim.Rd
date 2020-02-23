@@ -28,7 +28,7 @@ Vine_Copula_Sim(Data, Marginals, Vine_family, Vine_par, Vine_par2,
 \item{N}{Number of years worth of extremes to be simulated. Numeric vector of length one. Default 10,000 (years).}
 }
 \value{
-List comprising an integer vector specifing the pair-copula families composing the C- or D-vine copula \code{Vine_family}, its paraeters \code{Vine_par} and \code{Vine_par2} and type of regular vine \ode{Vine_Type}. In addition, dataframes of the simulated observations: \code{u.Sim} on the transformed \code{[0,1]^n} and \code{x.Sim} the origional scales.
+List comprising an integer vector specifing the pair-copula families composing the C- or D-vine copula \code{Vine_family}, its paraeters \code{Vine_par} and \code{Vine_par2} and type of regular vine \code{Vine_Type}. In addition, dataframes of the simulated observations: \code{u.Sim} on the transformed \code{[0,1]^n} and \code{x.Sim} the origional scales.
 }
 \description{
 Simulating from specified C- and D-vine copula models. Builds on the \code{CDVineSim} in \code{CDVine}.
