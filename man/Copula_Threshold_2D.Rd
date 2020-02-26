@@ -49,7 +49,10 @@ Anologous vector \code{Kendalls_Tau_Var2},\code{p_value_Var2}, \code{N_Var2} and
 Declustered excesses of a (conditioning) variable are paired with co-occurances of the other varable before the best fitting bivariate copula is selected, using \code{BiCopSelect} function in the \code{VineCopula} package, for a single or range of thresholds. The procedure is automatically repeated with the variables switched.
 }
 \examples{
-Copula_Threshold_2D(Data_Detrend=S28_Detrend,Data_Declust=S28_Detrend_Declustered,y_lim=c(-0.075,0.25),Upper=c(2,9),Lower=c(2,10))
+Copula_Threshold_2D(Data_Detrend=S20.Detrend.df[,-c(1,4)],
+                    Data_Declust=S20.Detrend.Declustered.df[,-c(1,4)],
+                    y_lim_min=-0.075, y_lim_max =0.25,
+                    Upper=c(6,8), Lower=c(6,8),GAP=0.1)
 }
 \seealso{
 \code{\link{Dataframe_Combine}}

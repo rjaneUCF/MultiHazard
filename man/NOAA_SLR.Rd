@@ -2,7 +2,7 @@
 % Please edit documentation in R/NOAA_SLR.R
 \name{NOAA_SLR}
 \alias{NOAA_SLR}
-\title{Time (in years) for a specified amount of sea-level rise (SLR) to occur at Maimi Beach according to the five SLR scenarios in NOAA 2017 report titled "Global and Regional Sea Level Rise Scenarios for the United States".}
+\title{NOAA sea-level rise scenarios}
 \usage{
 NOAA_SLR(OsWL_req, SLR_scen = c("High", "Intermediate", "Low"),
   Input_unit = "m", Year.Inital = 2020)

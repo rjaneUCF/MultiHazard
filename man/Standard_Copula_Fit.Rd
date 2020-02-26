@@ -18,11 +18,11 @@ List comprising the \code{Copula_Type} and the fitted copula \code{Model} object
 Fit a n-dimensional Archimedean or elliptic copula model. Function is simply a repackaging of the \code{fitCopula} function in the \code{copula} package.
 }
 \examples{
-cop<-Standard_Copula_Fit(Data=S22.Detrend.df,Copula_Type="Gaussian")
-cop<-Standard_Copula_Fit(Data=S22.Detrend.df,Copula_Type="tcopula")
-cop<-Standard_Copula_Fit(Data=S22.Detrend.df,Copula_Type="Gumbel")
-cop<-Standard_Copula_Fit(Data=S22.Detrend.df,Copula_Type="Clayton")
-cop<-Standard_Copula_Fit(Data=S22.Detrend.df,Copula_Type="Frank")
+cop<-Standard_Copula_Fit(Data=S20.Detrend.df,Copula_Type="Gaussian")
+cop<-Standard_Copula_Fit(Data=S20.Detrend.df,Copula_Type="tcopula")
+cop<-Standard_Copula_Fit(Data=S20.Detrend.df,Copula_Type="Gumbel")
+cop<-Standard_Copula_Fit(Data=S20.Detrend.df,Copula_Type="Clayton")
+cop<-Standard_Copula_Fit(Data=S20.Detrend.df,Copula_Type="Frank")
 }
 \seealso{
 \code{\link{Dataframe_Combine}} \code{\link{Standard_Copula_Sel}} \code{\link{CDVineCopSelect}}  \code{\link{BiCopSelect}}

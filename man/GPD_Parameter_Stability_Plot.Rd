@@ -23,7 +23,9 @@ Plot of the shape and modified scale parameter estimates along with their errors
 Plots showing the stability of the GPD scale and shape parameter estimates across a specified range of thresholds.
 }
 \examples{
-GPD_Parameter_Stability_Plot(Data = S20.Detrend.Declustered.df$Rainfall,Data_Full= na.omit(S20.Detrend.df$Rainfall),u=seq(0.9,0.999,0.001))
+GPD_Parameter_Stability_Plot(Data = S20.Detrend.Declustered.df$Rainfall,
+                             Data_Full= na.omit(S20.Detrend.df$Rainfall),
+                             u=seq(0.9,0.999,0.001))
 }
 \seealso{
 \code{\link{Decluster}}

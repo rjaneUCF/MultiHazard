@@ -36,7 +36,22 @@ List comprising the fitted HT04 models \code{Models}, proportion of the time eac
 Fitting and simulating the conditional multivariate approach of Heffernan and Tawn (2004) to a dataset comprising 3 variables. Function utilizes the \code{mexDependence} and \code{} functions from the \code{texmex} package.
 }
 \examples{
-HT04(data_Detrend_Dependence_df = S22.Detrend.df,data_Detrend_Declustered_df = S22.Detrend.Declustered.df ,Migpd = S22_GPD, u_Dependence=0.7,Margins = "gumbel")
+#Fitting and simulating from the Heffernan and Tawn (2004) model
+S20.HT04<-HT04(data_Detrend_Dependence_df=S20.Detrend.df,
+               data_Detrend_Declustered_df=S20.Detrend.Declustered.df,
+               u_Dependence=0.995,Migpd=S20.Migpd,mu=365.25,N=1000)
+#View model conditioning on rainfall
+S20.HT04$Model$Rainfall
+#Assigning simulations (transfomed back to the origional scale) a name
+S20.HT04.Sim<-S20.HT04$x.sim
+#Plotting observed (black) and simulated (red) values
+S20.Pairs.Plot.Data<-data.frame(rbind(na.omit(S20.Detrend.df[,-1]),S20.HT04.Sim),
+                                c(rep("Observation",nrow(na.omit(S20.Detrend.df))),
+                                  rep("Simulation",nrow(S20.HT04.Sim))))
+colnames(S20.Pairs.Plot.Data)<-c(names(S20.Detrend.df)[-1],"Type")
+pairs(S20.Pairs.Plot.Data[,1:3],
+      col=ifelse(S20.Pairs.Plot.Data$Type=="Observation","Black","Red"),
+      upper.panel=NULL,pch=16)
 }
 \seealso{
 \code{\link{Dataframe_Combine}} \code{\link{Migpd_Fit}}

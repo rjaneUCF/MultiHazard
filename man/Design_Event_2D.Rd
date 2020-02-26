@@ -51,8 +51,12 @@ Plot of all the observations (grey circles) as well as the declustered excesses 
 Calculates the single design event under the assumption of full dependence, or once accounting for dependence between variables the single "most-likely" or an ensemble of possible design events.
 }
 \examples{
-S22.Rainfall<-Con_Sampling_2D(Data_Detrend=S22.Detrend.df[,-c(1,4)],Data_Declust=S22.Detrend.Declustered.df[,-c(1,4)],Con_Variable="Rainfall",Thres=0.97)
-S22.OsWL<-Con_Sampling_2D(Data_Detrend=S22.Detrend.df[,-c(1,4)],Data_Declust=S22.Detrend.Declustered.df[,-c(1,4)],Con_Variable="OsWL",Thres=0.97)
+S22.Rainfall<-Con_Sampling_2D(Data_Detrend=S22.Detrend.df[,-c(1,4)],
+                             Data_Declust=S22.Detrend.Declustered.df[,-c(1,4)],
+                             Con_Variable="Rainfall",Thres=0.97)
+S22.OsWL<-Con_Sampling_2D(Data_Detrend=S22.Detrend.df[,-c(1,4)],
+                         Data_Declust=S22.Detrend.Declustered.df[,-c(1,4)],
+                         Con_Variable="OsWL",Thres=0.97)
 S22.Copula.Rainfall<-Copula_Threshold_2D(Data_Detrend=S22.Detrend.df[,-c(1,4)],
                                         Data_Declust=S22.Detrend.Declustered.df[,-c(1,4)],Thres =0.97,
                                         y_lim_min=-0.075,y_lim_max=0.25,

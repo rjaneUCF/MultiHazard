@@ -26,23 +26,26 @@ Fits a simple linear regression model, impute missing values of the dependent va
 }
 \examples{
 ####Objective: Fill in missing values at groundwater well G_3356 using record at G_3355
-##Reading in data at G_3356
-G_3356<-read.csv("C:\\\\Users\\\\ro327497\\\\Documents\\\\SFWMD\\\\SFWMD Data\\\\S20\\\\G-3356.csv",header=TRUE)[-12273,c(3,4)]
+##Viewing first few rows of G_3356
+head(G_3356)
 #Converting date column to a "Date" object
 G_3356$Date<-seq(as.Date("1985-10-23"), as.Date("2019-05-29"), by="day")
 #Converting readings to numeric object
 G_3356$Value<-as.numeric(as.character(G_3356$Value))
 
-##Reading in data at G_3356
-G_3355<-read.csv("C:\\\\Users\\\\ro327497\\\\Documents\\\\SFWMD\\\\SFWMD Data\\\\S20\\\\G-3355.csv")[-12341,c(3,4)]
+##Viewing first few rows of G_3355
+head(G_3355)
 #Converting date column to a "Date" object
 G_3355$Date<-seq(as.Date("1985-08-20"), as.Date("2019-06-02"), by="day")
 #Converting readings to numeric object
 G_3355$Value<-as.numeric(as.character(G_3355$Value))
 
 ##Merge the two dataframes by date
+library('dplyr')
 GW_S20<-merge(G_3356,G_3355,by="Date")
 colnames(GW_S20)<-c("Date","G3356","G3355")
 #Carrying out imputation
-Imputation(Data=GW_S20,Variable="G3356",x_lab="Groundwater level (ft NGVD)",y_lab="Groundwater level (ft NGVD)")
+Imputation(Data=GW_S20,Variable="G3356",
+           x_lab="Groundwater level (ft NGVD 29)",
+           y_lab="Groundwater level (ft NGVD 29)")
 }

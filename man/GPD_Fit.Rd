@@ -32,5 +32,5 @@ The fitted GPD model, is following parameterised as follows: \eqn{P( X > x| X > 
 }
 
 \examples{
-Decluster(Data=S28_T_MAX_Daily_Completed_Detrend$Detrend)
+Decluster(Data=S20_T_MAX_Daily_Completed_Detrend$Detrend)
 }

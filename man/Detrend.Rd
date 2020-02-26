@@ -32,6 +32,8 @@ Numeric vector of the detrended time series.
 Detrends a time series using either a linear fit covering the entire dataset or moving average trend correction with a user-sepcified window width.
 }
 \examples{
-#Detrending ocean-side water level at site S22 using a 3 month moving average window and the last five years of observations to calculate the present day average.
-Detrend(S22_T_MAX_Daily_Completed_Detrend,Method = "window",Window_Width= 89, End_Length = 1826, PLOT=FALSE,x_lab="Data",y_lab="Data")
+#Detrending ocean-side water level at site S22 using a 3 month moving average window and the last
+#five years of observations to calculate the present day average.
+Detrend(S22_T_MAX_Daily_Completed_Detrend,Method = "window",Window_Width= 89,
+        End_Length = 1826, PLOT=FALSE,x_lab="Data",y_lab="Data")
 }

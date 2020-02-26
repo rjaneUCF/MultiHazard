@@ -22,5 +22,8 @@ List comprising Kendall's tau coefficients between the variables pairs composing
 Kendall's tau correlation coefficient between pairs of variables over a range of lags
 }
 \examples{
-Kendall_Lag(Data=S22.Detrend.df,GAP=0.1)
+Kendall_Lag(Data=S20.Detrend.df,GAP=0.1)
+}
+\seealso{
+\code{\link{Dataframe_Combine}}
 }

@@ -25,10 +25,14 @@ Panel consisting of three plots. Upper plot: Plots depicting the AIC of the two 
 Plots demonstrating the goodness of fit of a selected non-extreme marginal distribution to a dataset.
 }
 \examples{
-S22.Rainfall<-Con_Sampling_2D(Data_Detrend=S22.Detrend.df[,-c(1,4)], Data_Declust=S22.Detrend.Declustered.df[,-c(1,4)], Con_Variable="Rainfall",Thres=0.97)
-Diag_Non_Con(Data=S22.Rainfall$Data$OsWL,x_lab="O-sWL (ft NGVD)",y_lim_min=0,y_lim_max=1.5)
-Diag_Non_Con_Sel(Data=S22.Rainfall$Data$OsWL,x_lab="O-sWL (ft NGVD)",y_lim_min=0,y_lim_max=1.5,Selected="Twe")
+S20.Rainfall<-Con_Sampling_2D(Data_Detrend=S20.Detrend.df[,-c(1,4)],
+                              Data_Declust=S20.Detrend.Declustered.df[,-c(1,4)],
+                              Con_Variable="Rainfall",Thres=0.97)
+Diag_Non_Con(Data=S20.Rainfall$Data$OsWL,x_lab="O-sWL (ft NGVD 29)",
+             y_lim_min=0,y_lim_max=1.5)
+Diag_Non_Con_Sel(Data=S20.Rainfall$Data$OsWL,x_lab="O-sWL (ft NGVD 29)",
+                 y_lim_min=0,y_lim_max=1.5,Selected="Twe")
 }
 \seealso{
-\code{\link{Diag_Non_Con_Sel}}
+\code{\link{Diag_Non_Con}}
 }
