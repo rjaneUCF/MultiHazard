@@ -7,7 +7,7 @@
 #' @param u Numeric vector of GPD thresholds; given as a quantiles \code{[0,1]} of \code{Data} vector. Default is \code{0.9} to \code{0.999} in intervals of \code{0.001}.
 #' @param Plot Logical; indicating whether to plot diagnostics. Default is \code{FALSE}.
 #' @return Plot of the shape and modified scale parameter estimates along with their errors bars over the range of specified thresholds.
-#' @seealso \code{\link{Declustered}}
+#' @seealso \code{\link{Decluster}}
 #' @export
 #' @examples
 #' GPD_Parameter_Stability_Plot(Data = S20.Detrend.Declustered.df$Rainfall,Data_Full= na.omit(S20.Detrend.df$Rainfall),u=seq(0.9,0.999,0.001))
