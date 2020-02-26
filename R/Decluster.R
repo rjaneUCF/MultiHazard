@@ -7,6 +7,7 @@
 #' @param SepCrit Integer; specifying the separation criterian under which events are declustered. Default is \code{3} corresponding to a storm window of three days in the case of daily data.
 #' @param mu (average) Number of events per year. Numeric vector of length one. Default is \code{365.25}, daily data.
 #' @return List comprising the \code{Threshold} above which cluster maxima are identifed, average number of declustered excesses per year \code{EventsPerYear}, a vector containing the origional time series \code{Detrended} and the \code{Declustered} series.
+#' @seealso \code{\link{Detrend}}
 #' @export
 #' @examples
 #' Decluster(data=S28_T_MAX_Daily_Completed_Detrend$Detrend)

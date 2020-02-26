@@ -12,7 +12,7 @@
 #' @param Indeptest Logical; whether a hypothesis test for the independence of \code{u1} and \code{u2} is performed before bivariate copula selection (default: \code{Indeptest = FALSE}; cp. BiCopIndTest). The independence copula is chosen for a (conditional) pair if the null hypothesis of independence cannot be rejected.
 #' @param level Numeric; significance level of the independence test (default: level = 0.05).
 #' @return List comprising the pair-copula families composing the C- or D-vine copula \code{Family}, its parameters \code{Par} and \code{Par2} as well as whether it is a C or D-vine \code{Type}.
-#' @seealso \code{\link{Detrend_Declustered_Combine}} \code{\link{CDVineCopSelect}}  \code{\link{BiCopSelect}}
+#' @seealso \code{\link{Dataframe_Combine}} \code{\link{Vine_Copula_Sim}} \code{\link{CDVineCopSelect}}  \code{\link{BiCopSelect}}
 #' @export
 #' @examples
 #' S22.Vine<-Vine_Copula_Fit(Data=S22.Detrend.df, FamilySet=NA, Type="DVine", SelCrit="AIC",Indeptest=FALSE, Level=0.05)

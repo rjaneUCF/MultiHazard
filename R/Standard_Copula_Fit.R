@@ -5,7 +5,7 @@
 #' @param Data Dataframe containing \code{n} at least partially concurrent time series. First column may be a \code{"Date"} object. Can be \code{Dataframe_Combine} output.
 #' @param Copula_Type Type of elliptical copula to be fitted, options are \code{"Gaussian"} (Default), \code{"tcopula"}, \code{"Gumbel"}, \code{"Clayton"} and \code{"Frank"}.
 #' @return List comprising the \code{Copula_Type} and the fitted copula \code{Model} object.
-#' @seealso \code{\link{Dataframe_Combine}} \code{\link{CDVineCopSelect}}  \code{\link{BiCopSelect}}
+#' @seealso \code{\link{Dataframe_Combine}} \code{\link{Standard_Copula_Sel}} \code{\link{CDVineCopSelect}}  \code{\link{BiCopSelect}}
 #' @export
 #' @examples
 #' cop<-Standard_Copula_Fit(Data=S22.Detrend.df,Copula_Type="Gaussian")

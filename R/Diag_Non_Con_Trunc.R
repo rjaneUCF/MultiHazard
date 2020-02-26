@@ -7,6 +7,7 @@
 #' @param y_lim_min Numeric vector of length one specifying the lower y-axis limit of the histogram. Default is \code{0}.
 #' @param y_lim_max Numericr vector of length one specifying the upper y-axis limit of the histogram. Default is \code{1}.
 #' @return Panel consisting of three plots. Upper plot: Plot depicting the AIC of the eight fitted distributions. Middle plot: Probabilty Density Functions (PDFs) of the fitted distribtions superimposed on a histgram of the data. Lower plot: Cummulaibre Distribution Functions (CDFs) of the fitted distributions overlaid on a plot of the empirical CDF.
+#' @seealso \code{\link{Copula_Threshold_2D}}
 #' @export
 #' @examples
 #' S22.OsWL<-Con_Sampling_2D(Data_Detrend=S22.Detrend.df[,-c(1,4)],Data_Declust=S22.Detrend.Declustered.df[,-c(1,4)],Con_Variable="OsWL",Thres=0.97)

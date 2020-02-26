@@ -8,6 +8,7 @@
 #' @param y_lim_max Numeric vector of length one specifying the upper y-axis limit of the histogram.
 #' @param Selected Charactor vector of length one specifying the chosen distribution, options are the Gaussian \code{"Gaus"} and logistic \code{"Logis"}.
 #' @return Panel consisting of three plots. Upper plot: Plots depicting the AIC of the two fitted distributions. Middle plot: Probabilty Density Functions (PDFs) of the \code{selected} distribtions superimposed on a histgram of the data. Lower plot: Cummulative distribution function (CDFs) of the \code{selected} distribution overlaid on a plot of the empirical CDF.
+#' @seealso \code{\link{Diag_Non_Con_Sel}}
 #' @export
 #' @examples
 #' S22.Rainfall<-Con_Sampling_2D(Data_Detrend=S22.Detrend.df[,-c(1,4)], Data_Declust=S22.Detrend.Declustered.df[,-c(1,4)], Con_Variable="Rainfall",Thres=0.97)

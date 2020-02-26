@@ -24,6 +24,7 @@
 #' }
 #' when the dataset is conditioned on the variable in column 1.
 #' Anologous vector \code{Kendalls_Tau_Var2},\code{p_value_Var2}, \code{N_Var2} and \code{Copula_Family_Var2} for the specified thresholds when the dataset is conditioned on the variable in column 2.
+#' @seealso \code{\link{Dataframe_Combine}}
 #' @export
 #' @examples
 #' Copula_Threshold_2D(Data_Detrend=S28_Detrend,Data_Declust=S28_Detrend_Declustered,y_lim=c(-0.075,0.25),Upper=c(2,9),Lower=c(2,10))

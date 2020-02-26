@@ -16,7 +16,7 @@
 #' @param V See documentation for mexDependence.
 #' @param Maxit See documentation for mexDependence.
 #' @return List comprising the fitted HT04 models \code{Models}, proportion of the time each variable is most extreme, given at least one variable is extreme \code{Prop}, as well as the simulated values on the transformed \code{u.sim} and original {x.sim} scales.
-#' @seealso \code{\link{Detrend_Combine}} \code{\link{Detrend_Declustered_Combine}}
+#' @seealso \code{\link{Dataframe_Combine}} \code{\link{Migpd_Fit}}
 #' @export
 #' @examples
 #' HT04(data_Detrend_Dependence_df = S22.Detrend.df,data_Detrend_Declustered_df = S22.Detrend.Declustered.df ,Migpd = S22_GPD, u_Dependence=0.7,Margins = "gumbel")

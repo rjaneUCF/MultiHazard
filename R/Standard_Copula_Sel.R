@@ -6,7 +6,7 @@
 #' @return Data frame containing copula name in column 1 and associated AIC in column 2.
 #' Parameters are estimated using the \code{fitCopula()} function in \code{copula} package using maximum pseudo-likelihood estimator \code{"mpl"}. See \code{\link{fitCopula}} for a more thorough explanation.
 #' @export
-#' @seealso \code{\link{Standard_Copula_Fit}}
+#' @seealso \code{\link{Dataframe_Combine}} \code{\link{Standard_Copula_Fit}}
 #' @examples
 #' Standard_Copula_Sel(Data_Detrend=S22.Detrend.df)
 Standard_Copula_Sel<-function(Data){

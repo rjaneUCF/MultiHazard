@@ -8,7 +8,7 @@
 #' @param mu (average) Number of events per year. Numeric vector of length one. Default is 365.25, daily data.
 #' @param N Number of years worth of extremes to be simulated. Numeric vector of length one. Default 10,000 (years).
 #' @return Each n-dimensional realisation is given on the transfomred \code{[0,1]^n} scale (first n columns) in the first dataframe \code{u.Sim} and on the origional scale in the second dataframe \code{x.Sim}.
-#' @seealso \code{\link{HT04_Fit}}
+#' @seealso \code{\link{Standard_Copula_Sel}}  \code{\link{Standard_Copula_Fit}}
 #' @export
 #' @examples
 #' Standard_Copula_Sim(Data=S22.Detrend.df,Marginals=S22.GPD,Copula=S22.Gaussian,mu=365.25,N=10000)
