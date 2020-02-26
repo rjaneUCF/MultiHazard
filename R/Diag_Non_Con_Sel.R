@@ -8,12 +8,16 @@
 #' @param y_lim_max Numeric vector of length one specifying the upper y-axis limit of the histogram.
 #' @param Selected Charactor vector of length one specifying the chosen distribution, options are the Gaussian \code{"Gaus"} and logistic \code{"Logis"}.
 #' @return Panel consisting of three plots. Upper plot: Plots depicting the AIC of the two fitted distributions. Middle plot: Probabilty Density Functions (PDFs) of the \code{selected} distribtions superimposed on a histgram of the data. Lower plot: Cummulative distribution function (CDFs) of the \code{selected} distribution overlaid on a plot of the empirical CDF.
-#' @seealso \code{\link{Diag_Non_Con_Sel}}
+#' @seealso \code{\link{Diag_Non_Con}}
 #' @export
 #' @examples
-#' S22.Rainfall<-Con_Sampling_2D(Data_Detrend=S22.Detrend.df[,-c(1,4)], Data_Declust=S22.Detrend.Declustered.df[,-c(1,4)], Con_Variable="Rainfall",Thres=0.97)
-#' Diag_Non_Con(Data=S22.Rainfall$Data$OsWL,x_lab="O-sWL (ft NGVD)",y_lim_min=0,y_lim_max=1.5)
-#' Diag_Non_Con_Sel(Data=S22.Rainfall$Data$OsWL,x_lab="O-sWL (ft NGVD)",y_lim_min=0,y_lim_max=1.5,Selected="Twe")
+#' S20.Rainfall<-Con_Sampling_2D(Data_Detrend=S20.Detrend.df[,-c(1,4)],
+#'                               Data_Declust=S20.Detrend.Declustered.df[,-c(1,4)],
+#'                               Con_Variable="Rainfall",Thres=0.97)
+#' Diag_Non_Con(Data=S20.Rainfall$Data$OsWL,x_lab="O-sWL (ft NGVD 29)",
+#'              y_lim_min=0,y_lim_max=1.5)
+#' Diag_Non_Con_Sel(Data=S20.Rainfall$Data$OsWL,x_lab="O-sWL (ft NGVD 29)",
+#'                  y_lim_min=0,y_lim_max=1.5,Selected="Twe")
 Diag_Non_Con_Sel<-function(Data,x_lab = "Data",y_lim_min = 0,y_lim_max = 1,Selected){
   par(mfrow=c(3,1))
   par(mar=c(4.2,4.2,1,1))

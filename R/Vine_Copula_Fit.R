@@ -15,7 +15,9 @@
 #' @seealso \code{\link{Dataframe_Combine}} \code{\link{Vine_Copula_Sim}} \code{\link{CDVineCopSelect}}  \code{\link{BiCopSelect}}
 #' @export
 #' @examples
-#' S22.Vine<-Vine_Copula_Fit(Data=S22.Detrend.df, FamilySet=NA, Type="DVine", SelCrit="AIC",Indeptest=FALSE, Level=0.05)
+#' S20.Vine<-Vine_Copula_Fit(Data=S20.Detrend.df, FamilySet=NA,
+#'                           Type="DVine", SelCrit="AIC",
+#'                           Indeptest=FALSE, Level=0.05)
 Vine_Copula_Fit<-function(Data, FamilySet=NA, Type="DVine", SelCrit="AIC",Indeptest=FALSE, Level=0.05){
   if(class(Data[,1])=="Date" | class(Data[,1])=="factor"){
   Model <- CDVineCopSelect(pobs(na.omit(Data[,2:ncol(Data)])), familyset=FamilySet, type=Type, selectioncrit=SelCrit,indeptest=Indeptest, level=Level)

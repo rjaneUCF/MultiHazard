@@ -1,8 +1,8 @@
-#' 
+#' NOAA sea-level rise scenarios
 #'
-#' Time (in years) for a specified amount of sea-level rise (SLR) to occur at Maimi Beach according to the five SLR scenarios in NOAA 2017 report titled "Global and Regional Sea Level Rise Scenarios for the United States". 
+#' Time (in years) for a specified amount of sea-level rise (SLR) to occur at Maimi Beach according to the five SLR scenarios in NOAA 2017 report titled "Global and Regional Sea Level Rise Scenarios for the United States".
 #'
-#' @param OsWL_req Numeric vector of SLR required. 
+#' @param OsWL_req Numeric vector of SLR required.
 #' @param SLR_scen Character vector specifying which of the NOAA (2017) scenarios to consider. Options include \code{High}, Intermediate high \code{Int.High}, \code{Intermediate}, Intermediate low (\code{Int.Low}) and \code{Low}.
 #' @param Input_unit Character vector of length one; specifying units of SLR. Default is meters \code{"m"}, other option is feet \code{"ft"}.
 #' @param Year Character vector of length one; specifying

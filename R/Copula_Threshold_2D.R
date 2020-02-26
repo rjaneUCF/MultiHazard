@@ -27,7 +27,10 @@
 #' @seealso \code{\link{Dataframe_Combine}}
 #' @export
 #' @examples
-#' Copula_Threshold_2D(Data_Detrend=S28_Detrend,Data_Declust=S28_Detrend_Declustered,y_lim=c(-0.075,0.25),Upper=c(2,9),Lower=c(2,10))
+#' Copula_Threshold_2D(Data_Detrend=S20.Detrend.df[,-c(1,4)],
+#'                     Data_Declust=S20.Detrend.Declustered.df[,-c(1,4)],
+#'                     y_lim_min=-0.075, y_lim_max =0.25,
+#'                     Upper=c(6,8), Lower=c(6,8),GAP=0.1)
 Copula_Threshold_2D<-function(Data_Detrend,Data_Declust,Thres=seq(0.9,0.99,0.01),x_lim_min=min(Thres),x_lim_max=max(Thres),y_lim_min=-1,y_lim_max=1,Upper=0,Lower=0,GAP=0.05,Legend=TRUE){
   y_lim=y_lim_max-y_lim_min
   copula_table<-data.frame(c(seq(0,40,1)[-(c(11,12,15,21,22,25,31,32,35)+1)],104,114,124,134,204,214,224,234),c("Ind.","Gaussian", "t-copula", "Clayton", "Gumbel","Frank","Joe","BB1","BB6","BB7","BB8","Sur. Clayton","Sur. Gumbel","Sur. Joe",

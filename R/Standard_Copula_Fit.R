@@ -8,11 +8,11 @@
 #' @seealso \code{\link{Dataframe_Combine}} \code{\link{Standard_Copula_Sel}} \code{\link{CDVineCopSelect}}  \code{\link{BiCopSelect}}
 #' @export
 #' @examples
-#' cop<-Standard_Copula_Fit(Data=S22.Detrend.df,Copula_Type="Gaussian")
-#' cop<-Standard_Copula_Fit(Data=S22.Detrend.df,Copula_Type="tcopula")
-#' cop<-Standard_Copula_Fit(Data=S22.Detrend.df,Copula_Type="Gumbel")
-#' cop<-Standard_Copula_Fit(Data=S22.Detrend.df,Copula_Type="Clayton")
-#' cop<-Standard_Copula_Fit(Data=S22.Detrend.df,Copula_Type="Frank")
+#' cop<-Standard_Copula_Fit(Data=S20.Detrend.df,Copula_Type="Gaussian")
+#' cop<-Standard_Copula_Fit(Data=S20.Detrend.df,Copula_Type="tcopula")
+#' cop<-Standard_Copula_Fit(Data=S20.Detrend.df,Copula_Type="Gumbel")
+#' cop<-Standard_Copula_Fit(Data=S20.Detrend.df,Copula_Type="Clayton")
+#' cop<-Standard_Copula_Fit(Data=S20.Detrend.df,Copula_Type="Frank")
 Standard_Copula_Fit<-function(Data,Copula_Type="Gaussian"){
 
   if(class(Data[,1])=="Date" | class(Data[,1])=="factor"){

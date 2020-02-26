@@ -13,16 +13,26 @@
 #' } Can be specified as the \code{Type} argument of a \code{Vine_Copula_Fit} object.
 #' @param mu (average) Number of events per year. Numeric vector of length one. Default is 365.25, daily data.
 #' @param N Number of years worth of extremes to be simulated. Numeric vector of length one. Default 10,000 (years).
-#' @return List comprising an integer vector specifing the pair-copula families composing the C- or D-vine copula \code{Vine_family}, its paraeters \code{Vine_par} and \code{Vine_par2} and type of regular vine \code{Vine_Type}. In addition, dataframes of the simulated observations: \code{u.Sim} on the transformed \code{[0,1]^n} and \code{x.Sim} the origional scales.
-#' @seealso Detrend_Declustered_Combine CD_Vine_Select migpd.edit
+#' @return List comprising an integer vector specifing the pair-copula families composing the C- or D-vine copula \code{Vine_family}, its paraeters \code{Vine_par} and \code{Vine_par2} and type of regular vine \code{Vine_Type}. In addition, dataframes of the simulated observations: \code{u.Sim} on the transformed \code{$[0,1]^n$} and \code{x.Sim} the origional scales.
+#' @seealso \code{\link{Vine_Copula_Fit}} \code{\link{CD_Vine_Select}}
 #' @export
 #' @examples
-#' S22.Vine.Sim<-Vine_Copula_Sim(Data=S22.Detrend.df,Marginals=S22.GPD,Vine_family=S22.Vine$Family, Vine_par=S22.Vine$Par, Vine_par2=S22.Vine$Par2, Vine_Type="DVine",N=10)
-#'
-#' S22.Pairs.Plot.Data<-data.frame(rbind(na.omit(S22.Detrend.df[,-1]),S22.Vine.Sim$x.Sim),c(rep("Observation",nrow(na.omit(S22.Detrend.df))),rep("Simulation",nrow(S22.Vine.Sim$x.Sim))))
-#' colnames(S22.Pairs.Plot.Data)<-c(names(S22.Detrend.df)[-1],"Type")
-#' pairs(S22.Pairs.Plot.Data[,1:3],col=ifelse(S22.Pairs.Plot.Data$Type=="Observation","Black","Red"),upper.panel=NULL)
-
+#' #Fitting vine copula
+#' S20.Vine<-Vine_Copula_Fit(Data=S20.Detrend.df, FamilySet=NA,
+#'                           Type="DVine", SelCrit="AIC",Indeptest=FALSE,
+#'                           Level=0.05)
+#' #Simulating from fitted copula
+#' S20.Vine.Sim<-Vine_Copula_Sim(Data=S20.Detrend.df,Marginals=S20.Migpd,
+#'                               Vine_family=S20.Vine$Family, Vine_par=S20.Vine$Par,
+#'                               Vine_par2=S20.Vine$Par2, Vine_Type="DVine",N=10)
+#' #Plotting observed (black) and simulated (red) values
+#' S20.Pairs.Plot.Data<-data.frame(rbind(na.omit(S20.Detrend.df[,-1]),S22.Vine.Sim$x.Sim),
+#'                                 c(rep("Observation",nrow(na.omit(S20.Detrend.df))),
+#'                                 rep("Simulation",nrow(S20.Vine.Sim$x.Sim))))
+#' colnames(S20.Pairs.Plot.Data)<-c(names(S20.Detrend.df)[-1],"Type")
+#' pairs(S20.Pairs.Plot.Data[,1:3],
+#'       col=ifelse(S20.Pairs.Plot.Data$Type=="Observation","Black","Red"),
+#'       upper.panel=NULL)
 Vine_Copula_Sim<-function(Data,Marginals,Vine_family, Vine_par, Vine_par2, Vine_Type="DVine",mu=365.25,N=10000){
 
   #Number of extreme events

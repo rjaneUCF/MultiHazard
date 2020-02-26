@@ -10,7 +10,7 @@
 #' @seealso \code{\link{Detrend}}
 #' @export
 #' @examples
-#' Decluster(data=S28_T_MAX_Daily_Completed_Detrend$Detrend)
+#' Decluster(data=S20_T_MAX_Daily_Completed_Detrend$Detrend)
 Decluster<-function(Data,u=0.95,SepCrit=3,mu=365.25){
 
   Events<-Event_Identify(Data=Data,Threshold=u,SeparationPeriod = SepCrit)

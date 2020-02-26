@@ -10,8 +10,11 @@
 #' @seealso \code{\link{Copula_Threshold_2D}}
 #' @export
 #' @examples
-#' S22.Rainfall<-Con_Sampling_2D(Data_Detrend=S22.Detrend.df[,-c(1,4)], Data_Declust=S22.Detrend.Declustered.df[,-c(1,4)], Con_Variable="Rainfall",Thres=0.97)
-#' Diag_Non_Con(Data=S22.Rainfall$Data$OsWL,x_lab="O-sWL (ft NGVD)",y_lim_min=0,y_lim_max=1.5)
+#' S20.Rainfall<-Con_Sampling_2D(Data_Detrend=S20.Detrend.df[,-c(1,4)],
+#'                               Data_Declust=S20.Detrend.Declustered.df[,-c(1,4)],
+#'                               Con_Variable="Rainfall",Thres=0.97)
+#' Diag_Non_Con(Data=S20.Rainfall$Data$OsWL,x_lab="O-sWL (ft NGVD 29)",
+#'              y_lim_min=0,y_lim_max=1.5)
 Diag_Non_Con<-function(Data,x_lab,y_lim_min=0,y_lim_max=1){
 
   par(mfrow=c(3,1))

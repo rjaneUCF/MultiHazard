@@ -7,10 +7,10 @@
 #' @param Plot  Logical; whether to show plot of Kendall's coefficient vs lag. Default is \code{TRUE}.
 #' @param GAP   Numeric vector of length one. Length of y-axis above and below max and min Kendall's tau values.
 #' @return List comprising Kendall's tau coefficients between the variables pairs composing columns of Data with the specified lags applied to the second named variable \code{Values} and the p-values \code{Test} when testing the null hypothesis H_0: tau=0 i.e. there is no correlation between a pair of variables. Plot of the coefficient with a filled point of hypothesis test (p-value<0.05). Lag applied to variable named second in the legend.
-#' @seealso
+#' @seealso \code{\link{Dataframe_Combine}}
 #' @export
 #' @examples
-#' Kendall_Lag(Data=S22.Detrend.df,GAP=0.1)
+#' Kendall_Lag(Data=S20.Detrend.df,GAP=0.1)
 Kendall_Lag<-function(Data,Lags=seq(-6,6,1),PLOT=TRUE,GAP=0.1){
 Lag<-function(x,k){
   if(k>0){

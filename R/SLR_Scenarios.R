@@ -1,11 +1,10 @@
-#' Sea level rise scenarios in the Southeast Florida Regional Climate Change Compact: 
+#' Sea level rise scenarios in the Southeast Florida Regional Climate Change Compact:
 #'
-#' Calculates and plots time required for sea level rise to reach a specified level according to the three scenarios in the Compact. 
+#' Calculates and plots time required for sea level rise to reach a specified level according to the three scenarios in the Compact.
 #'
 #' @param data A dataframe with \code{n} columns, each comprising a declustered and if necessary detrended time series to be modelled.
 #' @param SeaLevelRise Numeric vector of length one, sea level rise required.
 #' @return An object of class \code{"migpd"}. There are \code{coef}, \code{print}, \code{plot}, \code{ggplot} and \code{summary} functions available.
-#' @seealso
 #' @export
 #' @examples
 #' SLRScenarios(0.45)

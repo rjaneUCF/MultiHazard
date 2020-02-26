@@ -15,8 +15,10 @@
 #' @return Numeric vector of the detrended time series.
 #' @export
 #' @examples
-#' #Detrending ocean-side water level at site S22 using a 3 month moving average window and the last five years of observations to calculate the present day average.
-#' Detrend(S22_T_MAX_Daily_Completed_Detrend,Method = "window",Window_Width= 89, End_Length = 1826, PLOT=FALSE,x_lab="Data",y_lab="Data")
+#' #Detrending ocean-side water level at site S22 using a 3 month moving average window and the last
+#' #five years of observations to calculate the present day average.
+#' Detrend(S22_T_MAX_Daily_Completed_Detrend,Method = "window",Window_Width= 89,
+#'         End_Length = 1826, PLOT=FALSE,x_lab="Data",y_lab="Data")
 Detrend<-function(Data,Method = "window",Window_Width= 89, End_Length = 1826, PLOT=FALSE,x_lab="Data",y_lab="Data"){
   data_Detrend<-Data[,2]
 

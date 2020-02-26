@@ -8,7 +8,7 @@
 #' @export
 #' @seealso \code{\link{Dataframe_Combine}} \code{\link{Standard_Copula_Fit}}
 #' @examples
-#' Standard_Copula_Sel(Data_Detrend=S22.Detrend.df)
+#' Standard_Copula_Sel(Data_Detrend=S20.Detrend.df)
 Standard_Copula_Sel<-function(Data){
 
 if(class(Data[,1])=="Date" | class(Data[,1])=="factor"){

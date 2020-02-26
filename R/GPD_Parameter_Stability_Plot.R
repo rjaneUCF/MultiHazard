@@ -10,7 +10,9 @@
 #' @seealso \code{\link{Decluster}}
 #' @export
 #' @examples
-#' GPD_Parameter_Stability_Plot(Data = S20.Detrend.Declustered.df$Rainfall,Data_Full= na.omit(S20.Detrend.df$Rainfall),u=seq(0.9,0.999,0.001))
+#' GPD_Parameter_Stability_Plot(Data = S20.Detrend.Declustered.df$Rainfall,
+#'                              Data_Full= na.omit(S20.Detrend.df$Rainfall),
+#'                              u=seq(0.9,0.999,0.001))
 GPD_Parameter_Stability_Plot<-function(Data,Data_Full,u=0.95,PLOT=FALSE,xlab_hist="Data",y_lab="Data"){
 
     shape_upper<-numeric(length(u))

@@ -11,13 +11,22 @@
 #' @seealso \code{\link{Detrend}}
 #' @export
 #' @examples
-#' #Reading in data for site S22
-#' Miami_Airport_df<-read.csv("C:\\Users\\ro327497\\Documents\\SFWMD\\SFWMD Data\\S22\\Miami_Airport_df.csv")[,-1]
-#' S22_T_MAX_Daily_Completed_Detrend_Declustered<-read.csv("C:\\Users\\ro327497\\Documents\\SFWMD\\SFWMD Data\\S22\\S22_T_MAX_Daily_Completed_Detrend_Declustered.csv")[,-1]
-#' G580A_GWValueFilled_Detrend_Declustered<-read.csv("C:\\Users\\ro327497\\Documents\\SFWMD\\SFWMD Data\\S22\\G580A_GWValueFilled_Detrend_Declustered.csv")[,-1]
-#Apply Detrend.Declustered.Combine function
-#' S22.Detrend.Declustered.df<-Dataframe_Combine(data.1<-Miami_Airport_df,data.2<-S22_T_MAX_Daily_Completed_Detrend_Declustered[,c(1,4)],data.3<-G580A_GWValueFilled_Detrend_Declustered[,c(1,4)],names=c("Rainfall","OsWL","Groundwater"))
-#' S22.Detrend.df<-Dataframe_Combine(data.1<-Miami_Airport_df,data.2<-S22_T_MAX_Daily_Completed_Detrend_Declustered[,c(1,3)],data.3<-G580A_GWValueFilled_Detrend_Declustered[,c(1,3)],names=c("Rainfall","OsWL","Groundwater"))
+#' #Formatting data
+#' S20.Rainfall.df<-Perrine_df
+#' S20.Rainfall.df$Date<-as.Date(S20.Rainfall.df$Date)
+#' S20.OsWL.df<-S20_T_MAX_Daily_Completed_Detrend_Declustered[,c(2,4)]
+#' S20.OsWL.df$Date<-as.Date(S20.OsWL.df$Date)
+#' #Detrending O-sWL series at Site S20
+#' S20.OsWL.Detrend<-Detrend(Data=S20.OsWL.df,Method = "window",PLOT=FALSE,
+#'                          x_lab="Date",y_lab="O-sWL (ft NGVD 29)")
+#' #Creating a dataframe with the date alongside the detrended OsWL series
+#' S20.OsWL.Detrend.df<-data.frame(as.Date(S20.OsWL.df$Date),S20.OsWL.Detrend)
+#' colnames(S20.OsWL.Detrend.df)<-c("Date","OsWL")
+#' #Combining the two datasets by “Date” argument
+#' S20.Detrend.df<-Dataframe_Combine(data.1<-S20.Rainfall.df,
+#'                                  data.2<-S20.OsWL.Detrend.df,
+#'                                  data.3=0,
+#'                                  names=c("Rainfall","OsWL"))
 Dataframe_Combine<-function(data.1,data.2,data.3,data.4=0,data.5=0,n=3,names){
 
   data_Detrend_1_df<-data.frame(data.1[,1],data.1[,2])

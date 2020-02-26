@@ -1,17 +1,22 @@
 #' Archimedean/elliptic copula model  - Simulation
 #'
-#' Simulating from a fitted Archimedean or elliptic copula Model. Builds on the \code{} in \code{texmex} package.
+#' Simulating from a fitted Archimedean or elliptic copula Model.
 #'
-#' @param Data Dataframe containing \code{n] at least partially concurrent time series. First column may be a \code{"Date"} object. Can be \code{Dataframe_Combine} output.
+#' @param Data Dataframe containing \code{n} at least partially concurrent time series. First column may be a \code{"Date"} object. Can be \code{Dataframe_Combine} output.
 #' @param Marginals An \code{migpd} object containing the n-independent generalized Pareto models.
 #' @param Copula An Archimedean or elliptic copula model. Can be specified as an \code{Standard_Copula_Fit} object.
 #' @param mu (average) Number of events per year. Numeric vector of length one. Default is 365.25, daily data.
 #' @param N Number of years worth of extremes to be simulated. Numeric vector of length one. Default 10,000 (years).
-#' @return Each n-dimensional realisation is given on the transfomred \code{[0,1]^n} scale (first n columns) in the first dataframe \code{u.Sim} and on the origional scale in the second dataframe \code{x.Sim}.
+#' @return Each n-dimensional realisation is given on the transformed \code{[0,1]^n} scale (first n columns) in the first dataframe \code{u.Sim} and on the origional scale in the second dataframe \code{x.Sim}.
 #' @seealso \code{\link{Standard_Copula_Sel}}  \code{\link{Standard_Copula_Fit}}
 #' @export
 #' @examples
-#' Standard_Copula_Sim(Data=S22.Detrend.df,Marginals=S22.GPD,Copula=S22.Gaussian,mu=365.25,N=10000)
+#' #Fitting multiple independent GPDs to the data
+#' #(required to transform realisation back to origional scale)
+#' S20.Migpd<-Migpd_Fit(Data=S20.Detrend.Declustered.df[,-1],mqu=c(0.975,0.975,0.9676))
+#' #Fitting Gaussian copula
+#' Standard_Copula_Sim(Data=S20.Detrend.df,Marginals=S20.Migpd,Copula=S20.Gaussian,
+#'                     mu=365.25,N=10000)
 Standard_Copula_Sim<-function(Data,Marginals,Copula,mu=365.25,N=10000){
 
   #Number of extreme events

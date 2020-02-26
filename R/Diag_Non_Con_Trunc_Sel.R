@@ -8,12 +8,16 @@
 #' @param y_lim_max Numericr vector of length one specifying the upper y-axis limit of the histogram. Default is \code{1}.
 #' @param Selected Charactor vector of length one specifying the chosen distribution, options are the Birnbaum-Saunders \code{"BS"}, exponential \code{"Exp"}, gamma \code{"Gam"}, lognormal \code{"LogN"}, Tweedie \code{"Twe"} and Weibull \code{"Weib"}.
 #' @return Panel consisting of three plots. Upper plot: Plot depicting the AIC of the eight fitted distributions. Middle plot: Probabilty Density Functions (PDFs) of the fitted distribtions superimposed on a histgram of the data. Lower plot: Cummulaibre Distribution Functions (CDFs) of the fitted distributions overlaid on a plot of the empirical CDF.
-#' @seealso \code{\link{Diag_Non_Con_Trunc_Sel}}
+#' @seealso \code{\link{Diag_Non_Con_Trunc}}
 #' @export
 #' @examples
-#' S22.OsWL<-Con_Sampling_2D(Data_Detrend=S22.Detrend.df[,-c(1,4)],Data_Declust=S22.Detrend.Declustered.df[,-c(1,4)],Con_Variable="OsWL",Thres=0.97)
-#' Diag_Non_Con_Trunc(Data=S22.OsWL$Data$Rainfall,x_lab="Rainfall (Inches)",y_lim_min=0,y_lim_max=2)
-#' Diag_Non_Con_Sel_Trunc(Data=S22.OsWL$Data$Rainfall,x_lab="Rainfall (Inches)",y_lim_min=0,y_lim_max=2,Selected="Twe")
+#' S20.OsWL<-Con_Sampling_2D(Data_Detrend=S20.Detrend.df[,-c(1,4)],
+#'                           Data_Declust=S20.Detrend.Declustered.df[,-c(1,4)],
+#'                           Con_Variable="OsWL",Thres=0.97)
+#' Diag_Non_Con_Trunc(Data=S20.OsWL$Data$Rainfall,x_lab="Rainfall (Inches)",
+#'                    y_lim_min=0,y_lim_max=2)
+#' Diag_Non_Con_Sel_Trunc(Data=S20.OsWL$Data$Rainfall,x_lab="Rainfall (Inches)",
+#'                        y_lim_min=0,y_lim_max=2,Selected="Twe")
 Diag_Non_Con_Trunc_Sel<-function(Data,x_lab,y_lim_min=0,y_lim_max=1,Selected){
   mypalette<-brewer.pal(9,"Set1")
   par(mfrow=c(3,1))

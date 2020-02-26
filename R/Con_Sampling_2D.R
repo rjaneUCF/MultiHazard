@@ -9,7 +9,9 @@
 #' @return List comprising the specified \code{Threshold} as the quanitle of the conditioning variable above which declustered excesses are paired with co-occurances of the other varable, the resulting two dimensional sample \code{data} and \code{name} of the conditioning variable.
 #' @export
 #' @examples
-#' Conditional_Sampling_2D(Data_Detrend=Vic[,-1],Data_Declust=Vic.Data.Declustered[,-1],Con_Variable=1,Thres=0.97)$data
+#' S20.Rainfall<-Con_Sampling_2D(Data_Detrend=S20.Detrend.df[,-c(1,4)],
+#' Data_Declust=S20.Detrend.Declustered.df[,-c(1,4)],
+#'              Con_Variable="Rainfall",Thres=0.97)
 Con_Sampling_2D<-function(Data_Detrend,Data_Declust,Con_Variable,Thres=0.97){
   if(class(Data_Detrend[,1])=="Date" | class(Data_Detrend[,1])=="factor"){
     Data_Detrend<-Data_Detrend[,-1]
