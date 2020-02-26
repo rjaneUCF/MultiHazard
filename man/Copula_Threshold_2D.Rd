@@ -7,7 +7,7 @@
 Copula_Threshold_2D(Data_Detrend, Data_Declust, Thres = seq(0.9, 0.99,
   0.01), x_lim_min = min(Thres), x_lim_max = max(Thres),
   y_lim_min = -1, y_lim_max = 1, Upper = 0, Lower = 0,
-  GAP = 0.05)
+  GAP = 0.05, Legend = TRUE)
 }
 \arguments{
 \item{Data_Detrend}{Dataframe containing two at least partially concurrent time series, detrended if necessary. Time steps must be equally spaced, with missing values assigned \code{NA}.}
@@ -29,6 +29,8 @@ Copula_Threshold_2D(Data_Detrend, Data_Declust, Thres = seq(0.9, 0.99,
 \item{Lower}{Numeric vector specifying the element number of the \code{Thres} argument for which the copula family name label to appear below the correponding point on the Kendall's tau coefficent vs threshold plot, when conditioin on the variable in column 2. Default is \code{0}.}
 
 \item{GAP}{Numeric vector of length one specifying the distance above or below the copula family name label appears the correponding point on the Kendall's tau coefficent vs threshold plot. Default is \code{0.05}.}
+
+\item{Legend}{Logic vector of length one specifying whether a legend should be plotted. Default is \code{TRUE}.}
 }
 \value{
 List comprising: \itemize{
@@ -48,4 +50,7 @@ Declustered excesses of a (conditioning) variable are paired with co-occurances 
 }
 \examples{
 Copula_Threshold_2D(Data_Detrend=S28_Detrend,Data_Declust=S28_Detrend_Declustered,y_lim=c(-0.075,0.25),Upper=c(2,9),Lower=c(2,10))
+}
+\seealso{
+\code{\link{Dataframe_Combine}}
 }

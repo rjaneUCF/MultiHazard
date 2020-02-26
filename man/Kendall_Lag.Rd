@@ -11,6 +11,8 @@ Kendall_Lag(Data, Lags = seq(-6, 6, 1), PLOT = TRUE, GAP = 0.1)
 
 \item{Lags}{Integer vector giving the lags over which to calculate coefficient. Default is a vector from \code{-6} to \code{6}.}
 
+\item{GAP}{Numeric vector of length one. Length of y-axis above and below max and min Kendall's tau values.}
+
 \item{Plot}{Logical; whether to show plot of Kendall's coefficient vs lag. Default is \code{TRUE}.}
 }
 \value{

@@ -25,3 +25,6 @@ Fits two (unbounded) non-extreme marginal distributions to a dataset and returns
 S22.Rainfall<-Con_Sampling_2D(Data_Detrend=S22.Detrend.df[,-c(1,4)], Data_Declust=S22.Detrend.Declustered.df[,-c(1,4)], Con_Variable="Rainfall",Thres=0.97)
 Diag_Non_Con(Data=S22.Rainfall$Data$OsWL,x_lab="O-sWL (ft NGVD)",y_lim_min=0,y_lim_max=1.5)
 }
+\seealso{
+\code{\link{Copula_Threshold_2D}}
+}

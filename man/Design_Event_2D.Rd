@@ -66,3 +66,6 @@ Design_Event_2D(Data=S22.Detrend.df[,-c(1,4)], Data_Con1=S22.Rainfall$Data,
                Copula_Family1=S22.Copula.Rainfall, Copula_Family2=S22.Copula.OsWL,
                Marginal_Dist1="Logis", Marginal_Dist2="Twe",RP=100,N=10,N_Ensemble=10)
 }
+\seealso{
+\code{\link{Dataframe_Combine}} \code{\link{Copula_Threshold_2D}} \code{\link{Diag_Non_Con}}  \code{\link{Diag_Non_Con_Trunc}}
+}

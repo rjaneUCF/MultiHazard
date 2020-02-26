@@ -39,5 +39,5 @@ Fitting and simulating the conditional multivariate approach of Heffernan and Ta
 HT04(data_Detrend_Dependence_df = S22.Detrend.df,data_Detrend_Declustered_df = S22.Detrend.Declustered.df ,Migpd = S22_GPD, u_Dependence=0.7,Margins = "gumbel")
 }
 \seealso{
-\code{\link{Detrend_Combine}} \code{\link{Detrend_Declustered_Combine}}
+\code{\link{Dataframe_Combine}} \code{\link{Migpd_Fit}}
 }

@@ -33,5 +33,5 @@ Fit either a C- or D-vine copula model. Function is a repackaging of the \code{C
 S22.Vine<-Vine_Copula_Fit(Data=S22.Detrend.df, FamilySet=NA, Type="DVine", SelCrit="AIC",Indeptest=FALSE, Level=0.05)
 }
 \seealso{
-\code{\link{Detrend_Declustered_Combine}} \code{\link{CDVineCopSelect}}  \code{\link{BiCopSelect}}
+\code{\link{Dataframe_Combine}} \code{\link{Vine_Copula_Sim}} \code{\link{CDVineCopSelect}}  \code{\link{BiCopSelect}}
 }

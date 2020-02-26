@@ -29,3 +29,6 @@ S22.Rainfall<-Con_Sampling_2D(Data_Detrend=S22.Detrend.df[,-c(1,4)], Data_Declus
 Diag_Non_Con(Data=S22.Rainfall$Data$OsWL,x_lab="O-sWL (ft NGVD)",y_lim_min=0,y_lim_max=1.5)
 Diag_Non_Con_Sel(Data=S22.Rainfall$Data$OsWL,x_lab="O-sWL (ft NGVD)",y_lim_min=0,y_lim_max=1.5,Selected="Twe")
 }
+\seealso{
+\code{\link{Diag_Non_Con_Sel}}
+}

@@ -25,5 +25,5 @@ Simulating from a fitted Archimedean or elliptic copula Model. Builds on the \co
 Standard_Copula_Sim(Data=S22.Detrend.df,Marginals=S22.GPD,Copula=S22.Gaussian,mu=365.25,N=10000)
 }
 \seealso{
-\code{\link{HT04_Fit}}
+\code{\link{Standard_Copula_Sel}}  \code{\link{Standard_Copula_Fit}}
 }

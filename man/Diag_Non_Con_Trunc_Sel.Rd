@@ -16,7 +16,7 @@ Diag_Non_Con_Trunc_Sel(Data, x_lab, y_lim_min = 0, y_lim_max = 1,
 
 \item{y_lim_max}{Numericr vector of length one specifying the upper y-axis limit of the histogram. Default is \code{1}.}
 
-\item{Selected}{Charactor vector of length one specifying the chosen distribution, options are the Birnbaum-Saunders \code{"BS"}, exponential \code{"Exp"}, gamma \code{"Gam"}, inverse Gaussian \code{"InvG"}, lognormal \code{"LogN"}, Tweedie \code{"Twe"} and Weibull \code{"Weib"}.}
+\item{Selected}{Charactor vector of length one specifying the chosen distribution, options are the Birnbaum-Saunders \code{"BS"}, exponential \code{"Exp"}, gamma \code{"Gam"}, lognormal \code{"LogN"}, Tweedie \code{"Twe"} and Weibull \code{"Weib"}.}
 }
 \value{
 Panel consisting of three plots. Upper plot: Plot depicting the AIC of the eight fitted distributions. Middle plot: Probabilty Density Functions (PDFs) of the fitted distribtions superimposed on a histgram of the data. Lower plot: Cummulaibre Distribution Functions (CDFs) of the fitted distributions overlaid on a plot of the empirical CDF.
@@ -28,4 +28,7 @@ Fits eight non-extreme marginal distributions to a dataset and returns three plo
 S22.OsWL<-Con_Sampling_2D(Data_Detrend=S22.Detrend.df[,-c(1,4)],Data_Declust=S22.Detrend.Declustered.df[,-c(1,4)],Con_Variable="OsWL",Thres=0.97)
 Diag_Non_Con_Trunc(Data=S22.OsWL$Data$Rainfall,x_lab="Rainfall (Inches)",y_lim_min=0,y_lim_max=2)
 Diag_Non_Con_Sel_Trunc(Data=S22.OsWL$Data$Rainfall,x_lab="Rainfall (Inches)",y_lim_min=0,y_lim_max=2,Selected="Twe")
+}
+\seealso{
+\code{\link{Diag_Non_Con_Trunc_Sel}}
 }

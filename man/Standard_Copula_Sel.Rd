@@ -20,5 +20,5 @@ Fits five n-dimensional standard copula to a dataset and returns their correspon
 Standard_Copula_Sel(Data_Detrend=S22.Detrend.df)
 }
 \seealso{
-\code{\link{Standard_Copula_Fit}}
+\code{\link{Dataframe_Combine}} \code{\link{Standard_Copula_Fit}}
 }

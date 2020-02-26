@@ -24,3 +24,6 @@ Identify cluster maxima above a threshold, using the runs method of Smith and We
 \examples{
 Decluster(data=S28_T_MAX_Daily_Completed_Detrend$Detrend)
 }
+\seealso{
+\code{\link{Detrend}}
+}
