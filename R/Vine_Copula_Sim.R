@@ -14,7 +14,7 @@
 #' @param mu (average) Number of events per year. Numeric vector of length one. Default is 365.25, daily data.
 #' @param N Number of years worth of extremes to be simulated. Numeric vector of length one. Default 10,000 (years).
 #' @return List comprising an integer vector specifing the pair-copula families composing the C- or D-vine copula \code{Vine_family}, its paraeters \code{Vine_par} and \code{Vine_par2} and type of regular vine \code{Vine_Type}. In addition, dataframes of the simulated observations: \code{u.Sim} on the transformed \code{$[0,1]^n$} and \code{x.Sim} the origional scales.
-#' @seealso \code{\link{Vine_Copula_Fit}} \code{\link{CD_Vine_Select}}
+#' @seealso \code{\link{Vine_Copula_Fit}}
 #' @export
 #' @examples
 #' #Fitting vine copula

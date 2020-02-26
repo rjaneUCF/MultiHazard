@@ -135,7 +135,7 @@ obj1<-BiCopSelect(pobs(Data_Con1[,1]), pobs(Data_Con1[,2]), familyset=Copula_Fam
                   se = FALSE, presel = TRUE, method = "mle")
 sample<-BiCopSim(round(N*nrow(Data_Con1)/(nrow(Data_Con1)+nrow(Data_Con2)),0),obj1)
 if(Marginal_Dist1=="BS"){
-  cop.sample1.non.con<-qbisa(sample[,1], Coef(marginal_non_con2)[1], Coef(marginal_non_con2)[2])
+  cop.sample1.non.con<-qbisa(sample[,1], as.numeric(Coef(marginal_non_con2)[1]), as.numeric(Coef(marginal_non_con2)[2]))
 }
 if(Marginal_Dist1=="Exp"){
   cop.sample1.non.con<-qexp(sample[,1], rate = as.numeric(marginal_non_con1$estimate[1]))
@@ -171,7 +171,7 @@ obj2<-BiCopSelect(pobs(Data_Con1[,1]), pobs(Data_Con1[,2]), familyset=Copula_Fam
 sample<-BiCopSim(round(N*nrow(Data_Con2)/(nrow(Data_Con1)+nrow(Data_Con2)),0),obj2)
 
 if(Marginal_Dist2=="BS"){
-  cop.sample2.non.con<-qbisa(sample[,1], Coef(marginal_non_con2)[1], Coef(marginal_non_con2)[2])
+  cop.sample2.non.con<-qbisa(sample[,1], as.numeric(Coef(marginal_non_con2)[1]), as.numeric(Coef(marginal_non_con2)[2]))
 }
 if(Marginal_Dist2=="Exp"){
   cop.sample2.non.con<-qexp(sample[,1], rate = as.numeric(marginal_non_con2$estimate[1]))
