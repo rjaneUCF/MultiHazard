@@ -91,7 +91,7 @@ GPD_con1<-evm(Data_Con1[,con1], th=quantile(na.omit(Data[,con1]),Thres1) ,penalt
 if(Marginal_Dist2 == "BS"){
   bdata2 <- data.frame(shape = exp(-0.5), scale = exp(0.5))
   bdata2 <- transform(bdata2, y = Data_Con2[,con1])
-  marginal_non_con2<-fit <- vglm(y ~ 1, bisa, data = bdata2, trace = FALSE)
+  marginal_non_con2<-vglm(y ~ 1, bisa, data = bdata2, trace = FALSE)
 }
 
 if(Marginal_Dist2 == "Exp"){
