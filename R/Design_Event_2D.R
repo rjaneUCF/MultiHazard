@@ -235,7 +235,7 @@ xy160<-contourLines(x,y,z,levels= RP)
 con1.x<-u2gpd(as.numeric(unlist(xy160[[1]][2])), p = 1, th=quantile(na.omit(Data[,con1]),Thres1) , sigma=exp(GPD_con1$coefficients[1]),xi= GPD_con1$coefficients[2] )
 
 if(Marginal_Dist1=="BS"){
-  con1.y<-qbisa(as.numeric(unlist(xy160[[1]][3])),Coef(marginal_non_con1$estimate[1]),Coef(marginal_non_con1$estimate[2]))
+  con1.y<-qbisa(as.numeric(unlist(xy160[[1]][3])),as.numeric(Coef(marginal_non_con1)[1]),as.numeric(Coef(marginal_non_con2)[2]))
 }
 
 if(Marginal_Dist1=="Exp"){
