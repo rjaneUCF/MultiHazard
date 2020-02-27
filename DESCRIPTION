@@ -7,5 +7,5 @@ Description: This package provides tools for stationary multivariate statistical
 License: What license it uses
 Encoding: UTF-8
 LazyData: true
-Imports: texmex, fitdistrplus, tweedie, MASS, VGAM, copula,GeneralizedHyperbolic, RColorBrewer, VineCopula, ks, truncnorm, dplyr5
+Imports: texmex, fitdistrplus, tweedie, MASS, VGAM, copula,GeneralizedHyperbolic, RColorBrewer, VineCopula, ks, truncnorm, dplyr
 RoxygenNote: 6.1.1
