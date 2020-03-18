@@ -263,7 +263,7 @@ Design event under the assuption of full dependence (Triangle in the plot)
 S20.Bivariate$FullDependence
 ```
 
-##5. Trivariate analysis
+## 5. Trivariate analysis
 In the report three higher dimensional (>3) approaches are implemented to model the joint distribution of rainfall, O-sWL and groundwater level, they are:
   
 * Standard (trivariate) copula
