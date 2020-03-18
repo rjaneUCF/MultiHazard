@@ -276,7 +276,7 @@ In the package, each approach has a `_Fit` and `_Sim` function. The latter requi
 S20.Migpd<-Migpd_Fit(Data=S20.Detrend.Declustered.df[,-1],mqu=c(0.975,0.975,0.9676))
 summary(S20.Migpd)
 ```
-Standard (trivariate) copula are the most conceptually simple of the copula based models, using a single parametric multivariate probability distribution as the copula. The Standard_Copula_Fit() function fits elliptic (specified by `Gaussian` or `tcop`) or Archimedean (specified by `Gumbel`,`Clayton` or `Frank`) copula to a trivariate dataset. Let first fit a Gaussian copula
+Standard (trivariate) copula are the most conceptually simple of the copula based models, using a single parametric multivariate probability distribution as the copula. The Standard_Copula_Fit() function fits elliptic (specified by `Gaussian` or `tcop`) or Archimedean (specified by `Gumbel`,`Clayton` or `Frank`) copula to a trivariate dataset. Lets first fit a Gaussian copula
 ```{r}
 S20.Gaussian<-Standard_Copula_Fit(Data=S20.Detrend.df,Copula_Type="Gaussian")
 ```
@@ -317,8 +317,9 @@ pairs(S20.Pairs.Plot.Data[,1:3],
       col=ifelse(S20.Pairs.Plot.Data$Type=="Observation","Black",alpha("Red",0.3)),
       upper.panel=NULL,pch=16)
 ```
-
-Finally, lets implement the Heffernan and Tawn (2004) approach, where a non-linear regression model is fitted to the (joint) observations where a (conditioning) variable is above a specified threshold. The regression model typically adopted is $$\textbf{Y}_{-i}=\textbf{a}Y_{i}+Y_{i}^{b}\textbf{Z} \hspace{1cm} for \hspace{1cm} Y_{i}>v$$ where $\textbf{Y}$ is a set of variables transdformed to a common scale, $\textbf{Y}_{-i}$ is the set of variables excluding $Y_{-i}$, $\textbf{a}$ and $\textbf{b}$ are vecotrs of regression parameters and $\textbf{Z}$ is a vecotr of residuals. The dependence structure, when a specified variable is extreme is thus captured by the regression parameters and the joint residuals. The procedure is repeated conditioning on each variable in turn to build up of the joint distribution when at least one variable is in an extreme state. The `HT04` command fits and simulates N years worth of simulations from the model.
+Finally, lets implement the Heffernan and Tawn (2004) approach, where a non-linear regression model is fitted to the (joint) observations where a (conditioning) variable is above a specified threshold. The regression model typically adopted is  
+**Y**_<sub>-i</sub>=**a**Y_<sub>i</sub>+Y<sub>i</sub><sup>**b**</sup>**Z** for Y<sub>i</sub>>v <br />
+where **Y** is a set of variables transdformed to a common scale, **Y**<sub>-i</sub> is the set of variables excluding Y<sub>-i</sub>, **a** and **b** are vectors of regression parameters and **Z** is a vector of residuals. The dependence structure, when a specified variable is extreme is thus captured by the regression parameters and the joint residuals. The procedure is repeated conditioning on each variable in turn to build up of the joint distribution when at least one variable is in an extreme state. The `HT04` command fits and simulates N years worth of simulations from the model.
 ```{r}
 S20.HT04<-HT04(data_Detrend_Dependence_df=S20.Detrend.df,
                data_Detrend_Declustered_df=S20.Detrend.Declustered.df,
