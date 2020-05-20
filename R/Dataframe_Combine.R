@@ -22,7 +22,7 @@
 #' #Creating a dataframe with the date alongside the detrended OsWL series
 #' S20.OsWL.Detrend.df<-data.frame(as.Date(S20.OsWL.df$Date),S20.OsWL.Detrend)
 #' colnames(S20.OsWL.Detrend.df)<-c("Date","OsWL")
-#' #Combining the two datasets by “Date” argument
+#' #Combining the two datasets by Date argument
 #' S20.Detrend.df<-Dataframe_Combine(data.1<-S20.Rainfall.df,
 #'                                  data.2<-S20.OsWL.Detrend.df,
 #'                                  data.3=0,
@@ -36,7 +36,7 @@ Dataframe_Combine<-function(data.1,data.2,data.3,data.4=0,data.5=0,n=3,names){
   colnames(data_Detrend_2_df)<-c("Date",colnames(data.2)[2])
 
   if(n==2){
-   Detrend_df<-full_join(data.Detrend_1_df, data_Detrend_2_df, by="Date")
+   Detrend_df<-full_join(data_Detrend_1_df, data_Detrend_2_df, by="Date")
   }
 
   if(n==3){
@@ -44,7 +44,7 @@ Dataframe_Combine<-function(data.1,data.2,data.3,data.4=0,data.5=0,n=3,names){
    colnames(data_Detrend_3_df)<-c("Date",colnames(data.3)[2])
 
    data.Detrend_df1<-full_join(data_Detrend_1_df, data_Detrend_2_df, by="Date")
-   Detrend_df<-full_join(data.Detrend_df1, data_Detrend_3_df, by="Date")
+   Detrend_df<-full_join(data_Detrend_df1, data_Detrend_3_df, by="Date")
   }
 
   if(n==4){
