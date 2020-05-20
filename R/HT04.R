@@ -53,10 +53,11 @@ HT04<-function(data_Detrend_Dependence_df,data_Detrend_Declustered_df,u_Dependen
     colnames(HT04.Groundwater.Dataset)<-colnames(data_Detrend_Dependence_df)
 
     Migpd$data<-na.omit(HT04.Rainfall.Dataset)
+    print(summary(Migpd$data))
+    print(Migpd$mqu)
 
     HT04.1=mexDependence(Migpd,which=colnames(data_Detrend_Dependence_df)[1],dqu=u_Dependence, margins = Margins,
                          constrain = FALSE,v = V, maxit = Maxit)
-
 
     Migpd$data<-na.omit(HT04.OsWL.Dataset)
     HT04.2=mexDependence(Migpd,which=colnames(data_Detrend_Dependence_df)[2],dqu=u_Dependence, margins = Margins,

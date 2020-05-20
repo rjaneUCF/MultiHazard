@@ -1,6 +1,6 @@
 #' Kendall's tau correlation coefficient between pairs of variables over a range of lags
 #'
-#' Kendall's tau correlation coefficient between pairs of variables over a range of lags
+#' Kendall's tau correlation coefficient between pairs of up to three variables over a range of lags
 #'
 #' @param Data  A data frame with 3 columns, containing concurrent observations of three time series.
 #' @param Lags  Integer vector giving the lags over which to calculate coefficient. Default is a vector from \code{-6} to \code{6}.
@@ -27,7 +27,8 @@ correlation<-function(Data_Cor,lag){
   Data_Cor<-na.omit(Data_Cor)
   return(cor(Data_Cor[2:ncol(Data_Cor)],method = "kendall")[which(lower.tri(cor(Data_Cor[2:ncol(Data_Cor)]))==T)])
 }
-
+n<-ncol(Data)-1
+if(n==3){
 Var1_Var2<-numeric(length(Lags))
 Var2_Var3<-numeric(length(Lags))
 Var1_Var3<-numeric(length(Lags))
@@ -80,7 +81,38 @@ Test<-list()
 Test[[paste(names(Data)[2],'_',names(Data)[3],'_Test',sep="")]]= Var1_Var2_Test
 Test[[paste(names(Data)[3],'_',names(Data)[4],'_Test',sep="")]]= Var2_Var3_Test
 Test[[paste(names(Data)[2],'_',names(Data)[4],'_Test',sep="")]]= Var1_Var3_Test
+}
+if(n==2){
+ Var1_Var2 <- numeric(length(Lags))
+ for (i in 1:length(Lags)) {
+   Var1_Var2[i] <- correlation(Data_Cor = Data, c(Lags[i],0))[1]
+ }
+ correlation.test <- function(Data_Cor, lag) {
+ for (i in 2:(ncol(Data_Cor))) {
+    Data_Cor[, i] <- Lag(Data_Cor[, i], -lag[i - 1])
+  }
+ Data_Cor <- na.omit(Data_Cor)
+ return(cor.test(Data_Cor[, 2], Data_Cor[, 3], method = "kendall")$p.value)
+ }
+ Var1_Var2_Test <- numeric(length(Lags))
+ for (i in 1:length(Lags)) {
+  Var1_Var2_Test[i] <- correlation.test(Data_Cor = Data[,-4], c(Lags[i], 0))
+ }
+ if (PLOT == TRUE) {
+ yx <- max(c(Var1_Var2)) - min(c(Var1_Var2))
+ plot(Lags, Var1_Var2, ylim = c(min(c(Var1_Var2)) - GAP * yx, max(c(Var1_Var2)) + GAP * yx), type = "l", xlab = "Lag (days)",
+        ylab = expression(paste("Kendall's " * tau * " coefficient")),
+        cex.lab = 1.65, cex.axis = 1.65, lwd = 2.5)
+ abline(h = 0, lty = 2)
+ points(Lags, Var1_Var2, pch = ifelse(Var1_Var2_Test <  0.05, 16, 21), bg = ifelse(Var1_Var2_Test < 0.05,1, "White"), cex = 1.5)
+ legend("topright", c(paste(colnames(Data)[2], "_", colnames(Data)[3],sep = "")), bty = "n", lwd = 2.5, col = c(1, 2, 3))
+ }
+Value<-list()
+Value[[paste(names(Data)[2],'_',names(Data)[3],sep="")]]= Var1_Var2
 
+Test<-list()
+Test[[paste(names(Data)[2],'_',names(Data)[3],'_Test',sep="")]]= Var1_Var2_Test
+}
 res<-list("Value" = Value,"Test" = Test)
 return(res)
 }
