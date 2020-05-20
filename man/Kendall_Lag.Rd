@@ -19,7 +19,7 @@ Kendall_Lag(Data, Lags = seq(-6, 6, 1), PLOT = TRUE, GAP = 0.1)
 List comprising Kendall's tau coefficients between the variables pairs composing columns of Data with the specified lags applied to the second named variable \code{Values} and the p-values \code{Test} when testing the null hypothesis H_0: tau=0 i.e. there is no correlation between a pair of variables. Plot of the coefficient with a filled point of hypothesis test (p-value<0.05). Lag applied to variable named second in the legend.
 }
 \description{
-Kendall's tau correlation coefficient between pairs of variables over a range of lags
+Kendall's tau correlation coefficient between pairs of up to three variables over a range of lags
 }
 \examples{
 Kendall_Lag(Data=S20.Detrend.df,GAP=0.1)

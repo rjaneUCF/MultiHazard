@@ -8,7 +8,7 @@ Design_Event_2D(Data, Data_Con1, Data_Con2, Thres1, Thres2, Copula_Family1,
   Copula_Family2, Marginal_Dist1, Marginal_Dist2, Con1 = "Rainfall",
   Con2 = "OsWL", mu = 365.25, RP, x_lab = "Rainfall (mm)",
   y_lab = "O-sWL (mNGVD 29)", x_lim_min = NA, x_lim_max = NA,
-  y_lim_min = NA, y_lim_max = NA, N, N_Ensemble)
+  y_lim_min = NA, y_lim_max = NA, delta = 1e-04, N, N_Ensemble)
 }
 \arguments{
 \item{Data}{Dataframe of dimension \code{nx2} containing two co-occurring time series of length \code{n}.}
@@ -46,6 +46,8 @@ Design_Event_2D(Data, Data_Con1, Data_Con2, Thres1, Thres2, Copula_Family1,
 \item{y_lim_min}{Numeric vector of length one specifying y-axis minimum. Default is \code{NA}.}
 
 \item{y_lim_max}{Numeric vector of length one specifying y-axis maximum. Default is \code{NA}.}
+
+\item{delta}{Numeric vector of length one specifying of the resolution at which the copula CDF is  evaluated on the \code{[0,1]2} square. Default is \code{0.0001}.}
 
 \item{N}{Numeric vector of length one specifying the size of the sample from the fitted joint distributions used to estimate the density along an isoline. Samples are collected from the two joint distribution with proportions consistent with the total number of exteme events conditioned on each variable.}
 
