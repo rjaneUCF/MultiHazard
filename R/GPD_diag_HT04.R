@@ -1,5 +1,5 @@
 #' @noRd
-GPD_diag_HT04<-function(Data,Data_Full,model,param,thres,mu,rate,min.RI=1,max.RI=100,xlab.hist="Data",y.lab="Return level"){
+GPD_diag_HT04<-function(Data,Data_Full,model,param,thres,mu,min.RI=1,max.RI=100,xlab.hist="Data",y.lab="Return level"){
   xi<-param[2]
   sigma<-param[1]
 

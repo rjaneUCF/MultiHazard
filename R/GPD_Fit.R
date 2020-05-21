@@ -16,7 +16,7 @@
 #' @export
 #' @examples
 #' Decluster(Data=S20_T_MAX_Daily_Completed_Detrend$Detrend)
-GPD_Fit<-function(Data,Data_Full,u=0.95,rate=NA,mu=365.25,PLOT=FALSE,xlab_hist="Data",y_lab="Data"){
+GPD_Fit<-function(Data,Data_Full,u=0.95,mu=365.25,PLOT=FALSE,xlab_hist="Data",y_lab="Data"){
   gpd<-evm(na.omit(Data), th=quantile(Data_Full,u),penalty = "gaussian",priorParameters = list(c(0, 0), matrix(c(100^2, 0, 0, 0.25), nrow = 2)))
   if(PLOT==TRUE){
   GPD_diag_HT04(Data=na.omit(Data),
@@ -24,7 +24,6 @@ GPD_Fit<-function(Data,Data_Full,u=0.95,rate=NA,mu=365.25,PLOT=FALSE,xlab_hist="
                 model=gpd,
                 param=c(exp(summary(gpd)$coef[[1]]), summary(gpd)$coef[[2]]),
                 thres=quantile(Data_Full,u),
-                rate=rate,
                 mu=mu,
                 xlab.hist=xlab_hist,
                 y.lab=y_lab)
