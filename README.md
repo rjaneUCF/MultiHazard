@@ -59,7 +59,7 @@ Imp$Data$ValuesFilled[which(is.na(Imp$Data$ValuesFilled)==TRUE)]<-
 In the analysis completed O-sWL (Ocean-side Water Level) and groundwater level series are subsequently detrended. The Detrend() function uses either a linear fit covering the entire data (Method=`linear`) or moving averge window (Method=`window`) of a specified length (`Window_Width`) to remove trends from a time series. The residuals are added to the final `End_Length` observations.
 The default  Detrend() parameters specify a moving average (Method=`window`) three month window (Window_Width=`89`), to remove any seasonality from the time series. The deafult is then to add the residuals to the average of the final five years of observations (End_Length=`1826`) to bring the record to the present day level, accounting for the Perigian tide in the case of O-sWL. The mean of the observations over the first three months were subtracted from the values during this period before the present day (5 year) average was added. The following R code detrends the record at Well G_3356. Note the function requires a Date object and the completed series.
 ```{r}
-#Cresaring a data from with the imputed series alongside the corresponding dates 
+#Creating a data from with the imputed series alongside the corresponding dates 
 G_3356_Imp<-data.frame(Imp$Data$Date,Imp$Data$ValuesFilled)
 colnames(G_3356_Imp)<-c("Date","ValuesFilled")
 #Detrending
