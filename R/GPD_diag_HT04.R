@@ -21,6 +21,5 @@ GPD_diag_HT04<-function(Data,Data_Full,model,param,thres,mu,min.RI=1,max.RI=100,
   lines(seq(thres,max(Data),0.1),density,col=4)
 
   #Return Level
-  model$rate<-ifelse(is.na(rate)==T,model$rate,rate)
   Plot.RI.evm(Data,model,mu,min.RI,max.RI,y.lab=y.lab,main.RI="Return Level Plot")
 }
