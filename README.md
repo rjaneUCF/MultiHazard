@@ -2,10 +2,6 @@
 
 ```{r setup, include=FALSE}
 library("MultiHazard")
-library("dplyr")
-library("scales")
-library("statmod")
-library("CDVine")
 ```
 ## 1. Introduction
 The `MultiHazard` package provides tools for stationary multivariate statistical modeling such as of the joint distribution of MULTIple co-occurring HAZARDs. The package contains functions for pre-processing data including imputing missing values, detrending and declustering time series (Section 2) as well as analyzing pairwise correlations over a range of lags (Section 3). Functionality is also built in to conditionally sample a bivariate dataset (given one of the variables is above a predetermined threshold), selecting the best fitting amongst an array of parametric (extreme and non-extreme, truncated and non-truncated) marginal distributions or copulas, which allow the dependence structure between the set of variables to be modelled independenly of marginal distributions (Section 3). Estimation of joint probability contours using the method of overlaying (conditional) contours given in Bender et al. (2016) and subsequently for a given return period extracting design events assuming full dependence, as well as the "most likely" or an ensemble of possible design events once accounting for dependence is possible (Section 4). The package also provides the capability of fitting and simulating synthetic records from three higher dimensional approaches - standard (elliptic/Archimedean) copulas, Pair Copula Constructions (PCCs) and the conditional threshold exceedance approach of Heffernan and Tawn (2004) (Section 5).  
