@@ -1,5 +1,5 @@
 #' @noRd
-Plot.RI.evm<-function(Data,model,mumin.RI=1,max.RI=1000,y.lab="Return Level",main.RI="",Cex.axis=1,Cex.lab=1){
+Plot.RI.evm<-function(Data,model,mu,min.RI=1,max.RI=1000,y.lab="Return Level",main.RI="",Cex.axis=1,Cex.lab=1){
   RI.Estimate<-numeric(length(seq(min.RI,max.RI,0.1)))
   RI.Lower<-numeric(length(seq(min.RI,max.RI,0.1)))
   RI.Upper<-numeric(length(seq(min.RI,max.RI,0.1)))
