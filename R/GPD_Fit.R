@@ -5,8 +5,7 @@
 #' @param Data Numeric vector containing the declusted data.
 #' @param Data_Full Numeric vector containing the non-declustered data.
 #' @param u GPD threshold; as a quantile \code{[0,1]} of \code{Data} vector. Default is \code{0.95}.
-#' @param rate Numeric vector of length one gving the rate (in years) at which \code{u} is exceeded. Not required if full dataset is provided in \code{Data} argument. Default is \code{NA}.
-#' @param mu  (average) Number of events per year. Numeric vector of length one. Default is \code{365.25}, daily data.
+#' @param mu  (average) Number of events per year in \code{Data_Full} input. Numeric vector of length one. Default is \code{365.25}, daily data.
 #' @param Plot Logical; indicating whether to plot diagnostics. Default is \code{FALSE}.
 #' @param xlab_hist Character vector of length one. Histogram x-axis label. Default is \code{"Data"}.
 #' @param y_lab Character vector of length one. Histogram x-axis label. Default is \code{"Data"}.
