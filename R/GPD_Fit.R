@@ -23,9 +23,9 @@ GPD_Fit<-function(Data,Data_Full,u=0.95,rate=NA,mu=365.25,PLOT=FALSE,xlab_hist="
                 Data_Full=Data_Full,
                 model=gpd,
                 param=c(exp(summary(gpd)$coef[[1]]), summary(gpd)$coef[[2]]),
+                thres=quantile(Data_Full,u),
                 rate=rate,
                 mu=mu,
-                thres=quantile(Data_Full,u),
                 xlab.hist=xlab_hist,
                 y.lab=y_lab)
   }
