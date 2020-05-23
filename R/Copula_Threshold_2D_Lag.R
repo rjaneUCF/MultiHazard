@@ -162,7 +162,7 @@ Copula_Threshold_2D_Lag<-function(Data_Detrend,Data_Declust,Thres1=seq(0.9,0.99,
   
   res<-list("Kendalls_Tau_Var1" = correlation_Var1_Value,
             "p_value_Var1" = correlation_Var1_Test,
-            "N_Va1" = correlation_Var1_N,
+            "N_Var1" = correlation_Var1_N,
             "Copula_Family_Var1" =copula_Var1_Family,
             "Kendalls_Tau_Var2" = correlation_Var2_Value,
             "p_value_Var2" = correlation_Var2_Test,
