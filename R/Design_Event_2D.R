@@ -311,7 +311,7 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, Thres1, Thres2, Copula_Fam
   }
 
   if(Marginal_Dist2=="Gaus"){
-    con2.x<-qinvgauss(as.numeric(unlist(xy160[[1]][2])), as.numeric(marginal_non_con2$estimate[1]), as.numeric(marginal_non_con2$estimate[2]))
+    con2.x<-qnorm(as.numeric(unlist(xy160[[1]][2])), as.numeric(marginal_non_con2$estimate[1]), as.numeric(marginal_non_con2$estimate[2]))
   }
 
   if(Marginal_Dist2=="InvG"){
