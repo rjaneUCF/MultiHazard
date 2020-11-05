@@ -11,7 +11,8 @@
 #' @param xlab_hist Character vector of length one. Histogram x-axis label. Default is \code{"Data"}.
 #' @param y_lab Character vector of length one. Histogram x-axis label. Default is \code{"Data"}.
 #' @section Details:
-#' For excesses of a variable X over a suitably high threshold u the fitted GPD model is parameterized as follows: \eqn{P( X > x| X > u) = [1+\eta \fract{x-u}{/sigma}]^{\fract{-1}{\eta)}}_{+}} where \eqn{\eta} are the shape and scale parameters \eqn{\sigma>0} of the generalized Pareto distribution and \eqn{[y]_{+}=max(y,0)}.
+#' For excesses of a variable X over a suitably high threshold u the fitted GPD model is parameterized as follows: \deqn{P( X > x| X > u) = \left[1 + \xi \frac{(x-u)}{\sigma}\right]^{-\frac{1}{\xi}}_{+}}
+#' where \eqn{\xi} and \eqn{\sigma>0} are the shape and scale parameters  of the GPD and \eqn{[y]_{+}=max(y,0)}.
 #' @return List comprising the GPD \code{Threshold}, shape parameter \code{xi} and scale parameters \code{sigma} along with their standard errors \code{sigma.SE} and \code{xi.SE}.
 #' @export
 #' @examples

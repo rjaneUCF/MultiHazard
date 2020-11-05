@@ -1,6 +1,6 @@
 #' Archimedean/elliptic copula model - Simulation
 #'
-#' Simulating from a fitted Archimedean or elliptic copula Model.
+#' Simulating from a fitted Archimedean or elliptic copula model.
 #'
 #' @param Data Data frame containing \code{n} at least partially concurrent time series. First column may be a \code{"Date"} object. Can be \code{Dataframe_Combine} output.
 #' @param Marginals An \code{migpd} object containing the n-independent generalized Pareto models.
