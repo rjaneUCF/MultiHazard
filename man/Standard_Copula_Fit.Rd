@@ -7,7 +7,7 @@
 Standard_Copula_Fit(Data, Copula_Type = "Gaussian")
 }
 \arguments{
-\item{Data}{Dataframe containing \code{n} at least partially concurrent time series. First column may be a \code{"Date"} object. Can be \code{Dataframe_Combine} output.}
+\item{Data}{Data frame containing \code{n} at least partially concurrent time series. First column may be a \code{"Date"} object. Can be \code{Dataframe_Combine} output.}
 
 \item{Copula_Type}{Type of elliptical copula to be fitted, options are \code{"Gaussian"} (Default), \code{"tcopula"}, \code{"Gumbel"}, \code{"Clayton"} and \code{"Frank"}.}
 }

@@ -9,7 +9,7 @@ SLR_Scenarios(SeaLevelRise, Unit = "m")
 \arguments{
 \item{SeaLevelRise}{Numeric vector of length one, sea level rise required.}
 
-\item{data}{A dataframe with \code{n} columns, each comprising a declustered and if necessary detrended time series to be modelled.}
+\item{data}{A data frame with \code{n} columns, each comprising a declustered and if necessary detrended time series to be modelled.}
 }
 \value{
 An object of class \code{"migpd"}. There are \code{coef}, \code{print}, \code{plot}, \code{ggplot} and \code{summary} functions available.

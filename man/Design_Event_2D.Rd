@@ -11,11 +11,11 @@ Design_Event_2D(Data, Data_Con1, Data_Con2, Thres1, Thres2, Copula_Family1,
   y_lim_min = NA, y_lim_max = NA, delta = 1e-04, N, N_Ensemble)
 }
 \arguments{
-\item{Data}{Dataframe of dimension \code{nx2} containing two co-occurring time series of length \code{n}.}
+\item{Data}{Data frame of dimension \code{nx2} containing two co-occurring time series of length \code{n}.}
 
-\item{Data_Con1}{Dataframe containing the conditional sample (declustered excesses paired with concurrent values of other variable), conditioned on the variable in the first column.}
+\item{Data_Con1}{Data frame containing the conditional sample (declustered excesses paired with concurrent values of other variable), conditioned on the variable in the first column.}
 
-\item{Data_Con2}{Dataframe containing the conditional sample (declustered excesses paired with concurrent values of other variable), conditioned on the variable in the second column. Can be obtained using the \code{Con_Sampling_2D} function.}
+\item{Data_Con2}{Data frame containing the conditional sample (declustered excesses paired with concurrent values of other variable), conditioned on the variable in the second column. Can be obtained using the \code{Con_Sampling_2D} function.}
 
 \item{Thres1}{Numeric vector of length one specifying the threshold above which the variable in the first column was sampled in Data_Con1.}
 
@@ -27,17 +27,19 @@ Design_Event_2D(Data, Data_Con1, Data_Con2, Thres1, Thres2, Copula_Family1,
 
 \item{Marginal_Dist1}{Character vector of length one specifying (non-extreme) distribution used to model the marginal distribution of the non-conditioned variable.}
 
-\item{Marginal_Dist2}{Character vector of length one specifying (non-extreme) distribution used to model the marginal distribution of the non-conditioned variable. Best fitting among two truncted distributions or eight truncated distributions can be found using the functions.}
+\item{Marginal_Dist2}{Character vector of length one specifying (non-extreme) distribution used to model the marginal distribution of the non-conditioned variable.}
 
-\item{Con2}{Character vector of length one specifying the name of variable in the first column of \code{Data}.}
+\item{Con1}{Character vector of length one specifying the name of variable in the first column of \code{Data}.}
 
-\item{mu}{Numeric vector of length one specifying the (average) number of events per year. Default is \code{365.25}, daily data.}
+\item{Con2}{Character vector of length one specifying the name of variable in the second column of \code{Data}.}
+
+\item{mu}{Numeric vector of length one specifying the (average) occurrence frequency of events in \code{Data}. Default is \code{365.25}, daily data.}
 
 \item{RP}{Numeric vector of length one specifying the return period of interest.}
 
-\item{x_lab}{Charactor vector specifying the x-axis label.}
+\item{x_lab}{Character vector specifying the x-axis label.}
 
-\item{y_lab}{Charactor vector specifying the y-axis label.}
+\item{y_lab}{Character vector specifying the y-axis label.}
 
 \item{x_lim_min}{Numeric vector of length one specifying x-axis minimum. Default is \code{NA}.}
 
@@ -49,11 +51,9 @@ Design_Event_2D(Data, Data_Con1, Data_Con2, Thres1, Thres2, Copula_Family1,
 
 \item{delta}{Numeric vector of length one specifying of the resolution at which the copula CDF is  evaluated on the \code{[0,1]2} square. Default is \code{0.0001}.}
 
-\item{N}{Numeric vector of length one specifying the size of the sample from the fitted joint distributions used to estimate the density along an isoline. Samples are collected from the two joint distribution with proportions consistent with the total number of exteme events conditioned on each variable.}
+\item{N}{Numeric vector of length one specifying the size of the sample from the fitted joint distributions used to estimate the density along an isoline. Samples are collected from the two joint distribution with proportions consistent with the total number of extreme events conditioned on each variable.}
 
 \item{N_Ensemble}{Numeric vector of length one specifying the number of possible design events sampled along the isoline of interest.}
-
-\item{Con2}{Character vector of length one specifying the name of variable in the second column of \code{Data}.}
 }
 \value{
 Plot of all the observations (grey circles) as well as the declustered excesses above Thres1 (blue circles) or Thres2 (blue circles), observations may belong to both conditional samples. Also shown is the isoline associated with \code{RP} contoured according to their relative probability of occurrence on the basis of the sample from the two joint distributions, the "most likely" design event (black diamond), and design event under the assumption of full dependence (black triangle) are also shown in the plot. The function also returns a list comprising the design events assuming full dependence \code{"FullDependence"}, as well as once the dependence between the variables is accounted for the "Most likley" {"MostLikelyEvent"} as well as an {"Ensemble"} of possible design events.

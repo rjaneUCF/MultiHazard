@@ -8,9 +8,9 @@ Vine_Copula_Fit(Data, FamilySet = NA, Type = "DVine",
   SelCrit = "AIC", Indeptest = FALSE, Level = 0.05)
 }
 \arguments{
-\item{Data}{Dataframe containing \code{n} at least partially concurrent time series. First column may be a \code{"Date"} object. Can be \code{Dataframe_Combine} output.}
+\item{Data}{Data frame containing \code{n} at least partially concurrent time series. First column may be a \code{"Date"} object. Can be \code{Dataframe_Combine} output.}
 
-\item{FamilySet}{Integer vector whuch must include at least one pair-copula family that allows for positive and one that allows for negative dependence. If \code{familyset = NA} (default), selection among all possible families is performed. The coding of pair-copula families is shown below. See help file of the \code{CDVineSim} function to find out copula represented by integers \code{0-40}.}
+\item{FamilySet}{Integer vector which must include at least one pair-copula family that allows for positive and one that allows for negative dependence. If \code{familyset = NA} (default), selection among all possible families is performed. The coding of pair-copula families is shown below. See help file of the \code{CDVineSim} function to find the integers representing the different copula families.}
 
 \item{Type}{Type of the vine model:\itemize{
 \item 1 or "CVine" = C-vine

@@ -8,9 +8,9 @@ Con_Sampling_2D_Lag(Data_Detrend, Data_Declust, Con_Variable,
   Thres = 0.97, Lag_Backward = 0, Lag_Forward = 0)
 }
 \arguments{
-\item{Data_Detrend}{Dataframe containing two at least partially concurrent time series, detrended if necessary. Time steps must be equally spaced, with missing values assigned \code{NA}. First object may be a \code{"Date"} object. Can be \code{Dataframe_Combine} output.}
+\item{Data_Detrend}{Data frame containing two at least partially concurrent time series, detrended if necessary. Time steps must be equally spaced, with missing values assigned \code{NA}. First object may be a \code{"Date"} object. Can be \code{Dataframe_Combine} output.}
 
-\item{Data_Declust}{Dataframe containing two (independently) declustered at least partially concurrent time series. Time steps must be equally spaced, with missing values assigned \code{NA}. Columns must be in the same order as in \code{Data_Detrend}. First object may be a \code{"Date"} object. Can be \code{Dataframe_Combine} output.}
+\item{Data_Declust}{Data frame containing two (independently) declustered at least partially concurrent time series. Time steps must be equally spaced, with missing values assigned \code{NA}. Columns must be in the same order as in \code{Data_Detrend}. First object may be a \code{"Date"} object. Can be \code{Dataframe_Combine} output.}
 
 \item{Con_Variable}{Column number (1 or 2) or the column name of the conditioning variable. Default is \code{1}.}
 
@@ -21,10 +21,10 @@ Con_Sampling_2D_Lag(Data_Detrend, Data_Declust, Con_Variable,
 \item{Lag_Forward}{Negative lag to variable not assigned as the \code{Con_Variable}. Default is \code{0}}
 }
 \value{
-List comprising the specified \code{Threshold} as the quanitle of the conditioning variable above which declustered excesses are paired with co-occurances of the other varable, the resulting two dimensional sample \code{data} and \code{name} of the conditioning variable.
+List comprising the specifyied \code{Threshold} as the quantile of the conditioning variable above which declustered excesses are paired with co-occurences of the other variable, the resulting two-dimensional sample \code{data} and \code{name} of the conditioning variable.
 }
 \description{
-Creates a dataframe where the declustered excesses of a (conditioning) variable are paired with the maximum value of a second variable over a specified lag.
+Creates a data frame where the declustered excesses of a (conditioning) variable are paired with the maximum value of a second variable over a specified lag.
 }
 \examples{
 S20.Rainfall<-Con_Sampling_2D(Data_Detrend=S20.Detrend.df[,-c(1,4)],

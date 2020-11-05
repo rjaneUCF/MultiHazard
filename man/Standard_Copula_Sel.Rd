@@ -2,7 +2,7 @@
 % Please edit documentation in R/Standard_Copula_Sel.R
 \name{Standard_Copula_Sel}
 \alias{Standard_Copula_Sel}
-\title{Selecting best fitting standard (elliptical and Archimeadean) copula}
+\title{Selecting best fitting standard (elliptical and Archimedean) copula}
 \usage{
 Standard_Copula_Sel(Data)
 }

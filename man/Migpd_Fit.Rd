@@ -8,7 +8,7 @@ Migpd_Fit(Data, mth, mqu, penalty = "gaussian", maxit = 10000,
   trace = 0, verbose = FALSE, priorParameters = NULL)
 }
 \arguments{
-\item{Data}{A dataframe with \code{n} columns, each comprising a declustered and if necessary detrended time series to be modelled.}
+\item{Data}{A data frame with \code{n} columns, each comprising a declustered and if necessary detrended time series to be modelled.}
 
 \item{mth}{Marginal thresholds, above which generalized Pareto models are fitted. Numeric vector of length \code{n}.}
 
@@ -28,7 +28,7 @@ Migpd_Fit(Data, mth, mqu, penalty = "gaussian", maxit = 10000,
 An object of class \code{"migpd"}. There are \code{coef}, \code{print}, \code{plot}, \code{ggplot} and \code{summary} functions available.
 }
 \description{
-Fit multiple independent generalized Pareto models to each column of a dataframe. Edited version of the \code{migpd} function in \code{texmex}, to alllow for \code{NA}s in a time series.
+Fit multiple independent generalized Pareto models to each column of a data frame. Edited version of the \code{migpd} function in \code{texmex}, to allow for \code{NA}s in a time series.
 }
 \examples{
 #With date as first column

@@ -9,7 +9,7 @@ Annual_Max(Data_Detrend, Complete_Prop = 0.8)
 \arguments{
 \item{Complete_Prop}{Minimum proportion of non-missing values in an annual record for the annual maximum to be extracted. Default is \code{0.8}.}
 
-\item{Data}{Dataframe containing two columns. In column: \itemize{
+\item{Data}{Data frame containing two columns. In column: \itemize{
 \item \code{1} A \code{"Date"} object of equally spaced discrete time steps.
 \item \code{2} Numeric vector containing corresponding time series values.
 }}

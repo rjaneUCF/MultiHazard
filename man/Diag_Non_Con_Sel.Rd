@@ -2,7 +2,7 @@
 % Please edit documentation in R/Diag_Non_Con_Sel.R
 \name{Diag_Non_Con_Sel}
 \alias{Diag_Non_Con_Sel}
-\title{Demonstrate the goodness of fit of the slected non-extreme marginal distribution}
+\title{Demonstrate the goodness of fit of the selected non-extreme marginal distribution}
 \usage{
 Diag_Non_Con_Sel(Data, x_lab = "Data", y_lim_min = 0, y_lim_max = 1,
   Selected)
@@ -22,7 +22,7 @@ Diag_Non_Con_Sel(Data, x_lab = "Data", y_lim_min = 0, y_lim_max = 1,
 Panel consisting of three plots. Upper plot: Plots depicting the AIC of the two fitted distributions. Middle plot: Probabilty Density Functions (PDFs) of the \code{selected} distribtions superimposed on a histgram of the data. Lower plot: Cummulative distribution function (CDFs) of the \code{selected} distribution overlaid on a plot of the empirical CDF.
 }
 \description{
-Plots demonstrating the goodness of fit of a selected non-extreme marginal distribution to a dataset.
+Plots demonstrating the goodness of fit of a selected (not truncated) non-extreme marginal distribution to a dataset.
 }
 \examples{
 S20.Rainfall<-Con_Sampling_2D(Data_Detrend=S20.Detrend.df[,-c(1,4)],

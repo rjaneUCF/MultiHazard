@@ -17,10 +17,10 @@ NOAA_SLR(OsWL_req, SLR_scen = c("High", "Intermediate", "Low"),
 \item{Year}{Character vector of length one; specifying}
 }
 \value{
-List comprising the specified \code{Threshold} as the quanitle of the conditioning variable above which declustered excesses are paired with co-occurances of the other varable, the resulting two dimensional sample \code{data} and \code{name} of the conditioning variable.
+List comprising the specified \code{Threshold} as the quantile of the conditioning variable above which declustered excesses are paired with co-occurrences of the other variable, the resulting two-dimensional sample \code{data} and \code{name} of the conditioning variable.
 }
 \description{
-Time (in years) for a specified amount of sea-level rise (SLR) to occur at Maimi Beach according to the five SLR scenarios in NOAA 2017 report titled "Global and Regional Sea Level Rise Scenarios for the United States".
+Time (in years) for a specified amount of sea-level rise (SLR) to occur at Miami Beach according to the five SLR scenarios in NOAA 2017 report titled "Global and Regional Sea Level Rise Scenarios for the United States".
 }
 \examples{
 NOAA_SLR<-function(OsWL_req=seq(0,1,0.01),SLR_scen = c("High","Intermediate","Low"),Input_unit="m")

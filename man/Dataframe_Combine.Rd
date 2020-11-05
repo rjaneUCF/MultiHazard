@@ -2,7 +2,7 @@
 % Please edit documentation in R/Dataframe_Combine.R
 \name{Dataframe_Combine}
 \alias{Dataframe_Combine}
-\title{Creates a dataframe containing up to five time series}
+\title{Creates a data frame containing up to five time series}
 \usage{
 Dataframe_Combine(data.1, data.2, data.3, data.4 = 0, data.5 = 0,
   n = 3, names)
@@ -10,16 +10,16 @@ Dataframe_Combine(data.1, data.2, data.3, data.4 = 0, data.5 = 0,
 \arguments{
 \item{n}{Integer \code{1-5} specifying the number of time series. Default is \code{3}.}
 
-\item{data.1:5}{Dataframes with two columns containing in column \itemize{
-\item 1 - Continuous sequence of times spaning from the first to the final recorded observations.
+\item{data.1:5}{Data frames with two columns containing in column \itemize{
+\item 1 - Continuous sequence of times spanning from the first to the final recorded observations.
 \item 2 - Corresponding values detrended where necessary.
 }}
 }
 \value{
-A dataframe containing all times from the first to the most up to date reading of any of the variables.
+A data frame containing all times from the first to the most up to date reading of any of the variables.
 }
 \description{
-Combines up to five time series, detrended where necessary, into a single dataframe.
+Combines up to five time series, detrended where necessary, into a single data frame.
 }
 \examples{
 #Formatting data
@@ -33,7 +33,7 @@ S20.OsWL.Detrend<-Detrend(Data=S20.OsWL.df,Method = "window",PLOT=FALSE,
 #Creating a dataframe with the date alongside the detrended OsWL series
 S20.OsWL.Detrend.df<-data.frame(as.Date(S20.OsWL.df$Date),S20.OsWL.Detrend)
 colnames(S20.OsWL.Detrend.df)<-c("Date","OsWL")
-#Combining the two datasets by “Date” argument
+#Combining the two datasets by Date argument
 S20.Detrend.df<-Dataframe_Combine(data.1<-S20.Rainfall.df,
                                  data.2<-S20.OsWL.Detrend.df,
                                  data.3=0,

@@ -7,18 +7,18 @@
 Imputation(Data, Variable, x_lab, y_lab)
 }
 \arguments{
-\item{Data}{Dataframe containing two at least partially concurrent time series. First column may be a \code{"Date"} object. Can be \code{Dataframe_Combine} output.}
+\item{Data}{Data frame containing two at least partially concurrent time series. First column may be a \code{"Date"} object. Can be \code{Dataframe_Combine} output.}
 
-\item{Variable}{Character vector of length one specifying the (column) name of the varible to be imputed i.e. dependent variable in the fitted regression.}
+\item{Variable}{Character vector of length one specifying the (column) name of the variable to be imputed i.e. dependent variable in the fitted regression.}
 
 \item{x_lab}{Character vector of length one specifying the name of the independent variable to appear as the x-axis label on a plot showing the data, imputed values and the linear regression model.}
 
 \item{y_lab}{Character vector of length one specifying the name of the dependent variable to appear as the y-axis label on plot showing the data, imputed values and the linear regression model.}
 }
 \value{
-List comprising \itemize{
-\item \code{Data} dataframe containing the origional data plus an additional column named \code{Value} where the \code{NA} values of the \code{Variable} of interest have been imputed where possible.
-\item \code{Model} linear regression model paramters including its coefficient of determination
+List comprising a\itemize{
+\item \code{Data} data frame containing the original data plus an additional column named \code{Value} where the \code{NA} values of the \code{Variable} of interest have been imputed where possible.
+\item \code{Model} linear regression model parameters including its coefficient of determination
 } and a scatter plot of the data (black points), linear regression model (red line) and fitted (imputed) values (blue points).
 }
 \description{

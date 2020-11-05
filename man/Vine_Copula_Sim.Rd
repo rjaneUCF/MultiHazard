@@ -8,11 +8,11 @@ Vine_Copula_Sim(Data, Marginals, Vine_family, Vine_par, Vine_par2,
   Vine_Type = "DVine", mu = 365.25, N = 10000)
 }
 \arguments{
-\item{Data}{Dataframe containing \code{n} at least partially concurrent time series. First column may be a \code{"Date"} object. Can be \code{Dataframe_Combine} output.}
+\item{Data}{Data frame containing \code{n} at least partially concurrent time series. First column may be a \code{"Date"} object. Can be \code{Dataframe_Combine} output.}
 
 \item{Marginals}{An \code{migpd} object containing the d-independent generalized Pareto models.}
 
-\item{Vine_family}{A n*(n-1)/2 integer vector specifying the pair-copula families defining the fitting C- or a D-vine copula models. Can be specified as the \code{Family} agument of a \code{Vine_Copula_Fit} object. See help file of the \code{CDVineSim} function to find out copula represented by integers 0-40.}
+\item{Vine_family}{A n*(n-1)/2 integer vector specifying the pair-copula families defining the fitting C- or a D-vine copula models. Can be specified as the \code{Family} argument of a \code{Vine_Copula_Fit} object. See help file of the \code{CDVineSim} function to find the integers representing the different copula families.}
 
 \item{Vine_par}{A n*(n-1)/2 vector of pair-copula parameters.}
 
@@ -28,7 +28,7 @@ Vine_Copula_Sim(Data, Marginals, Vine_family, Vine_par, Vine_par2,
 \item{N}{Number of years worth of extremes to be simulated. Numeric vector of length one. Default 10,000 (years).}
 }
 \value{
-List comprising an integer vector specifing the pair-copula families composing the C- or D-vine copula \code{Vine_family}, its paraeters \code{Vine_par} and \code{Vine_par2} and type of regular vine \code{Vine_Type}. In addition, dataframes of the simulated observations: \code{u.Sim} on the transformed \code{$[0,1]^n$} and \code{x.Sim} the origional scales.
+List comprising an integer vector specifying the pair-copula families composing the C- or D-vine copula \code{Vine_family}, its parameters \code{Vine_par} and \code{Vine_par2} and type of regular vine \code{Vine_Type}. In addition, data frames of the simulated observations: \code{u.Sim} on the transformed \code{$[0,1]^n$} and \code{x.Sim} the original scales.
 }
 \description{
 Simulating from specified C- and D-vine copula models. Builds on the \code{CDVineSim} in \code{CDVine}.
@@ -52,5 +52,5 @@ pairs(S20.Pairs.Plot.Data[,1:3],
       upper.panel=NULL)
 }
 \seealso{
-\code{\link{Vine_Copula_Fit}} \code{\link{CD_Vine_Select}}
+\code{\link{Vine_Copula_Fit}}
 }

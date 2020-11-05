@@ -2,12 +2,12 @@
 % Please edit documentation in R/Standard_Copula_Sim.R
 \name{Standard_Copula_Sim}
 \alias{Standard_Copula_Sim}
-\title{Archimedean/elliptic copula model  - Simulation}
+\title{Archimedean/elliptic copula model - Simulation}
 \usage{
 Standard_Copula_Sim(Data, Marginals, Copula, mu = 365.25, N = 10000)
 }
 \arguments{
-\item{Data}{Dataframe containing \code{n} at least partially concurrent time series. First column may be a \code{"Date"} object. Can be \code{Dataframe_Combine} output.}
+\item{Data}{Data frame containing \code{n} at least partially concurrent time series. First column may be a \code{"Date"} object. Can be \code{Dataframe_Combine} output.}
 
 \item{Marginals}{An \code{migpd} object containing the n-independent generalized Pareto models.}
 
@@ -18,10 +18,10 @@ Standard_Copula_Sim(Data, Marginals, Copula, mu = 365.25, N = 10000)
 \item{N}{Number of years worth of extremes to be simulated. Numeric vector of length one. Default 10,000 (years).}
 }
 \value{
-Each n-dimensional realisation is given on the transformed \code{[0,1]^n} scale (first n columns) in the first dataframe \code{u.Sim} and on the origional scale in the second dataframe \code{x.Sim}.
+Each n-dimensional realisation is given on the transformed \code{[0,1]^n} scale (first n columns) in the first data frame \code{u.Sim} and on the original scale in the second data frame \code{x.Sim}.
 }
 \description{
-Simulating from a fitted Archimedean or elliptic copula Model.
+Simulating from a fitted Archimedean or elliptic copula model.
 }
 \examples{
 #Fitting multiple independent GPDs to the data

@@ -11,12 +11,12 @@ Decluster(Data, u = 0.95, SepCrit = 3, mu = 365.25)
 
 \item{u}{Numeric vector of length one specifying the declustering threshold; as a quantile \code{[0,1]} of \code{Data} vector. Default is \code{0.95}.}
 
-\item{SepCrit}{Integer; specifying the separation criterian under which events are declustered. Default is \code{3} corresponding to a storm window of three days in the case of daily data.}
+\item{SepCrit}{Integer; specifying the separation criterion under which events are declustered. Default is \code{3} corresponding to a storm window of three days in the case of daily data.}
 
-\item{mu}{(average) Number of events per year. Numeric vector of length one. Default is \code{365.25}, daily data.}
+\item{mu}{(average) occurrence frequency of events in \code{Data}. Numeric vector of length one. Default is \code{365.25}, daily data.}
 }
 \value{
-List comprising the \code{Threshold} above which cluster maxima are identifed, average number of declustered excesses per year \code{EventsPerYear}, a vector containing the origional time series \code{Detrended} and the \code{Declustered} series.
+List comprising the \code{Threshold} above which cluster maxima are identified, rate of cluster maxima \code{Rate}, a vector containing the original time series \code{Detrended} and the \code{Declustered} series.
 }
 \description{
 Identify cluster maxima above a threshold, using the runs method of Smith and Weissman (1994).

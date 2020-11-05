@@ -8,7 +8,7 @@ Detrend(Data, Method = "window", Window_Width = 89,
   End_Length = 1826, PLOT = FALSE, x_lab = "Data", y_lab = "Data")
 }
 \arguments{
-\item{Data}{Dataframe containing two columns. In column: \itemize{
+\item{Data}{Data frame containing two columns. In column: \itemize{
 \item \code{1} A \code{"Date"} object of equally spaced discrete time steps.
 \item \code{2} Numeric vector containing corresponding time series values. No \code{NA}s allowed.
 }}
@@ -19,7 +19,7 @@ Detrend(Data, Method = "window", Window_Width = 89,
 
 \item{End_Length}{Numeric vector of length one specifying number of observations at the end of the time series used to calculate the present day average. Default is \code{1826}, which for daily data corresponds to the final five years of observations.}
 
-\item{PLOT}{Logical; whether to plot origional and detrended series. Default is \code{"FALSE"}.}
+\item{PLOT}{Logical; whether to plot original and detrended series. Default is \code{"FALSE"}.}
 
 \item{x_lab}{Character vector of length one specifying x-axis label. Default is \code{"Date"}.}
 
@@ -29,7 +29,7 @@ Detrend(Data, Method = "window", Window_Width = 89,
 Numeric vector of the detrended time series.
 }
 \description{
-Detrends a time series using either a linear fit covering the entire dataset or moving average trend correction with a user-sepcified window width.
+Detrends a time series using either a linear fit covering the entire dataset or moving average trend correction with a user-specified window width.
 }
 \examples{
 #Detrending ocean-side water level at site S22 using a 3 month moving average window and the last

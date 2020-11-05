@@ -2,10 +2,10 @@
 % Please edit documentation in R/GPD_Fit.R
 \name{GPD_Fit}
 \alias{GPD_Fit}
-\title{Fits a single generalised Pareto distribution - Fit}
+\title{Fits a single generalized Pareto distribution - Fit}
 \usage{
-GPD_Fit(Data, Data_Full, u = 0.95, PLOT = FALSE, xlab_hist = "Data",
-  y_lab = "Data")
+GPD_Fit(Data, Data_Full, u = 0.95, mu = 365.25, min.RI = 1,
+  PLOT = FALSE, xlab_hist = "Data", y_lab = "Data")
 }
 \arguments{
 \item{Data}{Numeric vector containing the declusted data.}
@@ -13,6 +13,10 @@ GPD_Fit(Data, Data_Full, u = 0.95, PLOT = FALSE, xlab_hist = "Data",
 \item{Data_Full}{Numeric vector containing the non-declustered data.}
 
 \item{u}{GPD threshold; as a quantile \code{[0,1]} of \code{Data} vector. Default is \code{0.95}.}
+
+\item{mu}{Numeric vector of length one specifying (average) occurrence frequency of events in the \code{Data_Full} input. Default is \code{365.25}.}
+
+\item{min.RI}{Numeric vector of length one specifying the minimum return period in the return level plot. Default is \code{1}.}
 
 \item{xlab_hist}{Character vector of length one. Histogram x-axis label. Default is \code{"Data"}.}
 
@@ -24,11 +28,12 @@ GPD_Fit(Data, Data_Full, u = 0.95, PLOT = FALSE, xlab_hist = "Data",
 List comprising the GPD \code{Threshold}, shape parameter \code{xi} and scale parameters \code{sigma} along with their standard errors \code{sigma.SE} and \code{xi.SE}.
 }
 \description{
-Fit a Generalized Pareto Distribution (GPD) to a declstered dataset.
+Fit a Generalized Pareto Distribution (GPD) to a declustered dataset.
 }
 \section{Details}{
 
-The fitted GPD model, is following parameterised as follows: \eqn{P( X > x| X > u)}
+For excesses of a variable X over a suitably high threshold u the fitted GPD model is parameterized as follows: \deqn{P( X > x| X > u) = \left[1 + \xi \frac{(x-u)}{\sigma}\right]^{-\frac{1}{\xi}}_{+}}
+where \eqn{\xi} and \eqn{\sigma>0} are the shape and scale parameters  of the GPD and \eqn{[y]_{+}=max(y,0)}.
 }
 
 \examples{

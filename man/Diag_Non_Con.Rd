@@ -9,14 +9,14 @@ Diag_Non_Con(Data, x_lab, y_lim_min = 0, y_lim_max = 1)
 \arguments{
 \item{Data}{Numeric vector containing realizations of the variable of interest.}
 
-\item{x_lab}{Character vector of length one specifying the label on the x-axis of histogram and cummulative distribution plot.}
+\item{x_lab}{Character vector of length one specifying the label on the x-axis of histogram and cumulative distribution plot.}
 
 \item{y_lim_min}{Numeric vector of length one specifying the lower y-axis limit of the histogram. Default is \code{0}.}
 
-\item{y_lim_max}{Numericr vector of length one specifying the upper y-axis limit of the histogram. Default is \code{1}.}
+\item{y_lim_max}{Numeric vector of length one specifying the upper y-axis limit of the histogram. Default is \code{1}.}
 }
 \value{
-Panel consisting of three plots. Upper plot: Plot depicting the AIC of the two fitted distributions. Middle plot: Probabilty Density Functions (PDFs) of the fitted distribtions superimposed on a histgram of the data. Lower plot: Cummulaibre Distribution Functions (CDFs) of the fitted distributions overlaid on a plot of the empirical CDF.
+Name of the best fitting distribution \code{Best_fit}. Panel consisting of three plots. Upper plot: Plot depicting the AIC of the two fitted distributions. Middle plot: Probability Density Functions (PDFs) of the fitted distributions superimposed on a histogram of the data. Lower plot: Cumulative Distribution Functions (CDFs) of the fitted distributions overlaid on a plot of the empirical CDF.
 }
 \description{
 Fits two (unbounded) non-extreme marginal distributions to a dataset and returns three plots demonstrating their relative goodness of fit.
