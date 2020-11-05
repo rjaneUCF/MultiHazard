@@ -1,7 +1,7 @@
-#' Derives bivariate isolines using the non-parametric approach of Cooley et al. (2019). 
+#' Derives bivariate isolines using the non-parametric approach of Cooley et al. (2019).
 #'
-#' The Cooley et al. (2019) method exploits bivariate regular variation and kernel density estimation to generate isolines of bivariate exceedance probabilities. The function utilizes the \code{ks} and \code{texmex} packages, and works for both asymptotic dependence and independence.  
-#' 
+#' The Cooley et al. (2019) method exploits bivariate regular variation and kernel density estimation to generate isolines of bivariate exceedance probabilities. The function utilizes the \code{ks} and \code{texmex} packages, and works for both asymptotic dependence and independence.
+#'
 #' @param Data Data frame consisting of two columns.
 #' @param Migpd An \code{Migpd} object, containing the generalized  Pareto models fitted (independently) to the variables comprising the columns of \code{Data}.
 #' @param p.base Numeric vector of length one specifying the exceedance probability of the base isoline. Default is \code{0.01}.
@@ -20,7 +20,8 @@
 #' @seealso \code{\link{Dataframe_Combine}} \code{\link{Decluster}} \code{\link{GPD_Fit}} \code{\link{Migpd_Fit}}
 #' @export
 #' @examples
-#' Cooley19(Data=na.omit(S22.Detrend.Declustered.df[,3:4]),Migpd=s.Migpd,
+#' S20.GPD<-Migpd_Fit(Data=S20.Detrend.Declustered.df[,-1], mqu =c(0.99,0.99,0.99))
+#' Cooley19(Data=na.omit(S20.Detrend.df[,3:4]),Migpd=s.Migpd,
 #' p.base=0.01,p.proj=0.001,PLOT=TRUE,x_lim_max_T=500,y_lim_max_T=500)
 Cooley19<-function(Data,Migpd,p.base=0.01,p.proj=0.001,u=0.95,PLOT=FALSE,x_lim_min_T=NA, x_lim_max_T=NA,y_lim_min_T=NA,y_lim_max_T=NA,x_lim_min=NA,x_lim_max=NA,y_lim_min=NA,y_lim_max=NA){
 
@@ -48,7 +49,7 @@ I.base.y_F<-  -1/(log(EmpFun(x=Data[,2], r=I.base$y, mod=Migpd$models[[2]])))
 I.base_F <- data.frame(I.base.x_F,I.base.y_F)
 colnames(I.base_F)<-c("x","y")
 
-#Projected isoline 
+#Projected isoline
 if(CHI>0){
  I.proj.x_F <- (p.base/p.proj)*I.base.x_F
  I.proj.y_F <- (p.base/p.proj)*I.base.y_F
@@ -67,16 +68,16 @@ I.proj.y_U<- exp(-1/I.proj.y_F)
 
 I.proj.x<-as.numeric(quantile(Data[,1],I.proj.x_U))
 I.proj.x[which(I.proj.x_U>Migpd$models[[1]]$mqu)]<-u2gpd(u=I.proj.x_U[which(I.proj.x_U>Migpd$models[[1]]$mqu)],
-                                                         p=Migpd$models[[1]]$rate, 
-                                                         th=Migpd$models[[1]]$threshold, 
-                                                         sigma=exp(Migpd$models[[1]]$coefficients[1]), 
+                                                         p=Migpd$models[[1]]$rate,
+                                                         th=Migpd$models[[1]]$threshold,
+                                                         sigma=exp(Migpd$models[[1]]$coefficients[1]),
                                                          xi=Migpd$models[[1]]$coefficients[2])
 
 I.proj.y<-as.numeric(quantile(Data[,2],I.proj.y_U))
 I.proj.y[which(I.proj.y_U>Migpd$models[[2]]$mqu)]<-u2gpd(u=I.proj.y_U[which(I.proj.y_U>Migpd$models[[2]]$mqu)],
-                                                         p=Migpd$models[[2]]$rate, 
-                                                         th=Migpd$models[[2]]$threshold, 
-                                                         sigma=exp(Migpd$models[[2]]$coefficients[1]), 
+                                                         p=Migpd$models[[2]]$rate,
+                                                         th=Migpd$models[[2]]$threshold,
+                                                         sigma=exp(Migpd$models[[2]]$coefficients[1]),
                                                          xi=Migpd$models[[2]]$coefficients[2])
 
 I.proj <- data.frame(I.proj.x,I.proj.y)
@@ -87,7 +88,7 @@ if(PLOT==TRUE){
   x_lim_max_T<-ifelse(is.na(x_lim_max_T)==T,max(x_F),x_lim_max_T)
   y_lim_min_T<-ifelse(is.na(y_lim_min_T)==T,min(y_F),y_lim_min_T)
   y_lim_max_T<-ifelse(is.na(y_lim_max_T)==T,max(y_F),y_lim_max_T)
-  
+
   x_lim_min<-ifelse(is.na(x_lim_min)==T,min(Data[,1]),x_lim_min)
   x_lim_max<-ifelse(is.na(x_lim_max)==T,max(Data[,1]),x_lim_max)
   y_lim_min<-ifelse(is.na(y_lim_min)==T,min(Data[,2]),y_lim_min)
@@ -100,7 +101,7 @@ if(PLOT==TRUE){
   legend("topright",c("Base","Proj"),col=c(3,2),lty=1,bg="transparent",bty='n')
   lines(I.base_F$x,I.base_F$y,col=3,lwd=2)
   lines(I.proj_F$x,I.proj_F$y,col=2,lwd=2)
-  
+
   plot(Data,xlim=c(x_lim_min,x_lim_max),ylim=c(y_lim_min,y_lim_max),main="Original scale")
   legend("topright",c("Base","Proj"),col=c(3,2),lty=1,bg="transparent",bty='n')
   lines(I.base$x,I.base$y,col=3,lwd=2)
@@ -110,15 +111,3 @@ res <- list(Asym = Asym, Chi= CHI, n.bar=n.bar, p.base = p.base, p.proj=p.proj, 
 return(res)
 }
 
-v$Chi
-
-Chi<-chi(na.omit(S22.Detrend.Declustered.df[,3:4]),nq=1000)
-round(Chi$chi[which(abs(Chi$quantile-0.95)==min(abs(Chi$quantile-0.95)))],2)
-n.bar<-(Chi$chibar[which(abs(Chi$quantile-u)==min(abs(Chi$quantile-u)))]+1)/2
-
-v<-EmpFun(x=na.omit(S22.Detrend.Declustered.df[,3]),r=na.omit(S22.Detrend.Declustered.df[,3]), mod=Migpd$models[[1]])
-summary(v)
-v<-EmpFun(x=na.omit(S22.Detrend.Declustered.df[,4]),r=na.omit(S22.Detrend.Declustered.df[,4]), mod=Migpd$models[[2]])
-summary(v)
-s.Migpd<-Migpd_Fit(Data=xy_Gumbel, mqu =c(0.995,0.995))
-s.Migpd$models[[1]]

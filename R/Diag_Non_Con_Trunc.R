@@ -121,7 +121,7 @@ Diag_Non_Con_Trunc<-function(Data,x_lab,y_lim_min=0,y_lim_max=1){
   fit<-fitdistr(Data,"weibull")
   lines(x,pweibull(x,fit$estimate[1],fit$estimate[2]),col=mypalette[7],lwd=2)
 
-  Best_fit<-c(AIC.BS,AIC.Exp,AIC.Gamma,AIC.logNormal,AIC.TNormal,AIC.Tweedie,AIC.Weib)[which(c(AIC.BS,AIC.Exp,AIC.Gamma,AIC.logNormal,AIC.TNormal,AIC.Tweedie,AIC.Weib)=min(AIC.BS,AIC.Exp,AIC.Gamma,AIC.logNormal,AIC.TNormal,AIC.Tweedie,AIC.Weib))]
+  Best_fit<-c(AIC.BS,AIC.Exp,AIC.Gamma,AIC.logNormal,AIC.TNormal,AIC.Tweedie,AIC.Weib)[which(c(AIC.BS,AIC.Exp,AIC.Gamma,AIC.logNormal,AIC.TNormal,AIC.Tweedie,AIC.Weib)==min(AIC.BS,AIC.Exp,AIC.Gamma,AIC.logNormal,AIC.TNormal,AIC.Tweedie,AIC.Weib))]
   return(Best_fit)
 }
 
