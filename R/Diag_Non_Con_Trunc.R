@@ -1,12 +1,12 @@
 #' Goodness of fit of non-extreme marginal distributions
 #'
-#' Fits seven (tuncated) non-extreme marginal distributions to a dataset and returns three plots demonstrating their relative goodness of fit.
+#' Fits seven (truncated) non-extreme marginal distributions to a dataset and returns three plots demonstrating their relative goodness of fit.
 #'
 #' @param Data Numeric vector containing realizations of the variable of interest.
-#' @param x_lab Character vector of length one specifying the label on the x-axis of histogram and cummulative distribution plot.
+#' @param x_lab Character vector of length one specifying the label on the x-axis of histogram and cumulative distribution plot.
 #' @param y_lim_min Numeric vector of length one specifying the lower y-axis limit of the histogram. Default is \code{0}.
-#' @param y_lim_max Numericr vector of length one specifying the upper y-axis limit of the histogram. Default is \code{1}.
-#' @return Panel consisting of three plots. Upper plot: Plot depicting the AIC of the eight fitted distributions. Middle plot: Probabilty Density Functions (PDFs) of the fitted distribtions superimposed on a histgram of the data. Lower plot: Cummulaibre Distribution Functions (CDFs) of the fitted distributions overlaid on a plot of the empirical CDF.
+#' @param y_lim_max Numeric vector of length one specifying the upper y-axis limit of the histogram. Default is \code{1}.
+#' @return Name of the best fitting distribution \code{Best_fit}. Panel consisting of three plots. Upper plot: Plot depicting the AIC of the eight fitted distributions. Middle plot: Probability Density Functions (PDFs) of the fitted distributions superimposed on a histogram of the data. Lower plot: Cumulative Distribution Functions (CDFs) of the fitted distributions overlaid on a plot of the empirical CDF.
 #' @seealso \code{\link{Copula_Threshold_2D}}
 #' @export
 #' @examples
@@ -104,13 +104,13 @@ Diag_Non_Con_Trunc<-function(Data,x_lab,y_lim_min=0,y_lim_max=1){
   fit<-fitdistr(Data,"exponential")
   lines(x,pexp(x,fit$estimate[1]),col=mypalette[2],lwd=2)
 
-  fit<-fitdistr(Data, "gamma")
+  fit<-fitdistr(Data,"gamma")
   lines(x,pgamma(x,fit$estimate[1],fit$estimate[2]),col=mypalette[3],lwd=2)
 
   fit<-fitdistr(Data,"lognormal")
   lines(x,plnorm(x,fit$estimate[1],fit$estimate[2]),col=mypalette[4],lwd=2)
 
-  fit <- fitdistr(Data, "normal")
+  fit <- fitdistr(Data,"normal")
   lines(x, ptruncnorm(x, a = min(Data), mean = fit$estimate[1],
                       sd = fit$estimate[2]), col = mypalette[5], lwd = 2)
 
@@ -118,7 +118,10 @@ Diag_Non_Con_Trunc<-function(Data,x_lab,y_lim_min=0,y_lim_max=1){
                            p.vec=seq(1.5, 2.5, by=0.2), do.plot=FALSE)
   lines(x,ptweedie(x,  power=fit$p.max, mu=mean(Data), phi=fit$phi.max),col=mypalette[6],lwd=2,pch=16,ylab="P(X<x)")
 
-  fit<-fitdistr(Data, "weibull")
+  fit<-fitdistr(Data,"weibull")
   lines(x,pweibull(x,fit$estimate[1],fit$estimate[2]),col=mypalette[7],lwd=2)
+
+  Best_fit<-c(AIC.BS,AIC.Exp,AIC.Gamma,AIC.logNormal,AIC.TNormal,AIC.Tweedie,AIC.Weib)[which(c(AIC.BS,AIC.Exp,AIC.Gamma,AIC.logNormal,AIC.TNormal,AIC.Tweedie,AIC.Weib)=min(AIC.BS,AIC.Exp,AIC.Gamma,AIC.logNormal,AIC.TNormal,AIC.Tweedie,AIC.Weib))]
+  return(Best_fit)
 }
 

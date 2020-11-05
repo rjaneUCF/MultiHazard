@@ -1,17 +1,17 @@
-#' Conditionally sampling a two dimensional dataset
+#' Conditionally sampling a two-dimensional dataset
 #'
-#' Creates a dataframe where the declustered excesses of a (conditioning) variable are paired with co-occurances of another varable.
+#' Creates a data frame where the declustered excesses of a (conditioning) variable are paired with co-occurences of another variable.
 #'
-#' @param Data_Detrend Dataframe containing two at least partially concurrent time series, detrended if necessary. Time steps must be equally spaced, with missing values assigned \code{NA}. First object may be a \code{"Date"} object. Can be \code{Dataframe_Combine} output.
-#' @param Data_Declust Dataframe containing two (independently) declustered at least partially concurrent time series. Time steps must be equally spaced, with missing values assigned \code{NA}. Columns must be in the same order as in \code{Data_Detrend}. First object may be a \code{"Date"} object. Can be \code{Dataframe_Combine} output.
+#' @param Data_Detrend Data frame containing two at least partially concurrent time series, detrended if necessary. Time steps must be equally spaced, with missing values assigned \code{NA}. First object may be a \code{"Date"} object. Can be \code{Dataframe_Combine} output.
+#' @param Data_Declust Data frame containing two (independently) declustered at least partially concurrent time series. Time steps must be equally spaced, with missing values assigned \code{NA}. Columns must be in the same order as in \code{Data_Detrend}. First object may be a \code{"Date"} object. Can be \code{Dataframe_Combine} output.
 #' @param Con_Variable Column number (1 or 2) or the column name of the conditioning variable. Default is \code{1}.
 #' @param Thres Threshold, as a quantile of the observations of the conditioning variable. Default is \code{0.97}.
-#' @return List comprising the specified \code{Threshold} as the quanitle of the conditioning variable above which declustered excesses are paired with co-occurances of the other varable, the resulting two dimensional sample \code{data} and \code{name} of the conditioning variable.
+#' @return List comprising the specified \code{Threshold} as the quantile of the conditioning variable above which declustered excesses are paired with co-occurences of the other variable, the resulting two-dimensional sample \code{data} and \code{name} of the conditioning variable.
 #' @export
 #' @examples
 #' S20.Rainfall<-Con_Sampling_2D(Data_Detrend=S20.Detrend.df[,-c(1,4)],
-#' Data_Declust=S20.Detrend.Declustered.df[,-c(1,4)],
-#'              Con_Variable="Rainfall",Thres=0.97)
+#'                               Data_Declust=S20.Detrend.Declustered.df[,-c(1,4)],
+#'                               Con_Variable="Rainfall",Thres=0.97)
 Con_Sampling_2D<-function(Data_Detrend,Data_Declust,Con_Variable,Thres=0.97){
   if(class(Data_Detrend[,1])=="Date" | class(Data_Detrend[,1])=="factor"){
     Data_Detrend<-Data_Detrend[,-1]

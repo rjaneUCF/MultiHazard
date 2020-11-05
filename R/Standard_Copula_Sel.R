@@ -1,4 +1,4 @@
-#' Selecting best fitting standard (elliptical and Archimeadean) copula
+#' Selecting best fitting standard (elliptical and Archimedean) copula
 #'
 #' Fits five n-dimensional standard copula to a dataset and returns their corresponding AIC values.
 #'

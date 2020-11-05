@@ -2,10 +2,10 @@
 #'
 #' Kendall's tau correlation coefficient between pairs of up to three variables over a range of lags
 #'
-#' @param Data  A data frame with 3 columns, containing concurrent observations of three time series.
-#' @param Lags  Integer vector giving the lags over which to calculate coefficient. Default is a vector from \code{-6} to \code{6}.
-#' @param Plot  Logical; whether to show plot of Kendall's coefficient vs lag. Default is \code{TRUE}.
-#' @param GAP   Numeric vector of length one. Length of y-axis above and below max and min Kendall's tau values.
+#' @param Data A data frame with 3 columns, containing concurrent observations of three time series.
+#' @param Lags Integer vector giving the lags over which to calculate coefficient. Default is a vector from \code{-6} to \code{6}.
+#' @param Plot Logical; whether to show plot of Kendall's coefficient vs lag. Default is \code{TRUE}.
+#' @param GAP Numeric vector of length one. Length of y-axis above and below max and min Kendall's tau values.
 #' @return List comprising Kendall's tau coefficients between the variables pairs composing columns of Data with the specified lags applied to the second named variable \code{Values} and the p-values \code{Test} when testing the null hypothesis H_0: tau=0 i.e. there is no correlation between a pair of variables. Plot of the coefficient with a filled point of hypothesis test (p-value<0.05). Lag applied to variable named second in the legend.
 #' @seealso \code{\link{Dataframe_Combine}}
 #' @export

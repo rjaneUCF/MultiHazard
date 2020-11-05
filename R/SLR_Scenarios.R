@@ -2,7 +2,7 @@
 #'
 #' Calculates and plots time required for sea level rise to reach a specified level according to the three scenarios in the Compact.
 #'
-#' @param data A dataframe with \code{n} columns, each comprising a declustered and if necessary detrended time series to be modelled.
+#' @param data A data frame with \code{n} columns, each comprising a declustered and if necessary detrended time series to be modelled.
 #' @param SeaLevelRise Numeric vector of length one, sea level rise required.
 #' @return An object of class \code{"migpd"}. There are \code{coef}, \code{print}, \code{plot}, \code{ggplot} and \code{summary} functions available.
 #' @export

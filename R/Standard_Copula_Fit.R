@@ -2,7 +2,7 @@
 #'
 #' Fit a n-dimensional Archimedean or elliptic copula model. Function is simply a repackaging of the \code{fitCopula} function in the \code{copula} package.
 #'
-#' @param Data Dataframe containing \code{n} at least partially concurrent time series. First column may be a \code{"Date"} object. Can be \code{Dataframe_Combine} output.
+#' @param Data Data frame containing \code{n} at least partially concurrent time series. First column may be a \code{"Date"} object. Can be \code{Dataframe_Combine} output.
 #' @param Copula_Type Type of elliptical copula to be fitted, options are \code{"Gaussian"} (Default), \code{"tcopula"}, \code{"Gumbel"}, \code{"Clayton"} and \code{"Frank"}.
 #' @return List comprising the \code{Copula_Type} and the fitted copula \code{Model} object.
 #' @seealso \code{\link{Dataframe_Combine}} \code{\link{Standard_Copula_Sel}} \code{\link{CDVineCopSelect}}  \code{\link{BiCopSelect}}

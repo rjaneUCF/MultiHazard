@@ -2,9 +2,9 @@
 #'
 #' Simulating from specified C- and D-vine copula models. Builds on the \code{CDVineSim} in \code{CDVine}.
 #'
-#' @param Data Dataframe containing \code{n} at least partially concurrent time series. First column may be a \code{"Date"} object. Can be \code{Dataframe_Combine} output.
+#' @param Data Data frame containing \code{n} at least partially concurrent time series. First column may be a \code{"Date"} object. Can be \code{Dataframe_Combine} output.
 #' @param Marginals An \code{migpd} object containing the d-independent generalized Pareto models.
-#' @param Vine_family A n*(n-1)/2 integer vector specifying the pair-copula families defining the fitting C- or a D-vine copula models. Can be specified as the \code{Family} agument of a \code{Vine_Copula_Fit} object. See help file of the \code{CDVineSim} function to find out copula represented by integers 0-40.
+#' @param Vine_family A n*(n-1)/2 integer vector specifying the pair-copula families defining the fitting C- or a D-vine copula models. Can be specified as the \code{Family} argument of a \code{Vine_Copula_Fit} object. See help file of the \code{CDVineSim} function to find the integers representing the different copula families.
 #' @param Vine_par A n*(n-1)/2 vector of pair-copula parameters.
 #' @param Vine_par2 A n*(n-1)/2 vector of second parameters for pair-copula families with two parameters.
 #' @param Vine_Type Type of the vine model: \itemize{
@@ -13,7 +13,7 @@
 #' } Can be specified as the \code{Type} argument of a \code{Vine_Copula_Fit} object.
 #' @param mu (average) Number of events per year. Numeric vector of length one. Default is 365.25, daily data.
 #' @param N Number of years worth of extremes to be simulated. Numeric vector of length one. Default 10,000 (years).
-#' @return List comprising an integer vector specifing the pair-copula families composing the C- or D-vine copula \code{Vine_family}, its paraeters \code{Vine_par} and \code{Vine_par2} and type of regular vine \code{Vine_Type}. In addition, dataframes of the simulated observations: \code{u.Sim} on the transformed \code{$[0,1]^n$} and \code{x.Sim} the origional scales.
+#' @return List comprising an integer vector specifying the pair-copula families composing the C- or D-vine copula \code{Vine_family}, its parameters \code{Vine_par} and \code{Vine_par2} and type of regular vine \code{Vine_Type}. In addition, data frames of the simulated observations: \code{u.Sim} on the transformed \code{$[0,1]^n$} and \code{x.Sim} the original scales.
 #' @seealso \code{\link{Vine_Copula_Fit}}
 #' @export
 #' @examples

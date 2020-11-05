@@ -99,11 +99,13 @@ predict.mex.conditioned <- function(object, which, pqu = .99, nsim = 1000, trace
 
         }
 
-        sim <- data.frame( xi , xmi , y, ymi)
+        sim <- data.frame( xi , xmi , y, ymi, z)
 
         names( sim ) <- c( colnames( migpd$data )[ which ], colnames( migpd$data )[ -which ],
 
-                           paste0(c(colnames( migpd$data )[ which ], colnames( migpd$data )[ -which ]),".trans"))
+                           paste0(c(colnames( migpd$data )[ which ], colnames( migpd$data )[ -which ]),".trans"),
+
+                           paste0(c(colnames( migpd$data )[ -which ]),".Z"))
 
         sim[,dim(sim)[2]+1] <- y > apply(ymi,1,max) # condlargest extra column
 
@@ -213,10 +215,11 @@ predict.mex.conditioned <- function(object, which, pqu = .99, nsim = 1000, trace
 
     CondLargest <- sim[,dim(sim)[2]]
 
-    transformed <- sim[,(((dim(sim)[2]-1)/2)+1):(dim(sim)[2]-1)]
-
-    sim <- sim[,1:((dim(sim)[2]-1)/2)]
-
+    z<- sim[,(2*ncol(migpd$data)+1):(dim(sim)[2]-1)]
+    #transformed <- sim[,(((dim(sim)[2]-1)/2)+1):(dim(sim)[2]-1)]
+    transformed <- sim[,(ncol(migpd$data)+1):(2*ncol(migpd$data))]
+    #sim <- sim[,1:((dim(sim)[2]-1)/2)]
+    sim <- sim[,1:ncol(migpd$data)]
 
 
     m <- 1 / ( 1 - pqu ) # Need to estimate pqu quantile
@@ -227,7 +230,7 @@ predict.mex.conditioned <- function(object, which, pqu = .99, nsim = 1000, trace
 
 
 
-    data <- list( real = data.frame( migpd$data[, which ], migpd$data[, -which] ), simulated = sim, pth=pth,CondLargest=CondLargest, transformed = transformed)
+    data <- list( real = data.frame( migpd$data[, which ], migpd$data[, -which] ), simulated = sim, z=z, pth=pth,CondLargest=CondLargest, transformed = transformed)
 
     names(data$real)[1] <- colnames(migpd$data)[which]
 

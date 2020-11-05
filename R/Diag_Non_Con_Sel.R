@@ -1,6 +1,6 @@
-#' Demonstrate the goodness of fit of the slected non-extreme marginal distribution
+#' Demonstrate the goodness of fit of the selected non-extreme marginal distribution
 #'
-#' Plots demonstrating the goodness of fit of a selected non-extreme marginal distribution to a dataset.
+#' Plots demonstrating the goodness of fit of a selected (not truncated) non-extreme marginal distribution to a dataset.
 #'
 #' @param Data Numeric vector containing realizations of the variable of interest.
 #' @param x_lab Numeric vector of length one specifyingLabel on the x-axis of histogram and cummulative distribution plot.

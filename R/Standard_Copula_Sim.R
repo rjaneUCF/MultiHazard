@@ -1,13 +1,13 @@
-#' Archimedean/elliptic copula model  - Simulation
+#' Archimedean/elliptic copula model - Simulation
 #'
 #' Simulating from a fitted Archimedean or elliptic copula Model.
 #'
-#' @param Data Dataframe containing \code{n} at least partially concurrent time series. First column may be a \code{"Date"} object. Can be \code{Dataframe_Combine} output.
+#' @param Data Data frame containing \code{n} at least partially concurrent time series. First column may be a \code{"Date"} object. Can be \code{Dataframe_Combine} output.
 #' @param Marginals An \code{migpd} object containing the n-independent generalized Pareto models.
 #' @param Copula An Archimedean or elliptic copula model. Can be specified as an \code{Standard_Copula_Fit} object.
 #' @param mu (average) Number of events per year. Numeric vector of length one. Default is 365.25, daily data.
 #' @param N Number of years worth of extremes to be simulated. Numeric vector of length one. Default 10,000 (years).
-#' @return Each n-dimensional realisation is given on the transformed \code{[0,1]^n} scale (first n columns) in the first dataframe \code{u.Sim} and on the origional scale in the second dataframe \code{x.Sim}.
+#' @return Each n-dimensional realisation is given on the transformed \code{[0,1]^n} scale (first n columns) in the first data frame \code{u.Sim} and on the original scale in the second data frame \code{x.Sim}.
 #' @seealso \code{\link{Standard_Copula_Sel}}  \code{\link{Standard_Copula_Fit}}
 #' @export
 #' @examples

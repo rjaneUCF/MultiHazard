@@ -1,8 +1,8 @@
 #' Fits Multiple independent generalized Pareto models - Fit
 #'
-#' Fit multiple independent generalized Pareto models to each column of a dataframe. Edited version of the \code{migpd} function in \code{texmex}, to alllow for \code{NA}s in a time series.
+#' Fit multiple independent generalized Pareto models to each column of a data frame. Edited version of the \code{migpd} function in \code{texmex}, to allow for \code{NA}s in a time series.
 #'
-#' @param Data A dataframe with \code{n} columns, each comprising a declustered and if necessary detrended time series to be modelled.
+#' @param Data A data frame with \code{n} columns, each comprising a declustered and if necessary detrended time series to be modelled.
 #' @param mth Marginal thresholds, above which generalized Pareto models are fitted. Numeric vector of length \code{n}.
 #' @param mqu Marginal quantiles, above which generalized Pareto models are fitted. \strong{Only one of \code{mth} and \code{mqu} should be supplied.} Numeric vector of length \code{n}.
 #' @param penalty See \code{\link{ggplot.migpd}}.

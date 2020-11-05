@@ -1,13 +1,13 @@
-#' Creates a dataframe containing up to five time series
+#' Creates a data frame containing up to five time series
 #'
-#' Combines up to five time series, detrended where necessary, into a single dataframe.
+#' Combines up to five time series, detrended where necessary, into a single data frame.
 #'
-#' @param data.1:5 Dataframes with two columns containing in column \itemize{
-#' \item 1 - Continuous sequence of times spaning from the first to the final recorded observations.
+#' @param data.1:5 Data frames with two columns containing in column \itemize{
+#' \item 1 - Continuous sequence of times spanning from the first to the final recorded observations.
 #' \item 2 - Corresponding values detrended where necessary.
 #' }
 #' @param n Integer \code{1-5} specifying the number of time series. Default is \code{3}.
-#' @return A dataframe containing all times from the first to the most up to date reading of any of the variables.
+#' @return A data frame containing all times from the first to the most up to date reading of any of the variables.
 #' @seealso \code{\link{Detrend}}
 #' @export
 #' @examples

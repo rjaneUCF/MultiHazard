@@ -2,8 +2,8 @@
 #'
 #' Fit either a C- or D-vine copula model. Function is a repackaging of the \code{CDVineCopSelect} function in the \code{CDVine} package.
 #'
-#' @param Data Dataframe containing \code{n} at least partially concurrent time series. First column may be a \code{"Date"} object. Can be \code{Dataframe_Combine} output.
-#' @param FamilySet Integer vector whuch must include at least one pair-copula family that allows for positive and one that allows for negative dependence. If \code{familyset = NA} (default), selection among all possible families is performed. The coding of pair-copula families is shown below. See help file of the \code{CDVineSim} function to find out copula represented by integers \code{0-40}.
+#' @param Data Data frame containing \code{n} at least partially concurrent time series. First column may be a \code{"Date"} object. Can be \code{Dataframe_Combine} output.
+#' @param FamilySet Integer vector which must include at least one pair-copula family that allows for positive and one that allows for negative dependence. If \code{familyset = NA} (default), selection among all possible families is performed. The coding of pair-copula families is shown below. See help file of the \code{CDVineSim} function to find the integers representing the different copula families.
 #' @param Type Type of the vine model:\itemize{
 #' \item 1 or "CVine" = C-vine
 #' \item 2 or "DVine" = D-vine

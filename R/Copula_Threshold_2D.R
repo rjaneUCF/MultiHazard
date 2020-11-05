@@ -1,29 +1,30 @@
 #' Copula Selection With Threshold 2D - Fit
 #'
-#' Declustered excesses of a (conditioning) variable are paired with co-occurances of the other varable before the best fitting bivariate copula is selected, using \code{BiCopSelect} function in the \code{VineCopula} package, for a single or range of thresholds. The procedure is automatically repeated with the variables switched.
+#' Declustered excesses of a (conditioning) variable are paired with co-occurences of the other variable before the best fitting bivariate copula is selected, using \code{BiCopSelect} function in the \code{VineCopula} package, for a single or range of thresholds. The procedure is automatically repeated with the variables switched.
 #'
-#' @param Data_Detrend Dataframe containing two at least partially concurrent time series, detrended if necessary. Time steps must be equally spaced, with missing values assigned \code{NA}.
-#' @param Data_Declust Dataframe containing two (independently) declustered at least partially concurrent time series. Time steps must be equally spaced, with missing values assigned \code{NA}.
+#' @param Data_Detrend Data frame containing two at least partially concurrent time series, detrended if necessary. Time steps must be equally spaced, with missing values assigned \code{NA}.
+#' @param Data_Declust Data frame containing two (independently) declustered at least partially concurrent time series. Time steps must be equally spaced, with missing values assigned \code{NA}.
 #' @param Thres A single or sequence of thresholds, given as a quantile of the observations of the conditioning variable. Default, sequence from \code{0.9} to \code{0.99} at intervals of \code{0.01}.
 #' @param x_lim_min Numeric vector of length one specifying x-axis minimum. Default is the maximum argument in \code{Thres}.
 #' @param x_lim_max Numeric vector of length one specifying x-axis maximum. Default is the minimum argument in \code{Thres}.
 #' @param y_lim_min Numeric vector of length one specifying y-axis minimum. Default \code{-1.0}.
 #' @param y_lim_max Numeric vector of length one specifying y-axis maximum. Default \code{1.0}.
-#' @param Upper Numeric vector specifying the element number of the \code{Thres} argument for which the copula family name label to appear above the correponding point on the Kendall's tau coefficent vs threshold plot, when conditioin on the variable in column 1. Default is \code{0}.
-#' @param Lower Numeric vector specifying the element number of the \code{Thres} argument for which the copula family name label to appear below the correponding point on the Kendall's tau coefficent vs threshold plot, when conditioin on the variable in column 2. Default is \code{0}.
-#' @param GAP Numeric vector of length one specifying the distance above or below the copula family name label appears the correponding point on the Kendall's tau coefficent vs threshold plot. Default is \code{0.05}.
+#' @param Upper Numeric vector specifying the element number of the \code{Thres} argument for which the copula family name label to appear above the corresponding point on the Kendall's tau coefficient vs threshold plot, when conditioning on the variable in column 1. Default is \code{0}.
+#' @param Lower Numeric vector specifying the element number of the \code{Thres} argument for which the copula family name label to appear below the corresponding point on the Kendall's tau coefficient vs threshold plot, when conditioning on the variable in column 2. Default is \code{0}.
+#' @param GAP Numeric vector of length one specifying the distance above or below the copula family name label appears the corresponding point on the Kendall's tau coefficient vs threshold plot. Default is \code{0.05}.
 #' @param Legend Logic vector of length one specifying whether a legend should be plotted. Default is \code{TRUE}.
 #' @return List comprising: \itemize{
-#' \item \code{Kendalls_Tau_Var1} Kendalls tau of a sample
+#' \item \code{Kendalls_Tau_Var1}
+#' Kendall's tau of a sample
 #' \item \code{p_value_Var1}
-#' p-value when testing the null hypiothesis \code{H_0} i.e. that there is no correlation between the variables
+#' p-value when testing the null hypothesis \code{H_0: tau=0} i.e. that there is no correlation between the variables
 #' \item \code{N_Var1}
-#' size of the dataset
+#' Size of the dataset
 #' \item \code{Copula_Family_Var1}
-#' best fitting copula for the specified thresholds
+#' Best fitting copula for the specified thresholds
 #' }
 #' when the dataset is conditioned on the variable in column 1.
-#' Anologous vector \code{Kendalls_Tau_Var2},\code{p_value_Var2}, \code{N_Var2} and \code{Copula_Family_Var2} for the specified thresholds when the dataset is conditioned on the variable in column 2.
+#' Analogous vectors \code{Kendalls_Tau_Var2},\code{p_value_Var2}, \code{N_Var2} and \code{Copula_Family_Var2} for the specified thresholds when the dataset is conditioned on the variable in column 2.
 #' @seealso \code{\link{Dataframe_Combine}}
 #' @export
 #' @examples
