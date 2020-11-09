@@ -23,6 +23,7 @@ Decluster<-function(Data,u=0.95,SepCrit=3,mu=365.25){
   Events<-Event_Identify(Data=Data,Threshold=Thres,SeparationPeriod=SepCrit)
   Events.Max<-Event_Max(Data=Data,Events=Events)
   Events.Start<-Event_Start(Data=Data,Threshold=Thres,Events=Events,Event.Max=Events.Max)
+
   print(Events)
   print(Events.Start)
 
