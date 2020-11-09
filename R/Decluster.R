@@ -15,7 +15,7 @@ Decluster<-function(Data,u=0.95,SepCrit=3,mu=365.25){
 
   Thres<-quantile(na.omit(Data),u)
 
-  z<-Data[is.na(Data)==T]
+  z<-which(is.na(Data)==T)
   Data[z]<-min(Data,na.rm=T)-1000
 
   Events<-Event_Identify(Data=Data,Threshold=Thres,SeparationPeriod=SepCrit)
