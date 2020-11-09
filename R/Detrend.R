@@ -23,8 +23,9 @@ Detrend<-function(Data, Method = "window",Window_Width= 89, End_Length = 1826, P
 
 if(class(Data[,1])=="Date" | class(Data[,1])=="factor"){
   data_Detrend<-Data[,-1]
-}
+} else{
 data_Detrend<-Data
+}
 
 if(Method=="window"){
   for(i in 1:(Window_Width/2)){
