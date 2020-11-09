@@ -22,7 +22,7 @@
 Detrend<-function(Data, Method = "window",Window_Width= 89, End_Length = 1826, PLOT=FALSE,x_lab="Data",y_lab="Data"){
 
 if(class(Data[,1])=="Date" | class(Data[,1])=="factor"){
-  Data_Detrend<-Data[,-1]
+  data_Detrend<-Data[,-1]
 }
 data_Detrend<-Data
 
