@@ -52,6 +52,13 @@ Copula_Threshold_2D<-function(Data_Detrend,Data_Declust,Thres=seq(0.9,0.99,0.01)
   copula_Var2_Family<-numeric(length(Thres))
   copula_Var2_Family_Name<-numeric(length(Thres))
 
+  if(class(Data_Detrend[,1])=="Date" | class(Data_Detrend[,1])=="factor"){
+    Data_Detrend<-Data_Detrend[,-1]
+  }
+  if(class(Data_Declust[,1])=="Date" | class(Data_Declust[,1])=="factor"){
+    Data_Declust<-Data_Declust[,-1]
+  }
+  
   #Conditional on Var1
   for(j in 1:length(Thres)){
     Threshold<-Thres[j]
