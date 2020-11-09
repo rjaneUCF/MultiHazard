@@ -33,6 +33,8 @@ Decluster<-function(Data,u=0.95,SepCrit=3,mu=365.25){
     data_Detrend_Declustered[Events.Start[i]:Events[i]]<-NA
   }
   data_Detrend_Declustered[Events.Max]<-Data[Events.Max]
+  data_Detrend_Declustered[z]<-NA
+  Data[z]<-NA
 
   res<-list("Threshold" = Threshold, "Rate" = Rate, "EventsMax" = Events.Max, "Detrended" = Data, "Declustered" = data_Detrend_Declustered)
   return(res)
