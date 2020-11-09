@@ -13,11 +13,16 @@
 #' Decluster(data=S20_T_MAX_Daily_Completed_Detrend$Detrend)
 Decluster<-function(Data,u=0.95,SepCrit=3,mu=365.25){
 
-  Events<-Event_Identify(Data=Data,Threshold=u,SeparationPeriod = SepCrit)
-  Events.Max<-Event_Max(Data=Data,Events=Events)
-  Events.Start<-Event_Start(Data=Data,Threshold=u,Events=Events,Event.Max=Events.Max)
+  Thres<-quantile(na.omit(Data),u)
 
-  Threshold<-as.numeric(quantile(Data,u))
+  z<-Data[is.na(Data)==T]
+  Data[z]<-min(Data,na.rm=T)-1000
+
+  Events<-Event_Identify(Data=Data,Threshold=Thres,SeparationPeriod=SepCrit)
+  Events.Max<-Event_Max(Data=Data,Events=Events)
+  Events.Start<-Event_Start(Data=Data,Threshold=Thres,Events=Events,Event.Max=Events.Max)
+
+  Threshold<-Thres
   Rate<-length(Events)/(length(Data)/mu)
 
   #Declustered data as a vector
