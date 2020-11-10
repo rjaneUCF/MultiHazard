@@ -12,9 +12,10 @@
 #' @examples
 #' Decluster(data=S20_T_MAX_Daily_Completed_Detrend$Detrend)
 Decluster<-function(Data,u=0.95,SepCrit=3,mu=365.25){
-
+  
+  z<-0 
   Thres<-quantile(na.omit(Data),u)
-
+  
   if(length(which(is.na(Data)==T))>0){
   z<-which(is.na(Data)==T)
   Data[z]<-min(Data,na.rm=T)-1000
@@ -33,7 +34,7 @@ Decluster<-function(Data,u=0.95,SepCrit=3,mu=365.25){
     data_Detrend_Declustered[Events.Start[i]:Events[i]]<-NA
   }
   data_Detrend_Declustered[Events.Max]<-Data[Events.Max]
-  if(length(z)>0){
+  if(min(z)>0){
   data_Detrend_Declustered[z]<-NA
   Data[z]<-NA
   }
