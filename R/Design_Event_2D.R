@@ -47,104 +47,93 @@
 #'                Copula_Family1=S22.Copula.Rainfall, Copula_Family2=S22.Copula.OsWL,
 #'                Marginal_Dist1="Logis", Marginal_Dist2="Twe",RP=100,N=10,N_Ensemble=10)
 Design_Event_2D<-function(Data, Data_Con1, Data_Con2, Thres1, Thres2, Copula_Family1, Copula_Family2, Marginal_Dist1, Marginal_Dist2, Con1="Rainfall",Con2="OsWL",mu=365.25, RP,x_lab="Rainfall (mm)",y_lab="O-sWL (mNGVD 29)",x_lim_min = NA,x_lim_max = NA,y_lim_min = NA,y_lim_max = NA,N,N_Ensemble){
-  
+
   con1<-which(names(Data)==Con1)
   con2<-which(names(Data)==Con2)
-  
+
   x_min<-ifelse(is.na(x_lim_min)==T,min(na.omit(Data[,con1])),x_lim_min)
   x_max<-ifelse(is.na(x_lim_max)==T,max(na.omit(Data[,con1])),x_lim_max)
   y_min<-ifelse(is.na(y_lim_min)==T,min(na.omit(Data[,con2])),y_lim_min)
   y_max<-ifelse(is.na(y_lim_max)==T,max(na.omit(Data[,con2])),y_lim_max)
-  
+
   ##Fitting marginal distributions
-  
+
   if(Marginal_Dist1 == "BS"){
     bdata2 <- data.frame(shape = exp(-0.5), scale = exp(0.5))
     bdata2 <- transform(bdata2, y = Data_Con1[,con2])
     marginal_non_con1<-vglm(y ~ 1, bisa, data = bdata2, trace = FALSE)
   }
-  
   if(Marginal_Dist1 == "Exp"){
     marginal_non_con1<-fitdistr(Data_Con1[,con2],"exponential")
   }
-  
   if(Marginal_Dist1 == "Gam"){
     marginal_non_con1<-fitdistr(Data_Con1[,con2], "gamma")
   }
-  
   if(Marginal_Dist1 == "Gaus"){
     marginal_non_con1<-fitdistr(Data_Con1[,con2],"normal")
   }
-  
   if(Marginal_Dist1 == "InvG"){
     marginal_non_con1<-fitdist(Data_Con1[,con2], "invgauss", start = list(mean = 5, shape = 1))
   }
-  
   if(Marginal_Dist1 == "Logis"){
     marginal_non_con1<-fitdistr(Data_Con1[,con2], "logistic")
   }
-  
   if(Marginal_Dist1 == "LogN"){
     marginal_non_con1<-fitdistr(Data_Con1[,con2],"lognormal")
   }
-  
+  if(Marginal_Dist1 == "TNorm"){
+    marginal_non_con1<-fitdistr(Data_Con1[,con2],"normal")
+  }
   if(Marginal_Dist1 == "Twe"){
     marginal_non_con1<-tweedie.profile(Data_Con1[,con2] ~ 1,p.vec=seq(1.5, 2.5, by=0.2), do.plot=FALSE)
   }
-  
   if(Marginal_Dist1 == "Weib"){
     marginal_non_con1<-fitdistr(Data_Con1[,con2], "weibull")
   }
-  
+
   GPD_con1<-evm(Data_Con1[,con1], th=quantile(na.omit(Data[,con1]),Thres1) ,penalty = "gaussian",priorParameters = list(c(0, 0), matrix(c(100^2, 0, 0, 0.25), nrow = 2)))
-  
+
   if(Marginal_Dist2 == "BS"){
     bdata2 <- data.frame(shape = exp(-0.5), scale = exp(0.5))
     bdata2 <- transform(bdata2, y = Data_Con2[,con1])
     marginal_non_con2<-vglm(y ~ 1, bisa, data = bdata2, trace = FALSE)
   }
-  
   if(Marginal_Dist2 == "Exp"){
     marginal_non_con2<-fitdistr(Data_Con2[,con1],"exponential")
   }
-  
   if(Marginal_Dist2 == "Gam"){
     marginal_non_con2<-fitdistr(Data_Con2[,con1], "gamma")
   }
-  
   if(Marginal_Dist2 == "Gaus"){
     marginal_non_con2<-fitdistr(Data_Con2[,con1],"normal")
   }
-  
   if(Marginal_Dist2 == "InvG"){
     marginal_non_con2<-fitdist(Data_Con2[,con1], "invgauss", start = list(mean = 5, shape = 1))
   }
-  
   if(Marginal_Dist2 == "Logis"){
     marginal_non_con2<-fitdistr(Data_Con2[,con1],"logistic")
   }
-  
   if(Marginal_Dist2 == "LogN"){
     marginal_non_con2<-fitdistr(Data_Con2[,con1],"lognormal")
   }
-  
+  if(Marginal_Dist2 == "TNorm"){
+    marginal_non_con2<-fitdistr(Data_Con2[,con1],"normal")
+  }
   if(Marginal_Dist2 == "Twe"){
     marginal_non_con2<-tweedie.profile(Data_Con2[,con1] ~ 1,p.vec=seq(1.5, 2.5, by=0.2), do.plot=FALSE)
   }
-  
   if(Marginal_Dist2 == "Weib"){
     marginal_non_con2<-fitdistr(Data_Con2[,con1], "weibull")
   }
-  
-  
+
   GPD_con2<-evm(Data_Con2[,con2], th=quantile(na.omit(Data[,con2]),Thres2) ,penalty = "gaussian",priorParameters = list(c(0, 0), matrix(c(100^2, 0, 0, 0.25), nrow = 2)))
-  
+
   #Simulating from copulas
   obj1<-BiCopSelect(pobs(Data_Con1[,1]), pobs(Data_Con1[,2]), familyset=Copula_Family1, selectioncrit = "AIC",
                     indeptest = FALSE, level = 0.05, weights = NA, rotations = TRUE,
                     se = FALSE, presel = TRUE, method = "mle")
   sample<-BiCopSim(round(N*nrow(Data_Con1)/(nrow(Data_Con1)+nrow(Data_Con2)),0),obj1)
-  
+
   if(Marginal_Dist1=="BS"){
     cop.sample1.non.con<-qbisa(sample[,con2], as.numeric(Coef(marginal_non_con1)[1]), as.numeric(Coef(marginal_non_con1)[2]))
   }
@@ -166,16 +155,20 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, Thres1, Thres2, Copula_Fam
   if(Marginal_Dist1=="LogN"){
     cop.sample1.non.con<-qlnorm(sample[,con2], meanlog = as.numeric(marginal_non_con1$estimate[1]), sdlog = as.numeric(marginal_non_con1$estimate[2]))
   }
+  if(Marginal_Dist1=="TNorm"){
+    cop.sample1.non.con<-qtruncnorm(sample[,con2], a=min(Data_Con1[,con2]), mean = as.numeric(marginal_non_con1$estimate[1]), sd = as.numeric(marginal_non_con1$estimate[2]))
+  }
   if(Marginal_Dist1=="Twe"){
     cop.sample1.non.con<-qtweedie(sample[,con2], power=marginal_non_con1$p.max, mu=mean(Data_Con1[,con2]), phi=marginal_non_con1$phi.max)
   }
   if(Marginal_Dist1=="Weib"){
     cop.sample1.non.con<-qweibull(sample[,con2], shape = as.numeric(marginal_non_con1$estimate[1]), scale=as.numeric(marginal_non_con1$estimate[2]))
   }
+
   cop.sample1.con<-u2gpd(sample[,con1], p = 1, th=quantile(na.omit(Data[,con1]),Thres1) , sigma=exp(GPD_con1$coefficients[1]),xi= GPD_con1$coefficients[2])
   cop.sample1<-data.frame(cop.sample1.con,cop.sample1.non.con)
   colnames(cop.sample1)<-c("Var1","Var2")
-  
+
   obj2<-BiCopSelect(pobs(Data_Con2[,1]), pobs(Data_Con2[,2]), familyset=Copula_Family2, selectioncrit = "AIC",
                     indeptest = FALSE, level = 0.05, weights = NA, rotations = TRUE,
                     se = FALSE, presel = TRUE, method = "mle")
@@ -202,6 +195,9 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, Thres1, Thres2, Copula_Fam
   if(Marginal_Dist2=="Logis"){
     cop.sample2.non.con<-qlogis(sample[,con1], location = as.numeric(marginal_non_con2$estimate[1]), scale=as.numeric(marginal_non_con2$estimate[2]))
   }
+  if(Marginal_Dist2=="TNorm"){
+    cop.sample1.non.con<-qtruncnorm(sample[,con1], a=min(Data_Con2[,con1]), mean = as.numeric(marginal_non_con2$estimate[1]), sd = as.numeric(marginal_non_con2$estimate[2]))
+  }
   if(Marginal_Dist2=="Twe"){
     cop.sample2.non.con<-qtweedie(sample[,con1], power=marginal_non_con2$p.max, mu=mean(Data_Con2[,con1]), phi=marginal_non_con2$phi.max)
   }
@@ -219,140 +215,127 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, Thres1, Thres2, Copula_Fam
   y.MostLikelyEvent.AND<-numeric(1)
   x.full.dependence<-numeric(1)
   y.full.dependence<-numeric(1)
-  
+
   #Copula object 1
   u<-expand.grid(c(10^(-4),seq(999.9*10^(-4),1-(1*10^(-5)),10^(-3))),c(10^(-4),seq(999.9*10^(-4),1-(1*10^(-5)),10^(-3))))
   u1<-BiCopCDF(u[,1], u[,2], obj1)
-  
+
   par(mar=c(4.5,4.2,0.5,0.5))
   plot(Data[, con1], Data[, con2], xlim = c(x_min, x_max), ylim = c(y_min, y_max), col = "Light Grey",xlab = x_lab, ylab = y_lab, cex.lab = 1.5, cex.axis = 1.5)
-  points(Data_Con1[,con1],Data_Con1[,con2],col=4,cex=1.5) 
+  points(Data_Con1[,con1],Data_Con1[,con2],col=4,cex=1.5)
   points(Data_Con2[,con1],Data_Con2[,con2],col="Red",pch=4,cex=1.5)
-  
+
   x<- c(10^(-4),seq(999.9*10^(-4),1-(1*10^(-5)),10^(-3)))
-  y<- c(10^(-4),seq(999.9*10^(-4),1-(1*10^(-5)),10^(-3))) 
+  y<- c(10^(-4),seq(999.9*10^(-4),1-(1*10^(-5)),10^(-3)))
   years<-length(which(is.na(Data[,1])==FALSE & is.na(Data[,2])==FALSE))/mu
   EL<-1/(nrow(Data_Con1)/years)
-  
+
   f<-function(x,y){EL/(1-x-y+u1[which(u[,1]==x & u[,2]==y)]) }
   z<- outer(x,y,f)
-  
+
   xy160<-contourLines(x,y,z,levels= RP)
-  
+
   con1.x<-u2gpd(as.numeric(unlist(xy160[[1]][2])), p = 1, th=quantile(na.omit(Data[,con1]),Thres1) , sigma=exp(GPD_con1$coefficients[1]),xi= GPD_con1$coefficients[2] )
-  
+
   if(Marginal_Dist1=="BS"){
     con1.y<-qbisa(as.numeric(unlist(xy160[[1]][3])),as.numeric(Coef(marginal_non_con1)[1]),as.numeric(Coef(marginal_non_con2)[2]))
   }
-  
   if(Marginal_Dist1=="Exp"){
     con1.y<-qexp(as.numeric(unlist(xy160[[1]][3])),as.numeric(marginal_non_con1$estimate[1]))
   }
-  
   if(Marginal_Dist1=="Gam"){
     con1.y<-qgamma(as.numeric(unlist(xy160[[1]][3])),as.numeric(marginal_non_con1$estimate[1]),as.numeric(marginal_non_con1$estimate[2]))
   }
-  
   if(Marginal_Dist1=="Gaus"){
     con1.y<-qnorm(as.numeric(unlist(xy160[[1]][3])),as.numeric(marginal_non_con1$estimate[1]),as.numeric(marginal_non_con1$estimate[2]))
   }
-  
   if(Marginal_Dist1=="InvG"){
     con1.y<-qinvgauss(as.numeric(unlist(xy160[[1]][3])),as.numeric(marginal_non_con1$estimate[1]),as.numeric(marginal_non_con1$estimate[2]))
   }
-  
   if(Marginal_Dist1=="Logis"){
     con1.y<-qlogis(as.numeric(unlist(xy160[[1]][3])),as.numeric(marginal_non_con1$estimate[1]),as.numeric(marginal_non_con1$estimate[2]))
   }
-  
   if(Marginal_Dist1=="LogN"){
     con1.y<-qlnorm(as.numeric(unlist(xy160[[1]][3])),as.numeric(marginal_non_con1$estimate[1]),as.numeric(marginal_non_con1$estimate[2]))
   }
-  
-  if(Marginal_Dist1=="Twe"){
-    con1.y<-qtweedie(sample[,1], power=marginal_non_con1$p.max, mu=mean(Data_Con1[,con2]), phi=marginal_non_con1$phi.max)
+  if(Marginal_Dist1=="TNorm"){
+    con1.y<-qtruncnorm(as.numeric(unlist(xy160[[1]][3])),a=min(Data_Con1[,con2]),as.numeric(marginal_non_con1$estimate[1]),as.numeric(marginal_non_con1$estimate[2]))
   }
-  
+  if(Marginal_Dist1=="Twe"){
+    con1.y<-qtweedie(as.numeric(unlist(xy160[[1]][3])), power=marginal_non_con1$p.max, mu=mean(Data_Con1[,con2]), phi=marginal_non_con1$phi.max)
+  }
   if(Marginal_Dist1=="Weib"){
     con1.y<-qweibull(as.numeric(unlist(xy160[[1]][3])),as.numeric(marginal_non_con1$estimate[1]),as.numeric(marginal_non_con1$estimate[2]))
   }
 
   prediction.points<-approx(c(con1.x),c(con1.y),xout=seq(min(con1.x),max(con1.x),0.01))$y
   prediction.points<-data.frame(seq(min(con1.x),max(con1.x),0.01),prediction.points)
-  points(prediction.points[,1],prediction.points[,2])
 
   prediction.points.reverse<-approx(c(con1.y),c(con1.x),xout=seq(min(con1.y),max(con1.y),0.01))$y
   prediction.points.reverse<-data.frame(seq(min(con1.y),max(con1.y),0.01),prediction.points.reverse)
- 
+
   con1.prediction.points.ALL<-data.frame(c(prediction.points[,1],prediction.points.reverse[,2])[order((c(prediction.points[,1],prediction.points.reverse[,2])))],c(prediction.points[,2],prediction.points.reverse[,1])[order((c(prediction.points[,1],prediction.points.reverse[,2])))])
   colnames(con1.prediction.points.ALL)<-c(names(Data)[1],names(Data)[2])
   u<-expand.grid(c(10^(-5),seq(999.9*10^(-5),1-(1*10^(-6)),100*10^(-5))),c(10^(-5),seq(999.9*10^(-5),1-(1*10^(-6)),100*10^(-5))))
-  
+
   #OsWL
   u1<-BiCopCDF(u[,1], u[,2], obj2)
-  x<- c(10^(-5),seq(999.9*10^(-5),1-(1*10^(-6)),100*10^(-5))) 
-  y<- c(10^(-5),seq(999.9*10^(-5),1-(1*10^(-6)),100*10^(-5))) 
+  x<- c(10^(-5),seq(999.9*10^(-5),1-(1*10^(-6)),100*10^(-5)))
+  y<- c(10^(-5),seq(999.9*10^(-5),1-(1*10^(-6)),100*10^(-5)))
   EL<-1/(nrow(Data_Con2)/years)
-  
+
   f<-function(x,y){EL/(1-x-y+u1[which(u[,1]==x & u[,2]==y)]) }
   z<- outer(x,y,f)
   xy160<-contourLines(x,y,z,levels= RP)
-  
+
   con2.y<-u2gpd(as.numeric(unlist(xy160[[1]][3])), p = 1, th=quantile(na.omit(Data[,con2]),Thres2) , sigma=exp(GPD_con2$coefficients[1]),xi= GPD_con2$coefficients[2] )
-  
+
   if(Marginal_Dist2=="BS"){
     con2.x<-qbisa(as.numeric(unlist(xy160[[1]][2])), as.numeric(Coef(marginal_non_con2)[1]),as.numeric(Coef(marginal_non_con2)[2]))
   }
-  
   if(Marginal_Dist2=="Exp"){
     con2.x<-qexp(as.numeric(unlist(xy160[[1]][2])), as.numeric(marginal_non_con2$estimate[1]))
   }
-  
   if(Marginal_Dist2=="Gam"){
     con2.x<-qgamma(as.numeric(unlist(xy160[[1]][2])), shape = as.numeric(marginal_non_con2$estimate[1]), rate = as.numeric(marginal_non_con2$estimate[2]))
   }
-  
   if(Marginal_Dist2=="Gaus"){
     con2.x<-qnorm(as.numeric(unlist(xy160[[1]][2])), as.numeric(marginal_non_con2$estimate[1]), as.numeric(marginal_non_con2$estimate[2]))
   }
-  
   if(Marginal_Dist2=="InvG"){
     con2.x<-qinvgauss(as.numeric(unlist(xy160[[1]][2])), as.numeric(marginal_non_con2$estimate[1]), as.numeric(marginal_non_con2$estimate[2]))
   }
-  
   if(Marginal_Dist2=="Logis"){
     con2.x<-qlogis(as.numeric(unlist(xy160[[1]][2])),as.numeric(marginal_non_con2$estimate[1]),as.numeric(marginal_non_con2$estimate[2]))
   }
-  
   if(Marginal_Dist2=="LogN"){
     con2.x<-qlnorm(as.numeric(unlist(xy160[[1]][2])), as.numeric(marginal_non_con2$estimate[1]), as.numeric(marginal_non_con2$estimate[2]))
   }
-  
+  if(Marginal_Dist1=="TNorm"){
+    con2.x<-qtruncnorm(as.numeric(unlist(xy160[[1]][2])),a=min(Data_Con2[,con1]),as.numeric(marginal_non_con2$estimate[1]),as.numeric(marginal_non_con2$estimate[2]))
+  }
   if(Marginal_Dist2=="Twe"){
     con2.x<-qtweedie(as.numeric(unlist(xy160[[1]][2])), power=marginal_non_con2$p.max, mu=mean(Data_Con2[,con1]), phi=marginal_non_con2$phi.max)
   }
-  
   if(Marginal_Dist2=="Wei"){
     con2.x<-qweibull(as.numeric(unlist(xy160[[1]][2])), as.numeric(marginal_non_con2$estimate[1]), as.numeric(marginal_non_con2$estimate[2]))
   }
-  
+
   prediction.points<-approx(c(con2.x),c(con2.y),xout=seq(min(con2.x),max(con2.x),0.01))$y
   prediction.points<-data.frame(seq(min(con2.x),max(con2.x),0.01),prediction.points)
-  points(prediction.points,col=3)
-  
+
   prediction.points.reverse<-approx(c(con2.y),c(con2.x),xout=seq(min(con2.y),max(con2.y),0.01))$y
   prediction.points.reverse<-data.frame(seq(min(con2.y),max(con2.y),0.01),prediction.points.reverse)
 
   con2.prediction.points.ALL<-data.frame(c(prediction.points[,1],prediction.points.reverse[,2])[order((c(prediction.points[,1],prediction.points.reverse[,2])))],c(prediction.points[,2],prediction.points.reverse[,1])[order((c(prediction.points[,1],prediction.points.reverse[,2])))])
   colnames(con2.prediction.points.ALL)<-c(names(Data)[1],names(Data)[2])
 
-  
+
   x<-seq(0,max(con1.prediction.points.ALL[,1],con2.prediction.points.ALL[,1],20),0.01)
-  print("x")
-  print(summary(x))
+
   con1.prediction.points.ALL.Round<-round(con1.prediction.points.ALL[,1],2)
   con2.prediction.points.ALL.Round<-round(con2.prediction.points.ALL[,1],2)
-  
+
   y<-numeric(length(x))
   for(i in 1:length(x)){
     y[i]<-max(con1.prediction.points.ALL[,2][which(con1.prediction.points.ALL.Round==x[i])],
@@ -367,42 +350,39 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, Thres1, Thres2, Copula_Fam
     x<-x[-which(is.na(y)==TRUE)]
     y<-y[-which(is.na(y)==TRUE)]
   }
-  
+
   prediction.points.ALL<-data.frame(x,y)[-1,]
-  points(prediction.points.ALL[,1],prediction.points.ALL[,2],col="Purple")
   colnames(prediction.points.ALL)<-c(names(Data)[1],names(Data)[2])
-  
+
   prediction.points.ALL<-prediction.points.ALL[!duplicated(prediction.points.ALL[,1:2]), ]
-  points(prediction.points.ALL[,1],prediction.points.ALL[,2],col="Pink")
-  
+
   prediction<-kde(x=cop.sample, eval.points=prediction.points.ALL)$estimate
   k=1
-  print(summary(prediction))
-
   points(prediction.points.ALL[,1],prediction.points.ALL[,2],col=rev(heat.colors(150))[20:120][1+100*((prediction-min(prediction))/(max(prediction)-min(prediction)))],lwd=3,pch=16,cex=1.75)
+
   x.MostLikelyEvent.AND[k]<-as.numeric(prediction.points.ALL[which(prediction==max(prediction)),][1])
   y.MostLikelyEvent.AND[k]<-as.numeric(prediction.points.ALL[which(prediction==max(prediction)),][2])
   points(x.MostLikelyEvent.AND[k],y.MostLikelyEvent.AND[k],pch=18,cex=1.75)
-  
+
   x.full.dependence[k]<-max(x)
   y.full.dependence[k]<-max(y[-1])
   points(x.full.dependence[k],y.full.dependence[k],pch=17,cex=1.75)
-  
+
   FullDependence<-data.frame(x.full.dependence,y.full.dependence)
   colnames(FullDependence) <- c(names(Data)[1],names(Data)[2])
-  
+
   MostLikelyEvent<-data.frame(x.MostLikelyEvent.AND,y.MostLikelyEvent.AND)
   colnames(MostLikelyEvent) <- c(names(Data)[1],names(Data)[2])
-  
+
   sample.AND <- sample(1:length(prediction[prediction>0]),size = N_Ensemble, replace = TRUE, prob=prediction[prediction>0])
   Ensemble <- data.frame(prediction.points.ALL[sample.AND,])
   colnames(Ensemble) <- c(names(Data)[1],names(Data)[2])
-  
+
   Isoline <- data.frame(x=prediction.points.ALL[,1],y=prediction.points.ALL[,2])
   colnames(Isoline) <- c(names(Data)[1],names(Data)[2])
-  
+
   Contour <- (prediction-min(prediction))/(max(prediction)-min(prediction))
-  
+
   res<-list("FullDependence" = FullDependence, "MostLikelyEvent" = MostLikelyEvent, "Ensemble"=Ensemble, "Isoline" = Isoline, "Contour"= Contour)
   return(res)
 }
