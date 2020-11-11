@@ -358,7 +358,7 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, Thres1, Thres2, Copula_Fam
 
   prediction<-kde(x=cop.sample, eval.points=prediction.points.ALL)$estimate
   k=1
-  lines(prediction.points.ALL[,1],prediction.points.ALL[,2],col=max(rev(heat.colors(150))[20:120][1+100*((prediction-min(prediction))/(max(prediction)-min(prediction)))]),lwd=3)
+  lines(prediction.points.ALL[,1],prediction.points.ALL[,2],col=max(rev(heat.colors(150))[20:120][1+100*((prediction-min(prediction))/(max(prediction)-min(prediction)))]),lwd=10)
   points(prediction.points.ALL[,1],prediction.points.ALL[,2],col=rev(heat.colors(150))[20:120][1+100*((prediction-min(prediction))/(max(prediction)-min(prediction)))],lwd=3,pch=16,cex=1.75)
 
   x.MostLikelyEvent.AND[k]<-as.numeric(prediction.points.ALL[which(prediction==max(prediction)),][1])
