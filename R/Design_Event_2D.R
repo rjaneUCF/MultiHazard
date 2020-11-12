@@ -48,6 +48,11 @@
 #'                Marginal_Dist1="Logis", Marginal_Dist2="Twe",RP=100,N=10,N_Ensemble=10)
 Design_Event_2D<-function(Data, Data_Con1, Data_Con2, Thres1, Thres2, Copula_Family1, Copula_Family2, Marginal_Dist1, Marginal_Dist2, Con1="Rainfall",Con2="OsWL",mu=365.25, RP,x_lab="Rainfall (mm)",y_lab="O-sWL (mNGVD 29)",x_lim_min = NA,x_lim_max = NA,y_lim_min = NA,y_lim_max = NA,N,N_Ensemble){
 
+  if(class(Data[,1])=="Date" | class(Data[,1])=="factor"){
+    Data<-Data[,-1]
+  }
+
+
   con1<-which(names(Data)==Con1)
   con2<-which(names(Data)==Con2)
 
