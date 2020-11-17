@@ -36,7 +36,7 @@
 #'       col=ifelse(S20.Pairs.Plot.Data$Type=="Observation","Black","Red"),
 #'       upper.panel=NULL,pch=16)
 HT04<-function(data_Detrend_Dependence_df,data_Detrend_Declustered_df,u_Dependence,Migpd,mu=365.25,N=100,Margins="gumbel",V=10,Maxit=10000){
-  
+
   #Output 'vectors'
   HT04_Model<-vector('list',ncol(data_Detrend_Declustered_df))
   u<-array(NA,dim=c(nrow(na.omit(data_Detrend_Dependence_df)),ncol(data_Detrend_Declustered_df)))
@@ -45,7 +45,14 @@ HT04<-function(data_Detrend_Dependence_df,data_Detrend_Declustered_df,u_Dependen
   u.extremes<-array(0,dim=c(nrow(na.omit(data_Detrend_Dependence_df)),ncol(data_Detrend_Declustered_df)))
   Prop<-rep(NA,ncol(data_Detrend_Declustered_df))
   HT04.Predict<-vector('list',ncol(data_Detrend_Declustered_df))
-  
+
+  if(class(data_Detrend_Dependence_df[,1])=="Date" | class(data_Detrend_Dependence_df[,1])=="factor"){
+    data_Detrend_Dependence_df<-data_Detrend_Dependence_df[,-1]
+  }
+  if(class(data_Detrend_Declustered_df[,1])=="Date" | class(data_Detrend_Declustered_df[,1])=="factor"){
+    data_Detrend_Declustered_df<-data_Detrend_Declustered_df[,-1]
+  }
+
   #Fitting the model
   for(i in 1:ncol(data_Detrend_Declustered_df)){
     HT04.Dataset<-array(NA,dim=c(nrow(data_Detrend_Declustered_df),ncol(data_Detrend_Declustered_df)))
@@ -58,7 +65,7 @@ HT04<-function(data_Detrend_Dependence_df,data_Detrend_Declustered_df,u_Dependen
     HT04_Model[[i]]=mexDependence(Migpd,which=colnames(data_Detrend_Dependence_df)[i],dqu=u_Dependence, margins = "gumbel",
                                   constrain = FALSE,v = V, maxit = Maxit)
     names(HT04_Model) <- colnames(data_Detrend_Dependence_df)
-    
+
     Migpd$data<-na.omit(data_Detrend_Dependence_df)
     u[,i]<-as.numeric(transFun.HT04(x=Migpd$data[,i],mod=Migpd$models[[i]]))
     Gumbel_df[,i]<- -log(-log(u[,i]))
@@ -66,22 +73,22 @@ HT04<-function(data_Detrend_Dependence_df,data_Detrend_Declustered_df,u_Dependen
     Gumbel_df.Threshold[i]<-quantile(Gumbel_df[,i],u_Dependence)
     u.extremes[which(Gumbel_df[,i]>Gumbel_df.Threshold[i]),i]<-1
   }
-  
-  Gumbel_df_Extremes<-Gumbel_df[which(apply(Gumbel_df_Extremes, 1, sum)>0),]
+
+  Gumbel_df_Extremes<-Gumbel_df[which(apply(u.extremes, 1, sum)>0),]
   colnames(Gumbel_df_Extremes)<-colnames(data_Detrend_Dependence_df)
-  
-  
+
+
   for(i in 1:ncol(data_Detrend_Declustered_df)){
     Prop[i]<-length(which(apply(Gumbel_df_Extremes, 1, function(x) which(x==max(x)))==i))/nrow(Gumbel_df_Extremes)
   }
-  
+
   #Simulations
   n<-rep(NA,ncol(data_Detrend_Declustered_df))
   for(i in 1:ncol(data_Detrend_Declustered_df)){
     HT04.Predict[[i]]<-predict.mex.conditioned(HT04_Model[[i]], which=colnames(data_Detrend_Dependence_df)[i], pqu = u_Dependence, nsim = round((1-u_Dependence)*mu*N*Prop[i],0), trace=10)
     n[i]<-nrow(HT04.Predict[[i]]$data$transformed)
   }
-  
+
   HT04_Predict_Transformed<-HT04.Predict[[1]]$data$transformed
   HT04_Predict_Simulated<-HT04.Predict[[1]]$data$simulated
   for(i in 2:ncol(data_Detrend_Declustered_df)){
