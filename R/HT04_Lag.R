@@ -22,7 +22,7 @@
 #' @examples
 #' HT04(data_Detrend_Dependence_df = S22.Detrend.df,data_Detrend_Declustered_df = S22.Detrend.Declustered.df ,Migpd = S22_GPD, u_Dependence=0.7,Margins = "gumbel")
 HT04_Lag<-function (data_Detrend_Dependence_df, data_Detrend_Declustered_df, Lags, u_Dependence, Migpd, mu = 365.25, N = 100, Margins = "gumbel",V = 10, Maxit = 10000){
-  
+
   HT04_Model<-vector('list',ncol(data_Detrend_Declustered_df))
   u<-array(NA,dim=c(nrow(na.omit(data_Detrend_Dependence_df)),ncol(data_Detrend_Declustered_df)))
   Gumbel_df<-array(NA,dim=c(nrow(na.omit(data_Detrend_Dependence_df)),ncol(data_Detrend_Declustered_df)))
@@ -31,7 +31,14 @@ HT04_Lag<-function (data_Detrend_Dependence_df, data_Detrend_Declustered_df, Lag
   Prop<-rep(NA,ncol(data_Detrend_Declustered_df))
   HT04.Predict<-vector('list',ncol(data_Detrend_Declustered_df))
   HT04_z<-vector('list',ncol(data_Detrend_Declustered_df))
-  
+
+  if(class(data_Detrend_Dependence_df[,1])=="Date" | class(data_Detrend_Dependence_df[,1])=="factor"){
+    data_Detrend_Dependence_df<-data_Detrend_Dependence_df[,-1]
+  }
+  if(class(data_Detrend_Declustered_df[,1])=="Date" | class(data_Detrend_Declustered_df[,1])=="factor"){
+    data_Detrend_Declustered_df<-data_Detrend_Declustered_df[,-1]
+  }
+
   Lag <- function(x, k) {
     if (k > 0) {
       return(c(rep(NA, k), x)[1:length(x)])
@@ -40,12 +47,12 @@ HT04_Lag<-function (data_Detrend_Dependence_df, data_Detrend_Declustered_df, Lag
       return(c(x[(-k + 1):length(x)], rep(NA, -k)))
     }
   }
-  
-  if (class(data_Detrend_Declustered_df[, 1]) == "Date" | 
+
+  if (class(data_Detrend_Declustered_df[, 1]) == "Date" |
       class(data_Detrend_Declustered_df[, 1]) == "factor") {
     data_Detrend_Declustered_df <- data_Detrend_Declustered_df[,-1]
   }
-  if (class(data_Detrend_Dependence_df[, 1]) == "Date" | 
+  if (class(data_Detrend_Dependence_df[, 1]) == "Date" |
       class(data_Detrend_Dependence_df[, 1]) == "factor") {
     data_Detrend_Dependence_df <- data_Detrend_Dependence_df[,-1]
   }
@@ -53,7 +60,7 @@ HT04_Lag<-function (data_Detrend_Dependence_df, data_Detrend_Declustered_df, Lag
   DF<-array(NA, dim=c(nrow(data_Detrend_Dependence_df),length(which(is.na(Lags)==F))))
   colnames_DF<-rep(NA,length(which(is.na(Lags)==F)))
   colnames_DF_1<-rep(NA,length(which(is.na(Lags)==F)))
-  
+
   L<-0
   for(i in 1:ncol(data_Detrend_Dependence_df)){
     for (j in 1:(length(which(is.na(Lags[i,])==F)))){
@@ -62,7 +69,7 @@ HT04_Lag<-function (data_Detrend_Dependence_df, data_Detrend_Declustered_df, Lag
      if(lags[j]==0){
        DF[, L] <- data_Detrend_Dependence_df[, i]
      } else{
-       DF[, L] <- Lag(data_Detrend_Dependence_df[, i], lags[j]) 
+       DF[, L] <- Lag(data_Detrend_Dependence_df[, i], lags[j])
      }
      colnames_DF[L]<-ifelse(lags[j]==0,names(data_Detrend_Dependence_df)[i],
                                          paste(colnames(data_Detrend_Dependence_df)[i],"_",lags[j],sep=""))
@@ -83,14 +90,14 @@ HT04_Lag<-function (data_Detrend_Dependence_df, data_Detrend_Declustered_df, Lag
       Migpd_1$mqu[k+1]<-Migpd$mqu[which(colnames(data_Detrend_Declustered_df)==colnames_DF_1[-which(colnames_DF_1==colnames(data_Detrend_Declustered_df)[i])][k])]
     }
     colnames(HT04.Dataset)<-c(colnames(data_Detrend_Declustered_df)[i],colnames_DF[-which(colnames_DF_1==colnames(data_Detrend_Declustered_df)[i])])
- 
+
        names(Migpd_1$models)<-c(colnames(data_Detrend_Declustered_df)[i],colnames(DF)[-which(colnames_DF_1==colnames(data_Detrend_Declustered_df)[i])])
     names(Migpd_1$mth)<-c(colnames(data_Detrend_Declustered_df)[i],colnames(DF)[-which(colnames_DF_1==colnames(data_Detrend_Declustered_df)[i])])
     names(Migpd_1$mqu)<-c(colnames(data_Detrend_Declustered_df)[i],colnames(DF)[-which(colnames_DF_1==colnames(data_Detrend_Declustered_df)[i])])
 
     Migpd_1$data<-na.omit(HT04.Dataset)
     HT04_Model[[i]] = mexDependence(Migpd_1, which = colnames(data_Detrend_Dependence_df)[i],dqu = u_Dependence, margins = Margins, constrain = FALSE, v = V, maxit = Maxit)
-  
+
     Migpd$data<-na.omit(data_Detrend_Dependence_df)
     u[,i]<-as.numeric(transFun.HT04(x=Migpd$data[,i],mod=Migpd$models[[i]]))
     Gumbel_df[,i]<- -log(-log(u[,i]))
@@ -99,13 +106,13 @@ HT04_Lag<-function (data_Detrend_Dependence_df, data_Detrend_Declustered_df, Lag
     u.extremes[which(Gumbel_df[,i]>Gumbel_df.Threshold[i]),i]<-1
     }
 
-  Gumbel_df_Extremes<-Gumbel_df[which(apply(Gumbel_df_Extremes, 1, sum)>0),]
+  Gumbel_df_Extremes<-Gumbel_df[which(apply(u.extremes, 1, sum)>0),]
   colnames(Gumbel_df_Extremes)<-colnames(data_Detrend_Dependence_df)
-  
+
   for(i in 1:ncol(data_Detrend_Declustered_df)){
     Prop[i]<-length(which(apply(Gumbel_df_Extremes, 1, function(x) which(x==max(x)))==i))/nrow(Gumbel_df_Extremes)
   }
- 
+
   #Simulations
   n<-rep(NA,ncol(data_Detrend_Declustered_df))
   for(i in 1:ncol(data_Detrend_Declustered_df)){
@@ -115,7 +122,7 @@ HT04_Lag<-function (data_Detrend_Dependence_df, data_Detrend_Declustered_df, Lag
 
   HT04_Predict_Transformed<-array(NA,dim=c(nrow(HT04.Predict[[1]]$data$transformed),ncol(data_Detrend_Declustered_df)))
   HT04_Predict_Simulated<-array(NA,dim=c(nrow(HT04.Predict[[1]]$data$transformed),ncol(data_Detrend_Declustered_df)))
-  
+
   HT04_Predict_Transformed[,1]<-HT04.Predict[[1]]$data$transformed[,1]
   HT04_Predict_Simulated[,1]<-HT04.Predict[[1]]$data$simulated[,1]
     for(j in 2:ncol(data_Detrend_Declustered_df)){
@@ -171,11 +178,11 @@ HT04_Lag<-function (data_Detrend_Dependence_df, data_Detrend_Declustered_df, Lag
   HT04_Predict_Transformed<-rbind(HT04_Predict_Transformed,HT04_Predict_Transformed_1)
   HT04_Predict_Simulated<-rbind(HT04_Predict_Simulated,HT04_Predict_Simulated_1)
   }
-  
+
   for(i in 1:ncol(data_Detrend_Dependence_df)){
    HT04_z[[i]]<-HT04.Predict[[i]]$data$z
   }
-  
+
   res<-list("Model" = HT04_Model,"z" = HT04_z,"u.sim" = HT04_Predict_Transformed,"x.sim" = HT04_Predict_Simulated)
   return(res)
 }
