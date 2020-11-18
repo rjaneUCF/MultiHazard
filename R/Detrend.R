@@ -21,12 +21,6 @@
 #'         End_Length = 1826, PLOT=FALSE,x_lab="Data",y_lab="Data")
 Detrend<-function(Data, Method = "window",Window_Width= 89, End_Length = 1826, PLOT=FALSE,x_lab="Data",y_lab="Data"){
 
-if(class(Data[,1])=="Date" | class(Data[,1])=="factor"){
-  data_Detrend<-Data[,-1]
-} else{
-data_Detrend<-Data
-}
-
 if(Method=="window"){
   for(i in 1:(Window_Width/2)){
     data_Detrend[i]<- Data[i,2] - mean(Data[i:(i+(Window_Width/2)),2])
