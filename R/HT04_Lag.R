@@ -23,6 +23,13 @@
 #' HT04(data_Detrend_Dependence_df = S22.Detrend.df,data_Detrend_Declustered_df = S22.Detrend.Declustered.df ,Migpd = S22_GPD, u_Dependence=0.7,Margins = "gumbel")
 HT04_Lag<-function (data_Detrend_Dependence_df, data_Detrend_Declustered_df, Lags, u_Dependence, Migpd, mu = 365.25, N = 100, Margins = "gumbel",V = 10, Maxit = 10000){
 
+  if(class(data_Detrend_Dependence_df[,1])=="Date" | class(data_Detrend_Dependence_df[,1])=="factor"){
+    data_Detrend_Dependence_df<-data_Detrend_Dependence_df[,-1]
+  }
+  if(class(data_Detrend_Declustered_df[,1])=="Date" | class(data_Detrend_Declustered_df[,1])=="factor"){
+    data_Detrend_Declustered_df<-data_Detrend_Declustered_df[,-1]
+  }
+
   HT04_Model<-vector('list',ncol(data_Detrend_Declustered_df))
   u<-array(NA,dim=c(nrow(na.omit(data_Detrend_Dependence_df)),ncol(data_Detrend_Declustered_df)))
   Gumbel_df<-array(NA,dim=c(nrow(na.omit(data_Detrend_Dependence_df)),ncol(data_Detrend_Declustered_df)))
@@ -31,13 +38,6 @@ HT04_Lag<-function (data_Detrend_Dependence_df, data_Detrend_Declustered_df, Lag
   Prop<-rep(NA,ncol(data_Detrend_Declustered_df))
   HT04.Predict<-vector('list',ncol(data_Detrend_Declustered_df))
   HT04_z<-vector('list',ncol(data_Detrend_Declustered_df))
-
-  if(class(data_Detrend_Dependence_df[,1])=="Date" | class(data_Detrend_Dependence_df[,1])=="factor"){
-    data_Detrend_Dependence_df<-data_Detrend_Dependence_df[,-1]
-  }
-  if(class(data_Detrend_Declustered_df[,1])=="Date" | class(data_Detrend_Declustered_df[,1])=="factor"){
-    data_Detrend_Declustered_df<-data_Detrend_Declustered_df[,-1]
-  }
 
   Lag <- function(x, k) {
     if (k > 0) {

@@ -37,6 +37,13 @@
 #'       upper.panel=NULL,pch=16)
 HT04<-function(data_Detrend_Dependence_df,data_Detrend_Declustered_df,u_Dependence,Migpd,mu=365.25,N=100,Margins="gumbel",V=10,Maxit=10000){
 
+  if(class(data_Detrend_Dependence_df[,1])=="Date" | class(data_Detrend_Dependence_df[,1])=="factor"){
+    data_Detrend_Dependence_df<-data_Detrend_Dependence_df[,-1]
+  }
+  if(class(data_Detrend_Declustered_df[,1])=="Date" | class(data_Detrend_Declustered_df[,1])=="factor"){
+    data_Detrend_Declustered_df<-data_Detrend_Declustered_df[,-1]
+  }
+
   #Output 'vectors'
   HT04_Model<-vector('list',ncol(data_Detrend_Declustered_df))
   u<-array(NA,dim=c(nrow(na.omit(data_Detrend_Dependence_df)),ncol(data_Detrend_Declustered_df)))
@@ -46,12 +53,6 @@ HT04<-function(data_Detrend_Dependence_df,data_Detrend_Declustered_df,u_Dependen
   Prop<-rep(NA,ncol(data_Detrend_Declustered_df))
   HT04.Predict<-vector('list',ncol(data_Detrend_Declustered_df))
 
-  if(class(data_Detrend_Dependence_df[,1])=="Date" | class(data_Detrend_Dependence_df[,1])=="factor"){
-    data_Detrend_Dependence_df<-data_Detrend_Dependence_df[,-1]
-  }
-  if(class(data_Detrend_Declustered_df[,1])=="Date" | class(data_Detrend_Declustered_df[,1])=="factor"){
-    data_Detrend_Declustered_df<-data_Detrend_Declustered_df[,-1]
-  }
 
   #Fitting the model
   for(i in 1:ncol(data_Detrend_Declustered_df)){
