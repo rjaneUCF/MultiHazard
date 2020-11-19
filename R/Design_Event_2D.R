@@ -377,7 +377,7 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, Thres1, Thres2, Copula_Fam
   }
   x1<-x
   y1<-y
-  prediction.points.ALL<-data.frame(c(x,x2),c(y,y2))[-1,]
+  prediction.points.ALL<-data.frame(c(x,x.2),c(y,y.2))[-1,]
   #prediction.points.ALL<-data.frame(c(x,Data[, con1],na.rm=T)),c(y,min(y)))[-1,]
   colnames(prediction.points.ALL)<-c(names(Data)[1],names(Data)[2])
 
