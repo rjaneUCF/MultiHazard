@@ -43,7 +43,7 @@ segments(u[i],shape.estimate[i],u[i],shape_upper[i])
 segments(u[i],shape.estimate[i],u[i],shape_lower[i])
 }
 
-plot(u,scale.estimate,ylim=c(min(scale_lower,na.rm=T)-0.1,max(scale_upper,na.rm=T)+0.1),pch=16,ylab="Modified scale")
+plot(u,scale.estimate,ylim=c(min(c(scale_lower,scale_upper),na.rm=T)-0.1,max(c(scale_lower,scale_upper),na.rm=T)+0.1),pch=16,ylab="Modified scale")
 for(i in 1:length(u)){
   segments(u[i],scale.estimate[i],u[i],scale_upper[i])
   segments(u[i],scale.estimate[i],u[i],scale_lower[i])
