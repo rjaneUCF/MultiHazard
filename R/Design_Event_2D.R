@@ -375,24 +375,25 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, Thres1, Thres2, Copula_Fam
     y.2<-y.2[-which(is.na(x.2)==TRUE)]
     x.2<-x.2[-which(is.na(x.2)==TRUE)]
   }
-
+  x1<-x
+  y1<-y
   prediction.points.ALL<-data.frame(c(x,x2),c(y,y2))[-1,]
   #prediction.points.ALL<-data.frame(c(x,Data[, con1],na.rm=T)),c(y,min(y)))[-1,]
   colnames(prediction.points.ALL)<-c(names(Data)[1],names(Data)[2])
 
   prediction.points.ALL<-prediction.points.ALL[!duplicated(prediction.points.ALL[,1:2]), ]
 
+  prediction<-kde(x=cop.sample, eval.points=prediction.points.ALL)$estimate
+  k=1
   #lines(prediction.points.ALL[,1],prediction.points.ALL[,2],col=max(rev(heat.colors(150))[20:120][1+100*((prediction-min(prediction))/(max(prediction)-min(prediction)))]),lwd=10)
   points(prediction.points.ALL[,1],prediction.points.ALL[,2],col=rev(heat.colors(150))[20:120][1+100*((prediction-min(prediction))/(max(prediction)-min(prediction)))],lwd=3,pch=16,cex=1.75)
 
-  prediction<-kde(x=cop.sample, eval.points=prediction.points.ALL)$estimate
-  k=1
-
-  prediction.points.ALL<-data.frame(x,y)[-1,]
+  prediction.points.ALL<-data.frame(x1,y1)[-1,]
   #prediction.points.ALL<-data.frame(c(x,Data[, con1],na.rm=T)),c(y,min(y)))[-1,]
   colnames(prediction.points.ALL)<-c(names(Data)[1],names(Data)[2])
 
   prediction.points.ALL<-prediction.points.ALL[!duplicated(prediction.points.ALL[,1:2]), ]
+  prediction<-kde(x=cop.sample, eval.points=prediction.points.ALL)$estimate
 
   x.MostLikelyEvent.AND[k]<-as.numeric(prediction.points.ALL[which(prediction==max(prediction)),][1])
   y.MostLikelyEvent.AND[k]<-as.numeric(prediction.points.ALL[which(prediction==max(prediction)),][2])
