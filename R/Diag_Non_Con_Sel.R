@@ -49,7 +49,7 @@ Diag_Non_Con_Sel<-function(Data,x_lab = "Data",y_lim_min = 0,y_lim_max = 1,Selec
   hist(Data, freq=FALSE,xlab=x_lab,ylim=c(y_lim_min,y_lim_max),col="white",main="",cex.lab=1,cex.axis=1,las=1)
   x<-seq(min(0,min(Data)),max(Data),0.01)
 
-  legend("topright",paste("Fitted",Selected,"dist."),lty=1,col=mypalette[j],cex=0.9,bty='n')
+  legend("topright",paste("Fitted",Selected,"dist."),lty=1,col=colors[j],cex=0.9,bty='n')
   #text(5.4,0.4,"(b)",font=2,cex=1.75)
 
   if(Selected=="Gaus"){
@@ -68,7 +68,7 @@ Diag_Non_Con_Sel<-function(Data,x_lab = "Data",y_lim_min = 0,y_lim_max = 1,Selec
   eta<-sqrt((1/length(Data))*log(2/0.95))
   lines(sort(Data),ifelse(seq(1,length(Data),1)/(length(Data))+eta>1,1,seq(1,length(Data),1)/(length(Data))+eta),col=1,lty=2)
   lines(sort(Data),ifelse(seq(1,length(Data),1)/(length(Data))-eta<0,0,seq(1,length(Data),1)/(length(Data))-eta),col=1,lty=2)
-  legend("bottomright",c("95% Conf. Interval",paste("Fitted",Selected, "dist.")),lty=c(2,1),col=c(1,mypalette[j]),cex=1,bty='n',border = "white")
+  legend("bottomright",c("95% Conf. Interval",paste("Fitted",Selected, "dist.")),lty=c(2,1),col=c(1,colors[j]),cex=1,bty='n',border = "white")
   #text(5.3,1,"(c)",font=2,cex=1.75)
 
    if(Selected=="Gaus"){
