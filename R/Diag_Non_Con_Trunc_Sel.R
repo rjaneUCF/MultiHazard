@@ -51,7 +51,7 @@ Diag_Non_Con_Trunc_Sel<-function(Data,x_lab,y_lim_min=0,y_lim_max=1,Selected){
   plot(0,xlim=c(0,7),ylim=c(min(0,AIC.BS,AIC.Exp,AIC.Gamma,AIC.logNormal,AIC.TNormal,AIC.Tweedie,AIC.Weib),max(0,AIC.BS,AIC.Exp,AIC.Gamma,AIC.logNormal,AIC.TNormal,AIC.Tweedie,AIC.Weib)),type='n',xlab="Probability Distribution",ylab="AIC",xaxt='n',cex.axis=1,cex.lab=1,las=1)
   axis(1,seq(0.5,6.5,1),c("Birn-S","Exp","Gam","LogN","TNorm","Twe","Weib"),cex.axis=0.71)
   colors <- rep("white",8)
-  dist<-c("BS","Exp","Gam","LogN","NA","TNorm","Twe","Weib")
+  dist<-c("BS","Exp","Gam","LogN","TNorm","Twe","Weib")
   j <-  which(dist==Selected)
   colors[j] <- mypalette[j]
   rect(0.25,0,0.75,AIC.BS,col=colors[1])
