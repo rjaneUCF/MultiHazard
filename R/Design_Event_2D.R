@@ -377,7 +377,7 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, Thres1, Thres2, Copula_Fam
   #}
 
   #prediction.points.ALL<-data.frame(x,y)[-1,]
-  prediction.points.ALL<-data.frame(c(x,min(Data[, con1])),c(y,max(y)))[-1,]
+  prediction.points.ALL<-data.frame(c(x,min(Data[, con1],na.rm=T)),c(y,max(y)))[-1,]
   colnames(prediction.points.ALL)<-c(names(Data)[1],names(Data)[2])
 
   prediction.points.ALL<-prediction.points.ALL[!duplicated(prediction.points.ALL[,1:2]), ]
