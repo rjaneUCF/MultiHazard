@@ -356,28 +356,28 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, Thres1, Thres2, Copula_Fam
     y<-y[-which(is.na(y)==TRUE)]
   }
 
-  y.2<-round(seq(min(con1.prediction.points.ALL[,2],con2.prediction.points.ALL[,2]),max(con1.prediction.points.ALL[,2],con2.prediction.points.ALL[,2]),0.01),2)
+  #y.2<-round(seq(min(con1.prediction.points.ALL[,2],con2.prediction.points.ALL[,2]),max(con1.prediction.points.ALL[,2],con2.prediction.points.ALL[,2]),0.01),2)
 
-  con1.prediction.points.ALL.Round<-round(con1.prediction.points.ALL[,2],2)
-  con2.prediction.points.ALL.Round<-round(con2.prediction.points.ALL[,2],2)
+  #con1.prediction.points.ALL.Round<-round(con1.prediction.points.ALL[,2],2)
+  #con2.prediction.points.ALL.Round<-round(con2.prediction.points.ALL[,2],2)
 
-  x.2<-numeric(length(y.2))
-  for(i in 1:length(y.2)){
-    x.2[i]<-max(con1.prediction.points.ALL[,1][which(con1.prediction.points.ALL.Round==y.2[i])],
-                con2.prediction.points.ALL[,1][which(con2.prediction.points.ALL.Round==y.2[i])])
-  }
+  #x.2<-numeric(length(y.2))
+  #for(i in 1:length(y.2)){
+  #  x.2[i]<-max(con1.prediction.points.ALL[,1][which(con1.prediction.points.ALL.Round==y.2[i])],
+  #              con2.prediction.points.ALL[,1][which(con2.prediction.points.ALL.Round==y.2[i])])
+  #}
 
-  if(any(x.2==-Inf)==T){
-    x.2[which(x.2==-Inf)]<-NA
-  }
+  #if(any(x.2==-Inf)==T){
+  #  x.2[which(x.2==-Inf)]<-NA
+  #}
 
-  if(length(which(is.na(x.2)==T))>0){
-    y.2<-y.2[-which(is.na(x.2)==TRUE)]
-    x.2<-x.2[-which(is.na(x.2)==TRUE)]
-  }
+  #if(length(which(is.na(x.2)==T))>0){
+  #  y.2<-y.2[-which(is.na(x.2)==TRUE)]
+  #  x.2<-x.2[-which(is.na(x.2)==TRUE)]
+  #}
 
   #prediction.points.ALL<-data.frame(x,y)[-1,]
-  prediction.points.ALL<-data.frame(c(x,x.2),c(y,y.2))[-1,]
+  prediction.points.ALL<-data.frame(x,y)[-1,]
   colnames(prediction.points.ALL)<-c(names(Data)[1],names(Data)[2])
 
   prediction.points.ALL<-prediction.points.ALL[!duplicated(prediction.points.ALL[,1:2]), ]
