@@ -464,16 +464,12 @@ Design_Event_2D_10000<-function(Data, Data_Con1, Data_Con2, Thres1, Thres2, Copu
   Contour <- (prediction-min(prediction))/(max(prediction)-min(prediction))
 
   ###Plot the isoline
-  ##png(paste("C://Users//ro327497//Documents//SFWMD//2D function explained//2D_Design_Event_10000_Contour_S22.png",sep=""), width = 6.5, height = 4*1.5, units = 'in', res = 300)
-  #Plot the original data set (Data) plus the two conditional samples (Data_Con1 and Data_Con2).
-  #par(mar=c(4.5,4.2,0.5,0.5))
-  plot(Data[, con1], Data[, con2], xlim = c(x_min, x_max), ylim = c(y_min, y_max), col = "Light Grey",xaxt='n',yaxt='n')
-  #points(Data_Con1[,con1],Data_Con1[,con2],col=4,cex=1)
-  #points(Data_Con2[,con1],Data_Con2[,con2],col="Red",pch=4,cex=1)
-  points(cop.sample[,1],cop.sample[,2],col=1,pch=16,cex=0.1)
-  #Add the points composing the isoline with their relative probabilites according to the original data denoted by the color contour.
-  points(Iso[,1],Iso[,2],col=rev(heat.colors(150))[20:120][1+100*((prediction-min(prediction))/(max(prediction)-min(prediction)))],pch=16,cex=1)
-  ##dev.off()
+  par(mar=c(4.5,4.2,0.5,0.5))
+  plot(Data[, con1], Data[, con2], xlim = c(x_min, x_max), ylim = c(y_min, y_max), col = "Light Grey",xlab = x_lab, ylab = y_lab, cex.lab = 1.5, cex.axis = 1.5)
+  points(Data_Con1[,con1],Data_Con1[,con2],col=4,cex=1.5)
+  points(Data_Con2[,con1],Data_Con2[,con2],col="Red",pch=4,cex=1.5)
+  points(prediction.points.ALL[,1],prediction.points.ALL[,2],col=rev(heat.colors(150))[20:120][1+100*((prediction-min(prediction))/(max(prediction)-min(prediction)))],lwd=3,pch=16,cex=1.75)
+
   ###Extract design event(s)
 
   #Find the 'most likely' design event and add it to the plot (denoted by a diamond).
