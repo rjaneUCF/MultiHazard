@@ -471,14 +471,14 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, Thres1, Thres2, Copula_Fam
   plot(Data[, con1], Data[, con2], xlim = c(x_min, x_max), ylim = c(y_min, y_max), col = "Light Grey",xlab = x_lab, ylab = y_lab, cex.lab = 1.5, cex.axis = 1.5)
   points(Data_Con1[,con1],Data_Con1[,con2],col=4,cex=1.5)
   points(Data_Con2[,con1],Data_Con2[,con2],col="Red",pch=4,cex=1.5)
-  points(prediction.points.ALL[,1],prediction.points.ALL[,2],col=rev(heat.colors(150))[20:120][1+100*((prediction-min(prediction))/(max(prediction)-min(prediction)))],lwd=3,pch=16,cex=1.75)
+  points(Iso[,1],Iso[,2],col=rev(heat.colors(150))[20:120][1+100*Contour],lwd=3,pch=16,cex=1.75)
 
   ###Extract design event(s)
 
   #Find the 'most likely' design event and add it to the plot (denoted by a diamond).
   x.MostLikelyEvent.AND<-as.numeric(Iso[which(prediction==max(prediction,na.rm=T)),1])
   y.MostLikelyEvent.AND<-as.numeric(Iso[which(prediction==max(prediction,na.rm=T)),2])
-  points(x.MostLikelyEvent.AND,y.MostLikelyEvent.AND,pch=18,cex=0.8)
+  points(x.MostLikelyEvent.AND,y.MostLikelyEvent.AND,pch=18,cex=1.75)
   #Put the 'most likely' design event into a data frame to form part of the function's output.
   MostLikelyEvent<-data.frame(x.MostLikelyEvent.AND,y.MostLikelyEvent.AND)
   colnames(MostLikelyEvent) <- c(names(Data)[1],names(Data)[2])
@@ -486,7 +486,7 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, Thres1, Thres2, Copula_Fam
   #Find the design event under the assumption of full dependence and add it to the plot (denoted by a triangle).
   x.full.dependence<-max(Iso[,1],na.rm=T)
   y.full.dependence<-max(Iso[-1,2],na.rm=T)
-  points(x.full.dependence,y.full.dependence,pch=17,cex=1)
+  points(x.full.dependence,y.full.dependence,pch=17,cex=1.75)
   #Put the 'most likely' design event into a data frame to form part of the function's output.
   FullDependence<-data.frame(x.full.dependence,y.full.dependence)
   colnames(FullDependence) <- c(names(Data)[1],names(Data)[2])
