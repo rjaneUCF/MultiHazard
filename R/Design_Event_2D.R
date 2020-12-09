@@ -457,7 +457,10 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, Thres1, Thres2, Copula_Fam
   #'cop.sample' i.e. the large sample of events generated from the two fitted copulas (with sample sizes proportional
   #to the size of the two conditional samples) and transformed back to the original scale. These probabilities are
   #used as estimates of the relative probability of the points on the isoline according to the original data.
-  cop.sample<-cop.sample[-which(cop.sample[,1] > Sim_Max*max(Data[,1],na.rm=T) | cop.sample[,2] > Sim_Max*max(Data[,2],na.rm=T)),]
+  remove<-which(cop.sample[,1] > Sim_Max*max(Data[,1],na.rm=T) | cop.sample[,2] > Sim_Max*max(Data[,2],na.rm=T))
+  if(length(remove)>1){
+  cop.sample<-cop.sample[-remove,]
+  }
   prediction<-kde(x=cop.sample, eval.points=Iso)$estimate
 
   #(relative) Probabilities implied by the data for the points composing the isoline. Probabilities are scaled to [0,1].
