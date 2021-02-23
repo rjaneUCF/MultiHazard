@@ -525,8 +525,8 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, Thres1, Thres2, Copula_Fam
     if(N_Ensemble>0){
       points(Ensemble[[k]][,1],Ensemble[[k]][,2],col=1,lwd=3,pch=16,cex=1)
     }
-      points(MostLikelyEvent[[k]][,1],y.MostLikelyEvent[[k]][,2],pch=18,cex=1.75)
-      text(MostLikelyEvent[[k]][,1],y.MostLikelyEvent[[k]][,2],paste(RP[k]),col="White",cex=0.5)
+      points(MostLikelyEvent[[k]][,1],MostLikelyEvent[[k]][,2],pch=18,cex=1.75)
+      text(MostLikelyEvent[[k]][,1],MostLikelyEvent[[k]][,2],paste(RP[k]),col="White",cex=0.5)
       points(FullDependence[[k]][,1],FullDependence[[k]][,2],pch=17,cex=1.75)
       text(FullDependence[[k]][,1],FullDependence[[k]][,2],paste(RP[k]),col="White",cex=0.5)
   }
