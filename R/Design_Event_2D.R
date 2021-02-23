@@ -503,10 +503,9 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, Thres1, Thres2, Copula_Fam
   #Put the 'most likely' design event into a data frame to form part of the function's output.
   #MostLikelyEvent<-data.frame(x.MostLikelyEvent.AND,y.MostLikelyEvent.AND)
   #colnames(MostLikelyEvent) <- c(names(Data)[1],names(Data)[2])
-  print(MostLikelyEvent)
   #Put the 'most likely' design event into a data frame to form part of the function's output.
-  FullDependence<-data.frame(x.full.dependence,y.full.dependence)
-  colnames(FullDependence) <- c(names(Data)[1],names(Data)[2])
+  #FullDependence<-data.frame(x.full.dependence,y.full.dependence)
+  #colnames(FullDependence) <- c(names(Data)[1],names(Data)[2])
 
   ###Plot the isoline
 
