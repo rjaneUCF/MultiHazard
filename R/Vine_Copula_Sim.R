@@ -5,7 +5,6 @@
 #' @param Data Data frame containing \code{n} at least partially concurrent time series. First column may be a \code{"Date"} object. Can be \code{Dataframe_Combine} output.
 #' @param Vine_Model An \code{RVineMatrix} object i.e., output of \code{Vine_Copula_Fit} specifying the structure and copula families composing the vine copula.
 #' @param Marginals An \code{migpd} object containing the d-independent generalized Pareto models.
-#' @param Vine_family A n*(n-1)/2 integer vector specifying the pair-copula families defining the fitting C- or a D-vine copula models. Can be specified as the \code{Family} argument of a \code{Vine_Copula_Fit} object. See help file of the \code{CDVineSim} function to find the integers representing the different copula families.
 #' @param mu (average) Number of events per year. Numeric vector of length one. Default is 365.25, daily data.
 #' @param N Number of years worth of extremes to be simulated. Numeric vector of length one. Default 10,000 (years).
 #' @return List comprising an integer vector specifying the pair-copula families composing the C- or D-vine copula \code{Vine_family}, its parameters \code{Vine_par} and \code{Vine_par2} and type of regular vine \code{Vine_Type}. In addition, data frames of the simulated observations: \code{u.Sim} on the transformed \code{$[0,1]^n$} and \code{x.Sim} the original scales.
@@ -32,7 +31,9 @@ Vine_Copula_Sim<-function(Data,Vine_Model,Marginals,mu=365.25,N=10000){
 
   if(class(Data[,1])=="Date" | class(Data[,1])=="factor"){
   #Simulating from copula on the transformed scale
-  u<-RVineSim(No.events, RMV=Vine_Model$Matrix)
+  RMV<- RVineMatrix(Matrix = Vine_Model$Structure, family = Vine_Model$Family,
+                    par = Vine_Model$Par, par2 = Vine_Copula$Par2)
+  u<-RVineSim(No.events, RMV)
   colnames(u)<-names(Data[2:ncol(Data)])
   #Transforming d-dimensional simulations to the origional scale using the marginal distribution supplied
   x<-matrix(0,nrow=nrow(u),ncol=ncol(u))
@@ -44,7 +45,9 @@ Vine_Copula_Sim<-function(Data,Vine_Model,Marginals,mu=365.25,N=10000){
   colnames(x)<-names(Data[2:ncol(Data)])
   } else {
   #Simulating from copula on the transformed scale
-  u<-RVineSim(No.events, RMV=Model$Matrix)
+  RMV <- RVineMatrix(Matrix = Vine_Model$Structure, family = Vine_Model$Family,
+                     par = Vine_Model$Par, par2 = Vine_Model$Par2)
+  u<-RVineSim(No.events,RMV)
   colnames(u)<-names(Data)
   #Transforming d-dimensional simulations to the origional scale using the marginal distribution supplied
   x<-matrix(0,nrow=nrow(u),ncol=ncol(u))
@@ -56,6 +59,6 @@ Vine_Copula_Sim<-function(Data,Vine_Model,Marginals,mu=365.25,N=10000){
   colnames(x)<-names(Data)
   }
  #Compose list of outputs
- res<-list("Model" = Model, "u.Sim"=u,"x.Sim"=x)
+ res<-list("Vine_Model" = Vine_Model, "u.Sim"=u,"x.Sim"=x)
  return(res)
 }
