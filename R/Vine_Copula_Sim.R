@@ -32,7 +32,7 @@ Vine_Copula_Sim<-function(Data,Vine_Model,Marginals,mu=365.25,N=10000){
   if(class(Data[,1])=="Date" | class(Data[,1])=="factor"){
   #Simulating from copula on the transformed scale
   RMV<- RVineMatrix(Matrix = Vine_Model$Structure, family = Vine_Model$Family,
-                    par = Vine_Model$Par, par2 = Vine_Copula$Par2)
+                    par = Vine_Model$Par, par2 = Vine_Model$Par2)
   u<-RVineSim(No.events, RMV)
   colnames(u)<-names(Data[2:ncol(Data)])
   #Transforming d-dimensional simulations to the origional scale using the marginal distribution supplied
