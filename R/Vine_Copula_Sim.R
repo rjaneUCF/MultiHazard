@@ -14,7 +14,7 @@
 #' #Fitting vine copula
 #' S20.Vine<-Vine_Copula_Fit(Data=S20.Detrend.df)
 #' #Simulating from fitted copula
-#' S20.Vine.Sim<-Vine_Copula_Sim(Data=S20.Detrend.df,Model=S20.Vine,
+#' S20.Vine.Sim<-Vine_Copula_Sim(Data=S20.Detrend.df,Vine_Model=S20.Vine,
 #'                               Marginals=S20.Migpd,N=10)
 #' #Plotting observed (black) and simulated (red) values
 #' S20.Pairs.Plot.Data<-data.frame(rbind(na.omit(S20.Detrend.df[,-1]),S22.Vine.Sim$x.Sim),
