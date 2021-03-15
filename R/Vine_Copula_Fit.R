@@ -16,6 +16,6 @@ Vine_Copula_Fit<-function(Data){
   M<-RVineStructureSelect(pobs(na.omit(Data[,1:ncol(Data)])))
   Model <- RVineCopSelect(pobs(na.omit(Data[,1:ncol(Data)])),Matrix=M$Matrix)
   }
-  res<- list(Structure = Model$Matrix, Family=Model$family, Par = Model$par, Par2 = Model$par2)
+  res<- list(Structure = M$Matrix, Family=Model$family, Par = Model$par, Par2 = Model$par2)
   return(res)
 }
