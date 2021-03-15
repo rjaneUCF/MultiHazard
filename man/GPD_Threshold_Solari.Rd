@@ -67,18 +67,19 @@ Sinclair et al. (1990) proposed the right-tail weighted Anderson Darling statist
 
 Solari et al. (2017) formalized EDF statistic - GOF test threshold selection procedures used to test the null hypothesis that a sample is from a GPD distribution. creating an automated approach adopting the \eqn{A_R^2} as the EDF statistic. The authors also proposed combining the approach with a bootstrapping technique to assess the influence of threshold on the uncertainly of higher return period quantiles. The approach in Solari et al. (2017) comprises the following steps: \enumerate{
 
-\item Decluster the time series to produce a series of \eqn{n_p} independent cluster maxima \eqn{\{x_i:i=1,\dots,n_p\} and sort such that \eqn{\{x_1\leq\dots\leq x_p\}}.
+\item Decluster the time series to produce a series of \eqn{n_p} independent cluster maxima \eqn{\{x_i:i=1,\dots,n_p\}} and sort such that \eqn{\{x_1\leq\dots\leq x_p\}}.
 
 \item The sorted series defines a series of \eqn{n_u} thresholds after excluding repeated values i.e., \eqn{n_u \leq n_p}.  For each threshold \eqn{\{u_j, j=1,\dots,n_u\}} fit the GPD via L-Moments using only the excesses satisfying \eqn{x>u_j}. Then, calculate the R-AD statistic and its associated p-value for each threshold.
 
 \item Select the threshold that minimizes one minus the p-value i.e.,
-\deqn{u_0 = \argminA_{u_j} (1-p(u_j)).}
+\deqn{u_0 = argmin_{u_j} (1-p(u_j)).}
 }
 }
 
 \examples{
+#Declustering the rainfall at site S22 using a 7-day window.
 Rainfall_Declust_SW<-Decluster_SW(Data=S22.Detrend.df[,c(1:2)],Window_Width=7)
-Finding an appropriate threshold for the declustered series
+#Finding an appropriate threshold for the declustered series
 GPD_Threshold_Solari(Event=Rainfall_Declust_SW$Declustered,
-                     Data=na.omit(S22.Detrend.df[,c(1:2)]))
+                     Data=22.Detrend.df[,c(1:2)])
 }
