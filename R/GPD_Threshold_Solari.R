@@ -56,7 +56,7 @@
 GPD_Threshold_Solari<-function(Event,Data,RPs=c(10,50,100,500,1000),RPs_PLOT=c(2,3,4),Min_Quantile=0.95,Alpha=0.1,mu=365.25,N_Sim=10){
 
   # Loads the p-values matrix
-  p_val <- read.mat("C://Users//jonde//Documents//PVAL_AU2_LMOM.mat")
+  #p_val <- read.csv("C://Users//jonde//Documents//PVAL_AU2_LMOM.csv")
 
   # Removing NAs in Data
   Data = na.omit(Data)
@@ -99,10 +99,10 @@ GPD_Threshold_Solari<-function(Event,Data,RPs=c(10,50,100,500,1000),RPs_PLOT=c(2
 
     # Anderson-Darling Upper without confidence intervals for L-Moments
     AR2[i] = AR2(GPD.MLE[i,1:3],Event[Event>u_Candidate[i]])
-    x <- rep(p_val$Ko,each=24)
-    y <- rep(p_val$NDATA,6)
-    m<-max(1,min((1+(round(GPD.MLE[i],4)*10^4)),length(p_val$AU2VAL)))
-    AR2.pValue[i] = interp(x,y,p_val$PVAL[,,m],
+    x <- rep(c(-0.5,-0.3,-0.1,0.1,0.3,0.5),each=24)
+    y <- rep(c(10,12,14,16,18,20,22,24,26,28,30,35,40,45,50,60,70,80,90,100,200,300,400,500),6)
+    m<-max(1,min((1+(round(GPD.MLE[i],4)*10^4)),100001))
+    AR2.pValue[i] = interp(x,y,p_val$PVAL[,,which(p_val$AR2==m)],
                            sign(GPD.MLE[i,1])*min(abs(GPD.MLE[i,1]),0.5),
                            max(10,min(500,length(Event[Event>u_Candidate[i]]))))$z
   }
