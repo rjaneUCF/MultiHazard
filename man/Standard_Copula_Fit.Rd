@@ -25,5 +25,5 @@ cop<-Standard_Copula_Fit(Data=S20.Detrend.df,Copula_Type="Clayton")
 cop<-Standard_Copula_Fit(Data=S20.Detrend.df,Copula_Type="Frank")
 }
 \seealso{
-\code{\link{Dataframe_Combine}} \code{\link{Standard_Copula_Sel}} \code{\link{CDVineCopSelect}}  \code{\link{BiCopSelect}}
+\code{\link{Dataframe_Combine}} \code{\link{Standard_Copula_Sel}}
 }

@@ -29,7 +29,7 @@ GPD_Threshold_Solari(
 
 \item{Min_Quantile}{Numeric vector of length one specifying the minimum threshold, expressed as a quantile of the original time series (2nd column of \code{Data}) to be tested. Default \code{0.95}.}
 
-\item{Alpha}{Numeric vector of length one specifying the level of confidence associated with the confidence interval i.e., the probability that the interval contains the true value of the parameter is \eqn{1-alpha/2}. The interval is referred to as the \eqn{100(1-alpha/2)\%} confidence interval. Default is \code{0.1}.}
+\item{Alpha}{Numeric vector of length one specifying the level of confidence associated with the confidence interval i.e., the probability that the interval contains the true value of the parameter is \eqn{1-\frac{Alpha}{2}}. The interval is referred to as the \eqn{100(1-\frac{Alpha}{2})\%} confidence interval. Default is \code{0.1}.}
 
 \item{mu}{(average) occurrence frequency of events in the original time series \code{Data}. Numeric vector of length one. Default is \code{365.25}, daily data.}
 
@@ -46,20 +46,20 @@ Upper limits of the confidence interval for the point estimates of the correspon
 \item \code{CI_Lower}
 Lower limits of the confidence interval for the point estimates of the corresponding element of \code{GPD_MLE}.
 \item \code{AR2}
-Value of the right-tail weighted Anderson Darling statistic $A_R^2$, the test statistic used in the Solari et al. (2017) method for each \code{u_Candidate}.
+Value of the right-tail weighted Anderson Darling statistic \eqn{A_R^2}, the test statistic used in the Solari et al. (2017) method for each \code{u_Candidate}.
 \item \code{AR2_pValue}
-p-value asssociated with \code{AR2}.
+p-value asssociated with \eqn{A_R^2}.
 }
 To interpret the graphical output. Top row: The GPD exhibits certain threshold stability properties. The guiding principle for threshold choice is to \textbf{find the lowest value of the threshold such that the parameter estimates stabilize to a constant value which is sustained at all higher thresholds}, once the sample uncertainty has been accounted for (typically assessed by pointwise uncertainty intervals). Mean residual life plot (left). If the GPD is a valid model for excesses above a threshold then the mean of these excesses will be a linear function of the threshold. We therefore select the lowest threshold where there is a linear trend in the mean residual life plot. Parameter stability plots for the shape (center) and scale (right) parameters. If the GPD is a suitable model for a threshold then for all higher thresholds it will also be suitable, with the shape and scale parameters being constant. The lowest threshold - to reduce the associated uncertainty - at which the parameter estimates are stable for all higher thresholds should be selected.
 Middle row: Return levels estimated from the GPD fitted at various thresholds.
-Lower row: Right-tail weighted Anderson Darling statistic (AR2) associated with the GPD fitted using various thresholds. Lower AR2 statistic values signify less (quadratic) distance between the empirical distribution and the GPD i.e., GPD is a better fit for these thresholds (left).  1-pvalue associated with the AR2 for each threshold. The AD2 goodness of fit tests, tests the null hypothesis that the observations are from a GPD. At smaller 1-pvalue figure there is less chance of rejecting the null hypothesis i.e., the GPD is more suitable at these thresholds (center). Events per year at each threshold (right).
+Lower row: Right-tail weighted Anderson Darling statistic \eqn{A_R^2} associated with the GPD fitted using various thresholds. Lower \eqn{A_R^2} statistic values signify less (quadratic) distance between the empirical distribution and the GPD i.e., GPD is a better fit for these thresholds (left).  \eqn{1-p_{value}} associated with the \eqn{A_R^2} for each threshold. The \eqn{AD2} goodness of fit tests, tests the null hypothesis that the observations are from a GPD. At smaller \eqn{1-pvalue figure there is less chance of rejecting the null hypothesis i.e., the GPD is more suitable at these thresholds (center). Events per year at each threshold (right).
 }
 \description{
 Traditional graphical methods and the automatic threshold selection method in Solari et al. (2017) is implemented to find the threshold above which excesses are follow a GPD. The code is based on the \code{ANALISIS_POT_LNORM} function provided by Sebastian Solari.
 }
 \section{Details}{
 
-EDF-statistics are goodness-of-fit statistics based on a comparison of the Empirical Distribution Function (EDF) \eqn{F_n} and a candidate parametric probability distribution $F$ \link{@Stephens1974}. Quadratic EDF test measure the distance between \eqn{F} and \eqn{F_n} by:\deqn{n\int^{\infty}_{-\infty}=(F(x)-F_n(x))^2w(x) dx}
+EDF-statistics are goodness-of-fit statistics based on a comparison of the Empirical Distribution Function (EDF) \eqn{F_n} and a candidate parametric probability distribution \eqn{F} Stephens et al. (1974). Quadratic EDF test measure the distance between \eqn{F} and \eqn{F_n} by:\deqn{n\int^{\infty}_{-\infty}=(F(x)-F_n(x))^2w(x) dx}
 where \eqn{n} is the number of elements in the original sample and \eqn{w(x)} is a weighting function.
 The Cramer Von Misses statistic \eqn{w(x)=1}, whereas the Anderson-Darling (AD) statistic \eqn{A^2}, assigns more weight to the tails of the data by setting \eqn{w(x)=\frac{1}{F(x)(1-F(x))}}. Under the null hypothesis that the sample \eqn{x_1,\dots,x_n} is from a GPD, the transformation \eqn{z=F-1(x)} a sample z uniformly distribution between \eqn{0} and \eqn{1}.  \deqn{A^2=-\frac{1}{n}\sum_{i=1}^{n} \{(2i-1)[log(z_i)+log(1-z_{n+z-i})]\}-n}
 Sinclair et al. (1990) proposed the right-tail weighted Anderson Darling statistic \eqn{A_R^2} which allocates more weight to the upper tail and less to the lower tail of the distribution than \eqn{A^2} and is given by:
@@ -68,6 +68,7 @@ Sinclair et al. (1990) proposed the right-tail weighted Anderson Darling statist
 
 \examples{
 Rainfall_Declust_SW<-Decluster_SW(Data=S22.Detrend.df[,c(1:2)],Window_Width=7)
-Finding an appropriate threshold for the declustered series 
-GPD_Threshold_Solari(Event=Rainfall_Declust_SW$Declustered,Data=na.omit(S22.Detrend.df[,c(1:2)]))
+Finding an appropriate threshold for the declustered series
+GPD_Threshold_Solari(Event=Rainfall_Declust_SW$Declustered,
+                     Data=na.omit(S22.Detrend.df[,c(1:2)]))
 }
