@@ -56,7 +56,7 @@
 GPD_Threshold_Solari<-function(Event,Data,RPs=c(10,50,100,500,1000),RPs_PLOT=c(2,3,4),Min_Quantile=0.95,Alpha=0.1,mu=365.25,N_Sim=10){
 
   # Loads the p-values matrix
-  #p_val <- read.csv("C://Users//jonde//Documents//PVAL_AU2_LMOM.csv")
+  p_val <- array(c(PVAL_AU2_LMOM_1$PVAL,PVAL_AU2_LMOM_2$PVAL,PVAL_AU2_LMOM_3$PVAL,PVAL_AU2_LMOM_4$PVAL),dim=c(24,6,100001))
 
   # Removing NAs in Data
   Data = na.omit(Data)
@@ -102,7 +102,7 @@ GPD_Threshold_Solari<-function(Event,Data,RPs=c(10,50,100,500,1000),RPs_PLOT=c(2
     x <- rep(c(-0.5,-0.3,-0.1,0.1,0.3,0.5),each=24)
     y <- rep(c(10,12,14,16,18,20,22,24,26,28,30,35,40,45,50,60,70,80,90,100,200,300,400,500),6)
     m<-max(1,min((1+(round(GPD.MLE[i],4)*10^4)),100001))
-    AR2.pValue[i] = interp(x,y,p_val$PVAL[,,which(p_val$AR2==m)],
+    AR2.pValue[i] = interp(x,y,p_val[,,m],
                            sign(GPD.MLE[i,1])*min(abs(GPD.MLE[i,1]),0.5),
                            max(10,min(500,length(Event[Event>u_Candidate[i]]))))$z
   }
