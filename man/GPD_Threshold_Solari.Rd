@@ -37,22 +37,22 @@ GPD_Threshold_Solari(
 }
 \value{
 List comprising \itemize{
-\item \code{u_Candidate}
-Thresholds tested which are the cluster maxima in \code{Events} exceeding the \code{Min_Quantile} quantile of the original time series (given in column 2 of \Code{Data}).
+\item \code{Thres_Candidate}
+Thresholds tested which are the cluster maxima in \code{Events} exceeding the \code{Min_Quantile} quantile of the original time series (given in column 2 of \code{Data}).
 \item \code{GPD_MLE}
-GPD parameter estimates, Mean Residual Life Plot (MRLP) values and return level estimates associated with each \code{u_Candidate}.
+GPD parameter estimates, Mean Residual Life Plot (MRLP) values and return level estimates associated with each \code{Thres_Candidate}.
 \item \code{CI_Upper}
 Upper limits of the confidence interval for the point estimates of the corresponding element of \code{GPD_MLE}.
 \item \code{CI_Lower}
 Lower limits of the confidence interval for the point estimates of the corresponding element of \code{GPD_MLE}.
 \item \code{AR2}
-Value of the right-tail weighted Anderson Darling statistic \eqn{A_R^2}, the test statistic used in the Solari et al. (2017) method for each \code{u_Candidate}.
+Value of the right-tail weighted Anderson Darling statistic \eqn{A_R^2}, the test statistic used in the Solari et al. (2017) method for each \code{Thres_Candidate}.
 \item \code{AR2_pValue}
 p-value asssociated with \eqn{A_R^2}.
 }
-To interpret the graphical output. Top row: The GPD exhibits certain threshold stability properties. The guiding principle for threshold choice is to \textbf{find the lowest value of the threshold such that the parameter estimates stabilize to a constant value which is sustained at all higher thresholds}, once the sample uncertainty has been accounted for (typically assessed by pointwise uncertainty intervals). Mean residual life plot (left). If the GPD is a valid model for excesses above a threshold then the mean of these excesses will be a linear function of the threshold. We therefore select the lowest threshold where there is a linear trend in the mean residual life plot. Parameter stability plots for the shape (center) and scale (right) parameters. If the GPD is a suitable model for a threshold then for all higher thresholds it will also be suitable, with the shape and scale parameters being constant. The lowest threshold - to reduce the associated uncertainty - at which the parameter estimates are stable for all higher thresholds should be selected.
+To interpret the graphical output. Top row: The GPD exhibits certain threshold stability properties. The guiding principle for threshold choice is to find the lowest value of the threshold such that the parameter estimates stabilize to a constant value which is sustained at all higher thresholds, once the sample uncertainty has been accounted for (typically assessed by pointwise uncertainty intervals). Mean residual life plot (left). If the GPD is a valid model for excesses above a threshold then the mean of these excesses will be a linear function of the threshold. We therefore select the lowest threshold where there is a linear trend in the mean residual life plot. Parameter stability plots for the shape (center) and scale (right) parameters. If the GPD is a suitable model for a threshold then for all higher thresholds it will also be suitable, with the shape and scale parameters being constant. The lowest threshold - to reduce the associated uncertainty - at which the parameter estimates are stable for all higher thresholds should be selected.
 Middle row: Return levels estimated from the GPD fitted at various thresholds.
-Lower row: Right-tail weighted Anderson Darling statistic \eqn{A_R^2} associated with the GPD fitted using various thresholds. Lower \eqn{A_R^2} statistic values signify less (quadratic) distance between the empirical distribution and the GPD i.e., GPD is a better fit for these thresholds (left).  \eqn{1-p_{value}} associated with the \eqn{A_R^2} for each threshold. The \eqn{AD2} goodness of fit tests, tests the null hypothesis that the observations are from a GPD. At smaller \eqn{1-pvalue figure there is less chance of rejecting the null hypothesis i.e., the GPD is more suitable at these thresholds (center). Events per year at each threshold (right).
+Lower row: Right-tail weighted Anderson Darling statistic \eqn{A_R^2} associated with the GPD fitted using various thresholds. Lower \eqn{A_R^2} statistic values signify less (quadratic) distance between the empirical distribution and the GPD i.e., GPD is a better fit for these thresholds (left).  \eqn{1-p_{value}} associated with the \eqn{A_R^2} for each threshold. The \eqn{A_R^2} goodness of fit tests, tests the null hypothesis that the observations are from a GPD. At smaller \eqn{1-p_{value}} figure there is less chance of rejecting the null hypothesis i.e., the GPD is more suitable at these thresholds (center). Events per year at each threshold (right).
 }
 \description{
 Traditional graphical methods and the automatic threshold selection method in Solari et al. (2017) is implemented to find the threshold above which excesses are follow a GPD. The code is based on the \code{ANALISIS_POT_LNORM} function provided by Sebastian Solari.
@@ -61,9 +61,19 @@ Traditional graphical methods and the automatic threshold selection method in So
 
 EDF-statistics are goodness-of-fit statistics based on a comparison of the Empirical Distribution Function (EDF) \eqn{F_n} and a candidate parametric probability distribution \eqn{F} Stephens et al. (1974). Quadratic EDF test measure the distance between \eqn{F} and \eqn{F_n} by:\deqn{n\int^{\infty}_{-\infty}=(F(x)-F_n(x))^2w(x) dx}
 where \eqn{n} is the number of elements in the original sample and \eqn{w(x)} is a weighting function.
-The Cramer Von Misses statistic \eqn{w(x)=1}, whereas the Anderson-Darling (AD) statistic \eqn{A^2}, assigns more weight to the tails of the data by setting \eqn{w(x)=\frac{1}{F(x)(1-F(x))}}. Under the null hypothesis that the sample \eqn{x_1,\dots,x_n} is from a GPD, the transformation \eqn{z=F-1(x)} a sample z uniformly distribution between \eqn{0} and \eqn{1}.  \deqn{A^2=-\frac{1}{n}\sum_{i=1}^{n} \{(2i-1)[log(z_i)+log(1-z_{n+z-i})]\}-n}
+In the Cramer Von Misses statistic \eqn{w(x)=1}, whereas the Anderson-Darling statistic \eqn{A^2}, assigns more weight to the tails of the data by setting \eqn{w(x)=\frac{1}{F(x)(1-F(x))}}. Under the null hypothesis that the sample \eqn{x_1,\dots,x_n} is from a GPD, the transformation \eqn{z=F_1(x)} a sample z uniformly distribution between \eqn{0} and \eqn{1}.  \deqn{A^2=-\frac{1}{n}\sum_{i=1}^{n} \{(2i-1)[log(z_i)+log(1-z_{n+z-i})]\}-n}
 Sinclair et al. (1990) proposed the right-tail weighted Anderson Darling statistic \eqn{A_R^2} which allocates more weight to the upper tail and less to the lower tail of the distribution than \eqn{A^2} and is given by:
 \deqn{A_R^2=\frac{n}{2}\sum_{i=1}^{n} \left [2-\frac{(2i-1)}{n}log(1-z_i)+2z_{i} \right]}
+
+Solari et al. (2017) formalized EDF statistic - GOF test threshold selection procedures used to test the null hypothesis that a sample is from a GPD distribution. creating an automated approach adopting the \eqn{A_R^2} as the EDF statistic. The authors also proposed combining the approach with a bootstrapping technique to assess the influence of threshold on the uncertainly of higher return period quantiles. The approach in Solari et al. (2017) comprises the following steps: \enumerate{
+
+\item Decluster the time series to produce a series of \eqn{n_p} independent cluster maxima \eqn{\{x_i:i=1,\dots,n_p\} and sort such that \eqn{\{x_1\leq\dots\leq x_p\}}.
+
+\item The sorted series defines a series of \eqn{n_u} thresholds after excluding repeated values i.e., \eqn{n_u \leq n_p}.  For each threshold \eqn{\{u_j, j=1,\dots,n_u\}} fit the GPD via L-Moments using only the excesses satisfying \eqn{x>u_j}. Then, calculate the R-AD statistic and its associated p-value for each threshold.
+
+\item Select the threshold that minimizes one minus the p-value i.e.,
+\deqn{u_0 = \argminA_{u_j} (1-p(u_j)).}
+}
 }
 
 \examples{
