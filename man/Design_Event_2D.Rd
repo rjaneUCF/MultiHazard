@@ -4,11 +4,30 @@
 \alias{Design_Event_2D}
 \title{Derives a single or ensemble of bivariate design events}
 \usage{
-Design_Event_2D(Data, Data_Con1, Data_Con2, Thres1, Thres2, Copula_Family1,
-  Copula_Family2, Marginal_Dist1, Marginal_Dist2, Con1 = "Rainfall",
-  Con2 = "OsWL", mu = 365.25, RP, x_lab = "Rainfall (mm)",
-  y_lab = "O-sWL (mNGVD 29)", x_lim_min = NA, x_lim_max = NA,
-  y_lim_min = NA, y_lim_max = NA, N, N_Ensemble, Sim_Max = 10)
+Design_Event_2D(
+  Data,
+  Data_Con1,
+  Data_Con2,
+  Thres1,
+  Thres2,
+  Copula_Family1,
+  Copula_Family2,
+  Marginal_Dist1,
+  Marginal_Dist2,
+  Con1 = "Rainfall",
+  Con2 = "OsWL",
+  mu = 365.25,
+  RP,
+  x_lab = "Rainfall (mm)",
+  y_lab = "O-sWL (mNGVD 29)",
+  x_lim_min = NA,
+  x_lim_max = NA,
+  y_lim_min = NA,
+  y_lim_max = NA,
+  N = 10^6,
+  N_Ensemble = 0,
+  Sim_Max = 10
+)
 }
 \arguments{
 \item{Data}{Data frame of dimension \code{nx2} containing two co-occurring time series of length \code{n}.}
@@ -35,7 +54,7 @@ Design_Event_2D(Data, Data_Con1, Data_Con2, Thres1, Thres2, Copula_Family1,
 
 \item{mu}{Numeric vector of length one specifying the (average) occurrence frequency of events in \code{Data}. Default is \code{365.25}, daily data.}
 
-\item{RP}{Numeric vector of length one specifying the return period of interest.}
+\item{RP}{Numeric vector specifying the return periods of interest.}
 
 \item{x_lab}{Character vector specifying the x-axis label.}
 
@@ -49,18 +68,39 @@ Design_Event_2D(Data, Data_Con1, Data_Con2, Thres1, Thres2, Copula_Family1,
 
 \item{y_lim_max}{Numeric vector of length one specifying y-axis maximum. Default is \code{NA}.}
 
-\item{N}{Numeric vector of length one specifying the size of the sample from the fitted joint distributions used to estimate the density along an isoline. Samples are collected from the two joint distribution with proportions consistent with the total number of extreme events conditioned on each variable.}
+\item{N}{Numeric vector of length one specifying the size of the sample from the fitted joint distributions used to estimate the density along an isoline. Samples are collected from the two joint distribution with proportions consistent with the total number of extreme events conditioned on each variable. Default is \code{10^6}}
 
 \item{N_Ensemble}{Numeric vector of length one specifying the number of possible design events sampled along the isoline of interest.}
 
 \item{Sim_Max}{Numeric vector of length one specifying the maximum value, given as a multiple of the largest observation of each variable, permitted in the sample used to estimate the (relative) probabilities along the isoline.}
 }
 \value{
-Plot of all the observations (grey circles) as well as the declustered excesses above Thres1 (blue circles) or Thres2 (blue circles), observations may belong to both conditional samples. Also shown is the isoline associated with \code{RP} contoured according to their relative probability of occurrence on the basis of the sample from the two joint distributions, the "most likely" design event (black diamond), and design event under the assumption of full dependence (black triangle) are also shown in the plot. The function also returns a list comprising the design events assuming full dependence \code{"FullDependence"}, as well as once the dependence between the variables is accounted for the "Most likley" {"MostLikelyEvent"} as well as an {"Ensemble"} of possible design events.
+Plot of all the observations (grey circles) as well as the declustered excesses above Thres1 (blue circles) or Thres2 (blue circles), observations may belong to both conditional samples. Also shown is the isoline associated with \code{RP} contoured according to their relative probability of occurrence on the basis of the sample from the two joint distributions, the "most likely" design event (black diamond), and design event under the assumption of full dependence (black triangle) are also shown in the plot. The function also returns a list comprising the design events assuming full dependence \code{"FullDependence"}, as well as once the dependence between the variables is accounted for the "Most likley" \code{"MostLikelyEvent"} as well as an \code{"Ensemble"} of possible design events.
 }
 \description{
-Calculates the single design event under the assumption of full dependence, or once accounting for dependence between variables the single "most-likely" or an ensemble of possible design events.
+Calculates the single design event under the assumption of full dependence, or once accounting for dependence between variables the single "most-likely" or an ensemble of possible design events for one or more return periods.
+}
+\examples{
+S22.Rainfall<-Con_Sampling_2D(Data_Detrend=S22.Detrend.df[,-c(1,4)],
+                             Data_Declust=S22.Detrend.Declustered.df[,-c(1,4)],
+                             Con_Variable="Rainfall",Thres=0.97)
+S22.OsWL<-Con_Sampling_2D(Data_Detrend=S22.Detrend.df[,-c(1,4)],
+                         Data_Declust=S22.Detrend.Declustered.df[,-c(1,4)],
+                         Con_Variable="OsWL",Thres=0.97)
+S22.Copula.Rainfall<-Copula_Threshold_2D(Data_Detrend=S22.Detrend.df[,-c(1,4)],
+                                        Data_Declust=S22.Detrend.Declustered.df[,-c(1,4)],Thres =0.97,
+                                        y_lim_min=-0.075,y_lim_max=0.25,
+                                        Upper=c(2,9),Lower=c(2,10),GAP=0.15)$Copula_Family_Var1
+S22.Copula.OsWL<-Copula_Threshold_2D(Data_Detrend=S22.Detrend.df[,-c(1,4)],
+                                    Data_Declust=S22.Detrend.Declustered.df[,-c(1,4)],Thres =0.97,
+                                    y_lim_min=-0.075, y_lim_max =0.25,
+                                    Upper=c(2,9),Lower=c(2,10),GAP=0.15)$Copula_Family_Var2
+Design_Event_2D(Data=S22.Detrend.df[,-c(1,4)],
+               Data_Con1=S22.Rainfall$Data, Data_Con2=S22.OsWL$Data,
+               Thres1=0.97, Thres2=0.97,
+               Copula_Family1=S22.Copula.Rainfall, Copula_Family2=S22.Copula.OsWL,
+               Marginal_Dist1="Logis", Marginal_Dist2="Twe",RP=100,N=10,N_Ensemble=10)
 }
 \seealso{
-\code{\link{Dataframe_Combine}} \code{\link{Copula_Threshold_2D}} \code{\link{Diag_Non_Con}}  \code{\link{Diag_Non_Con_Trunc}}
+\code{\link{Copula_Threshold_2D}} \code{\link{Diag_Non_Con}} \code{\link{Diag_Non_Con_Trunc}}
 }
