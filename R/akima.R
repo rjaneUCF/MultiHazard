@@ -1,0 +1,2 @@
+#' @import akima
+NULL
