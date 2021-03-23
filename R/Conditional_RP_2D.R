@@ -314,8 +314,8 @@ Conditional_RP_2D<-function(Data, Data_Con1, Data_Con2, Thres1, Thres2, Copula_F
     max<-which(d==min(d,na.rm = T))[1]
     plot(1/(rate*(1-CDF_Var$x[1:max])),CDF_Var$y[1:max],ylab=y_lab,xlab="Conditional return period (years)",ylim = c(y_min, y_max),cex.lab = 1.5, cex.axis = 1.5,type='l',lwd=2.5)
     N_Excess<-length(which(cop.sample[,con1]>Var1))
-    Con_Prob_Est<-approx(CDF_Var$y,CDF_Var$x,Var1)$y
     CDF_Var<-approx(CDF_Var$y,CDF_Var$x,seq(round(min(CDF_Var$y),2),round(max(CDF_Var$y),2),0.01))
+    Con_Prob_Est<-approx(CDF_Var$x,CDF_Var$y,Var2)$y
   }
 
   if(con_var==con2){
@@ -331,8 +331,8 @@ Conditional_RP_2D<-function(Data, Data_Con1, Data_Con2, Thres1, Thres2, Copula_F
     max<-which(d==min(d,na.rm = T))[1]
     plot(1/(rate*(1-CDF_Var$x[1:max])),CDF_Var$y[1:max],ylab=x_lab,xlab="Conditional return period (years)",ylim = c(x_min, x_max),cex.lab = 1.5, cex.axis = 1.5,type='l',lwd=2.5)
     N_Excess<-length(which(cop.sample[,con2]>Var2))
-    Con_Prob_Est<-approx(CDF_Var$y,CDF_Var$x,Var2)$y
     CDF_Var<-approx(CDF_Var$y,CDF_Var$x,seq(round(min(CDF_Var$y),2),round(max(CDF_Var$y),2),0.01))
+    Con_Prob_Est<-approx(CDF_Var$x,CDF_Var$y,Var1)$y
   }
 
   res<-list(Con_Var=Con_Var,RP_Var1=RP_Var2,RP_Var2=RP_Var2,Var1=Var1,Var2=Var2,RP_Full_Dependence=min(RP_Var1,RP_Var2),RP_Independence=RP_Var1*RP_Var2,RP_Copula=p,Prob=1/p,N_Excess=N_Excess,Non_Con_Var_X=CDF_Var$x,Con_Prob=CDF_Var$y,Con_RP=1/(rate*(1-CDF_Var$y)),Con_Prob_Est=Con_Prob_Est)
