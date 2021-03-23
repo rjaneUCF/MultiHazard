@@ -124,7 +124,7 @@ GPD_Threshold_Solari_Sel<-function(Event,Data,Solari_Output,Thres,Alpha=0.1,N_Si
   plot(log10(1/((1-(1:length(Exceedence))/(length(Exceedence)+1))*Rate)),sort(Event[which(Event>Thres)]),
        xlab=expression('log'[10]*'(Return period) [years]'),ylab=y_lab,
        xlim=c(log10(1),log10(RP_Max)),
-       ylim=c(min(Event,min(apply(Solari_Output$CI_Lower[z,c(7:(6+length(Solari_Output_RPs)))],2,min))),max(apply(Solari_Output$CI_Upper[z,rev(c(7:(6+length(Solari_Output_RPs))))],2,max))),
+       ylim=c(min(Event[which(Event>Thres)],min(apply(Solari_Output$CI_Lower[z,c(7:(6+length(Solari_Output_RPs)))],2,min))),max(apply(Solari_Output$CI_Upper[z,rev(c(7:(6+length(Solari_Output_RPs))))],2,max))),
        pch=16,col="Green")
   polygon(c(log10(as.numeric(colnames(Solari_Output$GPD_MLE)[7:(6+length(Solari_Output_RPs))])),log10(as.numeric(colnames(Solari_Output$GPD_MLE)[rev(c(7:(6+length(Solari_Output_RPs))))]))),
           c(apply(Solari_Output$CI_Lower[z,c(7:(6+length(Solari_Output_RPs)))],2,min),apply(Solari_Output$CI_Upper[z,rev(c(7:(6+length(Solari_Output_RPs))))],2,max)),
