@@ -139,14 +139,14 @@ GPD_Threshold_Solari<-function(Event,Data,RPs=c(10,50,100,500,1000),RPs_PLOT=c(2
   #AR2
   plot(u_Candidate[z],AR2[z],type="l",ylim=c(min(AR2[z]),max(AR2[z])),xlab="Threshold",ylab=expression('AR'^2*' statistic'))
   #1-p_Value
-  plot(u_Candidate[z],1-AR2.pValue[z],type="l",ylim=c(min(1-AR2.pValue[z]),max(1-AR2.pValue[z])),xlab="Threshold",ylab=expression('1-p'[value]))
+  plot(u_Candidate[z],AR2.pValue[z],type="l",ylim=c(min(1-AR2.pValue[z]),max(1-AR2.pValue[z])),xlab="Threshold",ylab=expression('1-p'[value]))
   #Events per year
   plot(u_Candidate[z],GPD.MLE[z,6],type="l",ylim=c(0,max(GPD.MLE[z,6])),xlab="Threshold",ylab="Events per year")
 
   ecdf_fun <- function(x,perc) ecdf(x)(perc)
   u_Candidate_Quantile<-ecdf_fun(Data[,2],Event)
 
-  Candidate_Thres<-u_Candidate[z][which(1-AR2.pValue[z]==min(1-AR2.pValue[z]))]
+  Candidate_Thres<-u_Candidate[z][which(AR2.pValue[z]==min(AR2.pValue[z]))]
   res<-list("Thres_Candidate"=u_Candidate,"Thres_Candidate_Quantile"=u_Candidate_Quantile,"GPD_MLE"=GPD.MLE,"CI_Upper"=CI.Upper,"CI_Lower"=CI.Lower,"AR2"=AR2,"AR2_pValue"=AR2.pValue,"Candidate_Thres"=Candidate_Thres)
   return(res)
 }
