@@ -43,7 +43,7 @@ GPD_Threshold_Solari_Sel<-function(Event,Data,Solari_Output,Thres,Alpha=0.1,N_Si
 
   # Auxiliary variables
   Data    = na.omit(Data)
-  N_Years = length(Data[,1])/mu
+  N_Years = length(Data)/mu
   RP      = sort(unique(c(1:10,seq(20,100,10),seq(200,1000,100),seq(2e3,1e4,1e3),seq(2e4,1e5,1e4),seq(2e5,1e6,1e5),RP_Plot)))
   RP      = RP[RP<=RP_Max]
 
@@ -75,7 +75,7 @@ GPD_Threshold_Solari_Sel<-function(Event,Data,Solari_Output,Thres,Alpha=0.1,N_Si
   layout(layout_matrix)
 
   # Histogram of k (GPD shape)
-  z<-which(Solari_Output$GPD_MLE[,1]>-0.5 & Solari_Output$GPD_MLE[,1]<0.5 & Solari_Output$GPD_MLE[,6]<(length(na.omit(Data[,2])/mu)))
+  z<-which(Solari_Output$GPD_MLE[,1]>-0.5 & Solari_Output$GPD_MLE[,1]<0.5 & Solari_Output$GPD_MLE[,6]<(length(na.omit(Data)/mu)))
   h<-hist(Solari_Output$GPD_MLE[z,1],xlab="GP shape",ylab="Frequency",col="Grey",
           xlim=c(min(Solari_Output$GPD_MLE[z,1])-diff(range(Solari_Output$GPD_MLE[z,1]))/4,
                  max(Solari_Output$GPD_MLE[z,1])+diff(range(Solari_Output$GPD_MLE[z,1]))/4),
@@ -135,7 +135,7 @@ GPD_Threshold_Solari_Sel<-function(Event,Data,Solari_Output,Thres,Alpha=0.1,N_Si
   points(log10(1/((1-(1:length(Exceedence))/(length(Exceedence)+1))*Rate)),sort(Event[which(Event>Thres)]),col="Green",pch=16)
 
   h<-hist(Solari_Output$GPD_MLE[z,which(colnames(Solari_Output$GPD_MLE)==RP_Plot)],
-          xlab=paste(RP_Plot,'year return level',colnames(Data)[2]),ylab="Frequency",col="Grey",
+          xlab=paste(RP_Plot,'year return level',y_lab),ylab="Frequency",col="Grey",
           xlim=c(min(Solari_Output$GPD_MLE[z,which(colnames(Solari_Output$GPD_MLE)==RP_Plot)])-diff(range(Solari_Output$GPD_MLE[z,which(colnames(Solari_Output$GPD_MLE)==RP_Plot)]))/4,
                  max(Solari_Output$GPD_MLE[z,which(colnames(Solari_Output$GPD_MLE)==RP_Plot)])+diff(range(Solari_Output$GPD_MLE[z,which(colnames(Solari_Output$GPD_MLE)==RP_Plot)]))/4),
           main="",boarder = "Grey")
