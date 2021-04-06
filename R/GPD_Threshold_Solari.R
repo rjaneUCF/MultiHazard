@@ -109,7 +109,7 @@ GPD_Threshold_Solari<-function(Event,Data,RPs=c(10,50,100,500,1000),RPs_PLOT=c(2
   colnames(GPD.MLE)<-c("xi","sigma","u","MRLP","mod_sigma","rate",paste(RPs))
 
   RPs<-as.character(RPs)
-  z<-which(GPD.MLE[,1]>-0.5 & GPD.MLE[,1]<0.5 & GPD.MLE[,6]<(length(na.omit(Data[,2)/365.25)))
+  z<-which(GPD.MLE[,1]>-0.5 & GPD.MLE[,1]<0.5 & GPD.MLE[,6]<(length(na.omit(Data)/365.25)))
   par(mfrow=c(3,3))
   par(mar=c(4.2,4.5,0.5,0.5))
   #MARLP
