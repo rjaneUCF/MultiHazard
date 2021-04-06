@@ -62,11 +62,11 @@ GPD_Threshold_Solari<-function(Event,Data,RPs=c(10,50,100,500,1000),RPs_PLOT=c(2
   Data = na.omit(Data)
 
   # Auxiliary variables
-  N_Years = length(Data[,1])/mu
+  N_Years = length(Data)/mu
 
   # POT with L-moments and with bootstrapping confidence intervals
   Event = na.omit(Event)
-  Event = sort(Event[Event>quantile(Data[,2],Min_Quantile)])
+  Event = sort(Event[Event>quantile(Data,Min_Quantile)])
 
   # initialize variables
   u_Candidate         = sort(Event)
