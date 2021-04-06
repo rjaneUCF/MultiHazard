@@ -37,7 +37,7 @@
 #'                     Data_Declust=S20.Detrend.Declustered.df[,-c(1,4)],
 #'                     y_lim_min=-0.075, y_lim_max =0.25,
 #'                     Upper=c(6,8), Lower=c(6,8),GAP=0.1)
-Copula_Threshold_2D_Lag<-function(Data_Detrend,Data_Declust,Thres1=seq(0.9,0.99,0.01),Thres2=seq(0.9,0.99,0.01),Lag_Backward_Var1,Lag_Forward_Var1,Lag_Backward_Var2,Lag_Forward_Var2,x_lim_min=min(c(Thres1,Thres2)),x_lim_max=max(c(Thres1,Thres2)),y_lim_min=-1,y_lim_max=1,Upper=0,Lower=0,GAP=0.05,Legend=TRUE){
+Copula_Threshold_2D_Lag<-function(Data_Detrend,Data_Declust,Thres1=seq(0.9,0.99,0.01),Thres2=seq(0.9,0.99,0.01),PLOT=TRUE,Lag_Backward_Var1,Lag_Forward_Var1,Lag_Backward_Var2,Lag_Forward_Var2,x_lim_min=min(c(Thres1,Thres2)),x_lim_max=max(c(Thres1,Thres2)),y_lim_min=-1,y_lim_max=1,Upper=0,Lower=0,GAP=0.05,Legend=TRUE){
   y_lim=y_lim_max-y_lim_min
   copula_table<-data.frame(c(seq(0,40,1)[-(c(11,12,15,21,22,25,31,32,35)+1)],104,114,124,134,204,214,224,234),c("Ind.","Gaussian", "t-copula", "Clayton", "Gumbel","Frank","Joe","BB1","BB6","BB7","BB8","Sur. Clayton","Sur. Gumbel","Sur. Joe",
                                                                                                                 "Sur. BB1","Sur. BB6","Sur. BB7","Sur. BB8","Rot. Clayton","Rot. Gumbel","Rot. Joe","Rot. BB1", "Rot. BB6",
