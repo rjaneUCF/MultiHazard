@@ -109,7 +109,7 @@ GPD_Threshold_Solari<-function(Event,Data,RPs=c(10,50,100,500,1000),RPs_PLOT=c(2
   colnames(GPD.MLE)<-c("xi","sigma","u","MRLP","mod_sigma","rate",paste(RPs))
 
   RPs<-as.character(RPs)
-  z<-which(GPD.MLE[,1]>-0.5 & GPD.MLE[,1]<0.5 & GPD.MLE[,6]<(length(na.omit(Data[,2])/365.25)))
+  z<-which(GPD.MLE[,1]>-0.5 & GPD.MLE[,1]<0.5 & GPD.MLE[,6]<(length(na.omit(Data[,2)/365.25)))
   par(mfrow=c(3,3))
   par(mar=c(4.2,4.5,0.5,0.5))
   #MARLP
@@ -144,7 +144,7 @@ GPD_Threshold_Solari<-function(Event,Data,RPs=c(10,50,100,500,1000),RPs_PLOT=c(2
   plot(u_Candidate[z],GPD.MLE[z,6],type="l",ylim=c(0,max(GPD.MLE[z,6])),xlab="Threshold",ylab="Events per year")
 
   ecdf_fun <- function(x,perc) ecdf(x)(perc)
-  u_Candidate_Quantile<-ecdf_fun(Data[,2],Event)
+  u_Candidate_Quantile<-ecdf_fun(Data,Event)
 
   Candidate_Thres<-u_Candidate[z][which(AR2.pValue[z]==min(AR2.pValue[z]))]
   res<-list("Thres_Candidate"=u_Candidate,"Thres_Candidate_Quantile"=u_Candidate_Quantile,"GPD_MLE"=GPD.MLE,"CI_Upper"=CI.Upper,"CI_Lower"=CI.Lower,"AR2"=AR2,"AR2_pValue"=AR2.pValue,"Candidate_Thres"=Candidate_Thres)
