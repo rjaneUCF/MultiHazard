@@ -132,7 +132,7 @@ Copula_Threshold_2D_Lag<-function(Data_Detrend,Data_Declust,Thres1=seq(0.9,0.99,
    }
  if(PLOT==TRUE){
   plot(Thres1,correlation_Var1_Value,xlab="Threshold",ylab=expression("Kendall's "*tau*" correlation coefficient"),type='l',lwd=3,xlim=c(x_lim_min,x_lim_max),ylim=c(y_lim_min,y_lim_max),col="Blue")
-  mtext(round(quantile(na.omit(Data_Detrend[,1]),Thres),2),at=Thres,side=1,line=2,col="Blue")
+  mtext(round(quantile(na.omit(Data_Detrend[,1]),Thres1),2),at=Thres1,side=1,line=2,col="Blue")
   points(Thres1,correlation_Var1_Value,pch=ifelse(correlation_Var1_Test<0.05,16,16),col=ifelse(correlation_Var1_Test<0.05,"Blue","White"),cex=5)
   points(Thres1,correlation_Var1_Value,pch=ifelse(correlation_Var1_Test<0.05,16,1),cex=5,col="Blue")
   text(Thres1,correlation_Var1_Value,as.character(correlation_Var1_N),col=ifelse(correlation_Var1_Test<0.05,"White","Black"))
@@ -148,7 +148,7 @@ Copula_Threshold_2D_Lag<-function(Data_Detrend,Data_Declust,Thres1=seq(0.9,0.99,
    text(Thres1[Upper],(correlation_Var1_Value+y_lim*GAP)[Upper],copula_Var1_Family_Name[Upper],col="Blue")
   }
 
-  mtext(round(quantile(na.omit(Data_Detrend[,2]),Thres),2),at=Thres,side=3,line=1,col="Red")
+  mtext(round(quantile(na.omit(Data_Detrend[,2]),Thres2),2),at=Thres2,side=3,line=1,col="Red")
   lines(Thres2,correlation_Var2_Value,col="Red")
   points(Thres2,correlation_Var2_Value,pch=ifelse(correlation_Var2_Test<0.05,16,16),col=ifelse(correlation_Var2_Test<0.05,"Red","White"),cex=5)
   points(Thres2,correlation_Var2_Value,pch=ifelse(correlation_Var2_Test<0.05,16,1),cex=5,col="Red")
