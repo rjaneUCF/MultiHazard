@@ -129,7 +129,7 @@ Copula_Threshold_2D<-function(Data_Detrend,Data_Declust,Thres=seq(0.9,0.99,0.01)
   }
 
   mtext(round(quantile(na.omit(Data_Detrend[,2]),Thres),2),at=Thres,side=3,line=1,col="Red")
-  lines(Thres,correlation_Var2_Value,col=3)
+  lines(Thres,correlation_Var2_Value,col="Red")
   points(Thres,correlation_Var2_Value,pch=ifelse(correlation_Var2_Test<0.05,16,16),col=ifelse(correlation_Var2_Test<0.05,"Red","White"),cex=5)
   points(Thres,correlation_Var2_Value,pch=ifelse(correlation_Var2_Test<0.05,16,1),cex=5,col="Red")
   text(Thres,correlation_Var2_Value,as.character(correlation_Var2_N),col=ifelse(correlation_Var2_Test<0.05,"White","Black"))
