@@ -302,10 +302,11 @@ Conditional_RP_2D<-function(Data, Data_Con1, Data_Con2, Thres1, Thres2, Copula_F
   legend("topright",c(paste("Full dependence RP = ",min(RP_Var1,RP_Var2)," years",sep=""),paste("Joint RP = ",round(p,0)," years",sep=""),paste("Independence RP = ",RP_Var1*RP_Var2," years",sep="")),bty="n",cex=1.25)
 
   if(con_var==con1){
-    plot(cop.sample[, con1], cop.sample[, con2],xlim = c(min(cop.sample[, con1]), max(cop.sample[, con1])),
-         ylim = c(min(cop.sample[, con2]), max(cop.sample[, con2])), col = "Light Grey", xlab = x_lab,
-         ylab = y_lab, cex.lab = 1.5, cex.axis = 1.5)
-    points(cop.sample[which(cop.sample[,con1]>Var1),con1],cop.sample[which(cop.sample[,con1]>Var1),con2],col=1,pch=16)
+    #Plot too computationally expensive
+    #plot(cop.sample[, con1], cop.sample[, con2],xlim = c(min(cop.sample[, con1]), max(cop.sample[, con1])),
+    #     ylim = c(min(cop.sample[, con2]), max(cop.sample[, con2])), col = "Light Grey", xlab = x_lab,
+    #     ylab = y_lab, cex.lab = 1.5, cex.axis = 1.5)
+    #points(cop.sample[which(cop.sample[,con1]>Var1),con1],cop.sample[which(cop.sample[,con1]>Var1),con2],col=1,pch=16)
     CDF_Var<-approx(seq(1,length(which(cop.sample[,con1]>Var1)),1)/length(which(cop.sample[,con1]>Var1)),
                     cop.sample[which(cop.sample[,con1]>Var1),con2][order(cop.sample[which(cop.sample[,con1]>Var1),con2])],
                     seq(round(min(1/length(which(cop.sample[,con1]>Var1)))+0.0005,3),1,0.001))
@@ -319,10 +320,11 @@ Conditional_RP_2D<-function(Data, Data_Con1, Data_Con2, Thres1, Thres2, Copula_F
   }
 
   if(con_var==con2){
-    plot(cop.sample[, con1], cop.sample[, con2], xlim = c(min(cop.sample[, con1]), max(cop.sample[, con1])),
-         ylim = c(min(cop.sample[, con2]), max(cop.sample[, con2])), col = "Light Grey", xlab = x_lab,
-         ylab = y_lab, cex.lab = 1.5, cex.axis = 1.5)
-    points(cop.sample[which(cop.sample[,con1]>Var2),con1],cop.sample[which(cop.sample[,con1]>Var2),con2],col=1,pch=16)
+    #Plot too computationally expensive
+    #plot(cop.sample[, con1], cop.sample[, con2], xlim = c(min(cop.sample[, con1]), max(cop.sample[, con1])),
+    #     ylim = c(min(cop.sample[, con2]), max(cop.sample[, con2])), col = "Light Grey", xlab = x_lab,
+    #     ylab = y_lab, cex.lab = 1.5, cex.axis = 1.5)
+    #points(cop.sample[which(cop.sample[,con1]>Var2),con1],cop.sample[which(cop.sample[,con1]>Var2),con2],col=1,pch=16)
     CDF_Var<-approx(seq(1,length(which(cop.sample[,con2]>Var2)),1)/length(which(cop.sample[,con2]>Var2)),
                     cop.sample[which(cop.sample[,con2]>Var2),con1][order(cop.sample[which(cop.sample[,con2]>Var2),con1])],
                     seq(round(min(1/length(which(cop.sample[,con2]>Var2)))+0.0005,3),1,0.001))
