@@ -46,6 +46,7 @@ GPD_Threshold_Solari_Sel<-function(Event,Data,Solari_Output,Thres,Alpha=0.1,N_Si
   N_Years = length(Data)/mu
   RP      = sort(unique(c(1:10,seq(20,100,10),seq(200,1000,100),seq(2e3,1e4,1e3),seq(2e4,1e5,1e4),seq(2e5,1e6,1e5),RP_Plot)))
   RP      = RP[RP<=RP_Max]
+  Event   = na.omit(Event)
 
   # POT with MLE and C.I. with bootstrapping ##########################
   # Sort Events
