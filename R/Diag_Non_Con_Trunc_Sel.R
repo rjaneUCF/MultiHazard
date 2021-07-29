@@ -100,7 +100,7 @@ Diag_Non_Con_Trunc_Sel<-function(Data,x_lab,y_lim_min=0,y_lim_max=1,Selected){
   lines(x,dtweedie(x,  power=fit$p.max, mu=mean(Data), phi=fit$phi.max),col=mypalette[6],lwd=2)
   }
 
-  if(Selected=="weib"){
+  if(Selected=="Weib"){
   fit<-fitdistr(Data,"weibull")
   lines(x,dweibull(x,fit$estimate[1],fit$estimate[2]),col=mypalette[7],lwd=2)
   }
@@ -145,7 +145,7 @@ Diag_Non_Con_Trunc_Sel<-function(Data,x_lab,y_lim_min=0,y_lim_max=1,Selected){
     lines(x,ptweedie(x,  power=fit$p.max, mu=mean(Data), phi=fit$phi.max),col=mypalette[6],lwd=2,pch=16,ylab="P(X<x)")
   }
 
-  if(Selected=="weib"){
+  if(Selected=="Weib"){
   fit<-fitdistr(Data, "weibull")
   lines(x,pweibull(x,fit$estimate[1],fit$estimate[2]),col=mypalette[7],lwd=2)
   }
