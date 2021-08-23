@@ -18,7 +18,7 @@
 #' S22.GPD<-Migpd_Fit(Data=S22.Detrend.Declustered.df, mqu =c(0.99,0.99,0.99))
 #' #Without date as first column
 #' S22.GPD<-Migpd_Fit(Data=S22.Detrend.Declustered.df[,-1], mqu =c(0.99,0.99,0.99))
-Migpd_Fit<-function (Data, mth, mqu, penalty = "gaussian", maxit = 10000,
+Migpd_Fit<-function (Data, Data_Full, mth, mqu, penalty = "gaussian", maxit = 10000,
                       trace = 0, verbose = FALSE, priorParameters = NULL){
 
   if(class(Data[,1])=="Date" | class(Data[,1])=="factor"){
@@ -26,6 +26,13 @@ Migpd_Fit<-function (Data, mth, mqu, penalty = "gaussian", maxit = 10000,
   } else {
   data = Data
   }
+
+  if(class(Data_Full[,1])=="Date" | class(Data_Full[,1])=="factor"){
+    data_full<-Data_Full[,-1]
+  } else {
+    data_full = Data_Full
+  }
+
   theCall <- match.call()
   if (is.null(colnames(data))) {
     colnames(data) <- paste(rep("Column", ncol(data)), 1:ncol(data),
@@ -48,7 +55,7 @@ Migpd_Fit<-function (Data, mth, mqu, penalty = "gaussian", maxit = 10000,
   for(i in 1:d){
     x = data
     prob = mqu[i]
-    mth[i] <- quantile(na.omit(x[,i]), prob = prob)
+    mth[i] <- quantile(na.omit(data_full[,i]), prob = prob)
   }
   }
   if (penalty %in% c("quadratic", "gaussian") & is.null(priorParameters)) {
