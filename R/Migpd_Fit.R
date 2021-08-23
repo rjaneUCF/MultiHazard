@@ -43,12 +43,13 @@ Migpd_Fit<-function (Data, mth, mqu, penalty = "gaussian", maxit = 10000,
   if (missing(mqu))
     mqu <- sapply(1:d, function(i, x, mth) 1 - mean(x[, i] >
                                                       mth[i]), x = data, mth = mth)
-  if (missing(mth))
+  if (missing(mth)){
     mth<-numeric(d)
   for(i in 1:d){
     x = data
     prob = mqu[i]
     mth[i] <- quantile(na.omit(x[,i]), prob = prob)
+  }
   }
   if (penalty %in% c("quadratic", "gaussian") & is.null(priorParameters)) {
     gp = list(c(0, 0), matrix(c(100^2, 0, 0, 0.25), nrow = 2))
