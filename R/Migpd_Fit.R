@@ -27,10 +27,12 @@ Migpd_Fit<-function (Data, Data_Full=NA, mth, mqu, penalty = "gaussian", maxit =
   data = Data
   }
 
+  if(is.na(mth)==F){
   if(class(Data_Full[,1])=="Date" | class(Data_Full[,1])=="factor"){
     data_full<-Data_Full[,-1]
   } else {
     data_full = Data_Full
+  }
   }
 
   theCall <- match.call()
