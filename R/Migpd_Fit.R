@@ -18,7 +18,7 @@
 #' S22.GPD<-Migpd_Fit(Data=S22.Detrend.Declustered.df, mqu =c(0.99,0.99,0.99))
 #' #Without date as first column
 #' S22.GPD<-Migpd_Fit(Data=S22.Detrend.Declustered.df[,-1], mqu =c(0.99,0.99,0.99))
-Migpd_Fit<-function (Data, Data_Full=NA, mth, mqu, penalty = "gaussian", maxit = 10000,
+Migpd_Fit<-function (Data, Data_Full=NA, mth=NA, mqu, penalty = "gaussian", maxit = 10000,
                       trace = 0, verbose = FALSE, priorParameters = NULL){
 
   if(class(Data[,1])=="Date" | class(Data[,1])=="factor"){
