@@ -17,10 +17,10 @@
 Con_Sampling_2D_Lag<-
   function (Data_Detrend, Data_Declust, Con_Variable, Thres = 0.97, Lag_Backward = 0, Lag_Forward = 0)
   {
-    if (class(Data_Detrend[, 1]) == "Date" | class(Data_Detrend[,1]) == "factor") {
+    if (class(Data_Detrend[, 1]) == "Date" | class(Data_Detrend[,1]) == "factor" | class(Data_Detrend[,1])=="POSIXct") {
       Data_Detrend <- Data_Detrend[, -1]
     }
-    if (class(Data_Declust[, 1]) == "Date" | class(Data_Declust[,1]) == "factor") {
+    if (class(Data_Declust[, 1]) == "Date" | class(Data_Declust[,1]) == "factor" | class(Data_Declust[,1])=="POSIXct") {
       Data_Declust <- Data_Declust[, -1]
     }
     if (is.numeric(Con_Variable) == FALSE) {
