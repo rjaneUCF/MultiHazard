@@ -13,10 +13,10 @@
 #'                               Data_Declust=S20.Detrend.Declustered.df[,-c(1,4)],
 #'                               Con_Variable="Rainfall",Thres=0.97)
 Con_Sampling_2D<-function(Data_Detrend,Data_Declust,Con_Variable,Thres=0.97){
-  if(class(Data_Detrend[,1])=="Date" | class(Data_Detrend[,1])=="factor" | class(Data_Detrend[,1])=="POSIXct"){
+  if(class(Data_Detrend[,1])=="Date" | class(Data_Detrend[,1])=="factor" | class(Data_Detrend[,1])[1]=="POSIXct"){
     Data_Detrend<-Data_Detrend[,-1]
   }
-  if(class(Data_Declust[,1])=="Date" | class(Data_Declust[,1])=="factor" | class(Data_Declust[,1])=="POSIXct"){
+  if(class(Data_Declust[,1])=="Date" | class(Data_Declust[,1])=="factor" | class(Data_Declust[,1])[1]=="POSIXct"){
     Data_Declust<-Data_Declust[,-1]
   }
   if(is.numeric(Con_Variable)==FALSE){
