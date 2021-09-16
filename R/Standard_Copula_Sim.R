@@ -30,7 +30,7 @@ Standard_Copula_Sim<-function(Data,Marginals,Copula,mu=365.25,N=10000){
   x<-matrix(0,nrow=nrow(u),ncol=ncol(u))
   for(i in 1:(ncol(Data)-1)){
     x[,i]<-as.numeric(quantile(na.omit(Data[,(i+1)]),u[,i]))
-    x[which(x[,i]>(Marginals$models[i][[1]]$threshold)),i]<-u2gpd(u[which(x[,i]>Marginals$models[i][[1]]$threshold),i], p = Marginals$models[[i]]$rate, th=Marginals$models[i][[1]]$threshold, sigma=exp(Marginals$models[i][[1]]$par[1]),xi=Marginals$models[i][[1]]$par[2])
+    x[which(x[,i]>(Marginals$models[i][[1]]$threshold)),i]<-u2gpd(u[which(x[,i]>Marginals$models[i][[1]]$threshold),i], p = 1-Marginals$mqu[i], th=Marginals$models[i][[1]]$threshold, sigma=exp(Marginals$models[i][[1]]$par[1]),xi=Marginals$models[i][[1]]$par[2])
   }
   x<-data.frame(x)
   colnames(x)<-names(Data[2:(ncol(Data))])
@@ -42,7 +42,7 @@ Standard_Copula_Sim<-function(Data,Marginals,Copula,mu=365.25,N=10000){
   x<-matrix(0,nrow=nrow(u),ncol=ncol(u))
   for(i in 1:(ncol(Data))){
       x[,i]<-as.numeric(quantile(na.omit(Data[,i]),u[,i]))
-      x[which(x[,i]>(Marginals$models[i][[1]]$threshold)),i]<-u2gpd(u[which(x[,i]>Marginals$models[i][[1]]$threshold),i], p = Marginals$models[[i]]$rate, th=Marginals$models[i][[1]]$threshold, sigma=exp(Marginals$models[i][[1]]$par[1]),xi=Marginals$models[i][[1]]$par[2])
+      x[which(x[,i]>(Marginals$models[i][[1]]$threshold)),i]<-u2gpd(u[which(x[,i]>Marginals$models[i][[1]]$threshold),i], p = 1-Marginals$mqu[i], th=Marginals$models[i][[1]]$threshold, sigma=exp(Marginals$models[i][[1]]$par[1]),xi=Marginals$models[i][[1]]$par[2])
   }
   x<-data.frame(x)
   colnames(x)<-names(Data[1:ncol(Data)])

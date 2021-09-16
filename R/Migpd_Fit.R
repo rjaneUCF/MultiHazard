@@ -3,6 +3,7 @@
 #' Fit multiple independent generalized Pareto models to each column of a data frame. Edited version of the \code{migpd} function in \code{texmex}, to allow for \code{NA}s in a time series.
 #'
 #' @param Data A data frame with \code{n} columns, each comprising a declustered and if necessary detrended time series to be modelled.
+#' @param Data_Full A data frame with \code{n} columns, each comprising the original (detrended if necessary) time series to be modelled. Only required if threshold is specified using \code{mqu}.
 #' @param mth Marginal thresholds, above which generalized Pareto models are fitted. Numeric vector of length \code{n}.
 #' @param mqu Marginal quantiles, above which generalized Pareto models are fitted. \strong{Only one of \code{mth} and \code{mqu} should be supplied.} Numeric vector of length \code{n}.
 #' @param penalty See \code{\link{ggplot.migpd}}.
@@ -18,20 +19,25 @@
 #' S22.GPD<-Migpd_Fit(Data=S22.Detrend.Declustered.df, mqu =c(0.99,0.99,0.99))
 #' #Without date as first column
 #' S22.GPD<-Migpd_Fit(Data=S22.Detrend.Declustered.df[,-1], mqu =c(0.99,0.99,0.99))
+#' #Same GPDs fit as above but thresholds given on the original scale
+#' S22.Rainfall.Quantile<-quantile(na.omit(S22.Detrend.Declustered.df$Rainfall),0.99)
+#' S22.OsWL.Quantile<-quantile(na.omit(S22.Detrend.Declustered.df$OsWL),0.99)
+#' S22.GW.Quantile<-quantile(na.omit(S22.Detrend.Declustered.df$Groundwater),0.99)
+#' S22.GPD<-Migpd_Fit(Data=S22.Detrend.Declustered.df[,-1], mqu =c(S22.Rainfall.Quantile,S22.OsWL.Quantile,S22.GW.Quantile))
 Migpd_Fit<-function (Data, Data_Full=NA, mth, mqu, penalty = "gaussian", maxit = 10000,
                       trace = 0, verbose = FALSE, priorParameters = NULL){
 
   if(class(Data[,1])=="Date" | class(Data[,1])=="factor"){
-  data<-Data[,-1]
+  data <- Data[,-1]
   } else {
-  data = Data
+  data <- Data
   }
 
   if(missing(mth)){
   if(class(Data_Full[,1])=="Date" | class(Data_Full[,1])=="factor"){
-    data_full<-Data_Full[,-1]
+    data_full <- Data_Full[,-1]
   } else {
-    data_full = Data_Full
+    data_full <- Data_Full
   }
   }
 
@@ -50,14 +56,12 @@ Migpd_Fit<-function (Data, Data_Full=NA, mth, mqu, penalty = "gaussian", maxit =
   if (!missing(mqu))
     mqu <- rep(mqu, length = d)
   if (missing(mqu))
-    mqu <- sapply(1:d, function(i, x, mth) 1 - mean(x[, i] >
-                                                      mth[i]), x = data, mth = mth)
+    mqu <- sapply(1:d, function(i, x, mth) 1 - mean(x[, i] > mth[i]), x = data, mth = mth)
   if (missing(mth)){
     mth<-numeric(d)
   for(i in 1:d){
-    x = data
-    prob = mqu[i]
-    mth[i] <- quantile(na.omit(data_full[,i]), prob = prob)
+    prob <- mqu[i]
+    mth[i] <- quantile(na.omit(data_full[,i]), prob)
   }
   }
   if (penalty %in% c("quadratic", "gaussian") & is.null(priorParameters)) {

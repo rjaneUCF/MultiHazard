@@ -11,6 +11,7 @@ Plot.RI.evm<-function(Data,model,mu,min.RI=1,max.RI=1000,y.lab="Return Level",ma
   plot(log10(seq(min.RI,max.RI,0.1)),RI.Estimate,type='l',xlim=c(log10(min.RI),log10(max.RI)),ylim=c(min(RI.Lower),max(RI.Upper)),xlab=expression('log'[10]*'(Return Period)'),ylab=y.lab,main=main.RI,cex.axis=Cex.axis,cex.lab=Cex.lab)
   lines(log10(seq(min.RI,max.RI,0.1)),RI.Upper,col=4)
   lines(log10(seq(min.RI,max.RI,0.1)),RI.Lower,col=4)
-  points(log10((length(Data) + 1) / ((1:length(Data) * mu)))[1:length(which((length(Data) + 1) / ((1:length(Data) * mu))>min.RI))],
-         rev(sort(Data))[1:length(which((length(Data) + 1) / ((1:length(Data) * mu))>min.RI))],pch=16)
+  Data<-Data[which(Data>model$threshold)]
+  points(log10((length(Data) + 1) / ((1:length(Data) * model$rate * mu)))[1:length(which((length(Data) + 1) / ((1:length(Data) * model$rate* mu))>min.RI))],
+         rev(sort(Data))[1:length(which((length(Data) + 1) / ((1:length(Data) * model$rate * mu))>min.RI))],pch=16)
 }

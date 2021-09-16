@@ -216,7 +216,7 @@ predict.mex.conditioned <- function(object, which, pqu = .99, nsim = 1000, trace
     CondLargest <- sim[,dim(sim)[2]]
 
     z<- sim[,(2*ncol(migpd$data)+1):(dim(sim)[2]-1)]
-    #transformed <- sim[,(((dim(sim)[2]-1)/2)+1):(dim(sim)[2]-1)]
+
     transformed <- sim[,(ncol(migpd$data)+1):(2*ncol(migpd$data))]
     #sim <- sim[,1:((dim(sim)[2]-1)/2)]
     sim <- sim[,1:ncol(migpd$data)]
