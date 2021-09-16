@@ -4,17 +4,32 @@
 \alias{Copula_Threshold_2D_Lag}
 \title{Copula Selection With Threshold 2D - Fit}
 \usage{
-Copula_Threshold_2D_Lag(Data_Detrend, Data_Declust, Thres1 = seq(0.9,
-  0.99, 0.01), Thres2 = seq(0.9, 0.99, 0.01), Lag_Backward_Var1,
-  Lag_Forward_Var1, Lag_Backward_Var2, Lag_Forward_Var2,
-  x_lim_min = min(c(Thres1, Thres2)), x_lim_max = max(c(Thres1,
-  Thres2)), y_lim_min = -1, y_lim_max = 1, Upper = 0, Lower = 0,
-  GAP = 0.05, Legend = TRUE)
+Copula_Threshold_2D_Lag(
+  Data_Detrend,
+  Data_Declust,
+  Thres1 = seq(0.9, 0.99, 0.01),
+  Thres2 = seq(0.9, 0.99, 0.01),
+  PLOT = TRUE,
+  Lag_Backward_Var1,
+  Lag_Forward_Var1,
+  Lag_Backward_Var2,
+  Lag_Forward_Var2,
+  x_lim_min = min(c(Thres1, Thres2)),
+  x_lim_max = max(c(Thres1, Thres2)),
+  y_lim_min = -1,
+  y_lim_max = 1,
+  Upper = 0,
+  Lower = 0,
+  GAP = 0.05,
+  Legend = TRUE
+)
 }
 \arguments{
 \item{Data_Detrend}{Data frame containing two at least partially concurrent time series, detrended if necessary. Time steps must be equally spaced, with missing values assigned \code{NA}.}
 
 \item{Data_Declust}{Data frame containing two (independently) declustered at least partially concurrent time series. Time steps must be equally spaced, with missing values assigned \code{NA}.}
+
+\item{PLOT}{Logical; whether to plot the results. Default is \code{"TRUE"}.}
 
 \item{Lag_Backward_Var1}{Numeric vector of length one specifying the negative lag applied to variable in the first column of \code{Data_Detrend}. Default \code{0}.}
 

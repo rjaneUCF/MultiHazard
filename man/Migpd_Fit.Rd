@@ -4,11 +4,22 @@
 \alias{Migpd_Fit}
 \title{Fits Multiple independent generalized Pareto models - Fit}
 \usage{
-Migpd_Fit(Data, mth, mqu, penalty = "gaussian", maxit = 10000,
-  trace = 0, verbose = FALSE, priorParameters = NULL)
+Migpd_Fit(
+  Data,
+  Data_Full = NA,
+  mth,
+  mqu,
+  penalty = "gaussian",
+  maxit = 10000,
+  trace = 0,
+  verbose = FALSE,
+  priorParameters = NULL
+)
 }
 \arguments{
 \item{Data}{A data frame with \code{n} columns, each comprising a declustered and if necessary detrended time series to be modelled.}
+
+\item{Data_Full}{A data frame with \code{n} columns, each comprising the original (detrended if necessary) time series to be modelled. Only required if threshold is specified using \code{mqu}.}
 
 \item{mth}{Marginal thresholds, above which generalized Pareto models are fitted. Numeric vector of length \code{n}.}
 
@@ -35,6 +46,11 @@ Fit multiple independent generalized Pareto models to each column of a data fram
 S22.GPD<-Migpd_Fit(Data=S22.Detrend.Declustered.df, mqu =c(0.99,0.99,0.99))
 #Without date as first column
 S22.GPD<-Migpd_Fit(Data=S22.Detrend.Declustered.df[,-1], mqu =c(0.99,0.99,0.99))
+#Same GPDs fit as above but thresholds given on the original scale
+S22.Rainfall.Quantile<-quantile(na.omit(S22.Detrend.Declustered.df$Rainfall),0.99)
+S22.OsWL.Quantile<-quantile(na.omit(S22.Detrend.Declustered.df$OsWL),0.99)
+S22.GW.Quantile<-quantile(na.omit(S22.Detrend.Declustered.df$Groundwater),0.99)
+S22.GPD<-Migpd_Fit(Data=S22.Detrend.Declustered.df[,-1], mqu =c(S22.Rainfall.Quantile,S22.OsWL.Quantile,S22.GW.Quantile))
 }
 \seealso{
 \code{\link{Decluster}} \code{\link{Detrend}} \code{\link{Dataframe_Combine}}

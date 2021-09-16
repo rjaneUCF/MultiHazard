@@ -4,17 +4,31 @@
 \alias{GPD_Fit}
 \title{Fits a single generalized Pareto distribution - Fit}
 \usage{
-GPD_Fit(Data, Data_Full, u = 0.95, mu = 365.25, min.RI = 1,
-  PLOT = FALSE, xlab_hist = "Data", y_lab = "Data")
+GPD_Fit(
+  Data,
+  Data_Full,
+  u = 0.95,
+  Thres = NA,
+  mu = 365.25,
+  Method = "Standard",
+  min.RI = 1,
+  PLOT = FALSE,
+  xlab_hist = "Data",
+  y_lab = "Data"
+)
 }
 \arguments{
 \item{Data}{Numeric vector containing the declusted data.}
 
 \item{Data_Full}{Numeric vector containing the non-declustered data.}
 
-\item{u}{GPD threshold; as a quantile \code{[0,1]} of \code{Data} vector. Default is \code{0.95}.}
+\item{u}{GPD threshold expressed as a quantile \code{[0,1]} of \code{Data} vector. Default is \code{0.95}.}
+
+\item{Thres}{GPD threshold expressed on the original scale of the \code{"Data"}. Only one of \code{"u"} and \code{"Thres"} should be supplied. Default is \code{NA}.}
 
 \item{mu}{Numeric vector of length one specifying (average) occurrence frequency of events in the \code{Data_Full} input. Default is \code{365.25}.}
+
+\item{Method}{Character vector of length one specifying the method of choosing the threshold. \code{"Standard"} (default) chooses the exact threshold specified aswither \code{"u"} or \code{"th"}, whereas \code{"Solari"} selects the minimum exceedence of the \code{"Data"} above the user-specified threshold.}
 
 \item{min.RI}{Numeric vector of length one specifying the minimum return period in the return level plot. Default is \code{1}.}
 

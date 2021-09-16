@@ -112,17 +112,17 @@ Graphical output: \itemize{
 A large number of realizations are simulated from the copulas fit to the conditioned samples, in proportion with the sizes of the conditional samples. The realization are transformed to the original scale and the relevant probabilities estimated empirically.
 }
 \examples{
-#Under a 10yr (or greater) rainfall event condition, what is the joint probability that a 10yr O-sWL 
-#event occurs simultaneously?  What is the cumulative probability of events with the frequency equal 
+#Under a 10yr (or greater) rainfall event condition, what is the joint probability that a 10yr O-sWL
+#event occurs simultaneously?  What is the cumulative probability of events with the frequency equal
 #to or less than a 10yr O-sWL event?
 Conditional_RP_2D(Data=S22.Detrend.df,
-                  Data_Con1=con.sample.Rainfall$Data, Data_Con2=con.sample.OsWL$Data, 
-                  Thres1=0.98, Thres2=0.98, 
+                  Data_Con1=con.sample.Rainfall$Data, Data_Con2=con.sample.OsWL$Data,
+                  Thres1=0.98, Thres2=0.98,
                   Copula_Family1=cop.Rainfall,Copula_Family2=cop.OsWL,
-                  Marginal_Dist1="Logis", Marginal_Dist2="BS", 
-                  Con1 = "Rainfall", Con2 = "OsWL", 
-                  mu = 365.25, 
-                  Con_Var="Rainfall", 
+                  Marginal_Dist1="Logis", Marginal_Dist2="BS",
+                  Con1 = "Rainfall", Con2 = "OsWL",
+                  mu = 365.25,
+                  Con_Var="Rainfall",
                   RP_Con=10, RP_Non_Con=10,
                   x_lab = "Rainfall (Inches)", y_lab = "O-sWL (ft NGVD 29)",
                   y_lim_max = 10,
