@@ -19,6 +19,9 @@
 #' points(S13_Precip[S13_Precip_Totals_Declust$EventID,1],S13_Precip_Totals_Declust$Window_Width_Sum_Totals[S13_Precip_Totals_Declust$EventID],col=2,pch=16)
 Decluster_S_SW<-function(Data, Window_Width_Sum, Window_Width_Sum_Type="Center", Window_Width) {
 
+  #Index of NA elements will be added to z
+  z<-0
+
   #Assigning any NA values to a very small number relative to the data
   if (length(which(is.na(Data[,2]) == T)) > 0) {
     z <- which(is.na(Data[,2]) == T)
