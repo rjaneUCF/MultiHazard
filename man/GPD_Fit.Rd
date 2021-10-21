@@ -24,7 +24,7 @@ GPD_Fit(
 
 \item{u}{GPD threshold expressed as a quantile \code{[0,1]} of \code{Data} vector. Default is \code{0.95}.}
 
-\item{Thres}{GPD threshold expressed on the original scale of the \code{"Data"}. Only one of \code{"u"} and \code{"Thres"} should be supplied. Default is \code{NA}.}
+\item{Thres}{GPD threshold expressed on the original scale of the \code{"Data"}. Only one of \code{u} and \code{Thres} should be supplied. Default is \code{NA}.}
 
 \item{mu}{Numeric vector of length one specifying (average) occurrence frequency of events in the \code{Data_Full} input. Default is \code{365.25}.}
 

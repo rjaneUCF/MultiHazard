@@ -4,12 +4,7 @@
 \alias{Decluster_S_SW}
 \title{Declusters a Summed time series using a moving (Storm) Window approach}
 \usage{
-Decluster_S_SW(
-  Data,
-  Window_Width_Sum,
-  Window_Width_Sum_Type = "Center",
-  Window_Width
-)
+Decluster_S_SW(Data, Window_Width_Sum, Window_Width)
 }
 \arguments{
 \item{Data}{Data frame containing two columns. In column: \itemize{
@@ -18,8 +13,6 @@ Decluster_S_SW(
 }}
 
 \item{Window_Width_Sum}{Numeric vector of length one specifying the window width over which to sum the data. If \code{Window_Width_Sum_Type="Center"} then \code{Window_Width_Sum} must be even, if odd number is specified rounded down to the lowest odd number.}
-
-\item{Window_Width_Sum_Type}{Character vector of length one specifying the Window_Width_Sum type. If \code{Window_Width_Sum_Type="Center"} (default) then the \code{Window_Width_Sum_Totals} are the sum of the observations in a window centered on the current observation, whereas if \code{Window_Width_Sum_Type="End"} then the \code{Window_Width_Sum_Totals} are the sum of the preceding \code{Window_Width_Sum}-1 observations plus the current observation.}
 
 \item{Window_Width}{Numeric vector of length one specifying the width, in days, of the window used to ensure events are independent.}
 }

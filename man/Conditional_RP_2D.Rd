@@ -20,6 +20,8 @@ Conditional_RP_2D(
   Con_Var,
   RP_Con,
   RP_Non_Con,
+  Var1,
+  Var2,
   x_lab = "Rainfall (mm)",
   y_lab = "O-sWL (mNGVD 29)",
   x_lim_min = NA,
@@ -83,15 +85,17 @@ Return period of variable Con1 i.e., variable in second column of \code{Data}
 \item RP_Var2
 Return period of variable Con2 i.e., variable in third column of \code{Data}
 \item Var1
-Value of Con1 at the return period of interest
+Value of Con1 at the return period of interest i.e. RP_Var1
 \item Var2
-Value of Con2 at the return period of interest
+Value of Con2 at the return period of interest i.e. RP_Var2
 \item RP_Full_Dependence
 Joint return period of the (Var1,Var2) event under full dependence
 \item RP_Independence
 Joint return period of the (Var1,Var2) event under independence
 \item RP_Copula
 Joint return period of the (Var1,Var2) event according to the two sided conditional sampling - copula theory approach
+\item Prob
+Probability associated with \code{RP_Copula}
 \item N_Excess
 Number of realizations of the \code{Con_Var} above \code{RP_Con}-year return period value
 \item Non_Con_Var_X
@@ -102,14 +106,15 @@ Values of the non-conditioned variable of the (conditional) Cummulative Distribu
 Probability the non-conditioned variable is less than or equal to \code{RP_Non_Con} given the return period of \code{Con_Var} exceeds \code{RP_Con}
 }
 Graphical output: \itemize{
-\item Top Left: Sample conditioned on rainfall (red crosses) and O-sWL (blue circles). Black dot is the event with a marginal return period of the conditioned variable \code{Var_Con} and non-conditioned variable equal to \code{RP_Con} and \code{RP_Non_Con}, respectively. The joint return period of the event using the conditional sampling - copula theory approach and under the assumptions of full dependence and independence between the variables are printed.
-\item Top Right: Sample used to estimate the joint return period of the event of interest. Black dots denote the \code{N_Excess} sized subset of the sample where the marginal return period of the conditioned variable \code{Var_Con} exceeds \code{RP_Con} (years). The subset is used to estimate the conditional probabilities in part two of the question.
-\item Bottom Left: Conditional Cumulative Distribution Function (CDF) of the non-conditioned variable given the marginal return period of the conditioned variable \code{Var_Con} exceeds \code{RP_Con} years i.e. the black dots in the top right plot.
-\item Bottom Right: Conditional return period of the non-conditioned variable given the conditioned variable \code{Var_Con} has a return period longer than \code{RP_Con}.
+\item Top left: Sample conditioned on Con1 (red crosses) and Con2 (blue circles). Black dot is the event with a marginal return period of the conditioned variable \code{Var_Con} and non-conditioned variable equal to \code{RP_Con} and \code{RP_Non_Con}, respectively. The joint return period of the event using the conditional sampling - copula theory approach and under the assumptions of full dependence and independence between the variables are printed.
+\item Top right: Sample conditioned on Con1 (red crosses) and Con2 (blue circles). Only the region where Con_Var exceeds RP_Con is visible. This is the region for which the conditional distribution (of the non-conditioned variable given Con_Var exceeds RP_Con) and in turn conditional return periods are calculated.
+\item Bottom left: Conditional Cumulative Distribution Function (CDF) of the non-conditioned variable given the marginal return period of the conditioned variable \code{Var_Con} exceeds \code{RP_Con} years i.e. the black dots in the top right plot.
+\item Bottom right: Conditional return period of the non-conditioned variable given the conditioned variable \code{Var_Con} has a return period longer than \code{RP_Con}.
 }
 }
 \description{
-A large number of realizations are simulated from the copulas fit to the conditioned samples, in proportion with the sizes of the conditional samples. The realization are transformed to the original scale and the relevant probabilities estimated empirically.
+Univariate return period events are obtained from the GPDs to be consistent with the isolines produced by the \code{Design_Event_2D} function.
+To find the conditional probabilities a large number of realizations are simulated from the copulas fit to the conditioned samples, in proportion with the sizes of the conditional samples. The realizations are transformed to the original scale and the relevant probabilities estimated empirically.
 }
 \examples{
 #Under a 10yr (or greater) rainfall event condition, what is the joint probability that a 10yr O-sWL

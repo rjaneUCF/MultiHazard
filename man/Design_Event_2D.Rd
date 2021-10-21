@@ -18,6 +18,7 @@ Design_Event_2D(
   Con2 = "OsWL",
   mu = 365.25,
   RP,
+  Interval = 10000,
   x_lab = "Rainfall (mm)",
   y_lab = "O-sWL (mNGVD 29)",
   x_lim_min = NA,
@@ -26,7 +27,8 @@ Design_Event_2D(
   y_lim_max = NA,
   N = 10^6,
   N_Ensemble = 0,
-  Sim_Max = 10
+  Sim_Max = 10,
+  Plot_Quantile_Isoline = FALSE
 )
 }
 \arguments{
@@ -56,6 +58,8 @@ Design_Event_2D(
 
 \item{RP}{Numeric vector specifying the return periods of interest.}
 
+\item{Interval}{Numeric vector specifying the number of equally spaced points comprising the combined isoline.}
+
 \item{x_lab}{Character vector specifying the x-axis label.}
 
 \item{y_lab}{Character vector specifying the y-axis label.}
@@ -73,6 +77,8 @@ Design_Event_2D(
 \item{N_Ensemble}{Numeric vector of length one specifying the number of possible design events sampled along the isoline of interest.}
 
 \item{Sim_Max}{Numeric vector of length one specifying the maximum value, given as a multiple of the largest observation of each variable, permitted in the sample used to estimate the (relative) probabilities along the isoline.}
+
+\item{Plot_Quantile_Isoline}{Logical; indicating whether to first plot the quantile isoline. Default is FALSE.}
 }
 \value{
 Plot of all the observations (grey circles) as well as the declustered excesses above Thres1 (blue circles) or Thres2 (blue circles), observations may belong to both conditional samples. Also shown is the isoline associated with \code{RP} contoured according to their relative probability of occurrence on the basis of the sample from the two joint distributions, the "most likely" design event (black diamond), and design event under the assumption of full dependence (black triangle) are also shown in the plot. The function also returns a list comprising the design events assuming full dependence \code{"FullDependence"}, as well as once the dependence between the variables is accounted for the "Most likley" \code{"MostLikelyEvent"} as well as an \code{"Ensemble"} of possible design events.
@@ -99,7 +105,9 @@ Design_Event_2D(Data=S22.Detrend.df[,-c(1,4)],
                Data_Con1=S22.Rainfall$Data, Data_Con2=S22.OsWL$Data,
                Thres1=0.97, Thres2=0.97,
                Copula_Family1=S22.Copula.Rainfall, Copula_Family2=S22.Copula.OsWL,
-               Marginal_Dist1="Logis", Marginal_Dist2="Twe",RP=100,N=10,N_Ensemble=10)
+               Marginal_Dist1="Logis", Marginal_Dist2="Twe",
+               RP=100,Interval=10000,N=10,N_Ensemble=10,
+               Plot_Quantile_Isoline=FALSE)
 }
 \seealso{
 \code{\link{Copula_Threshold_2D}} \code{\link{Diag_Non_Con}} \code{\link{Diag_Non_Con_Trunc}}

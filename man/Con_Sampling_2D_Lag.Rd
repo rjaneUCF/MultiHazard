@@ -4,8 +4,15 @@
 \alias{Con_Sampling_2D_Lag}
 \title{Conditionally sampling a two dimensional dataset}
 \usage{
-Con_Sampling_2D_Lag(Data_Detrend, Data_Declust, Con_Variable,
-  Thres = 0.97, Lag_Backward = 0, Lag_Forward = 0)
+Con_Sampling_2D_Lag(
+  Data_Detrend,
+  Data_Declust,
+  Con_Variable,
+  u = 0.97,
+  Thres,
+  Lag_Backward = 0,
+  Lag_Forward = 0
+)
 }
 \arguments{
 \item{Data_Detrend}{Data frame containing two at least partially concurrent time series, detrended if necessary. Time steps must be equally spaced, with missing values assigned \code{NA}. First object may be a \code{"Date"} object. Can be \code{Dataframe_Combine} output.}
@@ -14,14 +21,16 @@ Con_Sampling_2D_Lag(Data_Detrend, Data_Declust, Con_Variable,
 
 \item{Con_Variable}{Column number (1 or 2) or the column name of the conditioning variable. Default is \code{1}.}
 
-\item{Thres}{Threshold, as a quantile of the observations of the conditioning variable. Default is \code{0.97}.}
+\item{u}{Threshold, as a quantile of the observations of the conditioning variable. Default is \code{0.97}.}
+
+\item{Thres}{Threshold expressed on the original scale of the observations. Only one of \code{u} and \code{Thres} should be supplied. Default is \code{NA}.}
 
 \item{Lag_Backward}{Positieve lag applied to variable not assigned as the \code{Con_Variable}. Default is \code{0}}
 
 \item{Lag_Forward}{Negative lag to variable not assigned as the \code{Con_Variable}. Default is \code{0}}
 }
 \value{
-List comprising the specifyied \code{Threshold} as the quantile of the conditioning variable above which declustered excesses are paired with co-occurences of the other variable, the resulting two-dimensional sample \code{data} and \code{name} of the conditioning variable.
+List comprising the specified \code{Threshold} as the quantile of the conditioning variable above which declustered excesses are paired with co-occurences of the other variable, the resulting two-dimensional sample \code{data} and \code{name} of the conditioning variable. The index of the input dataset that correspond to the events of the conditioning variable \code{x.con} and the non-conditioning variable \code{x.noncon} in the conditonal sample are also provided.
 }
 \description{
 Creates a data frame where the declustered excesses of a (conditioning) variable are paired with the maximum value of a second variable over a specified lag.
@@ -29,5 +38,5 @@ Creates a data frame where the declustered excesses of a (conditioning) variable
 \examples{
 S20.Rainfall<-Con_Sampling_2D(Data_Detrend=S20.Detrend.df[,-c(1,4)],
                               Data_Declust=S20.Detrend.Declustered.df[,-c(1,4)],
-                              Con_Variable="Rainfall",Thres=0.97)
+                              Con_Variable="Rainfall",u=0.97)
 }
