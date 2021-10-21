@@ -15,6 +15,7 @@
 #' @param Con2 Character vector of length one specifying the name of variable in the second column of \code{Data}.
 #' @param mu Numeric vector of length one specifying the (average) occurrence frequency of events in \code{Data}. Default is \code{365.25}, daily data.
 #' @param RP Numeric vector specifying the return periods of interest.
+#' @param Interval Numeric vector specifying the number of equally spaced points comprising the combined isoline.
 #' @param x_lab Character vector specifying the x-axis label.
 #' @param y_lab Character vector specifying the y-axis label.
 #' @param x_lim_min Numeric vector of length one specifying x-axis minimum. Default is \code{NA}.
@@ -47,8 +48,10 @@
 #'                Data_Con1=S22.Rainfall$Data, Data_Con2=S22.OsWL$Data,
 #'                Thres1=0.97, Thres2=0.97,
 #'                Copula_Family1=S22.Copula.Rainfall, Copula_Family2=S22.Copula.OsWL,
-#'                Marginal_Dist1="Logis", Marginal_Dist2="Twe",RP=100,N=10,N_Ensemble=10)
-Design_Event_2D_1<-function(Data, Data_Con1, Data_Con2, Thres1, Thres2, Copula_Family1, Copula_Family2, Marginal_Dist1, Marginal_Dist2, Con1="Rainfall",Con2="OsWL",Interval=10,mu=365.25, RP,x_lab="Rainfall (mm)",y_lab="O-sWL (mNGVD 29)",x_lim_min = NA,x_lim_max = NA,y_lim_min = NA,y_lim_max = NA,N=10^6,N_Ensemble=0,Sim_Max=10,Plot_Quantile_Isoline=FALSE){
+#'                Marginal_Dist1="Logis", Marginal_Dist2="Twe",
+#'                RP=100,Interval=10000,N=10,N_Ensemble=10,
+#'                Plot_Quantile_Isoline=FALSE)
+Design_Event_2D<-function(Data, Data_Con1, Data_Con2, Thres1, Thres2, Copula_Family1, Copula_Family2, Marginal_Dist1, Marginal_Dist2, Con1="Rainfall",Con2="OsWL",mu=365.25, RP,Interval=10000, x_lab="Rainfall (mm)",y_lab="O-sWL (mNGVD 29)",x_lim_min = NA,x_lim_max = NA,y_lim_min = NA,y_lim_max = NA,N=10^6,N_Ensemble=0,Sim_Max=10,Plot_Quantile_Isoline=FALSE){
 
   ###Preliminaries
 

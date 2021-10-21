@@ -67,21 +67,3 @@ Decluster_S_SW<-function(Data, Window_Width_Sum, Window_Width) {
   return(res)
 }
 
-Decluster_S_SW(Data=data.frame(S13_Raw_Data[1:100,1],round(rnorm(100,5,2),0)),
-               Window_Width_Sum=4,
-               Window_Width=7)
-
-Window_Width_Sum<-12
-Data=data.frame(S13_Raw_Data[1:50,1],round(rnorm(50,5,2),0))
-Sum<-c(rep(NA,round((Window_Width_Sum - Window_Width_Sum %% 2)/2,0)),c(cumsum(Data[,2])[-c(1:(Window_Width_Sum -1))]) - #,rep(0,length(c(1:(round((Window_Width_Sum + Window_Width_Sum %% 2)/2,0))))))
-       c(0,cumsum(Data[,2])[-c((length(Data[,2])-Window_Width_Sum+1):length(Data[,2]))]),
-       rep(NA,round((Window_Width_Sum + Window_Width_Sum %% 2)/2-1,0)))
-Sum
-
-Window_Width_Sum<-5
-c(cumsum(Data[,2])[-c(1:(Window_Width_Sum -1))]) - #,rep(0,length(c(1:(round((Window_Width_Sum + Window_Width_Sum %% 2)/2,0))))))
-c(0,cumsum(Data[,2])[-c((length(Data[,2])-Window_Width_Sum+1):length(Data[,2]))])
-
-v<-Decluster_S_SW(Data=S13_Raw_Data[,1:2], Window_Width_Sum=12, Window_Width=7*24)
-plot(S13_Raw_Data[,1],v$Totals,pch=16)
-points(S13_Raw_Data[,1],v$Declustered,col=2,pch=16)
