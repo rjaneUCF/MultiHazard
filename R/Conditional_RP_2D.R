@@ -1,6 +1,7 @@
 #' Calculates joint and conditional return periods
 #'
-#' A large number of realizations are simulated from the copulas fit to the conditioned samples, in proportion with the sizes of the conditional samples. The realization are transformed to the original scale and the relevant probabilities estimated empirically.
+#' Univariate return period events are obtained from the GPDs to be consistent with the isolines produced by the \code{Design_Event_2D} function.
+#' To find the conditional probabilities a large number of realizations are simulated from the copulas fit to the conditioned samples, in proportion with the sizes of the conditional samples. The realizations are transformed to the original scale and the relevant probabilities estimated empirically.
 #'
 #' @param Data Data frame of dimension \code{nx2} containing two co-occurring time series of length \code{n}.
 #' @param Data_Con1 Data frame containing the conditional sample (declustered excesses paired with concurrent values of other variable), conditioned on the variable in the first column.
@@ -32,15 +33,17 @@
 #' \item RP_Var2
 #' Return period of variable Con2 i.e., variable in third column of \code{Data}
 #' \item Var1
-#' Value of Con1 at the return period of interest
+#' Value of Con1 at the return period of interest i.e. RP_Var1
 #' \item Var2
-#' Value of Con2 at the return period of interest
+#' Value of Con2 at the return period of interest i.e. RP_Var2
 #' \item RP_Full_Dependence
 #' Joint return period of the (Var1,Var2) event under full dependence
 #' \item RP_Independence
 #' Joint return period of the (Var1,Var2) event under independence
 #' \item RP_Copula
 #' Joint return period of the (Var1,Var2) event according to the two sided conditional sampling - copula theory approach
+#' \item Prob
+#' Probability associated with \code{RP_Copula}
 #' \item N_Excess
 #' Number of realizations of the \code{Con_Var} above \code{RP_Con}-year return period value
 #' \item Non_Con_Var_X
@@ -51,10 +54,10 @@
 #' Probability the non-conditioned variable is less than or equal to \code{RP_Non_Con} given the return period of \code{Con_Var} exceeds \code{RP_Con}
 #' }
 #' Graphical output: \itemize{
-#' \item Top Left: Sample conditioned on rainfall (red crosses) and O-sWL (blue circles). Black dot is the event with a marginal return period of the conditioned variable \code{Var_Con} and non-conditioned variable equal to \code{RP_Con} and \code{RP_Non_Con}, respectively. The joint return period of the event using the conditional sampling - copula theory approach and under the assumptions of full dependence and independence between the variables are printed.
-#' \item Top Right: Sample used to estimate the joint return period of the event of interest. Black dots denote the \code{N_Excess} sized subset of the sample where the marginal return period of the conditioned variable \code{Var_Con} exceeds \code{RP_Con} (years). The subset is used to estimate the conditional probabilities in part two of the question.
-#' \item Bottom Left: Conditional Cumulative Distribution Function (CDF) of the non-conditioned variable given the marginal return period of the conditioned variable \code{Var_Con} exceeds \code{RP_Con} years i.e. the black dots in the top right plot.
-#' \item Bottom Right: Conditional return period of the non-conditioned variable given the conditioned variable \code{Var_Con} has a return period longer than \code{RP_Con}.
+#' \item Top left: Sample conditioned on Con1 (red crosses) and Con2 (blue circles). Black dot is the event with a marginal return period of the conditioned variable \code{Var_Con} and non-conditioned variable equal to \code{RP_Con} and \code{RP_Non_Con}, respectively. The joint return period of the event using the conditional sampling - copula theory approach and under the assumptions of full dependence and independence between the variables are printed.
+#' \item Top right: Sample conditioned on Con1 (red crosses) and Con2 (blue circles). Only the region where Con_Var exceeds RP_Con is visible. This is the region for which the conditional distribution (of the non-conditioned variable given Con_Var exceeds RP_Con) and in turn conditional return periods are calculated.
+#' \item Bottom left: Conditional Cumulative Distribution Function (CDF) of the non-conditioned variable given the marginal return period of the conditioned variable \code{Var_Con} exceeds \code{RP_Con} years i.e. the black dots in the top right plot.
+#' \item Bottom right: Conditional return period of the non-conditioned variable given the conditioned variable \code{Var_Con} has a return period longer than \code{RP_Con}.
 #' }
 #' @seealso \code{\link{Design_Event_2D}}
 #' @export
@@ -74,37 +77,47 @@
 #'                   x_lab = "Rainfall (Inches)", y_lab = "O-sWL (ft NGVD 29)",
 #'                   y_lim_max = 10,
 #'                   N=10^7)
-Conditional_RP_2D<-function(Data, Data_Con1, Data_Con2, Thres1, Thres2, Copula_Family1,
-                            Copula_Family2, Marginal_Dist1, Marginal_Dist2, Con1 = "Rainfall",
-                            Con2 = "OsWL", mu = 365.25, Con_Var, RP_Con, RP_Non_Con, x_lab = "Rainfall (mm)",
-                            y_lab = "O-sWL (mNGVD 29)", x_lim_min = NA, x_lim_max = NA,
-                            y_lim_min = NA, y_lim_max = NA, N){
-  if (class(Data[, 1]) == "Date" | class(Data[, 1]) ==
-      "factor") {
+Conditional_RP_2D<-function (Data, Data_Con1, Data_Con2, Thres1, Thres2, Copula_Family1,
+                               Copula_Family2, Marginal_Dist1, Marginal_Dist2, Con1 = "Rainfall",
+                               Con2 = "OsWL", mu = 365.25, Con_Var, RP_Con, RP_Non_Con,
+                               Var1,Var2,
+                               x_lab = "Rainfall (mm)", y_lab = "O-sWL (mNGVD 29)", x_lim_min = NA,
+                               x_lim_max = NA, y_lim_min = NA, y_lim_max = NA, N)
+{
+  ###Preliminaries
+
+  #Remove 1st column of Data if it is a Date or factor object.
+  if (class(Data[, 1]) == "Date" | class(Data[, 1]) == "factor") {
     Data <- Data[, -1]
   }
+
+  #Find the columns in Data (which should be consistent in terms of column order of the other data input objects)
+  #of conditioning variable 1 (Con1) and conditioning variable 2 (Con2).
   con1 <- which(names(Data) == Con1)
   con2 <- which(names(Data) == Con2)
-  con_var <-which(names(Data) == Con_Var)
-  RP_Var1<-ifelse(con_var==1,RP_Con,RP_Non_Con)
-  RP_Var2<-ifelse(con_var==2,RP_Con,RP_Non_Con)
-  x_min <- ifelse(is.na(x_lim_min) == T, min(na.omit(Data[,
-                                                          con1])), x_lim_min)
-  x_max <- ifelse(is.na(x_lim_max) == T, max(na.omit(Data[,
-                                                          con1])), x_lim_max)
-  y_min <- ifelse(is.na(y_lim_min) == T, min(na.omit(Data[,
-                                                          con2])), y_lim_min)
-  y_max <- ifelse(is.na(y_lim_max) == T, max(na.omit(Data[,
-                                                          con2])), y_lim_max)
-  GPD_con1 <- evm(Data_Con1[, con1], th = quantile(na.omit(Data[,con1]), Thres1), penalty = "gaussian", priorParameters = list(c(0,0), matrix(c(100^2, 0, 0, 0.25), nrow = 2)))
-  mu<-nrow(Data_Con1)/(nrow(Data[-which(is.na(Data[,con1])==F & is.na(Data[,con2])==F)])/365.25)
-  min<-round(1/GPD_con1$rate*mu,0)+1
-  p<-numeric(length(seq(min,1000,1)))
-  for(i in 1:length(seq(min,1000,1))){
-    p[i]<-rl(GPD_con1, M = mu*seq(min,1000,1)[i],ci.fit=TRUE)[[1]][1]
-  }
-  Var1<-approx(seq(min,1000,1),p,seq(0,1000,0.01))$y[which(seq(0,1000,0.01)==RP_Var1)]
+  con_var <- which(names(Data) == Con_Var)
+  RP_Var1 <- ifelse(con_var == 1, RP_Con, RP_Non_Con)
+  RP_Var2 <- ifelse(con_var == 2, RP_Con, RP_Non_Con)
 
+  #Axis limits for plots
+  x_min <- ifelse(is.na(x_lim_min) == T, min(na.omit(Data[,con1])), x_lim_min)
+  x_max <- ifelse(is.na(x_lim_max) == T, max(na.omit(Data[,con1])), x_lim_max)
+  y_min <- ifelse(is.na(y_lim_min) == T, min(na.omit(Data[,con2 ])), y_lim_min)
+  y_max <- ifelse(is.na(y_lim_max) == T, max(na.omit(Data[,con2])), y_lim_max)
+
+  ##Finding the value of variable con1 associated with a return peroid of RP_Var1
+  #Fitting the GPD
+  GPD_con1 <- evm(Data_Con1[, con1], th = quantile(na.omit(Data[,con1]), Thres1), penalty = "gaussian", priorParameters = list(c(0,0), matrix(c(100^2, 0, 0, 0.25), nrow = 2)))
+  #Calculate the time period spanned by the original dataset in terms of mu (only including occasions where both variables are observed).
+  time.period<-nrow(Data[which(is.na(Data[,con1]) == F & is.na(Data[, con2]) == F),])/mu
+  #Calculate the rate of occurrences of extremes (in terms of mu) in Data_Con1.
+  rate<-nrow(Data_Con1)/time.period
+  #Interarrival time
+  EL_Con1<-1/rate
+  #Value of con1 with return period RP_Var1
+  Var1<-as.numeric(u2gpd((1-EL_Con1/RP_Var1), p = 1, th=quantile(na.omit(Data[,con1]),Thres1) , sigma=exp(GPD_con1$coefficients[1]),xi= GPD_con1$coefficients[2]))
+
+  ##Fit the specified marginal distribution (Marginal_Dist1) to the variable con2 in Data_Con1.
   if (Marginal_Dist1 == "BS") {
     bdata2 <- data.frame(shape = exp(-0.5), scale = exp(0.5))
     bdata2 <- transform(bdata2, y = Data_Con1[, con2])
@@ -140,15 +153,20 @@ Conditional_RP_2D<-function(Data, Data_Con1, Data_Con2, Thres1, Thres2, Copula_F
   if (Marginal_Dist1 == "Weib") {
     marginal_non_con1 <- fitdistr(Data_Con1[, con2], "weibull")
   }
-  GPD_con2 <- evm(Data_Con2[, con2], th = quantile(na.omit(Data[,con2]), Thres2), penalty = "gaussian", priorParameters = list(c(0,0), matrix(c(100^2, 0, 0, 0.25), nrow = 2)))
-  mu<-nrow(Data_Con2)/(nrow(Data[-which(is.na(Data[,con1])==F & is.na(Data[,con2])==F)])/365.25)
-  min<-round(1/GPD_con2$rate*mu,0)+1
-  p<-numeric(length(seq(min,1000,1)))
-  for(i in 1:length(seq(min,1000,1))){
-    p[i]<-rl(GPD_con2, M = mu*seq(min,1000,1)[i],ci.fit=TRUE)[[1]][1]
-  }
-  Var2<-approx(seq(min,1000,1),p,seq(0,1000,0.01))$y[which(seq(0,1000,0.01)==RP_Var2)]
 
+  ##Finding the value of variable con2 associated with a return peroid of RP_Var2
+  #Fitting the GPD to con2 in Data_Con2
+  GPD_con2 <- evm(Data_Con2[, con2], th = quantile(na.omit(Data[,con2]), Thres2), penalty = "gaussian", priorParameters = list(c(0, 0), matrix(c(100^2, 0, 0, 0.25), nrow = 2)))
+  #Calculate the time period spanned by the original dataset in terms of mu (only including occasions where both variables are observed).
+  time.period<-nrow(Data[which(is.na(Data[,con1]) == F & is.na(Data[, con2]) == F),])/mu
+  #Calculate the rate of occurrences of extremes (in terms of mu) in Data_Con1.
+  rate<-nrow(Data_Con2)/time.period
+  #Calculate the inter-arrival time of extremes (in terms of mu) in Data_Con1.
+  EL_Con2<-1/rate
+  #Value of con2 with return period RP_Var2
+  Var2<-as.numeric(u2gpd((1-EL_Con2/RP_Var2), p = 1, th=quantile(na.omit(Data[,con2]),Thres2) , sigma=exp(GPD_con2$coefficients[1]),xi= GPD_con2$coefficients[2]))
+
+  ##Fit the specified marginal distribution (Marginal_Dist2) to the non-conditioned variable con1 in Data_Con2.
   if (Marginal_Dist2 == "BS") {
     bdata2 <- data.frame(shape = exp(-0.5), scale = exp(0.5))
     bdata2 <- transform(bdata2, y = Data_Con2[, con1])
@@ -184,15 +202,21 @@ Conditional_RP_2D<-function(Data, Data_Con1, Data_Con2, Thres1, Thres2, Copula_F
   if (Marginal_Dist2 == "Weib") {
     marginal_non_con2 <- fitdistr(Data_Con2[, con1], "weibull")
   }
-  obj1 <- BiCopSelect(pobs(Data_Con1[, 1]), pobs(Data_Con1[,
-                                                           2]), familyset = Copula_Family1, selectioncrit = "AIC",
+
+  ###Simulating sample from the joint distribution (copula+marginals) fit to the sample conditioned on Con1
+  #Fit the specified copula family (Copula_Family1) to the observations in Data_Con1.
+  obj1 <- BiCopSelect(pobs(Data_Con1[, 1]), pobs(Data_Con1[,  2]), familyset = Copula_Family1, selectioncrit = "AIC",
                       indeptest = FALSE, level = 0.05, weights = NA, rotations = TRUE,
                       se = FALSE, presel = TRUE, method = "mle")
-  sample <- BiCopSim(round(N * nrow(Data_Con1)/(nrow(Data_Con1) +
-                                                  nrow(Data_Con2)), 0), obj1)
-  cop.sample1.con <- u2gpd(sample[, con1], p = 1, th = quantile(na.omit(Data[,
-                                                                             con1]), Thres1), sigma = exp(GPD_con1$coefficients[1]),
-                           xi = GPD_con1$coefficients[2])
+  #Simulate a sample from the fitted copula. Out of the sample size 'N' the proportion of the sample from the
+  #copula assoicated with Data_Con1 is proportional to the size of Data_Con1 relative to Data_Con2.
+  sample <- BiCopSim(round(N * nrow(Data_Con1)/(nrow(Data_Con1) + nrow(Data_Con2)), 0), obj1)
+  #Transform the realizations of the variable con1 to the original scale using the inverse CDF (quantile function)
+  #of the GPD contained in the u2gpd function.
+  cop.sample1.con <- u2gpd(sample[, con1], p = 1, th = quantile(na.omit(Data[,con1]), Thres1), sigma = exp(GPD_con1$coefficients[1]),xi = GPD_con1$coefficients[2])
+
+  #Transform the realizations of variable con2 to the original scale using the inverse CDF (quantile function)
+  #of the selected parametric (non-extreme value) distribution (Marginal_Dist1)
   if (Marginal_Dist1 == "BS") {
     cop.sample1.non.con <- qbisa(sample[, con2], as.numeric(Coef(marginal_non_con1)[1]),
                                  as.numeric(Coef(marginal_non_con1)[2]))
@@ -233,17 +257,25 @@ Conditional_RP_2D<-function(Data, Data_Con1, Data_Con2, Thres1, Thres2, Copula_F
     cop.sample1.non.con <- qweibull(sample[, con2], shape = as.numeric(marginal_non_con1$estimate[1]),
                                     scale = as.numeric(marginal_non_con1$estimate[2]))
   }
+  #Put the realizations that have been transformed to the original scale in a data frame.
   cop.sample1 <- data.frame(cop.sample1.con, cop.sample1.non.con)
   colnames(cop.sample1) <- c("Var1", "Var2")
-  obj2 <- BiCopSelect(pobs(Data_Con2[, 1]), pobs(Data_Con2[,
-                                                           2]), familyset = Copula_Family2, selectioncrit = "AIC",
+
+  ###Simulating sample from the joint distribution (copula+marginals) fit to the sample conditioned on Con2
+  #Fit the specified copula family (Copula_Family2) to the observations in Data_Con2.
+  obj2 <- BiCopSelect(pobs(Data_Con2[, 1]), pobs(Data_Con2[,2]), familyset = Copula_Family2, selectioncrit = "AIC",
                       indeptest = FALSE, level = 0.05, weights = NA, rotations = TRUE,
                       se = FALSE, presel = TRUE, method = "mle")
-  sample <- BiCopSim(round(N * nrow(Data_Con2)/(nrow(Data_Con1) +
-                                                  nrow(Data_Con2)), 0), obj2)
-  cop.sample2.con <- u2gpd(sample[, con2], p = 1, th = quantile(na.omit(Data[,
-                                                                             con2]), Thres2), sigma = exp(GPD_con2$coefficients[1]),
-                           xi = GPD_con2$coefficients[2])
+  #Simulate a sample from the fitted copula. Out of the sample size 'N' the proportion of the sample from the
+  #copula assoicated with Data_Con1 is proportional to the size of Data_Con1 relative to Data_Con2.
+  sample <- BiCopSim(round(N * nrow(Data_Con2)/(nrow(Data_Con1) +nrow(Data_Con2)), 0), obj2)
+
+  #Transform the realizations of variable con2 to the original scale using the inverse CDF (quantile function)
+  #of the GPD contained in the u2gpd function.
+  cop.sample2.con <- u2gpd(sample[, con2], p = 1, th = quantile(na.omit(Data[,con2]), Thres2), sigma = exp(GPD_con2$coefficients[1]),xi = GPD_con2$coefficients[2])
+
+  #Transform the realizations of variable con1 to the original scale using the inverse CDF (quantile function)
+  #of the selected parametric (non-extreme value) distribution (Marginal_Dist2)
   if (Marginal_Dist2 == "BS") {
     cop.sample2.non.con <- qbisa(sample[, con1], as.numeric(Coef(marginal_non_con2)[1]),
                                  as.numeric(Coef(marginal_non_con2)[2]))
@@ -284,13 +316,23 @@ Conditional_RP_2D<-function(Data, Data_Con1, Data_Con2, Thres1, Thres2, Copula_F
     cop.sample2.non.con <- qweibull(sample[, con1], shape = as.numeric(marginal_non_con2$estimate[1]),
                                     scale = as.numeric(marginal_non_con2$estimate[2]))
   }
+  #Put the realizations that have been transformed to the original scale in a data frame.
   cop.sample2 <- data.frame(cop.sample2.non.con, cop.sample2.con)
   colnames(cop.sample2) <- c("Var1", "Var2")
+
+  #Combine the data frames containg the samples from two joint models (on the original scale)
   cop.sample <- rbind(cop.sample1, cop.sample2)
-  rate<-nrow(unique(round(rbind(Data_Con1,Data_Con2),2)))/
-    (nrow(Data[-which(is.na(Data[,con1])==F & is.na(Data[,con2])==F)])/365.25)
-  p<-1/(rate*length(which(cop.sample[,con1]>Var1 & cop.sample[,con2]>Var2))/nrow(cop.sample))
-  par(mfrow=c(2,2))
+
+  ##Calculating the joint probability
+  #Joint probability from the model conditioned on Con1
+  RP_Con2<-(EL/(1-(1-EL_Con1/RP_Var1)-(1-EL_Con1/RP_Var2)+BiCopCDF(1-EL_Con1/RP_Var1, 1-EL_Con1/RP_Var2, obj1)))
+  #Joint probability from the model conditioned on Con2
+  RP_Con1<-(EL/(1-(1-EL_Con2/RP_Var1)-(1-EL_Con2/RP_Var2)+BiCopCDF(1-EL_Con2/RP_Var1, 1-EL_Con2/RP_Var2, obj2)))
+  #Joint return period will be maximum of the retunr periods from the two models
+  RP_Copula<-max(RP_Con1,RP_Con2)
+
+  #Plotting the results so far
+  par(mfrow = c(2, 2))
   par(mar = c(4.5, 4.2, 0.5, 0.5))
   plot(Data[, con1], Data[, con2], xlim = c(x_min, x_max),
        ylim = c(y_min, y_max), col = "Light Grey", xlab = x_lab,
@@ -298,46 +340,103 @@ Conditional_RP_2D<-function(Data, Data_Con1, Data_Con2, Thres1, Thres2, Copula_F
   points(Data_Con1[, con1], Data_Con1[, con2], col = 4, cex = 1.5)
   points(Data_Con2[, con1], Data_Con2[, con2], col = "Red",
          pch = 4, cex = 1.5)
-  points(Var1,Var2,pch=16,cex = 1.5)
-  legend("topright",c(paste("Full dependence RP = ",min(RP_Var1,RP_Var2)," years",sep=""),paste("Joint RP = ",round(p,0)," years",sep=""),paste("Independence RP = ",RP_Var1*RP_Var2," years",sep="")),bty="n",cex=1.25)
+  points(Var1, Var2, pch = 16, cex = 1.5)
+  legend("topright", c(paste("Full dependence RP = ", min(RP_Var1,RP_Var2), " years", sep = ""), paste("Joint RP = ", round(RP_Copula,0), " years", sep = ""), paste("Independence RP = ", RP_Var1 * RP_Var2, " years", sep = "")), bty = "n", cex = 1.25)
+  segments(Var1,0,Var1,Var2,lty=2)
+  axis(1,Var1,labels=paste(round(Var1,2)))
+  segments(0,Var2,Var1,Var2,lty=2)
+  axis(2,Var2,labels=paste(round(Var2,2)))
 
-  if(con_var==con1){
-    #Plot too computationally expensive
-    #plot(cop.sample[, con1], cop.sample[, con2],xlim = c(min(cop.sample[, con1]), max(cop.sample[, con1])),
-    #     ylim = c(min(cop.sample[, con2]), max(cop.sample[, con2])), col = "Light Grey", xlab = x_lab,
-    #     ylab = y_lab, cex.lab = 1.5, cex.axis = 1.5)
-    #points(cop.sample[which(cop.sample[,con1]>Var1),con1],cop.sample[which(cop.sample[,con1]>Var1),con2],col=1,pch=16)
-    CDF_Var<-approx(seq(1,length(which(cop.sample[,con1]>Var1)),1)/length(which(cop.sample[,con1]>Var1)),
-                    cop.sample[which(cop.sample[,con1]>Var1),con2][order(cop.sample[which(cop.sample[,con1]>Var1),con2])],
-                    seq(round(min(1/length(which(cop.sample[,con1]>Var1)))+0.0005,3),1,0.001))
-    plot(CDF_Var$y,CDF_Var$x,xlab=y_lab,ylab="Conditional CDF",xlim = c(y_min, y_max),cex.lab = 1.5, cex.axis = 1.5,type='l',lwd=2.5)
-    d<-abs(CDF_Var$y-y_max)
-    max<-which(d==min(d,na.rm = T))[1]
-    plot(1/(rate*(1-CDF_Var$x[1:max])),CDF_Var$y[1:max],ylab=y_lab,xlab="Conditional return period (years)",ylim = c(y_min, y_max),cex.lab = 1.5, cex.axis = 1.5,type='l',lwd=2.5)
-    N_Excess<-length(which(cop.sample[,con1]>Var1))
-    CDF_Var<-approx(CDF_Var$y,CDF_Var$x,seq(round(min(CDF_Var$y),2),round(max(CDF_Var$y),2),0.01))
-    Con_Prob_Est<-approx(CDF_Var$x,CDF_Var$y,Var2)$y
+  ##Calculating the conditional probabilities using a simulation approach
+  #Rate of observations in the conditional samples. The 'unique' command
+  #ensures observations in both conditional samples are not counted twice.
+  #rate <- nrow(unique(round(rbind(Data_Con1, Data_Con2), 2)))/time.period
+  if (con_var == con1) {
+    #Plotting the region the conditional probabilities correspond to.
+    plot(Data[, con1], Data[, con2], xlim = c(x_min, x_max),
+         ylim = c(y_min, y_max), col = "Light Grey", xlab = x_lab,
+         ylab = y_lab, cex.lab = 1.5, cex.axis = 1.5)
+    points(Data_Con1[, con1], Data_Con1[, con2], col = 4, cex = 1.5)
+    points(Data_Con2[, con1], Data_Con2[, con2], col = "Red",
+           pch = 4, cex = 1.5)
+     axis(1,Var1,labels=paste(round(Var1,2)))
+    rect(0,y_min-1000,Var1,y_max+1000,col=1)
+
+    #Rate
+    rate<-length(which(cop.sample[, con1] > Var1))/N
+    #Linear interpolation of the cummulative distribution function (CDF) of con2 given con1 exceeds Var1
+    #x is empirical probabilities, y is values of con2 in simulated sample where con1 exceeds Var1, xout is interpolation points
+    CDF_Var <- approx(x=seq(1, length(which(cop.sample[, con1] > Var1)), 1)/length(which(cop.sample[, con1] > Var1)),
+                      y=cop.sample[which(cop.sample[, con1] > Var1), con2][order(cop.sample[which(cop.sample[,con1] > Var1), con2])],
+                      xout=seq(round(min(1/length(which(cop.sample[,con1] > Var1))) + 5e-04, 3), 1, 0.001))
+    #Plotting CDF_Var the conditional CDF of con2 given con1 exceeds Var1
+    plot(CDF_Var$y, CDF_Var$x, xlab = y_lab, ylab = paste("CDF given",Con_Var,">",round(Var1,2)),
+         xlim = c(y_min, y_max), cex.lab = 1.5, cex.axis = 1.5,
+         type = "l", lwd = 2.5)
+    #Ensuring only interpolated values appoximately lower than the upper limit than the x-axis upper limit are plotted
+    d <- abs(CDF_Var$y - y_max)
+    max <- which(d == min(d, na.rm = T))[1]
+    #Plotting CDF but with probabilities converted to return periods
+    plot(1/(rate * (1 - CDF_Var$x[1:max])), CDF_Var$y[1:max],
+         ylab = y_lab, xlab = paste("RP given",Con_Var,">",round(Var1,2),"years"),
+         ylim = c(y_min, y_max), cex.lab = 1.5, cex.axis = 1.5,
+         type = "l", lwd = 2.5)
+    #Number of realizations in the sample where con1 exceeds Var1
+    N_Excess <- length(which(cop.sample[, con1] > Var1))
+    #Interpolating CDF
+    CDF_Var <- approx(CDF_Var$y, CDF_Var$x, seq(round(min(CDF_Var$y),2), round(max(CDF_Var$y), 2), 0.01))
+    #Extracting conditional probability that con2 is less than Var2 given con1 exceeds Var1
+    #By finding value of the last interpolation of the CDF at Var2
+    Con_Prob_Est <- approx(CDF_Var$x, CDF_Var$y, Var2)$y
+  }
+  if (con_var == con2) {
+    #Plotting the region the conditional probabilities correspond to.
+    plot(Data[, con1], Data[, con2], xlim = c(x_min, x_max),
+         ylim = c(y_min, y_max), col = "Light Grey", xlab = x_lab,
+         ylab = y_lab, cex.lab = 1.5, cex.axis = 1.5)
+    points(Data_Con1[, con1], Data_Con1[, con2], col = 4, cex = 1.5)
+    points(Data_Con2[, con1], Data_Con2[, con2], col = "Red",
+           pch = 4, cex = 1.5)
+    axis(2,Var2,labels=paste(round(Var2,2)))
+    rect(x_min-1000,0,x_max+1000,Var2,col=1)
+
+    #Rate
+    rate<-length(which(cop.sample[, con2] > Var2))/N
+    #Linear interpolation of the cummulative distribution function (CDF) of con1 given con2 exceeds Var2
+    #x is empirical probabilities, y is values of con1 in simulated sample where con2 exceeds Var2, xout is interpolation points
+    CDF_Var <- approx(x=seq(1, length(which(cop.sample[, con2] > Var2)), 1)/length(which(cop.sample[, con2] > Var2)),
+                      y=cop.sample[which(cop.sample[, con2] > Var2), con1][order(cop.sample[which(cop.sample[,con2] > Var2), con1])],
+                      xout=seq(round(min(1/length(which(cop.sample[,con2] > Var2))) + 5e-04, 3), 1, 0.001))
+    #Plotting CDF_Var the conditional CDF of con1 given con2 exceeds Var2
+    plot(CDF_Var$y, CDF_Var$x, xlab = x_lab, ylab = paste("CDF given",Con_Var,">",round(Var2,2)),
+         xlim = c(x_min, x_max), cex.lab = 1.5, cex.axis = 1.5,
+         type = "l", lwd = 2.5)
+    #Ensuring only interpolated values appoximately lower than the upper limit than the x-axis upper limit are plotted
+    d <- abs(CDF_Var$y - x_max)
+    max <- which(d == min(d, na.rm = T))[1]
+    #Plotting CDF but with probabilities converted to return periods
+    plot(1/(rate * (1 - CDF_Var$x[1:max])), CDF_Var$y[1:max],
+         ylab = x_lab, xlab = paste("RP given",Con_Var,">",round(Var2,2),"(years)"),
+         ylim = c(x_min, x_max), cex.lab = 1.5, cex.axis = 1.5,
+         type = "l", lwd = 2.5)
+    #Number of realizations in the sample where con2 exceeds Var2
+    N_Excess <- length(which(cop.sample[, con2] > Var2))
+    #Interpolating CDF
+    CDF_Var <- approx(CDF_Var$y, CDF_Var$x, seq(round(min(CDF_Var$y),2), round(max(CDF_Var$y), 2), 0.01))
+    #Extracting conditional probability that con1 is less than Var1 given con2 exceeds Var2
+    #By finding value of the last interpolation of the CDF at Var1
+    Con_Prob_Est <- approx(CDF_Var$x, CDF_Var$y, Var1)$y
   }
 
-  if(con_var==con2){
-    #Plot too computationally expensive
-    #plot(cop.sample[, con1], cop.sample[, con2], xlim = c(min(cop.sample[, con1]), max(cop.sample[, con1])),
-    #     ylim = c(min(cop.sample[, con2]), max(cop.sample[, con2])), col = "Light Grey", xlab = x_lab,
-    #     ylab = y_lab, cex.lab = 1.5, cex.axis = 1.5)
-    #points(cop.sample[which(cop.sample[,con1]>Var2),con1],cop.sample[which(cop.sample[,con1]>Var2),con2],col=1,pch=16)
-    CDF_Var<-approx(seq(1,length(which(cop.sample[,con2]>Var2)),1)/length(which(cop.sample[,con2]>Var2)),
-                    cop.sample[which(cop.sample[,con2]>Var2),con1][order(cop.sample[which(cop.sample[,con2]>Var2),con1])],
-                    seq(round(min(1/length(which(cop.sample[,con2]>Var2)))+0.0005,3),1,0.001))
-    plot(CDF_Var$y,CDF_Var$x,xlab=x_lab,ylab="Conditional CDF",xlim = c(x_min, x_max),cex.lab = 1.5, cex.axis = 1.5,type='l',lwd=2.5)
-    d<-abs(CDF_Var$y-x_max)
-    max<-which(d==min(d,na.rm = T))[1]
-    plot(1/(rate*(1-CDF_Var$x[1:max])),CDF_Var$y[1:max],ylab=x_lab,xlab="Conditional return period (years)",ylim = c(x_min, x_max),cex.lab = 1.5, cex.axis = 1.5,type='l',lwd=2.5)
-    N_Excess<-length(which(cop.sample[,con2]>Var2))
-    CDF_Var<-approx(CDF_Var$y,CDF_Var$x,seq(round(min(CDF_Var$y),2),round(max(CDF_Var$y),2),0.01))
-    Con_Prob_Est<-approx(CDF_Var$x,CDF_Var$y,Var1)$y
-  }
-
-  res<-list(Con_Var=Con_Var,RP_Var1=RP_Var2,RP_Var2=RP_Var2,Var1=Var1,Var2=Var2,RP_Full_Dependence=min(RP_Var1,RP_Var2),RP_Independence=RP_Var1*RP_Var2,RP_Copula=p,Prob=1/p,N_Excess=N_Excess,Non_Con_Var_X=CDF_Var$x,Con_Prob=CDF_Var$y,Con_RP=1/(rate*(1-CDF_Var$y)),Con_Prob_Est=Con_Prob_Est)
+  #Create a list of outputs.
+  res <- list(Con_Var = Con_Var, RP_Var1 = RP_Var2, RP_Var2 = RP_Var2,
+              Var1 = Var1, Var2 = Var2, RP_Full_Dependence = min(RP_Var1,RP_Var2),
+              RP_Independence = RP_Var1 * RP_Var2,
+              RP_Copula = RP_Copula,
+              Prob = 1/RP_Copula,
+              N_Excess = N_Excess,Non_Con_Var_X = CDF_Var$x,
+              Con_Prob = CDF_Var$y, Con_RP = 1/(rate * (1 - CDF_Var$y)),
+              Con_Prob_Est = Con_Prob_Est)
   return(res)
 }
 

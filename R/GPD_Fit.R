@@ -5,7 +5,7 @@
 #' @param Data Numeric vector containing the declusted data.
 #' @param Data_Full Numeric vector containing the non-declustered data.
 #' @param u GPD threshold expressed as a quantile \code{[0,1]} of \code{Data} vector. Default is \code{0.95}.
-#' @param Thres GPD threshold expressed on the original scale of the \code{"Data"}. Only one of \code{"u"} and \code{"Thres"} should be supplied. Default is \code{NA}.
+#' @param Thres GPD threshold expressed on the original scale of the \code{"Data"}. Only one of \code{u} and \code{Thres} should be supplied. Default is \code{NA}.
 #' @param mu Numeric vector of length one specifying (average) occurrence frequency of events in the \code{Data_Full} input. Default is \code{365.25}.
 #' @param Method Character vector of length one specifying the method of choosing the threshold. \code{"Standard"} (default) chooses the exact threshold specified aswither \code{"u"} or \code{"th"}, whereas \code{"Solari"} selects the minimum exceedence of the \code{"Data"} above the user-specified threshold.
 #' @param min.RI Numeric vector of length one specifying the minimum return period in the return level plot. Default is \code{1}.
@@ -40,19 +40,19 @@ GPD_Fit<-function(Data,Data_Full,u=0.95,Thres=NA,mu=365.25,Method="Standard",min
   Thres=min(Exceedence)
   gpd$rate<-length(Exceedence)/(length(Data_Full))
   }
-
+  print(gpd)
   if(PLOT==TRUE){
   GPD_diag_HT04(Data=na.omit(Data),
                 Data_Full=Data_Full,
                 model=gpd,
-                param=c(exp(gpd$par[1]), gpd$par[1]),
-                thres=quantile(Data_Full,u),
+                param=c(exp(gpd$par[1]), gpd$par[2]),
+                thres=Thres,
                 mu=mu,
                 min.RI=min.RI,
                 xlab.hist=xlab_hist,
                 y.lab=y_lab)
   }
-  res<-list("Threshold"=Thres,"Rate"=gpd$rate,"sigma" = exp(gpd$par[1]), "xi" = exp(gpd$par[2]),"sigma.SE" = exp(gpd$par[3]),"xi.SE" = exp(gpd$par[4]))
+  res<-list("Threshold"=Thres,"Rate"=gpd$rate,"sigma" = exp(gpd$par[1]), "xi" = gpd$par[2],"sigma.SE" = gpd$se[1],"xi.SE" = gpd$se[2])
   return(res)
 }
 

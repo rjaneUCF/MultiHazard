@@ -23,3 +23,5 @@ GPD_diag_HT04<-function(Data,Data_Full,model,param,thres,mu,min.RI=min.RI,max.RI
   #Return Level
   Plot.RI.evm(Data,model,mu,min.RI,max.RI,y.lab=y.lab,main.RI="Return Level Plot")
 }
+
+
