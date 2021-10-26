@@ -95,8 +95,10 @@ Joint return period of the (Var1,Var2) event under full dependence
 Joint return period of the (Var1,Var2) event under independence
 \item RP_Copula
 Joint return period of the (Var1,Var2) event according to the two sided conditional sampling - copula theory approach
-\item N_Excess
-Number of realizations of the \code{Con_Var} above \code{RP_Con}-year return period value
+\item Prob
+Probability associated with \code{RP_Copula}
+\item N_Sub_Sample
+Number of realizations of the \code{Con_Var} within +/- width of the value of \code{Con_Var} with retunr period \code{}.
 \item Non_Con_Var_X
 Values of the non-conditioned variable of the (conditional) Cummulative Distribution Function (CDF) i.e. x-axis of bottom left plot
 \item Con_Prob
