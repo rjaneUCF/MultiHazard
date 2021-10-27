@@ -343,9 +343,9 @@ Conditional_RP_2D_Equal<-function(Data, Data_Con1, Data_Con2, Thres1, Thres2, Co
   points(Var1, Var2, pch = 16, cex = 1.5)
   legend("topright", c(paste("Full dependence RP = ", min(RP_Var1,RP_Var2), " years", sep = ""), paste("Joint RP = ", round(RP_Copula,0), " years", sep = ""), paste("Independence RP = ", RP_Var1 * RP_Var2, " years", sep = "")), bty = "n", cex = 1.25)
   segments(Var1,0,Var1,Var2,lty=2)
-  axis(1,Var1,labels=paste(round(Var1,2)),line=1.5)
+  axis(1,Var1,labels=paste(round(Var1,2)),line=1.25)
   segments(0,Var2,Var1,Var2,lty=2)
-  axis(2,Var2,labels=paste(round(Var2,2)),line=1.5)
+  axis(2,Var2,labels=paste(round(Var2,2)),line=1.25)
 
   ##Calculating the conditional probabilities using a simulation approach
   if(con_var==con1){
@@ -353,7 +353,7 @@ Conditional_RP_2D_Equal<-function(Data, Data_Con1, Data_Con2, Thres1, Thres2, Co
          cop.sample[, con2],xlim = c(min(cop.sample[, con1]), max(cop.sample[, con1])),
          ylim = c(min(cop.sample[, con2]), max(cop.sample[, con2])), col = "Light Grey", xlab = x_lab,
          ylab = y_lab, cex.lab = 1.5, cex.axis = 1.5)
-    rect(Var1-Width,min(cop.sample[, con1],na.omit(Data[,con1])),Var1+Width,max(cop.sample[, con2],na.omit(Data[,con1])),col="Light grey")
+    rect(Var1-Width,min(cop.sample[, con2],na.omit(Data[,con2])),Var1+Width,max(cop.sample[, con2],na.omit(Data[,con2])),col="Light grey")
     points(cop.sample[which(cop.sample[,con1]>(Var1-Width) & cop.sample[,con1]<(Var1+Width)),con1],
            cop.sample[which(cop.sample[,con1]>(Var1-Width) & cop.sample[,con1]<(Var1+Width)),con2],col=1,pch=16)
     #Rate
@@ -379,7 +379,7 @@ Conditional_RP_2D_Equal<-function(Data, Data_Con1, Data_Con2, Thres1, Thres2, Co
     plot(cop.sample[, con1], cop.sample[, con2], xlim = c(min(cop.sample[, con1]), max(cop.sample[, con1])),
          ylim = c(min(cop.sample[, con2]), max(cop.sample[, con2])), col = "Light Grey", xlab = x_lab,
          ylab = y_lab, cex.lab = 1.5, cex.axis = 1.5)
-    rect(Var2-Width,min(cop.sample[, con2],na.omit(Data[,con2])),Var2+Width,max(cop.sample[, con1],na.omit(Data[,con2])),col="Light grey")
+    rect(Var2-Width,min(cop.sample[, con1],na.omit(Data[,con1])),Var2+Width,max(cop.sample[, con1],na.omit(Data[,con1])),col="Light grey")
     points(cop.sample[which(cop.sample[,con2]>(Var2-Width) & cop.sample[,con2]<(Var2+Width)),con1],
            cop.sample[which(cop.sample[,con2]>(Var2-Width) & cop.sample[,con2]<(Var2+Width)),con2],col=1,pch=16)
     box()
