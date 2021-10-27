@@ -83,7 +83,7 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, Thres1, Thres2, Copula_Fam
   ###Fit the 4 marginal distributions (2 GPD and 2 parametric non-extreme value distributions).
 
   #Fit the GPD to the conditioned variable con1 in Data_Con1.
-  GPD_con1<-evm(Data_Con1[,con1], th=quantile(na.omit(Data[,con1]),Thres1) ,penalty = "gaussian",priorParameters = list(c(0, 0), matrix(c(100^2, 0, 0, 0.25), nrow = 2)))
+  GPD_con1<-evm(Data_Con1[,con1], th=quantile(na.omit(Data)[,con1],Thres1) ,penalty = "gaussian",priorParameters = list(c(0, 0), matrix(c(100^2, 0, 0, 0.25), nrow = 2)))
 
   #Fit the specified marginal distribution (Marginal_Dist1) to the non-conditioned variable con2 in Data_Con1.
   if(Marginal_Dist1 == "BS"){
@@ -120,7 +120,7 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, Thres1, Thres2, Copula_Fam
   }
 
   #Fit the GPD to the conditioned variable con2 in Data_Con2.
-  GPD_con2<-evm(Data_Con2[,con2], th=quantile(na.omit(Data[,con2]),Thres2) ,penalty = "gaussian",priorParameters = list(c(0, 0), matrix(c(100^2, 0, 0, 0.25), nrow = 2)))
+  GPD_con2<-evm(Data_Con2[,con2], th=quantile(na.omit(Data)[,con2],Thres2) ,penalty = "gaussian",priorParameters = list(c(0, 0), matrix(c(100^2, 0, 0, 0.25), nrow = 2)))
 
   ##Fit the specified marginal distribution (Marginal_Dist2) to the non-conditioned variable con1 in Data_Con2.
   if(Marginal_Dist2 == "BS"){
