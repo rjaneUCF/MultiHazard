@@ -353,7 +353,7 @@ Conditional_RP_2D_Equal<-function(Data, Data_Con1, Data_Con2, Thres1, Thres2, Co
          cop.sample[, con2],xlim = c(min(cop.sample[, con1]), max(cop.sample[, con1])),
          ylim = c(min(cop.sample[, con2]), max(cop.sample[, con2])), col = "Light Grey", xlab = x_lab,
          ylab = y_lab, cex.lab = 1.5, cex.axis = 1.5)
-    rect(Var1-Width,min(cop.sample[, con1]),Var1+Width,max(cop.sample[, con2]),col="Light grey")
+    rect(Var1-Width,min(cop.sample[, con1],Data[,con1]),Var1+Width,max(cop.sample[, con2],Data[,con1]),col="Light grey")
     points(cop.sample[which(cop.sample[,con1]>(Var1-Width) & cop.sample[,con1]<(Var1+Width)),con1],
            cop.sample[which(cop.sample[,con1]>(Var1-Width) & cop.sample[,con1]<(Var1+Width)),con2],col=1,pch=16)
     #Rate
@@ -379,7 +379,7 @@ Conditional_RP_2D_Equal<-function(Data, Data_Con1, Data_Con2, Thres1, Thres2, Co
     plot(cop.sample[, con1], cop.sample[, con2], xlim = c(min(cop.sample[, con1]), max(cop.sample[, con1])),
          ylim = c(min(cop.sample[, con2]), max(cop.sample[, con2])), col = "Light Grey", xlab = x_lab,
          ylab = y_lab, cex.lab = 1.5, cex.axis = 1.5)
-    rect(Var2-Width,min(cop.sample[, con2]),Var2+Width,max(cop.sample[, con1]),col="Light grey")
+    rect(Var2-Width,min(cop.sample[, con2],Data[,con2]),Var2+Width,max(cop.sample[, con1],Data[,con2]),col="Light grey")
     points(cop.sample[which(cop.sample[,con2]>(Var2-Width) & cop.sample[,con2]<(Var2+Width)),con1],
            cop.sample[which(cop.sample[,con2]>(Var2-Width) & cop.sample[,con2]<(Var2+Width)),con2],col=1,pch=16)
     box()
