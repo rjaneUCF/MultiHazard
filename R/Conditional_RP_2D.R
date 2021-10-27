@@ -343,9 +343,9 @@ Conditional_RP_2D<-function (Data, Data_Con1, Data_Con2, Thres1, Thres2, Copula_
   points(Var1, Var2, pch = 16, cex = 1.5)
   legend("topright", c(paste("Full dependence RP = ", min(RP_Var1,RP_Var2), " years", sep = ""), paste("Joint RP = ", round(RP_Copula,0), " years", sep = ""), paste("Independence RP = ", RP_Var1 * RP_Var2, " years", sep = "")), bty = "n", cex = 1.25)
   segments(Var1,0,Var1,Var2,lty=2)
-  axis(1,Var1,labels=paste(round(Var1,2)))
+  axis(1,Var1,labels=paste(round(Var1,2)),line=1.2)
   segments(0,Var2,Var1,Var2,lty=2)
-  axis(2,Var2,labels=paste(round(Var2,2)))
+  axis(2,Var2,labels=paste(round(Var2,2)),line=1.2)
 
   ##Calculating the conditional probabilities using a simulation approach
   #Rate of observations in the conditional samples. The 'unique' command
