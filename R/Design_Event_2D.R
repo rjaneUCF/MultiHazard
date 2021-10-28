@@ -165,7 +165,7 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, Thres1, Thres2, Copula_Fam
   #Simulate a sample from the fitted copula. Out of the sample size 'N' the proportion of the sample from the copula associated with Data_Con1 is proportional to the size of Data_Con1 relative to Data_Con2.
   sample<-BiCopSim(round(N*nrow(Data_Con1)/(nrow(Data_Con1)+nrow(Data_Con2)),0),obj1)
   #Transform the realizations of the conditioned variable con1 to the original scale using inverse cumulative distribution a.k.a. quantile functions (inverse probability integral transform) of the GPD contained in the u2gpd function.
-  cop.sample1.con<-u2gpd(sample[,con1], p = 1, th=quantile(na.omit(Data[,con1]),Thres1) , sigma=exp(GPD_con1$coefficients[1]),xi= GPD_con1$coefficients[2])
+  cop.sample1.con<-u2gpd(sample[,con1], p = 1, th=quantile(na.omit(Data)[,con1],Thres1) , sigma=exp(GPD_con1$coefficients[1]),xi= GPD_con1$coefficients[2])
 
   #Transform the realizations of the non-conditioned variable con2 to the original scale using the quantile function of the selected parametric (non-extreme value) distribution (Marginal_Dist1).
   if(Marginal_Dist1=="BS"){
@@ -210,7 +210,7 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, Thres1, Thres2, Copula_Fam
   sample<-BiCopSim(round(N*nrow(Data_Con2)/(nrow(Data_Con1)+nrow(Data_Con2)),0),obj2)
 
   #Transform the realizations of the conditioned variable con2 to the original scale using the inverse CDF (quantile function) of the GPD contained in the u2gpd function.
-  cop.sample2.con<-u2gpd(sample[,con2], p = 1, th=quantile(na.omit(Data[,con2]),Thres2) , sigma=exp(GPD_con2$coefficients[1]),xi= GPD_con2$coefficients[2])
+  cop.sample2.con<-u2gpd(sample[,con2], p = 1, th=quantile(na.omit(Data)[,con2],Thres2) , sigma=exp(GPD_con2$coefficients[1]),xi= GPD_con2$coefficients[2])
 
   #Transform the realizations of the non-conditioned variable con1 to the original scale using the inverse CDF (quantile function) of the selected parametric (non-extreme value) distribution (Marginal_Dist2).
   if(Marginal_Dist2=="BS"){
