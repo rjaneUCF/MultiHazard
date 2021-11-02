@@ -1,6 +1,6 @@
 #' Imputing missing values through linear regression
 #'
-#' Fits a simple linear regression model, impute missing values of the dependent variable.
+#' Fits a simple linear regression model, to impute missing values of the dependent variable.
 #'
 #' @param Data Data frame containing two at least partially concurrent time series. First column may be a \code{"Date"} object. Can be \code{Dataframe_Combine} output.
 #' @param Variable Character vector of length one specifying the (column) name of the variable to be imputed i.e. dependent variable in the fitted regression.

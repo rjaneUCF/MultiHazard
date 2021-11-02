@@ -6,7 +6,7 @@
 #' @param x_lab Character vector of length one specifying the label on the x-axis of histogram and cumulative distribution plot.
 #' @param y_lim_min Numeric vector of length one specifying the lower y-axis limit of the histogram. Default is \code{0}.
 #' @param y_lim_max Numeric vector of length one specifying the upper y-axis limit of the histogram. Default is \code{1}.
-#' @return Name of the best fitting distribution \code{Best_fit}. Panel consisting of three plots. Upper plot: Plot depicting the AIC of the two fitted distributions. Middle plot: Probability Density Functions (PDFs) of the fitted distributions superimposed on a histogram of the data. Lower plot: Cumulative Distribution Functions (CDFs) of the fitted distributions overlaid on a plot of the empirical CDF.
+#' @return Dataframe \code{$AIC} giving the AIC associated with each distribution and the name of the best fitting distribution \code{$Best_fit}. Panel consisting of three plots. Upper plot: Plot depicting the AIC of the two fitted distributions. Middle plot: Probability Density Functions (PDFs) of the fitted distributions superimposed on a histogram of the data. Lower plot: Cumulative Distribution Functions (CDFs) of the fitted distributions overlaid on a plot of the empirical CDF.
 #' @seealso \code{\link{Copula_Threshold_2D}}
 #' @export
 #' @examples
@@ -58,7 +58,10 @@ Diag_Non_Con<-function(Data,x_lab,y_lim_min=0,y_lim_max=1){
   fit<-fitdistr(Data,"logistic")
   lines(x,plogis(x,fit$estimate[1],fit$estimate[2]),col=mypalette[6],lwd=2)
 
-  Best_fit<-c("Gaus","Logis")[which(c(AIC.Normal,AIC.Logistic)==min(AIC.Normal,AIC.Logistic))]
-  return(Best_fit)
+  AIC<-data.frame(c("Normal","Logistic"),c(AIC.Normal,AIC.Logistic))
+  colnames(AIC)<-c("Distribution","AIC")
+  Best_fit<-AIC$Distribution[which(AIC$AIC==min(AIC$AIC))]
+  res<-list("AIC"=AIC,"Best_fit"=Best_fit)
+  return(res)
 }
 

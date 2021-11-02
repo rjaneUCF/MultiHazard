@@ -1,6 +1,6 @@
 #' C and D-vine Copula - Simulation
 #'
-#' Simulating from specified C- and D-vine copula models. Builds on the \code{CDVineSim} in \code{CDVine}.
+#' Simulating from specified C- and D-vine copula models. Function is a repackaging of the \code{RVineMatrix} and \code{RVineMatrix} functions from the \code{VineCopula} package into a single function.
 #'
 #' @param Data Data frame containing \code{n} at least partially concurrent time series. First column may be a \code{"Date"} object. Can be \code{Dataframe_Combine} output.
 #' @param Vine_Model An \code{RVineMatrix} object i.e., output of \code{Vine_Copula_Fit} specifying the structure and copula families composing the vine copula.

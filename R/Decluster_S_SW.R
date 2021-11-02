@@ -13,9 +13,14 @@
 #' @examples
 #' #Declustering the O-sWL at site S22 using a 3-day window.
 #' plot(S13_Precip$Date,S13_Precip$Precip)
-#' S13_Precip_Totals_Declust<-Decluster_S_SW(Data=S13_Precip, Window_Width_Sum=24, Window_Width_Sum_Type="End", Window_Width=7*24)
-#' plot(S13_Precip[,1],S13_Precip_Totals_Declust$Window_Width_Sum_Totals,pch=16,ylim=c(0,10))
-#' points(S13_Precip[S13_Precip_Totals_Declust$EventID,1],S13_Precip_Totals_Declust$Window_Width_Sum_Totals[S13_Precip_Totals_Declust$EventID],col=2,pch=16)
+#' S13_Precip_Totals_Declust<-Decluster_S_SW(Data=S13_Precip, Window_Width_Sum=24,
+#'                                           Window_Width_Sum_Type="End", Window_Width=7*24)
+#' plot(S13_Precip[,1],
+#'      S13_Precip_Totals_Declust$Window_Width_Sum_Totals,
+#'      pch=16,ylim=c(0,10))
+#' points(S13_Precip[S13_Precip_Totals_Declust$EventID,1],
+#'        S13_Precip_Totals_Declust$Window_Width_Sum_Totals[S13_Precip_Totals_Declust$EventID],
+#'        col=2,pch=16)
 Decluster_S_SW<-function(Data, Window_Width_Sum, Window_Width) {
 
   #Index of NA elements will be added to z

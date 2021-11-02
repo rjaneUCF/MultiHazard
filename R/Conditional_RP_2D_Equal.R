@@ -5,12 +5,12 @@
 #' @param Data Data frame of dimension \code{nx2} containing two co-occurring time series of length \code{n}.
 #' @param Data_Con1 Data frame containing the conditional sample (declustered excesses paired with concurrent values of other variable), conditioned on the variable in the first column.
 #' @param Data_Con2 Data frame containing the conditional sample (declustered excesses paired with concurrent values of other variable), conditioned on the variable in the second column. Can be obtained using the \code{Con_Sampling_2D} function.
-#' @param Thres1 Numeric vector of length one specifying the threshold above which the variable in the first column was sampled in Data_Con1.
-#' @param Thres2 Numeric vector of length one specifying the threshold above which the variable in the second column was sampled in Data_Con2.
+#' @param Thres1 Numeric vector of length one specifying the threshold above which the variable in the first column was sampled in \code{Data_Con1}.
+#' @param Thres2 Numeric vector of length one specifying the threshold above which the variable in the second column was sampled in \code{Data_Con2}.
 #' @param Copula_Family1 Numeric vector of length one specifying the copula family used to model the \code{Data_Con1} dataset.
 #' @param Copula_Family2 Numeric vector of length one specifying the copula family used to model the \code{Data_Con2} dataset. Best fitting of 40 copulas can be found using the \code{Copula_Threshold_2D} function.
-#' @param Marginal_Dist1 Character vector of length one specifying (non-extreme) distribution used to model the marginal distribution of the non-conditioned variable.
-#' @param Marginal_Dist2 Character vector of length one specifying (non-extreme) distribution used to model the marginal distribution of the non-conditioned variable.
+#' @param Marginal_Dist1 Character vector of length one specifying (non-extreme) distribution used to model the marginal distribution of the non-conditioned variable in \code{Data_Con1}.
+#' @param Marginal_Dist2 Character vector of length one specifying (non-extreme) distribution used to model the marginal distribution of the non-conditioned variable in \code{Data_Con2}.
 #' @param Con1 Character vector of length one specifying the name of variable in the first column of \code{Data}.
 #' @param Con2 Character vector of length one specifying the name of variable in the second column of \code{Data}.
 #' @param mu Numeric vector of length one specifying the (average) occurrence frequency of events in \code{Data}. Default is \code{365.25}, daily data.
@@ -62,9 +62,9 @@
 #' @seealso \code{\link{Design_Event_2D}} \code{\link{Conditional_RP_2D}}
 #' @export
 #' @examples
-#' #Under a 10yr rainfall event condition, what is the joint probability that a 10yr surge (O-sWL) event occurs
-#' #simultaneously?  What is the cumulative probability of events with the frequency equal to or less than
-#' #a 10yr surge event?
+#' #Under a 10yr rainfall event condition, what is the joint probability that a 10yr surge (O-sWL)
+#' #event occurs simultaneously?  What is the cumulative probability of events with the frequency
+#' #equal to or less than a 10yr surge event?
 #' Conditional_RP_2D_Equal(Data=S22.Detrend.df,
 #'                         Data_Con1=con.sample.Rainfall$Data, Data_Con2=con.sample.OsWL$Data,
 #'                         Thres1=0.98, Thres2=0.98,
@@ -126,8 +126,23 @@ Conditional_RP_2D_Equal<-function(Data, Data_Con1, Data_Con2, Thres1, Thres2, Co
   if (Marginal_Dist1 == "Exp") {
     marginal_non_con1 <- fitdistr(Data_Con1[, con2], "exponential")
   }
-  if (Marginal_Dist1 == "Gam") {
+  if (Marginal_Dist1 == "Gam(2)") {
     marginal_non_con1 <- fitdistr(Data_Con1[, con2], "gamma")
+  }
+  if(Marginal_Dist1 == "Gam(3)"){
+    data.gamlss<-data.frame(X=Data_Con1[,con2])
+    marginal_non_con1 <- tryCatch(gamlss(X~1, data=data.gamlss, family=GG),
+                                  error = function(e) "error")
+  }
+  if(Marginal_Dist1 == "GamMix(2)"){
+    data.gamlss<-data.frame(X=Data_Con1[,con2])
+    marginal_non_con1 <- tryCatch(gamlssMX(X~1, data=data.gamlss, family=GA, K=2),
+                                  error = function(e) "error")
+  }
+  if(Marginal_Dist1 == "GamMix(3)"){
+    data.gamlss<-data.frame(X=Data_Con1[,con2])
+    marginal_non_con1 <- tryCatch(gamlssMX(X~1, data=data.gamlss, family=GA, K=3),
+                                  error = function(e) "error")
   }
   if (Marginal_Dist1 == "Gaus") {
     marginal_non_con1 <- fitdistr(Data_Con1[, con2], "normal")
@@ -175,8 +190,23 @@ Conditional_RP_2D_Equal<-function(Data, Data_Con1, Data_Con2, Thres1, Thres2, Co
   if (Marginal_Dist2 == "Exp") {
     marginal_non_con2 <- fitdistr(Data_Con2[, con1], "exponential")
   }
-  if (Marginal_Dist2 == "Gam") {
+  if (Marginal_Dist2 == "Gam(2)") {
     marginal_non_con2 <- fitdistr(Data_Con2[, con1], "gamma")
+  }
+  if(Marginal_Dist2 == "Gam(3)"){
+    data.gamlss<-data.frame(X=Data_Con2[,con1])
+    marginal_non_con2 <- tryCatch(gamlss(X~1, data=data.gamlss, family=GG),
+                                  error = function(e) "error")
+  }
+  if(Marginal_Dist2 == "GamMix(2)"){
+    data.gamlss<-data.frame(X=Data_Con2[,con1])
+    marginal_non_con2 <- tryCatch(gamlssMX(X~1, data=data.gamlss, family=GA, K=2),
+                                  error = function(e) "error")
+  }
+  if(Marginal_Dist2 == "GamMix(3)"){
+    data.gamlss<-data.frame(X=Data_Con2[,con1])
+    marginal_non_con2 <- tryCatch(gamlssMX(X~1, data=data.gamlss, family=GA, K=3),
+                                  error = function(e) "error")
   }
   if (Marginal_Dist2 == "Gaus") {
     marginal_non_con2 <- fitdistr(Data_Con2[, con1], "normal")
@@ -224,9 +254,27 @@ Conditional_RP_2D_Equal<-function(Data, Data_Con1, Data_Con2, Thres1, Thres2, Co
   if (Marginal_Dist1 == "Exp") {
     cop.sample1.non.con <- qexp(sample[, con2], rate = as.numeric(marginal_non_con1$estimate[1]))
   }
-  if (Marginal_Dist1 == "Gam") {
+  if (Marginal_Dist1 == "Gam(2)") {
     cop.sample1.non.con <- qgamma(sample[, con2], shape = as.numeric(marginal_non_con1$estimate[1]),
                                   rate = as.numeric(marginal_non_con1$estimate[2]))
+  }
+  if(Marginal_Dist1=="Gam(3)"){
+    cop.sample1.non.con<-qGG(sample[,con2], mu=exp(marginal_non_con1$mu.coefficients), sigma=exp(marginal_non_con1$sigma.coefficients), nu=marginal_non_con1$nu.coefficients)
+  }
+  if(Marginal_Dist1=="GamMix(2)"){
+    prob.MX1 <- round(marginal_non_con1$prob[1],3)
+    prob.MX2 <- 1 - prob.MX1
+    cop.sample1.non.con<-qMX(sample[,con2], mu=list(mu1=exp(marginal_non_con1$models[[1]]$mu.coefficients), mu2=exp(marginal_non_con1$models[[2]]$mu.coefficients)),
+                             sigma=list(sigma1=exp(marginal_non_con1$models[[1]]$sigma.coefficients), sigma2=exp(marginal_non_con1$models[[2]]$sigma.coefficients)),
+                             pi = list(pi1=prob.MX1, pi2=prob.MX2), family=list(fam1="GA", fam2="GA"))
+  }
+  if(Marginal_Dist1=="GamMix(3)"){
+    prob.MX1 <- round(marginal_non_con1$prob[1],3)
+    prob.MX2 <- round(marginal_non_con1$prob[2],3)
+    prob.MX3 <- 1 - prob.MX1 - prob.MX2
+    cop.sample1.non.con<-qMX(sample[,con2], mu=list(mu1=exp(marginal_non_con1$models[[1]]$mu.coefficients), mu2=exp(marginal_non_con1$models[[2]]$mu.coefficients), mu3=exp(marginal_non_con1$models[[3]]$mu.coefficients)),
+                             sigma=list(sigma1=exp(marginal_non_con1$models[[1]]$sigma.coefficients), sigma2=exp(marginal_non_con1$models[[2]]$sigma.coefficients), sigma3=exp(marginal_non_con1$models[[3]]$sigma.coefficients)),
+                             pi = list(pi1=prob.MX1, pi2=prob.MX2, pi3=prob.MX3), family=list(fam1="GA", fam2="GA", fam3="GA"))
   }
   if (Marginal_Dist1 == "Gaus") {
     cop.sample1.non.con <- qnorm(sample[, con2], mean = as.numeric(marginal_non_con1$estimate[1]),
@@ -283,9 +331,27 @@ Conditional_RP_2D_Equal<-function(Data, Data_Con1, Data_Con2, Thres1, Thres2, Co
   if (Marginal_Dist2 == "Exp") {
     cop.sample2.non.con <- qexp(sample[, con1], rate = as.numeric(marginal_non_con2$estimate[1]))
   }
-  if (Marginal_Dist2 == "Gam") {
+  if (Marginal_Dist2 == "Gam(2)") {
     cop.sample2.non.con <- qgamma(sample[, con1], shape = as.numeric(marginal_non_con2$estimate[1]),
                                   rate = as.numeric(marginal_non_con2$estimate[2]))
+  }
+  if(Marginal_Dist2=="Gam(3)"){
+    cop.sample2.non.con<-qGG(sample[,con1], mu=exp(marginal_non_con2$mu.coefficients), sigma=exp(marginal_non_con2$sigma.coefficients), nu=marginal_non_con2$nu.coefficients)
+  }
+  if(Marginal_Dist2=="GamMix(2)"){
+    prob.MX1 <- round(marginal_non_con2$prob[1],3)
+    prob.MX2 <- 1 - prob.MX1
+    cop.sample2.non.con<-qMX(sample[,con1], mu=list(mu1=exp(marginal_non_con2$models[[1]]$mu.coefficients), mu2=exp(marginal_non_con2$models[[2]]$mu.coefficients)),
+                             sigma=list(sigma1=exp(marginal_non_con2$models[[1]]$sigma.coefficients), sigma2=exp(marginal_non_con2$models[[2]]$sigma.coefficients)),
+                             pi = list(pi1=prob.MX1, pi2=prob.MX2), family=list(fam1="GA", fam2="GA"))
+  }
+  if(Marginal_Dist2=="GamMix(3)"){
+    prob.MX1 <- round(marginal_non_con2$prob[1],3)
+    prob.MX2 <- round(marginal_non_con2$prob[2],3)
+    prob.MX3 <- 1 - prob.MX1 - prob.MX2
+    cop.sample2.non.con<-qMX(sample[,con1], mu=list(mu1=exp(marginal_non_con2$models[[1]]$mu.coefficients), mu2=exp(marginal_non_con2$models[[2]]$mu.coefficients), mu3=exp(marginal_non_con2$models[[3]]$mu.coefficients)),
+                             sigma=list(sigma1=exp(marginal_non_con2$models[[1]]$sigma.coefficients), sigma2=exp(marginal_non_con2$models[[2]]$sigma.coefficients), sigma3=exp(marginal_non_con2$models[[3]]$sigma.coefficients)),
+                             pi = list(pi1=prob.MX1, pi2=prob.MX2, pi3=prob.MX3), family=list(fam1="GA", fam2="GA", fam3="GA"))
   }
   if (Marginal_Dist2 == "Gaus") {
     cop.sample2.non.con <- qnorm(sample[, con1], mean = as.numeric(marginal_non_con2$estimate[1]),

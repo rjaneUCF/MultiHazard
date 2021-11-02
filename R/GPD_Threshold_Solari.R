@@ -1,6 +1,6 @@
 #' Solari et al (2017) automatic GPD threshold selection
 #'
-#' Traditional graphical methods and the automatic threshold selection method in Solari et al. (2017) is implemented to find the threshold above which excesses are follow a GPD. The code is based on the \code{ANALISIS_POT_LNORM} function provided by Sebastian Solari.
+#' Automatic threshold selection method in Solari et al. (2017) is implemented to find the threshold above which excesses are follow a GPD. The code is based on the \code{ANALISIS_POT_LNORM} function provided by Sebastian Solari.
 #'
 #' @param Event Numeric vector containing the declustered events.
 #' @param Data Original time series. Dataframe containing two columns. In column: \itemize{
@@ -113,11 +113,11 @@ GPD_Threshold_Solari<-function(Event,Data,RPs=c(10,50,100,500,1000),RPs_PLOT=c(2
   par(mfrow=c(3,3))
   par(mar=c(4.2,4.5,0.5,0.5))
   #MARLP
-  plot(u_Candidate[z],GPD.MLE[z,4],type="l",ylim=c(0,max(CI.Upper[z,4])),xlab="Threshold",ylab="Mean Residual life plot")
+  plot(u_Candidate[z],GPD.MLE[z,4],type="l",ylim=c(0,max(CI.Upper[z,4])),xlab="Threshold",ylab="Mean residual life plot")
   lines(u_Candidate[z],CI.Upper[z,4],lty=5)
   lines(u_Candidate[z],CI.Lower[z,4],lty=5)
   #Shape
-  plot(u_Candidate[z],GPD.MLE[z,1],type="l",ylim=c(-0.5,0.5),xlab="Threshold",ylab="GP Shape parameter")
+  plot(u_Candidate[z],GPD.MLE[z,1],type="l",ylim=c(-0.5,0.5),xlab="Threshold",ylab="GP shape parameter")
   lines(u_Candidate[z],CI.Upper[z,1],lty=5)
   lines(u_Candidate[z],CI.Lower[z,1],lty=5)
   #Modified Scale

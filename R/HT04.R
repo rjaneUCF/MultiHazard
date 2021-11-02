@@ -1,6 +1,6 @@
 #' Fits and simulates from the conditional multivariate approach of Heffernan and Tawn (2004)
 #'
-#' Fitting and simulating the conditional multivariate approach of Heffernan and Tawn (2004) to a dataset comprising 3 variables. Function utilizes the \code{mexDependence} and \code{predict.mex.conditioned} functions from the \code{texmex} package.
+#' Fits the conditional multivariate approach of Heffernan and Tawn (2004) to a dataset and simulates realizations from the fitted model. Function utilizes the \code{mexDependence} and \code{predict.mex.conditioned} functions from the \code{texmex} package.
 #'
 #' @param data_Detrend_Dependence_df  A data frame with (n+1) columns, containing in column \itemize{
 #' \item 1 - Continuous sequence of dates spanning the first to the final time of any of the variables are recorded.
