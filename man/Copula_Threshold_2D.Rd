@@ -2,33 +2,45 @@
 % Please edit documentation in R/Copula_Threshold_2D.R
 \name{Copula_Threshold_2D}
 \alias{Copula_Threshold_2D}
-\title{Copula Selection With Threshold 2D - Fit}
+\title{Copula Selection With threshold 2D - Fit}
 \usage{
-Copula_Threshold_2D(Data_Detrend, Data_Declust, Thres = seq(0.9, 0.99,
-  0.01), x_lim_min = min(Thres), x_lim_max = max(Thres),
-  y_lim_min = -1, y_lim_max = 1, Upper = 0, Lower = 0,
-  GAP = 0.05, Legend = TRUE)
+Copula_Threshold_2D(
+  Data_Detrend,
+  Data_Declust,
+  u = seq(0.9, 0.99, 0.01),
+  PLOT = TRUE,
+  x_lim_min = min(u),
+  x_lim_max = max(u),
+  y_lim_min = -1,
+  y_lim_max = 1,
+  Upper = 0,
+  Lower = 0,
+  GAP = 0.05,
+  Legend = TRUE
+)
 }
 \arguments{
 \item{Data_Detrend}{Data frame containing two at least partially concurrent time series, detrended if necessary. Time steps must be equally spaced, with missing values assigned \code{NA}.}
 
 \item{Data_Declust}{Data frame containing two (independently) declustered at least partially concurrent time series. Time steps must be equally spaced, with missing values assigned \code{NA}.}
 
-\item{Thres}{A single or sequence of thresholds, given as a quantile of the observations of the conditioning variable. Default, sequence from \code{0.9} to \code{0.99} at intervals of \code{0.01}.}
+\item{u}{A single or sequence of thresholds, given as a quantile of the observations of the conditioning variable. Default, sequence from \code{0.9} to \code{0.99} at intervals of \code{0.01}.}
 
-\item{x_lim_min}{Numeric vector of length one specifying x-axis minimum. Default is the maximum argument in \code{Thres}.}
+\item{PLOT}{Logical; whether to plot the results. Default is \code{"TRUE"}.}
 
-\item{x_lim_max}{Numeric vector of length one specifying x-axis maximum. Default is the minimum argument in \code{Thres}.}
+\item{x_lim_min}{Numeric vector of length one specifying x-axis minimum. Default is the maximum argument in \code{u}.}
+
+\item{x_lim_max}{Numeric vector of length one specifying x-axis maximum. Default is the minimum argument in \code{u}.}
 
 \item{y_lim_min}{Numeric vector of length one specifying y-axis minimum. Default \code{-1.0}.}
 
 \item{y_lim_max}{Numeric vector of length one specifying y-axis maximum. Default \code{1.0}.}
 
-\item{Upper}{Numeric vector specifying the element number of the \code{Thres} argument for which the copula family name label to appear above the corresponding point on the Kendall's tau coefficient vs threshold plot, when conditioning on the variable in column 1. Default is \code{0}.}
+\item{Upper}{Numeric vector specifying the element number of the \code{u} argument for which the copula family name label to appear above the corresponding point on the Kendall's tau coefficient vs uhold plot, when conditioning on the variable in column 1. Default is \code{0}.}
 
-\item{Lower}{Numeric vector specifying the element number of the \code{Thres} argument for which the copula family name label to appear below the corresponding point on the Kendall's tau coefficient vs threshold plot, when conditioning on the variable in column 2. Default is \code{0}.}
+\item{Lower}{Numeric vector specifying the element number of the \code{u} argument for which the copula family name label to appear below the corresponding point on the Kendall's tau coefficient vs uhold plot, when conditioning on the variable in column 2. Default is \code{0}.}
 
-\item{GAP}{Numeric vector of length one specifying the distance above or below the copula family name label appears the corresponding point on the Kendall's tau coefficient vs threshold plot. Default is \code{0.05}.}
+\item{GAP}{Numeric vector of length one specifying the distance above or below the copula family name label appears the corresponding point on the Kendall's tau coefficient vs uhold plot. Default is \code{0.05}.}
 
 \item{Legend}{Logic vector of length one specifying whether a legend should be plotted. Default is \code{TRUE}.}
 }

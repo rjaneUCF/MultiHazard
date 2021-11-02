@@ -2,20 +2,20 @@
 % Please edit documentation in R/Copula_Threshold_2D_Lag.R
 \name{Copula_Threshold_2D_Lag}
 \alias{Copula_Threshold_2D_Lag}
-\title{Copula Selection With Threshold 2D - Fit}
+\title{Copula Selection With threshold 2D - Fit}
 \usage{
 Copula_Threshold_2D_Lag(
   Data_Detrend,
   Data_Declust,
-  Thres1 = seq(0.9, 0.99, 0.01),
-  Thres2 = seq(0.9, 0.99, 0.01),
+  u1 = seq(0.9, 0.99, 0.01),
+  u2 = seq(0.9, 0.99, 0.01),
   PLOT = TRUE,
   Lag_Backward_Var1,
   Lag_Forward_Var1,
   Lag_Backward_Var2,
   Lag_Forward_Var2,
-  x_lim_min = min(c(Thres1, Thres2)),
-  x_lim_max = max(c(Thres1, Thres2)),
+  x_lim_min = min(c(u1, u2)),
+  x_lim_max = max(c(u1, u2)),
   y_lim_min = -1,
   y_lim_max = 1,
   Upper = 0,
@@ -39,23 +39,23 @@ Copula_Threshold_2D_Lag(
 
 \item{Lag_Forward_Var2}{Numeric vector of length one specifying  positive lag applied to variable in the second column of \code{Data_Detrend}. Default \code{0}.}
 
-\item{x_lim_min}{Numeric vector of length one specifying x-axis minimum. Default is the maximum argument in \code{Thres}.}
+\item{x_lim_min}{Numeric vector of length one specifying x-axis minimum. Default is the maximum argument in \code{u}.}
 
-\item{x_lim_max}{Numeric vector of length one specifying x-axis maximum. Default is the minimum argument in \code{Thres}.}
+\item{x_lim_max}{Numeric vector of length one specifying x-axis maximum. Default is the minimum argument in \code{u}.}
 
 \item{y_lim_min}{Numeric vector of length one specifying y-axis minimum. Default \code{-1.0}.}
 
 \item{y_lim_max}{Numeric vector of length one specifying y-axis maximum. Default \code{1.0}.}
 
-\item{Upper}{Numeric vector specifying the element number of the \code{Thres} argument for which the copula family name label to appear above the corresponding point on the Kendall's tau coefficient vs threshold plot, when conditioning on the variable in column 1. Default is \code{0}.}
+\item{Upper}{Numeric vector specifying the element number of the \code{u} argument for which the copula family name label to appear above the corresponding point on the Kendall's tau coefficient vs uhold plot, when conditioning on the variable in column 1. Default is \code{0}.}
 
-\item{Lower}{Numeric vector specifying the element number of the \code{Thres} argument for which the copula family name label to appear below the corresponding point on the Kendall's tau coefficient vs threshold plot, when conditioning on the variable in column 2. Default is \code{0}.}
+\item{Lower}{Numeric vector specifying the element number of the \code{u} argument for which the copula family name label to appear below the corresponding point on the Kendall's tau coefficient vs uhold plot, when conditioning on the variable in column 2. Default is \code{0}.}
 
-\item{GAP}{Numeric vector of length one specifying the distance above or below the copula family name label appears the corresponding point on the Kendall's tau coefficient vs threshold plot. Default is \code{0.05}.}
+\item{GAP}{Numeric vector of length one specifying the distance above or below the copula family name label appears the corresponding point on the Kendall's tau coefficient vs uhold plot. Default is \code{0.05}.}
 
 \item{Legend}{Logic vector of length one specifying whether a legend should be plotted. Default is \code{TRUE}.}
 
-\item{Thres}{A single or sequence of thresholds, given as a quantile of the observations of the conditioning variable. Default, sequence from \code{0.9} to \code{0.99} at intervals of \code{0.01}.}
+\item{u}{A single or sequence of thresholds, given as a quantile of the observations of the conditioning variable. Default, sequence from \code{0.9} to \code{0.99} at intervals of \code{0.01}.}
 }
 \value{
 List comprising: \itemize{
@@ -69,13 +69,13 @@ size of the dataset
 best fitting copula for the specified thresholds
 }
 when the dataset is conditioned on the variable in column 1.
-Analogous vector \code{Kendalls_Tau_Var2}, \code{p_value_Var2}, \code{N_Var2} and \code{Copula_Family_Var2} for the specified thresholds when the dataset is conditioned on the variable in column 2.
+Analogous vector \code{Kendalls_Tau_Var2}, \code{p_value_Var2}, \code{N_Var2} and \code{Copula_Family_Var2} for the specified uholds when the dataset is conditioned on the variable in column 2.
 }
 \description{
 Declustered excesses of a (conditioning) variable are paired with co-occurences of the other variable before the best fitting bivariate copula is selected, using \code{BiCopSelect} function in the \code{VineCopula} package, for a single or range of thresholds. The procedure is automatically repeated with the variables switched.
 }
 \examples{
-Copula_Threshold_2D(Data_Detrend=S20.Detrend.df[,-c(1,4)],
+Copula_uhold_2D(Data_Detrend=S20.Detrend.df[,-c(1,4)],
                     Data_Declust=S20.Detrend.Declustered.df[,-c(1,4)],
                     y_lim_min=-0.075, y_lim_max =0.25,
                     Upper=c(6,8), Lower=c(6,8),GAP=0.1)
