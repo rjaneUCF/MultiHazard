@@ -1,22 +1,22 @@
-#' Copula Selection With Threshold 2D - Fit
+#' Copula Selection With threshold 2D - Fit
 #'
 #' Declustered excesses of a (conditioning) variable are paired with co-occurences of the other variable before the best fitting bivariate copula is selected, using \code{BiCopSelect} function in the \code{VineCopula} package, for a single or range of thresholds. The procedure is automatically repeated with the variables switched.
 #'
 #' @param Data_Detrend Data frame containing two at least partially concurrent time series, detrended if necessary. Time steps must be equally spaced, with missing values assigned \code{NA}.
 #' @param Data_Declust Data frame containing two (independently) declustered at least partially concurrent time series. Time steps must be equally spaced, with missing values assigned \code{NA}.
-#' @param Thres A single or sequence of thresholds, given as a quantile of the observations of the conditioning variable. Default, sequence from \code{0.9} to \code{0.99} at intervals of \code{0.01}.
+#' @param u A single or sequence of thresholds, given as a quantile of the observations of the conditioning variable. Default, sequence from \code{0.9} to \code{0.99} at intervals of \code{0.01}.
 #' @param Lag_Backward_Var1 Numeric vector of length one specifying the negative lag applied to variable in the first column of \code{Data_Detrend}. Default \code{0}.
 #' @param Lag_Forward_Var1 Numeric vector of length one specifying positive lag applied to variable in the first column of \code{Data_Detrend}. Default \code{0}.
 #' @param Lag_Backward_Var2 Numeric vector of length one specifying negative lag applied to variable in the second column of \code{Data_Detrend}. Default \code{0}.
 #' @param Lag_Forward_Var2 Numeric vector of length one specifying  positive lag applied to variable in the second column of \code{Data_Detrend}. Default \code{0}.
 #' @param PLOT Logical; whether to plot the results. Default is \code{"TRUE"}.
-#' @param x_lim_min Numeric vector of length one specifying x-axis minimum. Default is the maximum argument in \code{Thres}.
-#' @param x_lim_max Numeric vector of length one specifying x-axis maximum. Default is the minimum argument in \code{Thres}.
+#' @param x_lim_min Numeric vector of length one specifying x-axis minimum. Default is the maximum argument in \code{u}.
+#' @param x_lim_max Numeric vector of length one specifying x-axis maximum. Default is the minimum argument in \code{u}.
 #' @param y_lim_min Numeric vector of length one specifying y-axis minimum. Default \code{-1.0}.
 #' @param y_lim_max Numeric vector of length one specifying y-axis maximum. Default \code{1.0}.
-#' @param Upper Numeric vector specifying the element number of the \code{Thres} argument for which the copula family name label to appear above the corresponding point on the Kendall's tau coefficient vs threshold plot, when conditioning on the variable in column 1. Default is \code{0}.
-#' @param Lower Numeric vector specifying the element number of the \code{Thres} argument for which the copula family name label to appear below the corresponding point on the Kendall's tau coefficient vs threshold plot, when conditioning on the variable in column 2. Default is \code{0}.
-#' @param GAP Numeric vector of length one specifying the distance above or below the copula family name label appears the corresponding point on the Kendall's tau coefficient vs threshold plot. Default is \code{0.05}.
+#' @param Upper Numeric vector specifying the element number of the \code{u} argument for which the copula family name label to appear above the corresponding point on the Kendall's tau coefficient vs uhold plot, when conditioning on the variable in column 1. Default is \code{0}.
+#' @param Lower Numeric vector specifying the element number of the \code{u} argument for which the copula family name label to appear below the corresponding point on the Kendall's tau coefficient vs uhold plot, when conditioning on the variable in column 2. Default is \code{0}.
+#' @param GAP Numeric vector of length one specifying the distance above or below the copula family name label appears the corresponding point on the Kendall's tau coefficient vs uhold plot. Default is \code{0.05}.
 #' @param Legend Logic vector of length one specifying whether a legend should be plotted. Default is \code{TRUE}.
 #' @return List comprising: \itemize{
 #' \item \code{Kendalls_Tau_Var1}
@@ -29,15 +29,15 @@
 #' best fitting copula for the specified thresholds
 #' }
 #' when the dataset is conditioned on the variable in column 1.
-#' Analogous vector \code{Kendalls_Tau_Var2}, \code{p_value_Var2}, \code{N_Var2} and \code{Copula_Family_Var2} for the specified thresholds when the dataset is conditioned on the variable in column 2.
+#' Analogous vector \code{Kendalls_Tau_Var2}, \code{p_value_Var2}, \code{N_Var2} and \code{Copula_Family_Var2} for the specified uholds when the dataset is conditioned on the variable in column 2.
 #' @seealso \code{\link{Dataframe_Combine}}
 #' @export
 #' @examples
-#' Copula_Threshold_2D(Data_Detrend=S20.Detrend.df[,-c(1,4)],
+#' Copula_uhold_2D(Data_Detrend=S20.Detrend.df[,-c(1,4)],
 #'                     Data_Declust=S20.Detrend.Declustered.df[,-c(1,4)],
 #'                     y_lim_min=-0.075, y_lim_max =0.25,
 #'                     Upper=c(6,8), Lower=c(6,8),GAP=0.1)
-Copula_Threshold_2D_Lag<-function(Data_Detrend,Data_Declust,Thres1=seq(0.9,0.99,0.01),Thres2=seq(0.9,0.99,0.01),PLOT=TRUE,Lag_Backward_Var1,Lag_Forward_Var1,Lag_Backward_Var2,Lag_Forward_Var2,x_lim_min=min(c(Thres1,Thres2)),x_lim_max=max(c(Thres1,Thres2)),y_lim_min=-1,y_lim_max=1,Upper=0,Lower=0,GAP=0.05,Legend=TRUE){
+Copula_Threshold_2D_Lag<-function(Data_Detrend,Data_Declust,u1=seq(0.9,0.99,0.01),u2=seq(0.9,0.99,0.01),PLOT=TRUE,Lag_Backward_Var1,Lag_Forward_Var1,Lag_Backward_Var2,Lag_Forward_Var2,x_lim_min=min(c(u1,u2)),x_lim_max=max(c(u1,u2)),y_lim_min=-1,y_lim_max=1,Upper=0,Lower=0,GAP=0.05,Legend=TRUE){
   y_lim=y_lim_max-y_lim_min
   copula_table<-data.frame(c(seq(0,40,1)[-(c(11,12,15,21,22,25,31,32,35)+1)],104,114,124,134,204,214,224,234),c("Ind.","Gaussian", "t-copula", "Clayton", "Gumbel","Frank","Joe","BB1","BB6","BB7","BB8","Sur. Clayton","Sur. Gumbel","Sur. Joe",
                                                                                                                 "Sur. BB1","Sur. BB6","Sur. BB7","Sur. BB8","Rot. Clayton","Rot. Gumbel","Rot. Joe","Rot. BB1", "Rot. BB6",
@@ -45,17 +45,17 @@ Copula_Threshold_2D_Lag<-function(Data_Detrend,Data_Declust,Thres1=seq(0.9,0.99,
                                                                                                                 "Tawn type 1","Rot. Tawn type 1","Rot. Tawn type 1","Rot. Tawn type 1","Tawn type 2","Rot. Tawn type 2","Rot. Tawn type 2","Rot. Tawn type 2"))
   colnames(copula_table)<-c("Number","Family")
 
-  correlation_Var1_Value<-numeric(length(Thres1))
-  correlation_Var1_Test<-numeric(length(Thres1))
-  correlation_Var1_N<-numeric(length(Thres1))
-  copula_Var1_Family<-numeric(length(Thres1))
-  copula_Var1_Family_Name<-numeric(length(Thres1))
+  correlation_Var1_Value<-numeric(length(u1))
+  correlation_Var1_Test<-numeric(length(u1))
+  correlation_Var1_N<-numeric(length(u1))
+  copula_Var1_Family<-numeric(length(u1))
+  copula_Var1_Family_Name<-numeric(length(u1))
 
-  correlation_Var2_Value<-numeric(length(Thres2))
-  correlation_Var2_Test<-numeric(length(Thres2))
-  correlation_Var2_N<-numeric(length(Thres2))
-  copula_Var2_Family<-numeric(length(Thres2))
-  copula_Var2_Family_Name<-numeric(length(Thres2))
+  correlation_Var2_Value<-numeric(length(u2))
+  correlation_Var2_Test<-numeric(length(u2))
+  correlation_Var2_N<-numeric(length(u2))
+  copula_Var2_Family<-numeric(length(u2))
+  copula_Var2_Family_Name<-numeric(length(u2))
 
   if(class(Data_Detrend[,1])=="Date" | class(Data_Detrend[,1])=="factor" | class(Data_Detrend[,1])[1]=="POSIXct"){
     Data_Detrend<-Data_Detrend[,-1]
@@ -65,9 +65,9 @@ Copula_Threshold_2D_Lag<-function(Data_Detrend,Data_Declust,Thres1=seq(0.9,0.99,
   }
 
   #Conditional on Var1
-  for(j in 1:length(Thres1)){
-    Threshold<-Thres1[j]
-    Var1_Var1_x<-which(Data_Declust[,1]>quantile(na.omit(Data_Detrend[,1]),Threshold))
+  for(j in 1:length(u1)){
+    uhold<-u1[j]
+    Var1_Var1_x<-which(Data_Declust[,1]>quantile(na.omit(Data_Detrend[,1]),uhold))
     #Var1_Var1<-numeric(length(Var1_Var1_x))
     Var1_df<-array(0,dim=c(length(Var1_Var1_x),2))
     for(i in 1:length(Var1_Var1_x)){
@@ -99,9 +99,9 @@ Copula_Threshold_2D_Lag<-function(Data_Detrend,Data_Declust,Thres1=seq(0.9,0.99,
   }
 
   #Conditional on Var2
-  for(k in 1:length(Thres2)){
-    Threshold<-Thres2[k]
-    Var2_Var2_x<-which(Data_Declust[,2]>quantile(na.omit(Data_Detrend[,2]),Threshold))
+  for(k in 1:length(u2)){
+    uhold<-u2[k]
+    Var2_Var2_x<-which(Data_Declust[,2]>quantile(na.omit(Data_Detrend[,2]),uhold))
     Var2_df<-array(0,dim=c(length(Var2_Var2_x),2))
     for(i in 1:length(Var2_Var2_x)){
       Var2_df[i,2]<-Data_Declust[Var2_Var2_x[i],2]
@@ -131,38 +131,38 @@ Copula_Threshold_2D_Lag<-function(Data_Detrend,Data_Declust,Thres1=seq(0.9,0.99,
     copula_Var2_Family_Name[k]<-as.character(copula_table$Family[which(copula_table$Number==copula_Var2_Family[k])])
    }
  if(PLOT==TRUE){
-  plot(Thres1,correlation_Var1_Value,xlab="Threshold",ylab=expression("Kendall's "*tau*" correlation coefficient"),type='l',lwd=3,xlim=c(x_lim_min,x_lim_max),ylim=c(y_lim_min,y_lim_max),col="Blue")
-  mtext(round(quantile(na.omit(Data_Detrend[,1]),Thres1),2),at=Thres1,side=1,line=2,col="Blue")
-  points(Thres1,correlation_Var1_Value,pch=ifelse(correlation_Var1_Test<0.05,16,16),col=ifelse(correlation_Var1_Test<0.05,"Blue","White"),cex=5)
-  points(Thres1,correlation_Var1_Value,pch=ifelse(correlation_Var1_Test<0.05,16,1),cex=5,col="Blue")
-  text(Thres1,correlation_Var1_Value,as.character(correlation_Var1_N),col=ifelse(correlation_Var1_Test<0.05,"White","Black"))
+  plot(u1,correlation_Var1_Value,xlab="uhold",ylab=expression("Kendall's "*tau*" correlation coefficient"),type='l',lwd=3,xlim=c(x_lim_min,x_lim_max),ylim=c(y_lim_min,y_lim_max),col="Blue")
+  mtext(round(quantile(na.omit(Data_Detrend[,1]),u1),2),at=u1,side=1,line=2,col="Blue")
+  points(u1,correlation_Var1_Value,pch=ifelse(correlation_Var1_Test<0.05,16,16),col=ifelse(correlation_Var1_Test<0.05,"Blue","White"),cex=5)
+  points(u1,correlation_Var1_Value,pch=ifelse(correlation_Var1_Test<0.05,16,1),cex=5,col="Blue")
+  text(u1,correlation_Var1_Value,as.character(correlation_Var1_N),col=ifelse(correlation_Var1_Test<0.05,"White","Black"))
 
   if(sum(Upper)<1){
-    text(Thres1,(correlation_Var1_Value-y_lim*GAP),copula_Var1_Family_Name,col="Blue")
+    text(u1,(correlation_Var1_Value-y_lim*GAP),copula_Var1_Family_Name,col="Blue")
   }
-  if(length(Thres1[Upper])==length(Thres1)){
-    text(Thres1[Upper],(correlation_Var1_Value+y_lim*GAP)[Upper],copula_Var1_Family_Name[Upper],col="Blue")
+  if(length(u1[Upper])==length(u1)){
+    text(u1[Upper],(correlation_Var1_Value+y_lim*GAP)[Upper],copula_Var1_Family_Name[Upper],col="Blue")
   }
-  if(sum(Upper)>0 & length(Thres1[Upper])<length(Thres1)){
-   text(Thres1[-Upper],(correlation_Var1_Value-y_lim*GAP)[-Upper],copula_Var1_Family_Name[-Upper],col="Blue")
-   text(Thres1[Upper],(correlation_Var1_Value+y_lim*GAP)[Upper],copula_Var1_Family_Name[Upper],col="Blue")
+  if(sum(Upper)>0 & length(u1[Upper])<length(u1)){
+   text(u1[-Upper],(correlation_Var1_Value-y_lim*GAP)[-Upper],copula_Var1_Family_Name[-Upper],col="Blue")
+   text(u1[Upper],(correlation_Var1_Value+y_lim*GAP)[Upper],copula_Var1_Family_Name[Upper],col="Blue")
   }
 
-  mtext(round(quantile(na.omit(Data_Detrend[,2]),Thres2),2),at=Thres2,side=3,line=1,col="Red")
-  lines(Thres2,correlation_Var2_Value,col="Red")
-  points(Thres2,correlation_Var2_Value,pch=ifelse(correlation_Var2_Test<0.05,16,16),col=ifelse(correlation_Var2_Test<0.05,"Red","White"),cex=5)
-  points(Thres2,correlation_Var2_Value,pch=ifelse(correlation_Var2_Test<0.05,16,1),cex=5,col="Red")
-  text(Thres2,correlation_Var2_Value,as.character(correlation_Var2_N),col=ifelse(correlation_Var2_Test<0.05,"White","Black"))
+  mtext(round(quantile(na.omit(Data_Detrend[,2]),u2),2),at=u2,side=3,line=1,col="Red")
+  lines(u2,correlation_Var2_Value,col="Red")
+  points(u2,correlation_Var2_Value,pch=ifelse(correlation_Var2_Test<0.05,16,16),col=ifelse(correlation_Var2_Test<0.05,"Red","White"),cex=5)
+  points(u2,correlation_Var2_Value,pch=ifelse(correlation_Var2_Test<0.05,16,1),cex=5,col="Red")
+  text(u2,correlation_Var2_Value,as.character(correlation_Var2_N),col=ifelse(correlation_Var2_Test<0.05,"White","Black"))
 
   if(sum(Lower)<1){
-    text(Thres2,(correlation_Var2_Value+y_lim*GAP),copula_Var2_Family_Name,col="Red")
+    text(u2,(correlation_Var2_Value+y_lim*GAP),copula_Var2_Family_Name,col="Red")
   }
-  if(length(Thres2[Lower])==length(Thres2)){
-    text(Thres2[Lower],(correlation_Var2_Value-y_lim*GAP)[Lower],copula_Var2_Family_Name[Lower],col="Red")
+  if(length(u2[Lower])==length(u2)){
+    text(u2[Lower],(correlation_Var2_Value-y_lim*GAP)[Lower],copula_Var2_Family_Name[Lower],col="Red")
   }
-  if(sum(Lower)>0 & length(Thres2[Lower])<length(Thres2)){
-    text(Thres2[-Lower],(correlation_Var2_Value+y_lim*GAP)[-Lower],copula_Var2_Family_Name[-Lower],col="Red")
-    text(Thres2[Lower],(correlation_Var2_Value-y_lim*GAP)[Lower],copula_Var2_Family_Name[Lower],col="Red")
+  if(sum(Lower)>0 & length(u2[Lower])<length(u2)){
+    text(u2[-Lower],(correlation_Var2_Value+y_lim*GAP)[-Lower],copula_Var2_Family_Name[-Lower],col="Red")
+    text(u2[Lower],(correlation_Var2_Value-y_lim*GAP)[Lower],copula_Var2_Family_Name[Lower],col="Red")
   }
 
   if(Legend==TRUE){
