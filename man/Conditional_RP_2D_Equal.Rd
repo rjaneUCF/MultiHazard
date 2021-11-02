@@ -37,17 +37,17 @@ Conditional_RP_2D_Equal(
 
 \item{Data_Con2}{Data frame containing the conditional sample (declustered excesses paired with concurrent values of other variable), conditioned on the variable in the second column. Can be obtained using the \code{Con_Sampling_2D} function.}
 
-\item{Thres1}{Numeric vector of length one specifying the threshold above which the variable in the first column was sampled in Data_Con1.}
+\item{Thres1}{Numeric vector of length one specifying the threshold above which the variable in the first column was sampled in \code{Data_Con1}.}
 
-\item{Thres2}{Numeric vector of length one specifying the threshold above which the variable in the second column was sampled in Data_Con2.}
+\item{Thres2}{Numeric vector of length one specifying the threshold above which the variable in the second column was sampled in \code{Data_Con2}.}
 
 \item{Copula_Family1}{Numeric vector of length one specifying the copula family used to model the \code{Data_Con1} dataset.}
 
 \item{Copula_Family2}{Numeric vector of length one specifying the copula family used to model the \code{Data_Con2} dataset. Best fitting of 40 copulas can be found using the \code{Copula_Threshold_2D} function.}
 
-\item{Marginal_Dist1}{Character vector of length one specifying (non-extreme) distribution used to model the marginal distribution of the non-conditioned variable.}
+\item{Marginal_Dist1}{Character vector of length one specifying (non-extreme) distribution used to model the marginal distribution of the non-conditioned variable in \code{Data_Con1}.}
 
-\item{Marginal_Dist2}{Character vector of length one specifying (non-extreme) distribution used to model the marginal distribution of the non-conditioned variable.}
+\item{Marginal_Dist2}{Character vector of length one specifying (non-extreme) distribution used to model the marginal distribution of the non-conditioned variable in \code{Data_Con2}.}
 
 \item{Con1}{Character vector of length one specifying the name of variable in the first column of \code{Data}.}
 
@@ -117,9 +117,9 @@ Graphical output: \itemize{
 A large number of realizations are simulated from the copulas fit to the conditioned samples, in proportion with the sizes of the conditional samples. The realization are transformed to the original scale and the relevant probabilities estimated empirically. The conditional probabilities return period of the conditioning variable equals
 }
 \examples{
-#Under a 10yr rainfall event condition, what is the joint probability that a 10yr surge (O-sWL) event occurs
-#simultaneously?  What is the cumulative probability of events with the frequency equal to or less than
-#a 10yr surge event?
+#Under a 10yr rainfall event condition, what is the joint probability that a 10yr surge (O-sWL)
+#event occurs simultaneously?  What is the cumulative probability of events with the frequency
+#equal to or less than a 10yr surge event?
 Conditional_RP_2D_Equal(Data=S22.Detrend.df,
                         Data_Con1=con.sample.Rainfall$Data, Data_Con2=con.sample.OsWL$Data,
                         Thres1=0.98, Thres2=0.98,

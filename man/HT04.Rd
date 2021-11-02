@@ -4,9 +4,17 @@
 \alias{HT04}
 \title{Fits and simulates from the conditional multivariate approach of Heffernan and Tawn (2004)}
 \usage{
-HT04(data_Detrend_Dependence_df, data_Detrend_Declustered_df, u_Dependence,
-  Migpd, mu = 365.25, N = 100, Margins = "gumbel", V = 10,
-  Maxit = 10000)
+HT04(
+  data_Detrend_Dependence_df,
+  data_Detrend_Declustered_df,
+  u_Dependence,
+  Migpd,
+  mu = 365.25,
+  N = 100,
+  Margins = "gumbel",
+  V = 10,
+  Maxit = 10000
+)
 }
 \arguments{
 \item{data_Detrend_Dependence_df}{A data frame with (n+1) columns, containing in column \itemize{
@@ -33,7 +41,7 @@ HT04(data_Detrend_Dependence_df, data_Detrend_Declustered_df, u_Dependence,
 List comprising the fitted HT04 models \code{Models}, proportion of the time each variable is most extreme, given at least one variable is extreme \code{Prop}, as well as the simulated values on the transformed \code{u.sim} and original {x.sim} scales.
 }
 \description{
-Fitting and simulating the conditional multivariate approach of Heffernan and Tawn (2004) to a dataset comprising 3 variables. Function utilizes the \code{mexDependence} and \code{predict.mex.conditioned} functions from the \code{texmex} package.
+Fits the conditional multivariate approach of Heffernan and Tawn (2004) to a dataset and simulates realizations from the fitted model. Function utilizes the \code{mexDependence} and \code{predict.mex.conditioned} functions from the \code{texmex} package.
 }
 \examples{
 #Fitting and simulating from the Heffernan and Tawn (2004) model

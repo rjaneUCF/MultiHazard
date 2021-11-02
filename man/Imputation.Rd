@@ -22,7 +22,7 @@ List comprising a\itemize{
 } and a scatter plot of the data (black points), linear regression model (red line) and fitted (imputed) values (blue points).
 }
 \description{
-Fits a simple linear regression model, impute missing values of the dependent variable.
+Fits a simple linear regression model, to impute missing values of the dependent variable.
 }
 \examples{
 ####Objective: Fill in missing values at groundwater well G_3356 using record at G_3355

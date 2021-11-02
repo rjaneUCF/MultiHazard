@@ -28,7 +28,8 @@ Design_Event_2D(
   N = 10^6,
   N_Ensemble = 0,
   Sim_Max = 10,
-  Plot_Quantile_Isoline = FALSE
+  Plot_Quantile_Isoline = FALSE,
+  Isoline_Type = "Combined"
 )
 }
 \arguments{
@@ -79,12 +80,14 @@ Design_Event_2D(
 \item{Sim_Max}{Numeric vector of length one specifying the maximum value, given as a multiple of the largest observation of each variable, permitted in the sample used to estimate the (relative) probabilities along the isoline.}
 
 \item{Plot_Quantile_Isoline}{Logical; indicating whether to first plot the quantile isoline. Default is FALSE.}
+
+\item{Isoline_Type}{Character vector of length one specifying the type of isoline. For isolines obtained using the overlaying method in Bender et al. (2016) use \code{"Combined"} (default). For quantile isoline from the sample conditioned variable \code{Con1}|(\code{Con2}) on use \code{"Con1"}(\code{"Con2"}).}
 }
 \value{
 Plot of all the observations (grey circles) as well as the declustered excesses above Thres1 (blue circles) or Thres2 (blue circles), observations may belong to both conditional samples. Also shown is the isoline associated with \code{RP} contoured according to their relative probability of occurrence on the basis of the sample from the two joint distributions, the "most likely" design event (black diamond), and design event under the assumption of full dependence (black triangle) are also shown in the plot. The function also returns a list comprising the design events assuming full dependence \code{"FullDependence"}, as well as once the dependence between the variables is accounted for the "Most likley" \code{"MostLikelyEvent"} as well as an \code{"Ensemble"} of possible design events.
 }
 \description{
-Calculates the single design event under the assumption of full dependence, or once accounting for dependence between variables the single "most-likely" or an ensemble of possible design events for one or more return periods.
+Calculates the isoline and relative probability of events on the isoline, given the observational data, for one or more user-specified return periods. Outputs the single "most-likely" design event or an ensemble of possible design events obtained by sampling along the isoline according to these relative probabilities. The design event under the assumption of full dependence is also computed.
 }
 \examples{
 S22.Rainfall<-Con_Sampling_2D(Data_Detrend=S22.Detrend.df[,-c(1,4)],

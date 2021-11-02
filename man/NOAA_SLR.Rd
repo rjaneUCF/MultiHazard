@@ -4,8 +4,12 @@
 \alias{NOAA_SLR}
 \title{NOAA sea-level rise scenarios}
 \usage{
-NOAA_SLR(OsWL_req, SLR_scen = c("High", "Intermediate", "Low"),
-  Input_unit = "m", Year.Inital = 2020)
+NOAA_SLR(
+  OsWL_req,
+  SLR_scen = c("High", "Intermediate", "Low"),
+  Input_unit = "m",
+  Year.Inital = 2020
+)
 }
 \arguments{
 \item{OsWL_req}{Numeric vector of SLR required.}
@@ -23,5 +27,6 @@ List comprising the specified \code{Threshold} as the quantile of the conditioni
 Time (in years) for a specified amount of sea-level rise (SLR) to occur at Miami Beach according to the five SLR scenarios in NOAA 2017 report titled "Global and Regional Sea Level Rise Scenarios for the United States".
 }
 \examples{
-NOAA_SLR<-function(OsWL_req=seq(0,1,0.01),SLR_scen = c("High","Intermediate","Low"),Input_unit="m")
+NOAA_SLR<-function(OsWL_req=seq(0,1,0.01),SLR_scen = c("High","Intermediate","Low"),
+                   Input_unit="m")
 }

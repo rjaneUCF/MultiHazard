@@ -55,7 +55,7 @@ Middle row: Return levels estimated from the GPD fitted at various thresholds.
 Lower row: Right-tail weighted Anderson Darling statistic \eqn{A_R^2} associated with the GPD fitted using various thresholds. Lower \eqn{A_R^2} statistic values signify less (quadratic) distance between the empirical distribution and the GPD i.e., GPD is a better fit for these thresholds (left).  \eqn{1-p_{value}} associated with the \eqn{A_R^2} for each threshold. The \eqn{A_R^2} goodness of fit tests, tests the null hypothesis that the observations are from a GPD. At smaller \eqn{1-p_{value}} figure there is less chance of rejecting the null hypothesis i.e., the GPD is more suitable at these thresholds (center). Events per year at each threshold (right).
 }
 \description{
-Traditional graphical methods and the automatic threshold selection method in Solari et al. (2017) is implemented to find the threshold above which excesses are follow a GPD. The code is based on the \code{ANALISIS_POT_LNORM} function provided by Sebastian Solari.
+Automatic threshold selection method in Solari et al. (2017) is implemented to find the threshold above which excesses are follow a GPD. The code is based on the \code{ANALISIS_POT_LNORM} function provided by Sebastian Solari.
 }
 \section{Details}{
 

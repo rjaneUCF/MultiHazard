@@ -2,11 +2,20 @@
 % Please edit documentation in R/HT04_Lag.R
 \name{HT04_Lag}
 \alias{HT04_Lag}
-\title{Fits and simulates from the conditional multivariate approach of Heffernan and Tawn (2004)}
+\title{Implements the version of the conditional multivariate approach of Heffernan and Tawn (2004) proposed in Keef et al. (2013) which incorporates lags between the variables.}
 \usage{
-HT04_Lag(data_Detrend_Dependence_df, data_Detrend_Declustered_df, Lags,
-  u_Dependence, Migpd, mu = 365.25, N = 100, Margins = "gumbel",
-  V = 10, Maxit = 10000)
+HT04_Lag(
+  data_Detrend_Dependence_df,
+  data_Detrend_Declustered_df,
+  Lags,
+  u_Dependence,
+  Migpd,
+  mu = 365.25,
+  N = 100,
+  Margins = "gumbel",
+  V = 10,
+  Maxit = 10000
+)
 }
 \arguments{
 \item{data_Detrend_Dependence_df}{A data frame with (n+1) columns, containing in column \itemize{
@@ -25,9 +34,9 @@ HT04_Lag(data_Detrend_Dependence_df, data_Detrend_Declustered_df, Lags,
 
 \item{Margins}{Character vector specifying the form of margins to which the data are transformed for carrying out dependence estimation. Default is \code{"gumbel"}, alternative is \code{"laplace"}. Under Gumbel margins, the estimated parameters \code{a} and \code{b} describe only positive dependence, while \code{c} and \code{d} describe negative dependence in this case. For Laplace margins, only parameters \code{a} and \code{b} are estimated as these capture both positive and negative dependence.}
 
-\item{V}{See documentation for mexDependence.}
+\item{V}{See documentation for \code{mexDependence}.}
 
-\item{Maxit}{See documentation for mexDependence.}
+\item{Maxit}{See documentation for \code{mexDependence}.}
 
 \item{Lag}{Matrix specifying the lags. The no lag i.e. \code{0} lag cases need to be specified. Row n denotes the lags applied to the variable in the nth column of \code{data_Detrend_Dependence_df}. Column n corresponds to the nth largest lag applied to any variable. \code{NA}. Default is \code{matrix(c(0,1,0,NA),nrow=2,byrow = T)}, which corresponds to a lag of 1 being applied to variable in the first column of \code{data_Detrend_Dependence_df} and no lag being applied to the variable in the second column of \code{data_Detrend_Dependence_df}.}
 }
@@ -35,10 +44,12 @@ HT04_Lag(data_Detrend_Dependence_df, data_Detrend_Declustered_df, Lags,
 List comprising the fitted HT04 models \code{Models}, proportion of the time each variable is most extreme, given at least one variable is extreme \code{Prop}, as well as the simulated values on the transformed \code{u.sim} and original {x.sim} scales.
 }
 \description{
-Fitting and simulating the conditional multivariate approach of Heffernan and Tawn (2004) to a dataset. Function utilizes the \code{mexDependence} and \code{predict.mex.conditioned} functions from the \code{texmex} package.
+Implements the version of the conditional multivariate approach of Heffernan and Tawn (2004) proposed in Keef et al. (2013) which incorporates lags between the variables. Function utilizes the \code{mexDependence} and \code{predict.mex.conditioned} functions from the \code{texmex} package.
 }
 \examples{
-HT04(data_Detrend_Dependence_df = S22.Detrend.df,data_Detrend_Declustered_df = S22.Detrend.Declustered.df ,Migpd = S22_GPD, u_Dependence=0.7,Margins = "gumbel")
+HT04(data_Detrend_Dependence_df = S22.Detrend.df,
+data_Detrend_Declustered_df = S22.Detrend.Declustered.df,
+Migpd = S22_GPD, u_Dependence=0.7,Margins = "gumbel")
 }
 \seealso{
 \code{\link{Dataframe_Combine}} \code{\link{Decluster}} \code{\link{GPD_Fit}} \code{\link{Migpd_Fit}}

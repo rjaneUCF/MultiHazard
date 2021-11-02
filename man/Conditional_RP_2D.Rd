@@ -46,9 +46,9 @@ Conditional_RP_2D(
 
 \item{Copula_Family2}{Numeric vector of length one specifying the copula family used to model the \code{Data_Con2} dataset. Best fitting of 40 copulas can be found using the \code{Copula_Threshold_2D} function.}
 
-\item{Marginal_Dist1}{Character vector of length one specifying (non-extreme) distribution used to model the marginal distribution of the non-conditioned variable.}
+\item{Marginal_Dist1}{Character vector of length one specifying (non-extreme) distribution used to model the marginal distribution of the non-conditioned variable in \code{Data_Con1}.}
 
-\item{Marginal_Dist2}{Character vector of length one specifying (non-extreme) distribution used to model the marginal distribution of the non-conditioned variable.}
+\item{Marginal_Dist2}{Character vector of length one specifying (non-extreme) distribution used to model the marginal distribution of the non-conditioned variable in \code{Data_Con2}.}
 
 \item{Con1}{Character vector of length one specifying the name of variable in the first column of \code{Data}.}
 
@@ -108,7 +108,7 @@ Probability the non-conditioned variable is less than or equal to \code{RP_Non_C
 Graphical output: \itemize{
 \item Top left: Sample conditioned on Con1 (red crosses) and Con2 (blue circles). Black dot is the event with a marginal return period of the conditioned variable \code{Var_Con} and non-conditioned variable equal to \code{RP_Con} and \code{RP_Non_Con}, respectively. The joint return period of the event using the conditional sampling - copula theory approach and under the assumptions of full dependence and independence between the variables are printed.
 \item Top right: Sample conditioned on Con1 (red crosses) and Con2 (blue circles). Only the region where Con_Var exceeds RP_Con is visible. This is the region for which the conditional distribution (of the non-conditioned variable given Con_Var exceeds RP_Con) and in turn conditional return periods are calculated.
-\item Bottom left: Conditional Cumulative Distribution Function (CDF) of the non-conditioned variable given the marginal return period of the conditioned variable \code{Var_Con} exceeds \code{RP_Con} years i.e. the black dots in the top right plot.
+\item Bottom left: Conditional Cumulative Distribution Function (CDF) of the non-conditioned variable given the marginal return period of the conditioned variable \code{Var_Con} exceeds \code{RP_Con} years i.e. the points visible in the top right plot.
 \item Bottom right: Conditional return period of the non-conditioned variable given the conditioned variable \code{Var_Con} has a return period longer than \code{RP_Con}.
 }
 }
@@ -117,9 +117,9 @@ Univariate return period events are obtained from the GPDs to be consistent with
 To find the conditional probabilities a large number of realizations are simulated from the copulas fit to the conditioned samples, in proportion with the sizes of the conditional samples. The realizations are transformed to the original scale and the relevant probabilities estimated empirically.
 }
 \examples{
-#Under a 10yr (or greater) rainfall event condition, what is the joint probability that a 10yr O-sWL
-#event occurs simultaneously?  What is the cumulative probability of events with the frequency equal
-#to or less than a 10yr O-sWL event?
+#Under a 10yr (or greater) rainfall event condition, what is the joint probability that a 10yr
+#O-sWLevent occurs simultaneously?  What is the cumulative probability of events with the
+#frequency equal to or less than a 10yr O-sWL event?
 Conditional_RP_2D(Data=S22.Detrend.df,
                   Data_Con1=con.sample.Rainfall$Data, Data_Con2=con.sample.OsWL$Data,
                   Thres1=0.98, Thres2=0.98,

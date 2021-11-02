@@ -2,21 +2,29 @@
 % Please edit documentation in R/Diag_Non_Con_Trunc_Sel.R
 \name{Diag_Non_Con_Trunc_Sel}
 \alias{Diag_Non_Con_Trunc_Sel}
-\title{Demonstrate the goodness of fit of the selected non-extreme marginal distribution}
+\title{Godness of fit of the selected non-extreme marginal distribution}
 \usage{
-Diag_Non_Con_Trunc_Sel(Data, x_lab, y_lim_min = 0, y_lim_max = 1,
-  Selected)
+Diag_Non_Con_Trunc_Sel(
+  Data,
+  Selected,
+  Omit = NA,
+  x_lab,
+  y_lim_min = 0,
+  y_lim_max = 1
+)
 }
 \arguments{
 \item{Data}{Numeric vector containing realizations of the variable of interest.}
+
+\item{Selected}{Character vector of length one specifying the chosen distribution, options are the Birnbaum-Saunders \code{"BS"}, exponential \code{"Exp"}, two-parameter gamma \code{"Gam(2)"}, three-parameter gamma \code{"Gam(3)"}, mixed two-parameter gamma \code{"GamMix(2)"}, mixed three-parameter gamma \code{"GamMix(3)"}, lognormal \code{"LogN"}, Tweedie \code{"Twe"} and Weibull \code{"Weib"}.}
+
+\item{Omit}{Character vector specifying any distributions that are not to be tested. Default \code{"NA"}, all distributions are fit.}
 
 \item{x_lab}{Character vector of length one specifying the label on the x-axis of histogram and cummulative distribution plot.}
 
 \item{y_lim_min}{Numeric vector of length one specifying the lower y-axis limit of the histogram. Default is \code{0}.}
 
 \item{y_lim_max}{Numericr vector of length one specifying the upper y-axis limit of the histogram. Default is \code{1}.}
-
-\item{Selected}{Character vector of length one specifying the chosen distribution, options are the Birnbaum-Saunders \code{"BS"}, exponential \code{"Exp"}, gamma \code{"Gam"}, lognormal \code{"LogN"}, Tweedie \code{"Twe"} and Weibull \code{"Weib"}.}
 }
 \value{
 Panel consisting of three plots. Upper plot: Plot depicting the AIC of the eight fitted distributions. Middle plot: Probability Density Functions (PDFs) of the fitted distributions superimposed on a histogram of the data. Lower plot: Cumulative Distribution Functions (CDFs) of the fitted distributions overlaid on a plot of the empirical CDF.

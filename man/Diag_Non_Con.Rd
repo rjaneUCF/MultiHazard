@@ -16,7 +16,7 @@ Diag_Non_Con(Data, x_lab, y_lim_min = 0, y_lim_max = 1)
 \item{y_lim_max}{Numeric vector of length one specifying the upper y-axis limit of the histogram. Default is \code{1}.}
 }
 \value{
-Name of the best fitting distribution \code{Best_fit}. Panel consisting of three plots. Upper plot: Plot depicting the AIC of the two fitted distributions. Middle plot: Probability Density Functions (PDFs) of the fitted distributions superimposed on a histogram of the data. Lower plot: Cumulative Distribution Functions (CDFs) of the fitted distributions overlaid on a plot of the empirical CDF.
+Dataframe \code{$AIC} giving the AIC associated with each distribution and the name of the best fitting distribution \code{$Best_fit}. Panel consisting of three plots. Upper plot: Plot depicting the AIC of the two fitted distributions. Middle plot: Probability Density Functions (PDFs) of the fitted distributions superimposed on a histogram of the data. Lower plot: Cumulative Distribution Functions (CDFs) of the fitted distributions overlaid on a plot of the empirical CDF.
 }
 \description{
 Fits two (unbounded) non-extreme marginal distributions to a dataset and returns three plots demonstrating their relative goodness of fit.

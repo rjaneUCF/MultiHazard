@@ -4,10 +4,12 @@
 \alias{Diag_Non_Con_Trunc}
 \title{Goodness of fit of non-extreme marginal distributions}
 \usage{
-Diag_Non_Con_Trunc(Data, x_lab, y_lim_min = 0, y_lim_max = 1)
+Diag_Non_Con_Trunc(Data, Omit = NA, x_lab, y_lim_min = 0, y_lim_max = 1)
 }
 \arguments{
 \item{Data}{Numeric vector containing realizations of the variable of interest.}
+
+\item{Omit}{Character vector specifying any distributions that are not to be tested. Default \code{"NA"}, all distributions are fit.}
 
 \item{x_lab}{Character vector of length one specifying the label on the x-axis of histogram and cumulative distribution plot.}
 
@@ -16,10 +18,11 @@ Diag_Non_Con_Trunc(Data, x_lab, y_lim_min = 0, y_lim_max = 1)
 \item{y_lim_max}{Numeric vector of length one specifying the upper y-axis limit of the histogram. Default is \code{1}.}
 }
 \value{
-Name of the best fitting distribution \code{Best_fit}. Panel consisting of three plots. Upper plot: Plot depicting the AIC of the eight fitted distributions. Middle plot: Probability Density Functions (PDFs) of the fitted distributions superimposed on a histogram of the data. Lower plot: Cumulative Distribution Functions (CDFs) of the fitted distributions overlaid on a plot of the empirical CDF.
+Dataframe \code{$AIC} giving the AIC associated with each distribution and the name of the best fitting distribution \code{$Best_fit}. Panel consisting of three plots. Upper plot: Plot depicting the AIC of the ten fitted distributions. Middle plot: Probability Density Functions (PDFs) of the fitted distributions superimposed on a histogram of the data. Lower plot: Cumulative Distribution Functions (CDFs) of the fitted distributions overlaid on a plot of the empirical CDF.
 }
 \description{
-Fits seven (truncated) non-extreme marginal distributions to a dataset and returns three plots demonstrating their relative goodness of fit.
+Fits ten (truncated) non-extreme marginal distributions to a dataset and returns three plots demonstrating their relative goodness of fit.
+The distributions are the Birnbaum-Saunders \code{"BS"}, exponential \code{"Exp"}, two-parameter gamma \code{"Gam(2)"}, three-parameter gamma \code{"Gam(3)"}, mixed two-parameter gamma \code{"GamMix(2)"}, mixed three-parameter gamma \code{"GamMix(3)"}, lognormal \code{"LNorm"}, truncated normal \code{"TNorm"}, Tweedie \code{"Twe"} and the Weibull \code{"Weib"}.
 }
 \examples{
 S20.OsWL<-Con_Sampling_2D(Data_Detrend=S20.Detrend.df[,-c(1,4)],
