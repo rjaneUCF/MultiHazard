@@ -7,6 +7,7 @@
 #' @param u GPD threshold expressed as a quantile \code{[0,1]} of \code{Data} vector. Default is \code{0.95}.
 #' @param Thres GPD threshold expressed on the original scale of the \code{"Data"}. Only one of \code{u} and \code{Thres} should be supplied. Default is \code{NA}.
 #' @param mu Numeric vector of length one specifying (average) occurrence frequency of events in the \code{Data_Full} input. Default is \code{365.25}.
+#' @param GPD_Bayes Logical; indicating whether to use a Bayesian approach to estimate GPD parameters. This involves applying a penalty to the likelihood to aid in the stability of the optimization procedure. Default is \code{TRUE}.
 #' @param Method Character vector of length one specifying the method of choosing the threshold. \code{"Standard"} (default) chooses the exact threshold specified aswither \code{"u"} or \code{"th"}, whereas \code{"Solari"} selects the minimum exceedence of the \code{"Data"} above the user-specified threshold.
 #' @param min.RI Numeric vector of length one specifying the minimum return period in the return level plot. Default is \code{1}.
 #' @param Plot Logical; indicating whether to plot diagnostics. Default is \code{FALSE}.
@@ -19,7 +20,7 @@
 #' @export
 #' @examples
 #' Decluster(Data=S20_T_MAX_Daily_Completed_Detrend$Detrend)
-GPD_Fit<-function(Data,Data_Full,u=0.95,Thres=NA,mu=365.25,Method="Standard",min.RI=1,PLOT=FALSE,xlab_hist="Data",y_lab="Data"){
+GPD_Fit<-function(Data,Data_Full,u=0.95,Thres=NA,mu=365.25,GPD_Bayes=TRUE,Method="Standard",min.RI=1,PLOT=FALSE,xlab_hist="Data",y_lab="Data"){
 
   Data_Full<-na.omit(Data_Full)
   if(is.na(Thres)==T){
@@ -28,15 +29,22 @@ GPD_Fit<-function(Data,Data_Full,u=0.95,Thres=NA,mu=365.25,Method="Standard",min
   Data<-na.omit(Data)
 
   if(Method=="Standard"){
-  gpd<-evm(Data, th = Thres,penalty = "gaussian",priorParameters = list(c(0, 0), matrix(c(100^2, 0, 0, 0.25), nrow = 2)))
+    if(GPD_Bayes==T){
+      gpd<-evm(Data, th = Thres,penalty = "gaussian",priorParameters = list(c(0, 0), matrix(c(100^2, 0, 0, 0.25), nrow = 2)))
+    } else{
+      gpd<-evm(Data, th = Thres)
+    }
   gpd$rate<-length(Data[which(Data>=Thres)])/(length(Data_Full))
   }
 
   if(Method=="Solari"){
   Exceedence<-Data[which(Data>=Thres)]
-  gpd <- evm(Exceedence, th = min(Exceedence), penalty = "gaussian",
-             priorParameters = list(c(0, 0), matrix(c(100^2, 0, 0,
-                                                      0.25), nrow = 2)))
+   if(GPD_Bayes==T){
+     gpd <- evm(Exceedence, th = min(Exceedence), penalty = "gaussian",
+             priorParameters = list(c(0, 0), matrix(c(100^2, 0, 0, 0.25), nrow = 2)))
+   } else{
+     gpd <- evm(Exceedence, th = min(Exceedence))
+   }
   Thres=min(Exceedence)
   gpd$rate<-length(Exceedence)/(length(Data_Full))
   }

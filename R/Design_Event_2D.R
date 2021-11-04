@@ -15,7 +15,7 @@
 #' @param Con1 Character vector of length one specifying the name of variable in the first column of \code{Data}.
 #' @param Con2 Character vector of length one specifying the name of variable in the second column of \code{Data}.
 #' @param mu Numeric vector of length one specifying the (average) occurrence frequency of events in \code{Data}. Default is \code{365.25}, daily data.
-#' @param GPD_Bayes Logical; indicating whether to use a Bayesian approach to estimate GPD paramteres. This involves applying a penalty to the likelihood to aid in the stability of the opimization procedure. Default is \code{TRUE}.
+#' @param GPD_Bayes Logical; indicating whether to use a Bayesian approach to estimate GPD parameters. This involves applying a penalty to the likelihood to aid in the stability of the optimization procedure. Default is \code{TRUE}.
 #' @param RP Numeric vector specifying the return periods of interest.
 #' @param Interval Numeric vector specifying the number of equally spaced points comprising the combined isoline.
 #' @param x_lab Character vector specifying the x-axis label.
