@@ -8,8 +8,10 @@ Design_Event_2D(
   Data,
   Data_Con1,
   Data_Con2,
-  Thres1,
-  Thres2,
+  u1,
+  u2,
+  Thres1 = NA,
+  Thres2 = NA,
   Copula_Family1,
   Copula_Family2,
   Marginal_Dist1,
@@ -17,6 +19,7 @@ Design_Event_2D(
   Con1 = "Rainfall",
   Con2 = "OsWL",
   mu = 365.25,
+  GPD_Bayes = TRUE,
   RP,
   Interval = 10000,
   x_lab = "Rainfall (mm)",
@@ -39,9 +42,13 @@ Design_Event_2D(
 
 \item{Data_Con2}{Data frame containing the conditional sample (declustered excesses paired with concurrent values of other variable), conditioned on the variable in the second column. Can be obtained using the \code{Con_Sampling_2D} function.}
 
-\item{Thres1}{Numeric vector of length one specifying the threshold above which the variable in the first column was sampled in \code{Data_Con1}.}
+\item{u1}{Numeric vector of length one specifying the threshold, expressed as a quantile, above which the variable in the first column was sampled in \code{Data_Con1}.}
 
-\item{Thres2}{Numeric vector of length one specifying the threshold above which the variable in the second column was sampled in \code{Data_Con2}.}
+\item{u2}{Numeric vector of length one specifying the threshold, expressed as a quantile, above which the variable in the second column was sampled in \code{Data_Con2}.}
+
+\item{Thres1}{Numeric vector of length one specifying the threshold above which the variable in the first column was sampled in \code{Data_Con1}. Only one of \code{u1} and \code{Thres1} should be supplied. Default is \code{NA}.}
+
+\item{Thres2}{Numeric vector of length one specifying the threshold above which the variable in the second column was sampled in \code{Data_Con2}. Only one of \code{u2} and \code{Thres2} should be supplied. Default is \code{NA}.}
 
 \item{Copula_Family1}{Numeric vector of length one specifying the copula family used to model the \code{Data_Con1} dataset.}
 
@@ -56,6 +63,8 @@ Design_Event_2D(
 \item{Con2}{Character vector of length one specifying the name of variable in the second column of \code{Data}.}
 
 \item{mu}{Numeric vector of length one specifying the (average) occurrence frequency of events in \code{Data}. Default is \code{365.25}, daily data.}
+
+\item{GPD_Bayes}{Logical; indicating whether to use a Bayesian approach to estimate GPD parameters. This involves applying a penalty to the likelihood to aid in the stability of the optimization procedure. Default is \code{TRUE}.}
 
 \item{RP}{Numeric vector specifying the return periods of interest.}
 
@@ -79,7 +88,7 @@ Design_Event_2D(
 
 \item{Sim_Max}{Numeric vector of length one specifying the maximum value, given as a multiple of the largest observation of each variable, permitted in the sample used to estimate the (relative) probabilities along the isoline.}
 
-\item{Plot_Quantile_Isoline}{Logical; indicating whether to first plot the quantile isoline. Default is FALSE.}
+\item{Plot_Quantile_Isoline}{Logical; indicating whether to first plot the quantile isoline. Default is \code{FALSE}.}
 
 \item{Isoline_Type}{Character vector of length one specifying the type of isoline. For isolines obtained using the overlaying method in Bender et al. (2016) use \code{"Combined"} (default). For quantile isoline from the sample conditioned variable \code{Con1}|(\code{Con2}) on use \code{"Con1"}(\code{"Con2"}).}
 }
@@ -92,21 +101,21 @@ Calculates the isoline and relative probability of events on the isoline, given 
 \examples{
 S22.Rainfall<-Con_Sampling_2D(Data_Detrend=S22.Detrend.df[,-c(1,4)],
                              Data_Declust=S22.Detrend.Declustered.df[,-c(1,4)],
-                             Con_Variable="Rainfall",Thres=0.97)
+                             Con_Variable="Rainfall",u=0.97)
 S22.OsWL<-Con_Sampling_2D(Data_Detrend=S22.Detrend.df[,-c(1,4)],
                          Data_Declust=S22.Detrend.Declustered.df[,-c(1,4)],
-                         Con_Variable="OsWL",Thres=0.97)
+                         Con_Variable="OsWL",u=0.97)
 S22.Copula.Rainfall<-Copula_Threshold_2D(Data_Detrend=S22.Detrend.df[,-c(1,4)],
-                                        Data_Declust=S22.Detrend.Declustered.df[,-c(1,4)],Thres =0.97,
+                                        Data_Declust=S22.Detrend.Declustered.df[,-c(1,4)],u =0.97,
                                         y_lim_min=-0.075,y_lim_max=0.25,
                                         Upper=c(2,9),Lower=c(2,10),GAP=0.15)$Copula_Family_Var1
 S22.Copula.OsWL<-Copula_Threshold_2D(Data_Detrend=S22.Detrend.df[,-c(1,4)],
-                                    Data_Declust=S22.Detrend.Declustered.df[,-c(1,4)],Thres =0.97,
+                                    Data_Declust=S22.Detrend.Declustered.df[,-c(1,4)],u =0.97,
                                     y_lim_min=-0.075, y_lim_max =0.25,
                                     Upper=c(2,9),Lower=c(2,10),GAP=0.15)$Copula_Family_Var2
 Design_Event_2D(Data=S22.Detrend.df[,-c(1,4)],
                Data_Con1=S22.Rainfall$Data, Data_Con2=S22.OsWL$Data,
-               Thres1=0.97, Thres2=0.97,
+               u1=0.97, u2=0.97,
                Copula_Family1=S22.Copula.Rainfall, Copula_Family2=S22.Copula.OsWL,
                Marginal_Dist1="Logis", Marginal_Dist2="Twe",
                RP=100,Interval=10000,N=10,N_Ensemble=10,

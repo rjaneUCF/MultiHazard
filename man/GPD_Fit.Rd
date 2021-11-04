@@ -10,6 +10,7 @@ GPD_Fit(
   u = 0.95,
   Thres = NA,
   mu = 365.25,
+  GPD_Bayes = TRUE,
   Method = "Standard",
   min.RI = 1,
   PLOT = FALSE,
@@ -27,6 +28,8 @@ GPD_Fit(
 \item{Thres}{GPD threshold expressed on the original scale of the \code{"Data"}. Only one of \code{u} and \code{Thres} should be supplied. Default is \code{NA}.}
 
 \item{mu}{Numeric vector of length one specifying (average) occurrence frequency of events in the \code{Data_Full} input. Default is \code{365.25}.}
+
+\item{GPD_Bayes}{Logical; indicating whether to use a Bayesian approach to estimate GPD parameters. This involves applying a penalty to the likelihood to aid in the stability of the optimization procedure. Default is \code{TRUE}.}
 
 \item{Method}{Character vector of length one specifying the method of choosing the threshold. \code{"Standard"} (default) chooses the exact threshold specified aswither \code{"u"} or \code{"th"}, whereas \code{"Solari"} selects the minimum exceedence of the \code{"Data"} above the user-specified threshold.}
 
