@@ -65,7 +65,7 @@ Diag_Non_Con_Sel<-function(Data,x_lab = "Data",y_lim_min = 0,y_lim_max = 1,Selec
 
   plot(sort(Data),seq(1,length(Data),1)/(length(Data)),xlim=c(min(Data),max(Data)),ylim=c(0,1),xlab=x_lab,ylab="P(X<x)",main="",pch=16,cex.lab=1,cex.axis=1,las=1)
   x<-seq(min(0,min(Data)),max(Data),0.01)
-  eta<-sqrt((1/length(Data))*log(2/0.95))
+  eta<-sqrt((1/(2*length(Data)))*log(2/0.95))
   lines(sort(Data),ifelse(seq(1,length(Data),1)/(length(Data))+eta>1,1,seq(1,length(Data),1)/(length(Data))+eta),col=1,lty=2)
   lines(sort(Data),ifelse(seq(1,length(Data),1)/(length(Data))-eta<0,0,seq(1,length(Data),1)/(length(Data))-eta),col=1,lty=2)
   legend("bottomright",c("95% Conf. Interval",paste("Fitted",Selected, "dist.")),lty=c(2,1),col=c(1,colors[j]),cex=1,bty='n',border = "white")

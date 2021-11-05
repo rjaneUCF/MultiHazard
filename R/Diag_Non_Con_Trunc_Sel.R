@@ -214,7 +214,7 @@ Diag_Non_Con_Trunc_Sel<-function(Data,Selected,Omit=NA,x_lab,y_lim_min=0,y_lim_m
   #CDF plot
   plot(sort(Data),seq(1,length(Data),1)/(length(Data)),ylim=c(0,1),xlab=x_lab,ylab="P(X<x)",main="",pch=16,cex.lab=1,cex.axis=1,las=1)
   x<-seq(min(Data),max(Data),0.01)
-  eta<-sqrt((1/length(Data))*log(2/0.95))
+  eta<-sqrt((1/(2*length(Data)))*log(2/0.95))
   lines(sort(Data),ifelse(seq(1,length(Data),1)/(length(Data))+eta>1,1,seq(1,length(Data),1)/(length(Data))+eta),col=1,lty=2)
   lines(sort(Data),ifelse(seq(1,length(Data),1)/(length(Data))-eta<0,0,seq(1,length(Data),1)/(length(Data))-eta),col=1,lty=2)
   legend("bottomright",c("95% Conf. Interval",paste("Fitted",Selected, "dist.")),lty=c(2,1),col=mypalette[which(Dist==Selected)],cex=1,bty='n',border = "white")
