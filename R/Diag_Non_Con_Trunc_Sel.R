@@ -19,7 +19,7 @@
 #'                    y_lim_min=0,y_lim_max=2)
 #' Diag_Non_Con_Sel_Trunc(Data=S20.OsWL$Data$Rainfall,x_lab="Rainfall (Inches)",
 #'                        y_lim_min=0,y_lim_max=2,Selected="Twe")
-Diag_Non_Con_Trunc_Sel<-function(Data,Selected,Omit=NA,x_lab,y_lim_min=0,y_lim_max=1){
+Diag_Non_Con_Trunc_Sel<-function(Data,Selected,Omit=NA,x_lab="Data",y_lim_min=0,y_lim_max=1){
   #Colors for plots
   mypalette<-c("Black",brewer.pal(9,"Set1"))
 

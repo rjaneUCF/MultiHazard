@@ -15,7 +15,7 @@
 #' @param Margins Character vector specifying the form of margins to which the data are transformed for carrying out dependence estimation. Default is \code{"gumbel"}, alternative is \code{"laplace"}. Under Gumbel margins, the estimated parameters \code{a} and \code{b} describe only positive dependence, while \code{c} and \code{d} describe negative dependence in this case. For Laplace margins, only parameters \code{a} and \code{b} are estimated as these capture both positive and negative dependence.
 #' @param V See documentation for mexDependence.
 #' @param Maxit See documentation for mexDependence.
-#' @return List comprising the fitted HT04 models \code{Models}, proportion of the time each variable is most extreme, given at least one variable is extreme \code{Prop}, as well as the simulated values on the transformed \code{u.sim} and original {x.sim} scales.
+#' @return List comprising the fitted HT04 models \code{Models}, proportion of the time each variable is most extreme, given at least one variable is extreme \code{Prop}, residuals \code{z}, as well as the simulated values on the transformed \code{u.sim} and original {x.sim} scales.
 #' @seealso \code{\link{Dataframe_Combine}} \code{\link{Migpd_Fit}}
 #' @export
 #' @examples
@@ -52,7 +52,7 @@ HT04<-function(data_Detrend_Dependence_df,data_Detrend_Declustered_df,u_Dependen
   u.extremes<-array(0,dim=c(nrow(na.omit(data_Detrend_Dependence_df)),ncol(data_Detrend_Declustered_df)))
   Prop<-rep(NA,ncol(data_Detrend_Declustered_df))
   HT04.Predict<-vector('list',ncol(data_Detrend_Declustered_df))
-
+  HT04_z<-vector('list',ncol(data_Detrend_Declustered_df))
 
   #Fitting the model
   for(i in 1:ncol(data_Detrend_Declustered_df)){
@@ -74,13 +74,11 @@ HT04<-function(data_Detrend_Dependence_df,data_Detrend_Declustered_df,u_Dependen
     Gumbel_df.Threshold[i]<-quantile(Gumbel_df[,i],u_Dependence)
     u.extremes[which(Gumbel_df[,i]>Gumbel_df.Threshold[i]),i]<-1
   }
-
   Gumbel_df_Extremes<-Gumbel_df[which(apply(u.extremes, 1, sum)>0),]
   colnames(Gumbel_df_Extremes)<-colnames(data_Detrend_Dependence_df)
 
-
   for(i in 1:ncol(data_Detrend_Declustered_df)){
-    Prop[i]<-length(which(apply(Gumbel_df_Extremes, 1, function(x) which(x==max(x)))==i))/nrow(Gumbel_df_Extremes)
+    Prop[i]<-length(which(as.numeric(unlist(apply(Gumbel_df_Extremes, 1, function(x) which(x==max(x)))))==i))/nrow(Gumbel_df_Extremes)
   }
 
   #Simulations
@@ -96,6 +94,12 @@ HT04<-function(data_Detrend_Dependence_df,data_Detrend_Declustered_df,u_Dependen
     HT04_Predict_Transformed<-rbind(HT04_Predict_Transformed,HT04.Predict[[i]]$data$transformed)
     HT04_Predict_Simulated<-rbind(HT04_Predict_Simulated,HT04.Predict[[i]]$data$simulated)
   }
-  res<-list("Model" = HT04_Model,"u.sim" = HT04_Predict_Transformed,"x.sim" = HT04_Predict_Simulated)
+
+  for(i in 1:ncol(data_Detrend_Dependence_df)){
+    HT04_z[[i]]<-HT04.Predict[[i]]$data$z
+  }
+  names(HT04_z) <- colnames(data_Detrend_Dependence_df)
+
+  res<-list("Model" = HT04_Model, "Prop" = Prop, "z" = HT04_z, "u.sim" = HT04_Predict_Transformed,"x.sim" = HT04_Predict_Simulated)
   return(res)
 }

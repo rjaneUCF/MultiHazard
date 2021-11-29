@@ -14,10 +14,6 @@
 #' @param Marginal_Dist2 Character vector of length one specifying (non-extreme) distribution used to model the marginal distribution of the non-conditioned variable in \code{Data_Con2}.
 #' @param Con1 Character vector of length one specifying the name of variable in the first column of \code{Data}.
 #' @param Con2 Character vector of length one specifying the name of variable in the second column of \code{Data}.
-#' @param Con1 Character vector of length one specifying the name of variable in the first column of \code{Data}.
-#' @param Con2 Character vector of length one specifying the name of variable in the second column of \code{Data}.
-#' @param GPD1 Output of \code{GPD_Fit} applied to variable \code{con1} i.e., GPD fit \code{con1}. Default \code{NA}. Only one of \code{u1}, \code{Thres1} and \code{GPD1} is required.
-#' @param GPD2 Output of \code{GPD_Fit} applied to variable \code{con2} i.e., GPD fit \code{con2}. Default \code{NA}. Only one of \code{u2}, \code{Thres2} and \code{GPD2} is required.
 #' @param mu Numeric vector of length one specifying the (average) occurrence frequency of events in \code{Data}. Default is \code{365.25}, daily data.
 #' @param GPD_Bayes Logical; indicating whether to use a Bayesian approach to estimate GPD parameters. This involves applying a penalty to the likelihood to aid in the stability of the optimization procedure. Default is \code{TRUE}.
 #' @param RP Numeric vector specifying the return periods of interest.
@@ -58,7 +54,7 @@
 #'                Marginal_Dist1="Logis", Marginal_Dist2="Twe",
 #'                RP=100,Interval=10000,N=10,N_Ensemble=10,
 #'                Plot_Quantile_Isoline=FALSE)
-Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=NA, Copula_Family1, Copula_Family2, Marginal_Dist1, Marginal_Dist2, Con1="Rainfall",Con2="OsWL", GPD1=NA, GPD2=NA, mu=365.25, GPD_Bayes=TRUE, RP, Interval=10000, x_lab="Rainfall (mm)",y_lab="O-sWL (mNGVD 29)",x_lim_min = NA,x_lim_max = NA,y_lim_min = NA,y_lim_max = NA,N=10^6,N_Ensemble=0,Sim_Max=10,Plot_Quantile_Isoline=FALSE,Isoline_Type="Combined"){
+Design_Event_2D_NEW<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=NA, Copula_Family1, Copula_Family2, Marginal_Dist1, Marginal_Dist2, GPD1, GPD2, Con1="Rainfall",Con2="OsWL", mu=365.25, GPD_Bayes=TRUE, RP, Interval=10000, x_lab="Rainfall (mm)",y_lab="O-sWL (mNGVD 29)",x_lim_min = NA,x_lim_max = NA,y_lim_min = NA,y_lim_max = NA,N=10^6,N_Ensemble=0,Sim_Max=10,Plot_Quantile_Isoline=FALSE,Isoline_Type="Combined"){
 
   ###Preliminaries
 
@@ -88,17 +84,6 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
   con2<-which(names(Data)==Con2)
 
   ###Fit the 4 marginal distributions (2 GPD and 2 parametric non-extreme value distributions).
-
-  #Fit the GPD to the conditioned variable con1 in Data_Con1.
-  if(is.na(GPD1)==T & is.na(Thres1)==T){
-    Thres1<-quantile(na.omit(Data)[,con1],u1)
-  }
-  if(is.na(GPD1)==T & GPD_Bayes==T){
-    GPD_con1<-evm(Data_Con1[,con1], th = Thres1,penalty = "gaussian",priorParameters = list(c(0, 0), matrix(c(100^2, 0, 0, 0.25), nrow = 2)))
-  }
-  if(is.na(GPD1)==T & GPD_Bayes==F){
-    GPD_con1<-evm(Data_Con1[,con1], th = Thres1)
-  }
 
   #Fit the specified marginal distribution (Marginal_Dist1) to the non-conditioned variable con2 in Data_Con1.
   if(Marginal_Dist1 == "BS"){
@@ -149,16 +134,6 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
     marginal_non_con1<-fitdistr(Data_Con1[,con2], "weibull")
   }
 
-  #Fit the GPD to the conditioned variable con2 in Data_Con2.
-  if(is.na(GPD2)==T & is.na(Thres2)==T){
-   Thres2<-quantile(na.omit(Data)[,con2],u2)
-  }
-  if(is.na(GPD1)==T & GPD_Bayes==T){
-   GPD_con2<-evm(Data_Con2[,con2], th=Thres2 ,penalty = "gaussian",priorParameters = list(c(0, 0), matrix(c(100^2, 0, 0, 0.25), nrow = 2)))
-  }
-  if(is.na(GPD1)==T & GPD_Bayes==F){
-   GPD_con2<-evm(Data_Con2[,con2], th= Thres2)
-  }
 
   ##Fit the specified marginal distribution (Marginal_Dist2) to the non-conditioned variable con1 in Data_Con2.
   if(Marginal_Dist2 == "BS"){
@@ -218,11 +193,7 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
   #Simulate a sample from the fitted copula. Out of the sample size 'N' the proportion of the sample from the copula associated with Data_Con1 is proportional to the size of Data_Con1 relative to Data_Con2.
   sample<-BiCopSim(round(N*nrow(Data_Con1)/(nrow(Data_Con1)+nrow(Data_Con2)),0),obj1)
   #Transform the realizations of the conditioned variable con1 to the original scale using inverse cumulative distribution a.k.a. quantile functions (inverse probability integral transform) of the GPD contained in the u2gpd function.
-  if(is.na(GPD1)==T){
-    cop.sample1.con<-u2gpd(sample[,con1], p = 1, th=Thres1 , sigma=exp(GPD_con1$coefficients[1]),xi= GPD_con1$coefficients[2])
-   } else{
-    cop.sample1.con<-u2gpd(sample[,con1], p = 1, th = GPD1$Threshold, sigma = GPD1$sigma, xi= GPD1$xi)
-   }
+  cop.sample1.con<-u2gpd(sample[,con1], p = 1, th=GPD1$Threshold, sigma=GPD1$sigma, xi= GPD1$xi)
 
   #Transform the realizations of the non-conditioned variable con2 to the original scale using the quantile function of the selected parametric (non-extreme value) distribution (Marginal_Dist1).
   if(Marginal_Dist1=="BS"){
@@ -285,11 +256,7 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
   sample<-BiCopSim(round(N*nrow(Data_Con2)/(nrow(Data_Con1)+nrow(Data_Con2)),0),obj2)
 
   #Transform the realizations of the conditioned variable con2 to the original scale using the inverse CDF (quantile function) of the GPD contained in the u2gpd function.
-  if(is.na(GPD2)==T){
-    cop.sample2.con<-u2gpd(sample[,con2], p = 1, th=Thres2, sigma=exp(GPD_con2$coefficients[1]),xi= GPD_con2$coefficients[2])
-  } else{
-    cop.sample2.con<-u2gpd(sample[,con2], p = 1, th = GPD2$Threshold, sigma = GPD2$sigma, xi= GPD2$xi)
-  }
+  cop.sample2.con<-u2gpd(sample[,con2], p = 1, th=GPD2$Threshold, sigma=GPD2$sigma,xi= GPD2$xi)
 
   #Transform the realizations of the non-conditioned variable con1 to the original scale using the inverse CDF (quantile function) of the selected parametric (non-extreme value) distribution (Marginal_Dist2).
   if(Marginal_Dist2=="BS"){
@@ -373,11 +340,7 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
     xy160<-contourLines(x,y,z,levels= RP[k])
     #Transform the points on the contour to the original scale using the inverse cumulative distribution a.k.a. quantile functions (inverse probability integral transform)
     #Transform the conditioned variable in Data_Con1, Con1 to the original scale using the inverse CDF of the GPD contained in the u2gpd function
-    if(is.na(GPD1)==T){
-      con1.x<-u2gpd(as.numeric(unlist(xy160[[1]][2])), p = 1, th=Thres1 , sigma=exp(GPD_con1$coefficients[1]),xi= GPD_con1$coefficients[2] )
-    }else{
-      con1.x<-u2gpd(as.numeric(unlist(xy160[[1]][3])), p = (GPD1$Rate*mu)/rate, th = GPD1$Threshold, sigma = GPD1$sigma, xi = GPD1$xi)
-    }
+    con1.x<-u2gpd(as.numeric(unlist(xy160[[1]][2])), p = 1, th=Thres1 , sigma=exp(GPD_con1$coefficients[1]),xi= GPD_con1$coefficients[2] )
     #Transform the non-conditioned variable in Data_Con1, Con2' to the original scale using the quantile function of the selected parameteric (non-extreme value) distributions
     if(Marginal_Dist1=="BS"){
       con1.y<-qbisa(as.numeric(unlist(xy160[[1]][3])),as.numeric(Coef(marginal_non_con1)[1]),as.numeric(Coef(marginal_non_con1)[2]))
@@ -466,11 +429,7 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
 
     #Transform the points on the contour to the original scale using the inverse cumulative distributions a.k.a. quantile functions (i.e. using the inverse probability integral transform).
     #Transforming the conditioned variable in Data_Con2, Con2 to the original scale using the inverse CDF of the GPD contained in the u2gpd function.
-    if(is.na(GPD1)==T){
-      con2.y<-u2gpd(as.numeric(unlist(xy160[[1]][3])), p = 1, th=Thres2 , sigma=exp(GPD_con2$coefficients[1]),xi= GPD_con2$coefficients[2] )
-    } else{
-      con2.y<-u2gpd(as.numeric(unlist(xy160[[1]][3])), p = (GPD2$Rate*mu)/rate, th = GPD2$Threshold, sigma = GPD2$sigma, xi = GPD2$xi)
-    }
+    con2.y<-u2gpd(as.numeric(unlist(xy160[[1]][3])), p = 1, th=GPD2$Threshold, sigma=GPD2$sigma,xi= GPD2$xi)
     #Transform the non-conditioned variable in Data_Con2, Con1' to the original scale using the quantile function of the selected parameteric (non-extreme value) distributions.
     if(Marginal_Dist2=="BS"){
       con2.x<-qbisa(as.numeric(unlist(xy160[[1]][2])), as.numeric(Coef(marginal_non_con2)[1]),as.numeric(Coef(marginal_non_con2)[2]))
@@ -658,13 +617,8 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
       MostLikelyEvent[[k]]<-MostLikelyEvent.AND
 
       #Find the design event under the assumption of full dependence and add it to the plot (denoted by a triangle).
-      if(is.na(GPD1)==T | is.na(GPD2)==T){
-        FullDependence.AND<-data.frame(as.numeric(u2gpd(1-EL/(RP[k]), p = 1, th=Thres1 , sigma=exp(GPD_con1$coefficients[1]),xi= GPD_con1$coefficients[2])),
-                                       as.numeric(u2gpd(1-EL/(RP[k]), p = 1, th=Thres2 , sigma=exp(GPD_con2$coefficients[1]),xi= GPD_con2$coefficients[2])))
-      } else{
-        FullDependence.AND<-data.frame(as.numeric(u2gpd(1-1/(RP[k]*mu), p = GPD1$Rate, th = GPD1$Threshold, sigma = GPD1$sigma, xi = GPD1$xi)),
-                                       as.numeric(u2gpd(1-1/(RP[k]*mu), p = GPD2$Rate, th = GPD2$Threshold, sigma = GPD2$sigma, xi = GPD2$xi)))
-      }
+      FullDependence.AND<-data.frame(as.numeric(u2gpd(1-EL/(RP[k]), p = 1, th=GPD1$Threshold, sigma=GPD1$sigma,xi= GPD1$xi)),
+                                     as.numeric(u2gpd(1-EL/(RP[k]), p = 1, th=GPD2$Threshold, sigma=GPD2$sigma,xi= GPD2$xi)))
       colnames(FullDependence.AND)<- c(names(Data)[1],names(Data)[2])
       FullDependence[[k]]<-FullDependence.AND
       #Generate a sample of events along the contour. Sample is weighted according to the probabilities
@@ -780,13 +734,8 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
       MostLikelyEvent[[k]]<-MostLikelyEvent.AND
 
       #Find the design event under the assumption of full dependence and add it to the plot (denoted by a triangle).
-      if(is.na(GPD1)==T | is.na(GPD2)==T){
-        FullDependence.AND<-data.frame(as.numeric(u2gpd(1-EL/(RP[k]), p = 1, th=Thres1 , sigma=exp(GPD_con1$coefficients[1]),xi= GPD_con1$coefficients[2])),
-                                      as.numeric(u2gpd(1-EL/(RP[k]), p = 1, th=Thres2 , sigma=exp(GPD_con2$coefficients[1]),xi= GPD_con2$coefficients[2])))
-      } else{
-        FullDependence.AND<-data.frame(as.numeric(u2gpd(1-1/(RP[k]*mu), p = GPD1$Rate, th = GPD1$Threshold, sigma = GPD1$sigma, xi = GPD1$xi)),
-                                       as.numeric(u2gpd(1-1/(RP[k]*mu), p = GPD2$Rate, th = GPD2$Threshold, sigma = GPD2$sigma, xi = GPD2$xi)))
-      }
+      FullDependence.AND<-data.frame(as.numeric(u2gpd(1-EL/(RP[k]), p = 1, th=GPD1$Threshold , sigma=GPD1$sigma,xi= GPD1$xi)),
+                                     as.numeric(u2gpd(1-EL/(RP[k]), p = 1, th=GPD2$Threshold , sigma=GPD2$sigma,xi= GPD2$xi)))
       colnames(FullDependence.AND)<- c(names(Data)[1],names(Data)[2])
       FullDependence[[k]]<-FullDependence.AND
       #Generate a sample of events along the contour. Sample is weighted according to the probabilities
@@ -900,14 +849,8 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
         MostLikelyEvent[[k]]<-MostLikelyEvent.AND
 
         #Find the design event under the assumption of full dependence and add it to the plot (denoted by a triangle).
-        if(is.na(GPD1)==T | is.na(GPD2)==T){
-         FullDependence.AND<-data.frame(as.numeric(u2gpd(1-EL/(RP[k]), p = 1, th=Thres1 , sigma=exp(GPD_con1$coefficients[1]),xi= GPD_con1$coefficients[2])),
-                                        as.numeric(u2gpd(1-EL/(RP[k]), p = 1, th=Thres2 , sigma=exp(GPD_con2$coefficients[1]),xi= GPD_con2$coefficients[2])))
-        }else{
-          FullDependence.AND<-data.frame(as.numeric(u2gpd(1-1/(RP[k]*mu), p = GPD1$Rate, th = GPD1$Threshold, sigma = GPD1$sigma, xi = GPD1$xi)),
-                                         as.numeric(u2gpd(1-1/(RP[k]*mu), p = GPD2$Rate, th = GPD2$Threshold, sigma = GPD2$sigma, xi = GPD2$xi)))
-
-        }
+        FullDependence.AND<-data.frame(as.numeric(u2gpd(1-EL/(RP[k]), p = 1, th=GPD1$Threshold, sigma=GPD1$sigma, xi= GPD1$xi)),
+                                       as.numeric(u2gpd(1-EL/(RP[k]), p = 1, th=GPD2$Threshold, sigma=GPD2$sigma, xi= GPD2$xi)))
         colnames(FullDependence.AND)<- c(names(Data)[1],names(Data)[2])
         FullDependence[[k]]<-FullDependence.AND
         #Generate a sample of events along the contour. Sample is weighted according to the probabilities
