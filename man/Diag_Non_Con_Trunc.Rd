@@ -4,7 +4,13 @@
 \alias{Diag_Non_Con_Trunc}
 \title{Goodness of fit of non-extreme marginal distributions}
 \usage{
-Diag_Non_Con_Trunc(Data, Omit = NA, x_lab, y_lim_min = 0, y_lim_max = 1)
+Diag_Non_Con_Trunc(
+  Data,
+  Omit = NA,
+  x_lab = "Data",
+  y_lim_min = 0,
+  y_lim_max = 1
+)
 }
 \arguments{
 \item{Data}{Numeric vector containing realizations of the variable of interest.}

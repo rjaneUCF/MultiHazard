@@ -41,7 +41,7 @@ HT04_Lag(
 \item{Lag}{Matrix specifying the lags. The no lag i.e. \code{0} lag cases need to be specified. Row n denotes the lags applied to the variable in the nth column of \code{data_Detrend_Dependence_df}. Column n corresponds to the nth largest lag applied to any variable. \code{NA}. Default is \code{matrix(c(0,1,0,NA),nrow=2,byrow = T)}, which corresponds to a lag of 1 being applied to variable in the first column of \code{data_Detrend_Dependence_df} and no lag being applied to the variable in the second column of \code{data_Detrend_Dependence_df}.}
 }
 \value{
-List comprising the fitted HT04 models \code{Models}, proportion of the time each variable is most extreme, given at least one variable is extreme \code{Prop}, as well as the simulated values on the transformed \code{u.sim} and original {x.sim} scales.
+List comprising the fitted HT04 models \code{Models}, proportion of the time each variable is most extreme, given at least one variable is extreme \code{Prop}, residuals \code{z}, as well as the simulated values on the transformed \code{u.sim} and original {x.sim} scales.
 }
 \description{
 Implements the version of the conditional multivariate approach of Heffernan and Tawn (2004) proposed in Keef et al. (2013) which incorporates lags between the variables. Function utilizes the \code{mexDependence} and \code{predict.mex.conditioned} functions from the \code{texmex} package.

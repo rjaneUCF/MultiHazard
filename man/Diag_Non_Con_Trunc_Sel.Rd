@@ -8,7 +8,7 @@ Diag_Non_Con_Trunc_Sel(
   Data,
   Selected,
   Omit = NA,
-  x_lab,
+  x_lab = "Data",
   y_lim_min = 0,
   y_lim_max = 1
 )
