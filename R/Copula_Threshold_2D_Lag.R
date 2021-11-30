@@ -66,8 +66,8 @@ Copula_Threshold_2D_Lag<-function(Data_Detrend,Data_Declust,u1=seq(0.9,0.99,0.01
 
   #Conditional on Var1
   for(j in 1:length(u1)){
-    uhold<-u1[j]
-    Var1_Var1_x<-which(Data_Declust[,1]>quantile(na.omit(Data_Detrend[,1]),uhold))
+    u<-u1[j]
+    Var1_Var1_x<-which(Data_Declust[,1]>quantile(na.omit(Data_Detrend[,1]),u))
     #Var1_Var1<-numeric(length(Var1_Var1_x))
     Var1_df<-array(0,dim=c(length(Var1_Var1_x),2))
     for(i in 1:length(Var1_Var1_x)){
@@ -100,8 +100,8 @@ Copula_Threshold_2D_Lag<-function(Data_Detrend,Data_Declust,u1=seq(0.9,0.99,0.01
 
   #Conditional on Var2
   for(k in 1:length(u2)){
-    uhold<-u2[k]
-    Var2_Var2_x<-which(Data_Declust[,2]>quantile(na.omit(Data_Detrend[,2]),uhold))
+    u<-u2[k]
+    Var2_Var2_x<-which(Data_Declust[,2]>quantile(na.omit(Data_Detrend[,2]),u))
     Var2_df<-array(0,dim=c(length(Var2_Var2_x),2))
     for(i in 1:length(Var2_Var2_x)){
       Var2_df[i,2]<-Data_Declust[Var2_Var2_x[i],2]
