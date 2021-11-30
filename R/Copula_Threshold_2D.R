@@ -115,7 +115,7 @@ Copula_Threshold_2D<-function(Data_Detrend,Data_Declust,u=seq(0.9,0.99,0.01),PLO
   }
 
  if(PLOT==TRUE){
-  plot(u,correlation_Var1_Value,xlab="uhold",ylab=expression("Kendall's "*tau*" correlation coefficient"),type='l',lwd=3,xlim=c(x_lim_min,x_lim_max),ylim=c(y_lim_min,y_lim_max),col="Blue")
+  plot(u,correlation_Var1_Value,xlab="Threshold",ylab=expression("Kendall's "*tau*" correlation coefficient"),type='l',lwd=3,xlim=c(x_lim_min,x_lim_max),ylim=c(y_lim_min,y_lim_max),col="Blue")
   mtext(round(quantile(na.omit(Data_Detrend[,1]),u),2),at=u,side=1,line=2,col="Blue")
   points(u,correlation_Var1_Value,pch=ifelse(correlation_Var1_Test<0.05,16,16),col=ifelse(correlation_Var1_Test<0.05,"Blue","White"),cex=5)
   points(u,correlation_Var1_Value,pch=ifelse(correlation_Var1_Test<0.05,16,1),cex=5,col="Blue")
