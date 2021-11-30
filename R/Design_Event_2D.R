@@ -376,7 +376,7 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
     if(is.na(GPD1)==T){
       con1.x<-u2gpd(as.numeric(unlist(xy160[[1]][2])), p = 1, th=Thres1 , sigma=exp(GPD_con1$coefficients[1]),xi= GPD_con1$coefficients[2] )
     }else{
-      con1.x<-u2gpd(as.numeric(unlist(xy160[[1]][3])), p = (GPD1$Rate*mu)/rate, th = GPD1$Threshold, sigma = GPD1$sigma, xi = GPD1$xi)
+      con1.x<-u2gpd(as.numeric(unlist(xy160[[1]][2])), p = (GPD1$Rate*mu)/rate, th = GPD1$Threshold, sigma = GPD1$sigma, xi = GPD1$xi)
     }
     #Transform the non-conditioned variable in Data_Con1, Con2' to the original scale using the quantile function of the selected parameteric (non-extreme value) distributions
     if(Marginal_Dist1=="BS"){
@@ -467,7 +467,7 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
     #Transform the points on the contour to the original scale using the inverse cumulative distributions a.k.a. quantile functions (i.e. using the inverse probability integral transform).
     #Transforming the conditioned variable in Data_Con2, Con2 to the original scale using the inverse CDF of the GPD contained in the u2gpd function.
     if(is.na(GPD1)==T){
-      con2.y<-u2gpd(as.numeric(unlist(xy160[[1]][3])), p = 1, th=Thres2 , sigma=exp(GPD_con2$coefficients[1]),xi= GPD_con2$coefficients[2] )
+      con2.y<-u2gpd(as.numeric(unlist(xy160[[1]][3])), p = 1, th=Thres2 , sigma=exp(GPD_con2$coefficients[1]),xi= GPD_con2$coefficients[2])
     } else{
       con2.y<-u2gpd(as.numeric(unlist(xy160[[1]][3])), p = (GPD2$Rate*mu)/rate, th = GPD2$Threshold, sigma = GPD2$sigma, xi = GPD2$xi)
     }
