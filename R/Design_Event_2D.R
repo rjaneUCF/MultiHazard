@@ -568,7 +568,7 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
       #Find the maximum y-value from the two quantile isolines at each x-value in x.1.
       y.1<-numeric(length(x.1))
       for(i in 1:length(x.1)){
-        [y.1i]<-max(con1.prediction.points.ALL[,2][which(con1.prediction.points.ALL.Round==x.1[i])],
+        y.1[i]<-max(con1.prediction.points.ALL[,2][which(con1.prediction.points.ALL.Round==x.1[i])],
                     con2.prediction.points.ALL[,2][which(con2.prediction.points.ALL.Round==x.1[i])])
       }
       #If any y.1 elements are '-Inf' then remove.
