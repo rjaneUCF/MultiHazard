@@ -7,7 +7,7 @@ Description: This package provides tools for stationary multivariate statistical
 License: What license it uses
 Encoding: UTF-8
 LazyData: true
-Imports: texmex, fitdistrplus, tweedie, MASS, VGAM, copula, GeneralizedHyperbolic, RColorBrewer, VineCopula, ks, truncnorm, dplyr, actuar, statmod, lubridate, rmatio, akima, gamlss, gamlss.mx,
+Imports: texmex, fitdistrplus, tweedie, MASS, VGAM, copula, GeneralizedHyperbolic, RColorBrewer, VineCopula, ks, truncnorm, dplyr, actuar, statmod, lubridate, rmatio, akima, gamlss, gamlss.mx
 Suggests: knitr, rmarkdown
 VignetteBuilder: knitr
 RoxygenNote: 6.1.1
