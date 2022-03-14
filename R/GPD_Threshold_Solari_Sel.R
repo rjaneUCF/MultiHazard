@@ -150,6 +150,6 @@ GPD_Threshold_Solari_Sel<-function(Event,Data,Solari_Output,Thres,Alpha=0.1,N_Si
        lwd=2,xlab="",ylab="",xaxt='n',yaxt='n')
 
   names(Estimate)<-c("xi","sigma","Thres","rate",as.character(RP))
-  res<-list(Estimate=Estimate,CI_Lower=CI.Lower,CI_Upper=CI.Upper,Boot=BOOT)
+  res<-list(Estimate=Estimate,CI_Lower=CI.Lower,CI_Upper=CI.Upper,BOOT=BOOT)
   return(res)
 }
