@@ -147,6 +147,6 @@ GPD_Threshold_Solari<-function(Event,Data,RPs=c(10,50,100,500,1000),RPs_PLOT=c(2
   u_Candidate_Quantile<-ecdf_fun(Data,Event)
 
   Candidate_Thres<-u_Candidate[z][which(AR2.pValue[z]==min(AR2.pValue[z]))]
-  res<-list("Thres_Candidate"=u_Candidate,"Thres_Candidate_Quantile"=u_Candidate_Quantile,"GPD_MLE"=GPD.MLE,"CI_Upper"=CI.Upper,"CI_Lower"=CI.Lower,"AR2"=AR2,"AR2_pValue"=AR2.pValue,"Candidate_Thres"=Candidate_Thres)
+  res<-list("Thres_Candidate"=u_Candidate,"Thres_Candidate_Quantile"=u_Candidate_Quantile,"GPD_MLE"=GPD.MLE,"CI_Upper"=CI.Upper,"CI_Lower"=CI.Lower,"AR2"=AR2,"AR2_pValue"=AR2.pValue,"Candidate_Thres"=Candidate_Thres, "Boot"=Boot)
   return(res)
 }
