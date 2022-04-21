@@ -11,6 +11,7 @@
 #' @param Thres Numeric vector of length one specifying the threshold to analyze, chosen by the user based on plots from the \code{GPD_Threshold_Solari} function.
 #' @param Alpha Numeric vector of length one specifying the level of confidence associated with the confidence interval i.e., the probability that the interval contains the true value of the parameter is \eqn{1-\frac{Alpha}{2}}. The interval is referred to as the \eqn{100(1-\frac{Alpha}{2})\%} confidence interval. Default is \code{0.1}.
 #' @param N_Sim Numeric vector of length one specifying the number of bootstrap samples. Default is \code{10^4}.
+#' @param RP_Min Numeric vector of length one specifying the minimum return level to be calculated. Default is \code{1}.
 #' @param RP_Max Numeric vector of length one specifying the maximum return level to be calculated. Default is \code{1000}.
 #' @param RP_Plot Numeric vector of length one specifying the return level in the lower right plot. Default is \code{100}.
 #' @param mu (average) occurrence frequency of events in the original time series \code{Data}. Numeric vector of length one. Default is \code{365.25}, daily data.
@@ -37,14 +38,17 @@
 #' Rainfall_Declust_SW<-Decluster_SW(Data=S22.Detrend.df[,c(1:2)],Window_Width=7)
 #' Finding an appropriate threshold for the declustered series
 #' S22_OsWL_Solari<-GPD_Threshold_Solari(Event=Rainfall_Declust_SW$Declustered,
-#'                                   Data=na.omit(S22.Detrend.df[,c(1:2)]))
-#'
-GPD_Threshold_Solari_Sel<-function(Event,Data,Solari_Output,Thres,Alpha=0.1,N_Sim=10^4,RP_Max=1000,RP_Plot=100,mu=365.25,y_lab="Data"){
+#'                                       Data=na.omit(S22.Detrend.df[,2]))
+#' S22_OsWL_Solari<-GPD_Threshold_Solari_Sel(Event=Rainfall_Declust_SW$Declustered,
+#'                                           Data=na.omit(S22.Detrend.df[,2]),
+#'                                           Thres=S22_OsWL_Solari$Candidate_Threshold)
+GPD_Threshold_Solari_Sel<-function(Event,Data,Solari_Output,Thres,Alpha=0.1,N_Sim=10^4,RP_Min=1,RP_Max=1000,RP_Plot=100,mu=365.25,y_lab="Data"){
 
   # Auxiliary variables
   Data    = na.omit(Data)
   N_Years = length(Data)/mu
   RP      = sort(unique(c(1:10,seq(20,100,10),seq(200,1000,100),seq(2e3,1e4,1e3),seq(2e4,1e5,1e4),seq(2e5,1e6,1e5),RP_Plot)))
+  RP      = RP[RP>=RP_Min]
   RP      = RP[RP<=RP_Max]
   Event   = na.omit(Event)
 
