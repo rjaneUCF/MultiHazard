@@ -22,6 +22,7 @@ Design_Event_2D(
   GPD2 = NA,
   mu = 365.25,
   GPD_Bayes = TRUE,
+  Decimal_Place = 2,
   RP,
   Interval = 10000,
   x_lab = "Rainfall (mm)",

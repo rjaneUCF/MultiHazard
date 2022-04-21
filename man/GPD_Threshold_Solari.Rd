@@ -33,7 +33,7 @@ GPD_Threshold_Solari(
 
 \item{mu}{(average) occurrence frequency of events in the original time series \code{Data}. Numeric vector of length one. Default is \code{365.25}, daily data.}
 
-\item{N_Sim}{Numeric vector of length one specifying the size of the samples used in the bootstrap simulation. Default is \code{10}.}
+\item{N_Sim}{Numeric vector of length one specifying the number of bootstrap samples. Default is \code{10}.}
 }
 \value{
 List comprising \itemize{
@@ -81,5 +81,5 @@ Solari et al. (2017) formalized EDF statistic - GOF test threshold selection pro
 Rainfall_Declust_SW<-Decluster_SW(Data=S22.Detrend.df[,c(1:2)],Window_Width=7)
 #Finding an appropriate threshold for the declustered series
 GPD_Threshold_Solari(Event=Rainfall_Declust_SW$Declustered,
-                     Data=22.Detrend.df[,c(1:2)])
+                     Data=22.Detrend.df[,2])
 }

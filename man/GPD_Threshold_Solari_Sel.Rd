@@ -8,9 +8,10 @@ GPD_Threshold_Solari_Sel(
   Event,
   Data,
   Solari_Output,
-  u,
+  Thres,
   Alpha = 0.1,
   N_Sim = 10^4,
+  RP_Min = 1,
   RP_Max = 1000,
   RP_Plot = 100,
   mu = 365.25,
@@ -27,11 +28,13 @@ GPD_Threshold_Solari_Sel(
 
 \item{Solari_Output}{Output of the \code{GPD_Threshold_Solari} function.}
 
-\item{u}{Numeric vector of length one specifying the threshold to analyze, chosen by the user based on plots from the \code{GPD_Threshold_Solari} function.}
+\item{Thres}{Numeric vector of length one specifying the threshold to analyze, chosen by the user based on plots from the \code{GPD_Threshold_Solari} function.}
 
-\item{Alpha}{Numeric vector of length one specifying the level of confidence associated with the confidence interval i.e., the probability that the interval contains the true value of the parameter is \eqn{1-Alpha/2}. The interval is referred to as the \eqn{100(1-Alpha/2)\%} confidence interval. Default is \code{0.1}.}
+\item{Alpha}{Numeric vector of length one specifying the level of confidence associated with the confidence interval i.e., the probability that the interval contains the true value of the parameter is \eqn{1-\frac{Alpha}{2}}. The interval is referred to as the \eqn{100(1-\frac{Alpha}{2})\%} confidence interval. Default is \code{0.1}.}
 
-\item{N_Sim}{Numeric vector of length one specifying the size of the samples used in the bootstrap simulation. Default is \code{10^4}.}
+\item{N_Sim}{Numeric vector of length one specifying the number of bootstrap samples. Default is \code{10^4}.}
+
+\item{RP_Min}{Numeric vector of length one specifying the minimum return level to be calculated. Default is \code{1}.}
 
 \item{RP_Max}{Numeric vector of length one specifying the maximum return level to be calculated. Default is \code{1000}.}
 
@@ -44,19 +47,19 @@ GPD_Threshold_Solari_Sel(
 \value{
 List containing three objects: \code{Estimate}, \code{CI_Upper} and \code{CI_Lower}. The \code{Estimate} dataframe comprises \itemize{
 \item \code{xi}
-GPD shape parameter estimate for the threshold is \code{u}.
+GPD shape parameter estimate for the threshold is \code{Thres}.
 \item \code{sigma}
-GPD scale parameter estimate for the threshold is \code{u}.
-\item \code{u}
-GPD location parameter estimate for the threshold is \code{u}.
+GPD scale parameter estimate for the threshold is \code{Thres}.
+\item \code{Thres}
+GPD location parameter estimate for the threshold is \code{Thres}.
 \item \code{rate}
-GPD rate parameter i.e., number of independent excesses per year for a threshold of \code{u}.
+GPD rate parameter i.e., number of independent excesses per year for a threshold of \code{Thres}.
 \item The remaining columns are \code{RL}
-Return level estimates from the GPD using a threshold of \code{u}.
+Return level estimates from the GPD using a threshold of \code{Thres}.
 }
-\code{CI_Upper} and \code{CI_Lower} give the upper and lower bounds of the \eqn{100(1-Alpha/2)\%} confidence interval for the corresponding element in \code{Estimate}.
-Top row: Histograms of the GPD parameter estimates based on a nonparametric bootstrapping simulation. Grey bars correspond to the estimates obtained as the threshold (\code{u}) is varied, found by running the function a necessary input of the function. Continuous black lines correspond to results obtained by fixing the threshold at \code{u}. Dashed blue lines correspond to the expected values for the fixed threshold.
-Lower left: Return level plot. Return levels of the observations estimated from the empirical distribution. Grey bars correspond to the maximum of the upper and lower bounds of the \eqn{100(1-Alpha/2)\%} confidence intervals as the threshold is varied. Continuous black lines correspond to results obtained by fixing the threshold at \code{u}. Dashed blue lines correspond to the expected values for the fixed threshold.
+\code{CI_Upper} and \code{CI_Lower} give the upper and lower bounds of the \eqn{100(1-\frac{Alpha}{2})\%} confidence interval for the corresponding element in \code{Estimate}.
+Top row: Histograms of the GPD parameter estimates based on a nonparametric bootstrapping simulation. Grey bars correspond to the estimates obtained as the threshold (\code{Thres}) is varied, found by running the function a necessary input of the function. Continuous black lines correspond to results obtained by fixing the threshold at \code{Thres}. Dashed blue lines correspond to the expected values for the fixed threshold.
+Lower left: Return level plot. Return levels of the observations estimated from the empirical distribution. Grey bars correspond to the maximum of the upper and lower bounds of the \eqn{100(1-\frac{Alpha}{2})\%} confidence intervals as the threshold is varied. Continuous black lines correspond to results obtained by fixing the threshold at \code{Thres}. Dashed blue lines correspond to the expected values for the fixed threshold.
 Lower right: As in the top row but for the 100 years return period quantile.
 }
 \description{
@@ -64,7 +67,10 @@ A nonparametric bootstrapping procedure is undertaken to assess the uncertainty 
 }
 \examples{
 Rainfall_Declust_SW<-Decluster_SW(Data=S22.Detrend.df[,c(1:2)],Window_Width=7)
-Finding an appropriate threshold for the declustered series 
-S22_OsWL_Solari<-GPD_uhold_Solari(Event=Rainfall_Declust_SW$Declustered,Data=na.omit(S22.Detrend.df[,c(1:2)]))
-
+Finding an appropriate threshold for the declustered series
+S22_OsWL_Solari<-GPD_Threshold_Solari(Event=Rainfall_Declust_SW$Declustered,
+                                      Data=na.omit(S22.Detrend.df[,2]))
+S22_OsWL_Solari<-GPD_Threshold_Solari_Sel(Event=Rainfall_Declust_SW$Declustered,
+                                          Data=na.omit(S22.Detrend.df[,2]),
+                                          Thres=S22_OsWL_Solari$Candidate_Threshold)
 }
