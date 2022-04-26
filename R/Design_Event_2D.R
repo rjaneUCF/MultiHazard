@@ -79,7 +79,7 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
   names(FullDependence)<-RP
 
   #Remove 1st column of Data if it is a Date or factor object.
-  if(class(Data[,1])=="Date" | class(Data[,1])=="factor" | class(Data_Detrend[,1])[1]=="POSIXct"){
+  if(class(Data[,1])=="Date" | class(Data[,1])=="factor" | class(Data[,1])[1]=="POSIXct"){
     Data<-Data[,-1]
   }
 
