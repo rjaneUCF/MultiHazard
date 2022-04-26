@@ -512,7 +512,7 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
     if(Marginal_Dist2=="LogN"){
       con2.x<-qlnorm(as.numeric(unlist(xy160[[1]][2])), meanlog = as.numeric(marginal_non_con2$estimate[1]), sdlog = as.numeric(marginal_non_con2$estimate[2]))
     }
-    if(Marginal_Dist1=="TNorm"){
+    if(Marginal_Dist2=="TNorm"){
       con2.x<-qtruncnorm(as.numeric(unlist(xy160[[1]][2])),a=min(Data_Con2[,con1]),as.numeric(marginal_non_con2$estimate[1]),as.numeric(marginal_non_con2$estimate[2]))
     }
     if(Marginal_Dist2=="Twe"){
