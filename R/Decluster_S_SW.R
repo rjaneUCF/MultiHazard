@@ -63,6 +63,8 @@ Decluster_S_SW<-function(Data, Window_Width_Sum, Window_Width) {
   if (min(z) > 0) {
     Data[z,2] <- NA
     z<-z+rep((-round(Window_Width_Sum/2-1,0)):(round(Window_Width_Sum/2,0)),each=length(z))
+    z<-z[z>1]
+    z<-z[z<nrow(Data)]
     Sum[z]<-NA
     Decl$Declustered[z]<-NA
   }
