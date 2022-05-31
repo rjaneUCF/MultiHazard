@@ -58,7 +58,7 @@
 #'                Marginal_Dist1="Logis", Marginal_Dist2="Twe",
 #'                RP=100,Interval=10000,N=10,N_Ensemble=10,
 #'                Plot_Quantile_Isoline=FALSE)
-Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=NA, Copula_Family1, Copula_Family2, Marginal_Dist1, Marginal_Dist2, Con1="Rainfall",Con2="OsWL", GPD1=NA, GPD2=NA, mu=365.25, GPD_Bayes=TRUE, Decimal_Place=2, RP, Interval=10000, x_lab="Rainfall (mm)",y_lab="O-sWL (mNGVD 29)",x_lim_min = NA,x_lim_max = NA,y_lim_min = NA,y_lim_max = NA,N=10^6,N_Ensemble=0,Sim_Max=10,Plot_Quantile_Isoline=FALSE,Isoline_Type="Combined"){
+Design_Event_2D_1<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=NA, Copula_Family1, Copula_Family2, Marginal_Dist1, Marginal_Dist2, Con1="Rainfall",Con2="OsWL", GPD1=NA, GPD2=NA, mu=365.25, GPD_Bayes=TRUE, Decimal_Place=2, RP, Interval=10000, End=F, x_lab="Rainfall (mm)",y_lab="O-sWL (mNGVD 29)",x_lim_min = NA,x_lim_max = NA,y_lim_min = NA,y_lim_max = NA,N=10^6,N_Ensemble=0,Sim_Max=10,Plot_Quantile_Isoline=FALSE,Isoline_Type="Combined"){
 
   ###Preliminaries
 
@@ -91,8 +91,9 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
 
   #Fit the GPD to the conditioned variable con1 in Data_Con1.
   if(is.na(GPD1)==T & is.na(Thres1)==T){
-    Thres1<-quantile(na.omit(Data)[,con1],u1)
+    Thres1<-quantile(na.omit(Data[,con1]),u1)
   }
+  print(Thres1)
   if(is.na(GPD1)==T & GPD_Bayes==T){
     GPD_con1<-evm(Data_Con1[,con1], th = Thres1,penalty = "gaussian",priorParameters = list(c(0, 0), matrix(c(100^2, 0, 0, 0.25), nrow = 2)))
   }
@@ -153,6 +154,7 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
   if(is.na(GPD2)==T & is.na(Thres2)==T){
    Thres2<-quantile(na.omit(Data)[,con2],u2)
   }
+  print(Thres2)
   if(is.na(GPD1)==T & GPD_Bayes==T){
    GPD_con2<-evm(Data_Con2[,con2], th=Thres2 ,penalty = "gaussian",priorParameters = list(c(0, 0), matrix(c(100^2, 0, 0, 0.25), nrow = 2)))
   }
@@ -238,23 +240,23 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
     cop.sample1.non.con<-qGG(sample[,con2], mu=exp(marginal_non_con1$mu.coefficients), sigma=exp(marginal_non_con1$sigma.coefficients), nu=marginal_non_con1$nu.coefficients)
   }
   if(Marginal_Dist1=="GamMix(2)"){
-    xx <- seq(0, max(Data_Con2[,con2])*10, 0.001)
+    xx <- seq(0, max(Data_Con2[,2])*10, 0.001)
     prob.MX1 <- round(marginal_non_con1$prob[1],3)
     prob.MX2 <- 1 - prob.MX1
     cdf.MX<-pMX(xx, mu=list(mu1=exp(marginal_non_con1$models[[1]]$mu.coefficients), mu2=exp(marginal_non_con1$models[[2]]$mu.coefficients)),
                 sigma=list(sigma1=exp(marginal_non_con1$models[[1]]$sigma.coefficients), sigma2=exp(marginal_non_con1$models[[2]]$sigma.coefficients)),
                 pi = list(pi1=prob.MX1, pi2=prob.MX2), family=list(fam1="GA", fam2="GA"))
-    cop.sample1.non.con <- approx(x=cdf.MX,y= xx, xout=sample[,con2])$y
+    cop.sample1.non.con <- approx(cdf.MX, xx, sample[,con2])$y
   }
   if(Marginal_Dist1=="GamMix(3)"){
-  xx <- seq(0, max(Data_Con2[,con2])*10, 0.001)
-  prob.MX1 <- round(marginal_non_con1$prob[1],3)
-  prob.MX2 <- round(marginal_non_con1$prob[2],3)
-  prob.MX3 <- 1 - prob.MX1 - prob.MX2
-  cdf.MX<-pMX(xx, mu=list(mu1=exp(marginal_non_con1$models[[1]]$mu.coefficients), mu2=exp(marginal_non_con1$models[[2]]$mu.coefficients), mu3=exp(marginal_non_con1$models[[3]]$mu.coefficients)),
-             sigma=list(sigma1=exp(marginal_non_con1$models[[1]]$sigma.coefficients), sigma2=exp(marginal_non_con1$models[[2]]$sigma.coefficients), sigma3=exp(marginal_non_con1$models[[3]]$sigma.coefficients)),
-             pi = list(pi1=prob.MX1, pi2=prob.MX2, pi3=prob.MX3), family=list(fam1="GA", fam2="GA", fam3="GA"))
-   cop.sample1.non.con <- approx(x=cdf.MX,y= xx, xout=sample[,con2])$y
+   xx <- seq(0, max(Data_Con2[,2])*10, 0.001)
+   prob.MX1 <- round(marginal_non_con1$prob[1],3)
+   prob.MX2 <- round(marginal_non_con1$prob[2],3)
+   prob.MX3 <- 1 - prob.MX1 - prob.MX2
+   cdf.MX<-pMX(xx, mu=list(mu1=exp(marginal_non_con1$models[[1]]$mu.coefficients), mu2=exp(marginal_non_con1$models[[2]]$mu.coefficients), mu3=exp(marginal_non_con1$models[[3]]$mu.coefficients)),
+               sigma=list(sigma1=exp(marginal_non_con1$models[[1]]$sigma.coefficients), sigma2=exp(marginal_non_con1$models[[2]]$sigma.coefficients), sigma3=exp(marginal_non_con1$models[[3]]$sigma.coefficients)),
+               pi = list(pi1=prob.MX1, pi2=prob.MX2, pi3=prob.MX3), family=list(fam1="GA", fam2="GA", fam3="GA"))
+   cop.sample1.non.con <- approx(cdf.MX, xx, sample[,con2])$y
   }
   if(Marginal_Dist1=="Gaus"){
     cop.sample1.non.con<-qnorm(sample[,con2], mean = as.numeric(marginal_non_con1$estimate[1]), sd = as.numeric(marginal_non_con1$estimate[2]))
@@ -309,23 +311,23 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
     cop.sample2.non.con<-qGG(sample[,con1], mu=exp(marginal_non_con2$mu.coefficients), sigma=exp(marginal_non_con2$sigma.coefficients), nu=marginal_non_con2$nu.coefficients)
   }
   if(Marginal_Dist2=="GamMix(2)"){
-    xx <- seq(0, max(Data_Con1[,con1])*10, 0.001)
+    xx <- seq(0, max(Data_Con1[,1])*10, 0.001)
     prob.MX1 <- round(marginal_non_con2$prob[1],3)
     prob.MX2 <- 1 - prob.MX1
     cdf.MX<-pMX(xx, mu=list(mu1=exp(marginal_non_con2$models[[1]]$mu.coefficients), mu2=exp(marginal_non_con2$models[[2]]$mu.coefficients)),
                 sigma=list(sigma1=exp(marginal_non_con2$models[[1]]$sigma.coefficients), sigma2=exp(marginal_non_con2$models[[2]]$sigma.coefficients)),
                 pi = list(pi1=prob.MX1, pi2=prob.MX2), family=list(fam1="GA", fam2="GA"))
-    cop.sample2.non.con <- approx(cdf.MX, xx, xout=sample[,con1])$y
+    cop.sample2.non.con <- approx(cdf.MX, xx, sample[,con1])$y
   }
   if(Marginal_Dist2=="GamMix(3)"){
-    xx <- seq(0, max(Data_Con1[,con1])*10, 0.001)
+    xx <- seq(0, max(Data_Con1[,1])*10, 0.001)
     prob.MX1 <- round(marginal_non_con2$prob[1],3)
     prob.MX2 <- round(marginal_non_con2$prob[2],3)
     prob.MX3 <- 1 - prob.MX1 - prob.MX2
     cdf.MX<-pMX(xx, mu=list(mu1=exp(marginal_non_con2$models[[1]]$mu.coefficients), mu2=exp(marginal_non_con2$models[[2]]$mu.coefficients), mu3=exp(marginal_non_con2$models[[3]]$mu.coefficients)),
-                sigma=list(sigma1=exp(marginal_non_con2$models[[1]]$sigma.coefficients), sigma2=exp(marginal_non_con2$models[[2]]$sigma.coefficients), sigma3=exp(marginal_non_con2$models[[3]]$sigma.coefficients)),
-                pi = list(pi1=prob.MX1, pi2=prob.MX2, pi3=prob.MX3), family=list(fam1="GA", fam2="GA", fam3="GA"))
-    cop.sample2.non.con <- approx(cdf.MX, xx, xout=sample[,con1])$y
+               sigma=list(sigma1=exp(marginal_non_con2$models[[1]]$sigma.coefficients), sigma2=exp(marginal_non_con2$models[[2]]$sigma.coefficients), sigma3=exp(marginal_non_con2$models[[3]]$sigma.coefficients)),
+               pi = list(pi1=prob.MX1, pi2=prob.MX2, pi3=prob.MX3), family=list(fam1="GA", fam2="GA", fam3="GA"))
+    cop.sample2.non.con <- approx(cdf.MX, xx, sample[,con1])$y
   }
   if(Marginal_Dist2=="Gaus"){
     cop.sample2.non.con<-qnorm(sample[,con1], mean = as.numeric(marginal_non_con2$estimate[1]), sd=as.numeric(marginal_non_con2$estimate[2]))
@@ -360,8 +362,8 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
   for(k in 1:length(RP)){
 
     #Generate a regular grid on the unit square.
-    x<- c(10^(-4),seq(999.9*10^(-4),1-(1*10^(-5)),10^(-3)))
-    y<- c(10^(-4),seq(999.9*10^(-4),1-(1*10^(-5)),10^(-3)))
+    x<- c(10^(-5),seq(999.9*10^(-5),1-(1*10^(-6)),10^(-4)))
+    y<- c(10^(-5),seq(999.9*10^(-5),1-(1*10^(-6)),10^(-4)))
     u<-expand.grid(x,y,10^(-3))
     #Evaluate the copula at each point on the grid.
     u1<-BiCopCDF(u[,1], u[,2], obj1)
@@ -406,7 +408,7 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
       cdf.MX<-pMX(xx, mu=list(mu1=exp(marginal_non_con1$models[[1]]$mu.coefficients), mu2=exp(marginal_non_con1$models[[2]]$mu.coefficients)),
                   sigma=list(sigma1=exp(marginal_non_con1$models[[1]]$sigma.coefficients), sigma2=exp(marginal_non_con1$models[[2]]$sigma.coefficients)),
                   pi = list(pi1=prob.MX1, pi2=prob.MX2), family=list(fam1="GA", fam2="GA"))
-      con1.y<- approx(cdf.MX, xx, as.numeric(unlist(xy160[[1]][3])))$y
+      con1.y <- approx(cdf.MX, xx, as.numeric(unlist(xy160[[1]][3])))$y
     }
     if(Marginal_Dist1=="GamMix(3)"){
       xx <- seq(0, max(Data_Con2[,2])*10, 0.001)
@@ -414,10 +416,10 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
       prob.MX2 <- round(marginal_non_con1$prob[2],3)
       prob.MX3 <- 1 - prob.MX1 - prob.MX2
       #prob.MX3 - round(fit.GamMIX3_GA$prob[3],5) < 0.00001
-      cdf.MX<-pMX(xx, mu=list(mu1=exp(marginal_non_con1$models[[1]]$mu.coefficients), mu2=exp(marginal_non_con1$models[[2]]$mu.coefficients), mu3=exp(marginal_non_con1$models[[3]]$mu.coefficients)),
+      con1.y<-pMX(xx, mu=list(mu1=exp(marginal_non_con1$models[[1]]$mu.coefficients), mu2=exp(marginal_non_con1$models[[2]]$mu.coefficients), mu3=exp(marginal_non_con1$models[[3]]$mu.coefficients)),
                   sigma=list(sigma1=exp(marginal_non_con1$models[[1]]$sigma.coefficients), sigma2=exp(marginal_non_con1$models[[2]]$sigma.coefficients), sigma3=exp(marginal_non_con1$models[[3]]$sigma.coefficients)),
                   pi = list(pi1=prob.MX1, pi2=prob.MX2, pi3=prob.MX3), family=list(fam1="GA", fam2="GA", fam3="GA"))
-      con1.y<- approx(cdf.MX, xx, as.numeric(unlist(xy160[[1]][3])))$y
+      con1.y <- approx(cdf.MX, xx, as.numeric(unlist(xy160[[1]][3])))$y
     }
     if(Marginal_Dist1=="Gaus"){
       con1.y<-qnorm(as.numeric(unlist(xy160[[1]][3])),as.numeric(marginal_non_con1$estimate[1]),as.numeric(marginal_non_con1$estimate[2]))
@@ -458,8 +460,8 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
     ###Deriving the quantile isoline from the sample conditioned on variable 'Con2' i.e. Data_Con2.
 
     #Generate a regular grid on the unit square.
-    x<- c(10^(-4),seq(999.9*10^(-4),1-(1*10^(-5)),10^(-3)))
-    y<- c(10^(-4),seq(999.9*10^(-4),1-(1*10^(-5)),10^(-3)))
+    x<- c(10^(-5),seq(999.9*10^(-5),1-(1*10^(-6)),10^(-4)))
+    y<- c(10^(-5),seq(999.9*10^(-5),1-(1*10^(-6)),10^(-4)))
     u<-expand.grid(x,y,10^(-3))
     #Evaluate the copula at each point on the grid.
     u1<-BiCopCDF(u[,1], u[,2], obj2)
@@ -557,7 +559,8 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
     x_max<-ifelse(is.na(x_lim_max)==T,max(na.omit(Data[,con1])),x_lim_max)
     y_min<-ifelse(is.na(y_lim_min)==T,min(na.omit(Data[,con2])),y_lim_min)
     y_max<-ifelse(is.na(y_lim_max)==T,max(na.omit(Data[,con2])),y_lim_max)
-
+    print(summary(con1.prediction.points.ALL))
+    print(summary(con2.prediction.points.ALL))
     if(Plot_Quantile_Isoline==T){
       #Plot
       par(mar=c(4.5,4.2,0.5,0.5))
@@ -567,7 +570,7 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
       points(con1.prediction.points.ALL,col=4,pch=16,cex=1)
       points(con2.prediction.points.ALL,col="Red",pch=16,cex=1)
     }
-
+    print(tail(con1.prediction.points.ALL))
     Quantile_Isoline_1[[k]]<-con1.prediction.points.ALL
     Quantile_Isoline_2[[k]]<-con2.prediction.points.ALL
 
@@ -822,6 +825,7 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
 
       #Generate a sequence of x-values at a 0.01 increment starting at the minimum and ending at the maximum points from the two conditional isolines. Round to 2 decimal places.
       x.1<-round(seq(min(Data[,1],con1.prediction.points.ALL[,1],con2.prediction.points.ALL[,1],na.rm = T),max(Data[,1],con1.prediction.points.ALL[,1],con2.prediction.points.ALL[,1],na.rm = T),10^-Decimal_Place),Decimal_Place)
+      print(max(Data[,1],con1.prediction.points.ALL[,1],con2.prediction.points.ALL[,1],na.rm = T))
       #Round the x-values  from both quantile isolines to 2 decimal places
       con1.prediction.points.ALL.Round<-round(con1.prediction.points.ALL[,1],Decimal_Place)
       con2.prediction.points.ALL.Round<-round(con2.prediction.points.ALL[,1],Decimal_Place)
@@ -831,6 +835,8 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
         y.1[i]<-max(con1.prediction.points.ALL[,2][which(con1.prediction.points.ALL.Round==x.1[i])],
                     con2.prediction.points.ALL[,2][which(con2.prediction.points.ALL.Round==x.1[i])])
       }
+      print(tail(x.1))
+      print(tail(y.1))
       #If any y.1 elements are '-Inf' then remove.
       if(any(y.1==-Inf)==T){
         y.1[which(y.1==-Inf)]<-ifelse(y.1[which(y.1==-Inf)]==max(y.1,na.rm=T),
@@ -844,7 +850,7 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
         y.1<-y.1[-which(is.na(y.1)==TRUE)]
       }
 
-      #In the following lines of code, the maximum x-values at each y-value from the two quantile isolines are extracted
+     #In the following lines of code, the maximum x-values at each y-value from the two quantile isolines are extracted
 
       #Generate a sequence of y-values at a 0.01 increment starting at the minimum and ending at the maximum points from the two conditional isolines. Round to 2 decimal places.
       y.2<-round(seq(min(Data[,2],con1.prediction.points.ALL[,2],con2.prediction.points.ALL[,2],na.rm=T),max(Data[,2],con1.prediction.points.ALL[,2],con2.prediction.points.ALL[,2],na.rm=T),10^-Decimal_Place),Decimal_Place)
@@ -855,7 +861,8 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
      #Find the maximum x-value from the two quantile isolines at each x-value in y.2.
      x.2<-numeric(length(y.2))
      for(i in 1:length(y.2)){
-         x.2[i]<-max(round(con1.prediction.points.ALL[,1],2)[which(con1.prediction.points.ALL.Round==y.2[i])])
+         x.2[i]<-max(con1.prediction.points.ALL[,1][which(con1.prediction.points.ALL.Round==y.2[i])],
+                     con2.prediction.points.ALL[,1][which(con2.prediction.points.ALL.Round==y.2[i])])
      }
 
      if(any(x.2==-Inf)==T){
@@ -868,6 +875,7 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
           x.2<-x.2[-which(is.na(x.2)==TRUE)]
         }
 
+
         prediction.points.ALL<-data.frame(c(x.1,x.2),c(y.1,y.2))[-1,]
         colnames(prediction.points.ALL)<-c(names(Data)[1],names(Data)[2])
 
@@ -875,6 +883,10 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
         prediction.points.ALL[,1]<-round(prediction.points.ALL[,1],Decimal_Place)
         #To ensure each x is only paired withe y value and vice versa we remove any
         prediction.points.ALL<-prediction.points.ALL[!duplicated(prediction.points.ALL[,1]), ]
+        if(End==T){
+        prediction.points.ALL<-rbind(con2.prediction.points.ALL[1,],prediction.points.ALL,con1.prediction.points.ALL[nrow(con1.prediction.points.ALL),])
+        }
+        print(summary(prediction.points.ALL))
         #Order the rows in terms of magnitude of the x-values.
         z<-order(prediction.points.ALL[,1])
         prediction.points.ALL.1<-(prediction.points.ALL[z,1]-min(prediction.points.ALL[z,1]))/(max(prediction.points.ALL[z,1])-min(prediction.points.ALL[z,1]))
@@ -903,8 +915,9 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
         if(length(remove)>1){
           cop.sample<-cop.sample[-remove,]
         }
+        print(summary(cop.sample))
         prediction<-kde(x=cop.sample, eval.points=Iso)$estimate
-
+        print(summary(prediction))
         #(relative) Probabilities implied by the data for the points composing the isoline. Probabilities are scaled to [0,1].
         Contour[[k]] <- (prediction-min(prediction))/(max(prediction)-min(prediction))
 
