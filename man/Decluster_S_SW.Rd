@@ -12,25 +12,25 @@ Decluster_S_SW(Data, Window_Width_Sum, Window_Width)
 \item \code{2} Numeric vector containing corresponding time series values.
 }}
 
-\item{Window_Width_Sum}{Numeric vector of length one specifying the window width over which to sum the data. If \code{Window_Width_Sum_Type="Center"} then \code{Window_Width_Sum} must be even, if odd number is specified rounded down to the lowest odd number.}
+\item{Window_Width_Sum}{Numeric vector of length one specifying the window width over which to sum the data.}
 
 \item{Window_Width}{Numeric vector of length one specifying the width, in days, of the window used to ensure events are independent.}
 }
 \value{
-List comprising vectors containing the original time series \code{Detrended}, the summed series \code{Totals}, independent (declustered) events \code{Declustered}, the elements of the original series containing the start (\code{Event_Start}), center \code{EventID}, and end (\code{Event_End}) of the declustered events. Note for \code{Window_Width_Sum_Type="End"}, \code{Event_End} and \code{EventID} are identical.
+List comprising vectors containing the original time series \code{Detrend}, the summed series \code{Totals}, independent (declustered) events \code{Declustered}, the elements of the original series containing the start (\code{Event_Start}), center \code{EventID}, and end (\code{Event_End}) of the declustered events. Note for \code{Window_Width_Sum_Type="End"}, \code{Event_End} and \code{EventID} are identical.
 }
 \description{
 Finds the sum of a time series within a moving window then declusters the summed series using another moving window.
 }
 \examples{
-#Declustering the O-sWL at site S22 using a 3-day window.
-plot(S13_Precip$Date,S13_Precip$Precip)
-S13_Precip_Totals_Declust<-Decluster_S_SW(Data=S13_Precip, Window_Width_Sum=24,
-                                          Window_Width_Sum_Type="End", Window_Width=7*24)
-plot(S13_Precip[,1],
-     S13_Precip_Totals_Declust$Window_Width_Sum_Totals,
+#Declustering 24 hour rainfall totals at site S13 using a 7-day window for declustering the events.
+plot(S13_Precip$Date,S13_Rainfall$Rainfall)
+S13_Rainfall_Totals_Declust<-Decluster_S_SW(Data=S13_Rainfall, Window_Width_Sum=24,
+                                            Window_Width=7*24)
+plot(S13_Rainfall[,1],
+     S13_Rainfall_Totals_Declust$Totals,
      pch=16,ylim=c(0,10))
-points(S13_Precip[S13_Precip_Totals_Declust$EventID,1],
-       S13_Precip_Totals_Declust$Window_Width_Sum_Totals[S13_Precip_Totals_Declust$EventID],
+points(S13_Rainfall[S13_Rainfall_Totals_Declust$EventID,1],
+       S13_Rainfall_Totals_Declust$Totals[S13_Rainfall_Totals_Declust$EventID],
        col=2,pch=16)
 }
