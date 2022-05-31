@@ -44,11 +44,11 @@
 #'                          Data_Declust=S22.Detrend.Declustered.df[,-c(1,4)],
 #'                          Con_Variable="OsWL",u=0.97)
 #'S22.Copula.Rainfall<-Copula_Threshold_2D(Data_Detrend=S22.Detrend.df[,-c(1,4)],
-#'                                         Data_Declust=S22.Detrend.Declustered.df[,-c(1,4)],u =0.97,
+#'                                         Data_Declust=S22.Detrend.Declustered.df[,-c(1,4)],u1 =0.97,
 #'                                         y_lim_min=-0.075,y_lim_max=0.25,
 #'                                         Upper=c(2,9),Lower=c(2,10),GAP=0.15)$Copula_Family_Var1
 #'S22.Copula.OsWL<-Copula_Threshold_2D(Data_Detrend=S22.Detrend.df[,-c(1,4)],
-#'                                     Data_Declust=S22.Detrend.Declustered.df[,-c(1,4)],u =0.97,
+#'                                     Data_Declust=S22.Detrend.Declustered.df[,-c(1,4)],u2 =0.97,
 #'                                     y_lim_min=-0.075, y_lim_max =0.25,
 #'                                     Upper=c(2,9),Lower=c(2,10),GAP=0.15)$Copula_Family_Var2
 #'Design_Event_2D(Data=S22.Detrend.df[,-c(1,4)],
@@ -58,7 +58,7 @@
 #'                Marginal_Dist1="Logis", Marginal_Dist2="Twe",
 #'                RP=100,Interval=10000,N=10,N_Ensemble=10,
 #'                Plot_Quantile_Isoline=FALSE)
-Design_Event_2D_1<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=NA, Copula_Family1, Copula_Family2, Marginal_Dist1, Marginal_Dist2, Con1="Rainfall",Con2="OsWL", GPD1=NA, GPD2=NA, mu=365.25, GPD_Bayes=TRUE, Decimal_Place=2, RP, Interval=10000, End=F, x_lab="Rainfall (mm)",y_lab="O-sWL (mNGVD 29)",x_lim_min = NA,x_lim_max = NA,y_lim_min = NA,y_lim_max = NA,N=10^6,N_Ensemble=0,Sim_Max=10,Plot_Quantile_Isoline=FALSE,Isoline_Type="Combined"){
+Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=NA, Copula_Family1, Copula_Family2, Marginal_Dist1, Marginal_Dist2, Con1="Rainfall",Con2="OsWL", GPD1=NA, GPD2=NA, mu=365.25, GPD_Bayes=TRUE, Decimal_Place=2, RP, Interval=10000, End=F, x_lab="Rainfall (mm)",y_lab="O-sWL (mNGVD 29)",x_lim_min = NA,x_lim_max = NA,y_lim_min = NA,y_lim_max = NA,N=10^6,N_Ensemble=0,Sim_Max=10,Plot_Quantile_Isoline=FALSE,Isoline_Type="Combined"){
 
   ###Preliminaries
 
