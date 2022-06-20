@@ -34,7 +34,7 @@
 #'                     Data_Declust=S20.Detrend.Declustered.df[,-c(1,4)],
 #'                     y_lim_min=-0.075, y_lim_max =0.25,
 #'                     Upper=c(6,8), Lower=c(6,8),GAP=0.1)
-Copula_Threshold_2D<-function(Data_Detrend,Data_Declust,u1=seq(0.9,0.99,0.01),u2=seq(0.9,0.99,0.01),PLOT=TRUE,x_lim_min=NA,x_lim_max=NA,y_lim_min=-1,y_lim_max=1,Upper=0,Lower=0,GAP=0.05,Legend=TRUE){
+Copula_Threshold_2D<-function(Data_Detrend,Data_Declust,u1=seq(0.9,0.99,0.01),u2=seq(0.9,0.99,0.01),PLOT=TRUE,x_lim_min=NA,x_lim_max=NA,y_lim_min=-1,y_lim_max=1,Upper=NA,Lower=NA,GAP=0.05,Legend=TRUE){
 
  #Axes limits for plots
  x_lim_min<-ifelse(is.na(x_lim_min)==T,min(u1,u2,na.rm=T),x_lim_min)

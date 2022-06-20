@@ -40,7 +40,7 @@
 #' S22_OsWL_Solari<-GPD_Threshold_Solari(Event=Rainfall_Declust_SW$Declustered,
 #'                                       Data=na.omit(S22.Detrend.df[,2]))
 #' S22_OsWL_Solari_Sel<-GPD_Threshold_Solari_Sel(Event=Rainfall_Declust_SW$Declustered,
-#'                                           Data=na.omit(S22.Detrend.df[,2]),
+#'                                           Data=S22.Detrend.df[,2],
 #'                                           Solari_Output=S22_OsWL_Solari,
 #'                                           Thres=S22_OsWL_Solari$Candidate_Threshold)
 GPD_Threshold_Solari_Sel<-function(Event,Data,Solari_Output,Thres,Alpha=0.1,N_Sim=10^4,RP_Min=1,RP_Max=1000,RP_Plot=100,mu=365.25,y_lab="Data"){
@@ -85,7 +85,7 @@ GPD_Threshold_Solari_Sel<-function(Event,Data,Solari_Output,Thres,Alpha=0.1,N_Si
   h<-hist(Solari_Output$GPD_MLE[z,1],xlab="GP shape",ylab="Frequency",col="Grey",
           xlim=c(min(Solari_Output$GPD_MLE[z,1])-diff(range(Solari_Output$GPD_MLE[z,1]))/4,
                  max(Solari_Output$GPD_MLE[z,1])+diff(range(Solari_Output$GPD_MLE[z,1]))/4),
-          main="",boarder = "Grey")
+          main="",border = "Grey")
   abline(v=Estimate[1],col="Blue",lwd=2)
   par(new=TRUE)
   K<-BOOT[,1][BOOT[,1]>min(h$breaks) & BOOT[,1]<max(h$breaks)]
@@ -99,7 +99,7 @@ GPD_Threshold_Solari_Sel<-function(Event,Data,Solari_Output,Thres,Alpha=0.1,N_Si
   h<-hist(Solari_Output$GPD_MLE[z,2],xlab="GP scale",ylab="Frequency",col="Grey",
           xlim=c(min(Solari_Output$GPD_MLE[z,2])-diff(range(Solari_Output$GPD_MLE[z,2]))/4,
                  max(Solari_Output$GPD_MLE[z,2])+diff(range(Solari_Output$GPD_MLE[z,2]))/4),
-          main="",boarder = "Grey")
+          main="",border = "Grey")
   abline(v=Estimate[2],col="Blue",lwd=2)
   par(new=TRUE)
   K<-BOOT[,2][BOOT[,2]>min(h$breaks) & BOOT[,2]<max(h$breaks)]
@@ -114,7 +114,7 @@ GPD_Threshold_Solari_Sel<-function(Event,Data,Solari_Output,Thres,Alpha=0.1,N_Si
           xlab="GP position",ylab="Frequency",col="Grey",
           xlim=c(min(Solari_Output$GPD_MLE[z,3])-diff(range(Solari_Output$GPD_MLE[z,3]))/4,
                  max(Solari_Output$GPD_MLE[z,3])+diff(range(Solari_Output$GPD_MLE[z,3]))/4),
-          main="",boarder = "Grey")
+          main="",border = "Grey")
   abline(v=Estimate[3],col="Blue",lwd=2)
   par(new=TRUE)
   K<-BOOT[,3][BOOT[,3]>min(h$breaks) & BOOT[,3]<max(h$breaks)]
