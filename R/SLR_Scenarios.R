@@ -95,6 +95,7 @@ SLR_Scenarios<-function(SeaLevelRise, Scenario="Compact", Unit = "m", Year=2022,
 
  if(Scenario=="Compact" | Scenario=="NOAA2017" | Scenario=="NOAA2022"){
    plot(0,xlab="Year",ylab=y_axis,type='n',xlim=c(Year,2100),ylim=c(0,ifelse(Unit=="m",1,3.28084)*max(spline.high$y,spline.int$y,spline.low$y)*1.5),cex.lab=1.5,cex.axis=1.5)
+   legend("topleft",c("High","Intermediate","Low"),col=c(alpha(mypalette[1],0.2),alpha(mypalette[2],0.2),alpha(mypalette[3],0.2)),cex=1.5)
    lines(spline.high$x,spline.high$y,col=alpha(mypalette[1],0.2),lwd=5)
    lines(spline.int$x,spline.int$y,col=alpha(mypalette[2],0.2),lwd=5)
    lines(spline.low$x,spline.low$y,col=alpha(mypalette[3],0.2),lwd=5)
@@ -146,7 +147,7 @@ SLR_Scenarios<-function(SeaLevelRise, Scenario="Compact", Unit = "m", Year=2022,
    rect(Year,0,spline.low$x[1:max.low],0.5,col=mypalette[3],border=NA)
    Low<-round(spline.low$x[max.low],0)
    if(Low>=2100){
-     text(spline.low$x[max.low]+1.75,0.25,paste('>',2100-Year),cex=1.5,font=3)
+     text(spline.low$x[max.low]+1.5,0.25,paste('>',2100-Year),cex=1.5,font=3)
    } else{
     text(spline.low$x[max.low]+1.5,0.25,paste(Low-Year),cex=1.5,font=3)
    }
