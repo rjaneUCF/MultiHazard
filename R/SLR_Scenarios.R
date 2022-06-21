@@ -130,7 +130,7 @@ SLR_Scenarios<-function(SeaLevelRise, Scenario="Compact", Unit = "m", Year=2022,
 
  if(Scenario=="Compact" | Scenario=="NOAA2017" | Scenario=="NOAA2022"){
    rect(Year,2,spline.int$x[1:max.high],2.5,col=mypalette[1],border=NA)
-   High<-spline.high[max.high]
+   High<-spline.high$x[max.high]
    if(High>2100){
     text(spline.high$x[max.high]+1.5,2.25,"> 80",cex=1.5,font=3)
    } else{
