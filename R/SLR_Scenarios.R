@@ -137,7 +137,7 @@ SLR_Scenarios<-function(SeaLevelRise, Scenario="Compact", Unit = "m", Year=2022,
     text(spline.high$x[max.high]+1.5,2.25,paste(High-Year),cex=1.5,font=3)
    }
    rect(Year,1,spline.int$x[1:max.int],1.5,col=mypalette[2],border=NA)
-   Intermediate<-spline.int[max.int]
+   Intermediate<-spline.int$x[max.int]
    if(Intermediate>2100){
     text(spline.int$x[max.int]+1.5,1.25,"> 80",cex=1.5,font=3)
    } else{
