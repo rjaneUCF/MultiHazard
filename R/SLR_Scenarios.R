@@ -95,7 +95,7 @@ SLR_Scenarios<-function(SeaLevelRise, Scenario="Compact", Unit = "m", Year=2022,
 
  if(Scenario=="Compact" | Scenario=="NOAA2017" | Scenario=="NOAA2022"){
    plot(0,xlab="Year",ylab=y_axis,type='n',xlim=c(Year,2100),ylim=c(0,ifelse(Unit=="m",1,3.28084)*max(spline.high$y,spline.int$y,spline.low$y)*1.5),cex.lab=1.5,cex.axis=1.5)
-   legend("topleft",c("High","Intermediate","Low"),col=c(alpha(mypalette[1],0.2),alpha(mypalette[2],0.2),alpha(mypalette[3],0.2)),lty=1,cex=1.5)
+   legend("topleft",c("High","Intermediate","Low"),col=c(alpha(mypalette[1],0.2),alpha(mypalette[2],0.2),alpha(mypalette[3],0.2)),lty=1,cex=1.5,lwd=5)
    lines(spline.high$x,spline.high$y,col=alpha(mypalette[1],0.2),lwd=5)
    lines(spline.int$x,spline.int$y,col=alpha(mypalette[2],0.2),lwd=5)
    lines(spline.low$x,spline.low$y,col=alpha(mypalette[3],0.2),lwd=5)
@@ -114,7 +114,7 @@ SLR_Scenarios<-function(SeaLevelRise, Scenario="Compact", Unit = "m", Year=2022,
  if(Scenario=="Compact"){
    plot(0,xlab="Number of years",ylab="",type='n',xlim=c(Year,2100),ylim=c(0,3),cex.lab=1.5,cex.axis=1.5,yaxt="n",xaxt="n",bty="n")
    axis(1,at=seq(Year,2100,20),seq(0,2100-Year,20),cex.axis=1.5)
-   mtext(c("NOAA et al. (2012)","High","USACE 2013","High","IPCC AR5","Medium"),2,-2,at=c(2.4,2.2,1.4,1.2,0.4,0.2),cex=0.75)
+   mtext(c("NOAA et al. (2012)","High","USACE 2013","High","IPCC AR5","Medium"),2,-1.5,at=c(2.4,2.2,1.4,1.2,0.4,0.2),cex=0.75)
  }
 
  if(Scenario=="NOAA2017"){
