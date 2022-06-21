@@ -64,7 +64,7 @@ SLR_Scenarios<-function(SeaLevelRise, Scenario="Compact", Unit = "m", Year=2022,
  }
 
  if(Scenario=="NOAA2022"){
-   NOAAetal2022.Year<-c(2020,2030,2040,2050,2060,2070,2080,2090,2100)
+   NOAAetal2022.Year<-seq(2020,2100,10)
    x<-ifelse(Location=="Miami Beach",1,2)
    spline.high<-spline(NOAAetal2022.Year,ifelse(Unit=="m",1,0.00328084)*NOAAetal2022[c(29,14)[x],6:14]/1000, xout=seq(Year,2100,0.25))
    spline.high$y<-spline.high$y-spline.high$y[1]
@@ -131,22 +131,22 @@ SLR_Scenarios<-function(SeaLevelRise, Scenario="Compact", Unit = "m", Year=2022,
  if(Scenario=="Compact" | Scenario=="NOAA2017" | Scenario=="NOAA2022"){
    rect(Year,2,spline.int$x[1:max.high],2.5,col=mypalette[1],border=NA)
    High<-spline.high$x[max.high]
-   if(High>2100){
-    text(spline.high$x[max.high]+1.5,2.25,"> 80",cex=1.5,font=3)
+   if(High>=(2100-Year)){
+    text(spline.high$x[max.high]+1.5,2.25,paste(2100-Year),cex=1.5,font=3)
    } else{
     text(spline.high$x[max.high]+1.5,2.25,paste(High-Year),cex=1.5,font=3)
    }
    rect(Year,1,spline.int$x[1:max.int],1.5,col=mypalette[2],border=NA)
    Intermediate<-spline.int$x[max.int]
-   if(Intermediate>2100){
-    text(spline.int$x[max.int]+1.5,1.25,"> 80",cex=1.5,font=3)
+   if(Intermediate>=(2100-Year)){
+    text(spline.int$x[max.int]+1.5,1.25,paste(2100-Year),cex=1.5,font=3)
    } else{
      text(spline.int$x[max.int]+1.5,1.25,paste(Intermediate-Year),cex=1.5,font=3)
    }
    rect(Year,0,spline.low$x[1:max.low],0.5,col=mypalette[3],border=NA)
    Low<-spline.low$x[max.low]
-   if(Low>2100){
-     text(spline.low$x[max.low]+1.5,0.25,"> 80",cex=1.5,font=3)
+   if(Low>=(2100-Year)){
+     text(spline.low$x[max.low]+1.5,0.25,paste(2100-Year),cex=1.5,font=3)
    } else{
     text(spline.low$x[max.low]+1.5,0.25,paste(Low-Year),cex=1.5,font=3)
    }
