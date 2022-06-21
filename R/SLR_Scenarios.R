@@ -67,11 +67,11 @@ SLR_Scenarios<-function(SeaLevelRise, Scenario="Compact", Unit = "m", Year=2022,
  if(Scenario=="NOAA2022"){
   SeaLevelRise.2022.Year<-c(2020,2030,2040,2050,2060,2070,2080,2090,2100)
   x<-ifelse(Location=="Miami Beach",1,2)
-  spline.high<-spline(NOAAetal2022.Year,ifelse(Unit=="m",1,0.00328084)*NOAAetal2022[c(29,14)[x],6:14], xout=seq(Year,2100,0.25))
+  spline.high<-spline(NOAAetal2022$Year,ifelse(Unit=="m",1,0.00328084)*NOAAetal2022[c(29,14)[x],6:14], xout=seq(Year,2100,0.25))
   spline.high$y<-spline.high$y-spline.high$y[1]
-  spline.int<-spline(NOAAetal2022.Year,ifelse(Unit=="m",1,0.00328084)*NOAAetal2022[c(23,8)[x],6:14], xout=seq(Year,2100,0.25))
+  spline.int<-spline(NOAAetal2022$Year,ifelse(Unit=="m",1,0.00328084)*NOAAetal2022[c(23,8)[x],6:14], xout=seq(Year,2100,0.25))
   spline.int$y<-spline.int$y-spline.int$y[1]
-  spline.low<-spline(NOAAetal2022.Year,ifelse(Unit=="m",1,0.00328084)*NOAAetal2022[c(17,2)[x],6:14], xout=seq(Year,2100,0.25))
+  spline.low<-spline(NOAAetal2022$Year,ifelse(Unit=="m",1,0.00328084)*NOAAetal2022[c(17,2)[x],6:14], xout=seq(Year,2100,0.25))
   spline.low$y<-spline.low$y-spline.low$y[1]
  }
 
@@ -101,11 +101,11 @@ SLR_Scenarios<-function(SeaLevelRise, Scenario="Compact", Unit = "m", Year=2022,
   lines(spline.low$x,spline.low$y,col=alpha(mypalette[3],0.2),lwd=5)
   #Scenarios are bold up until the required SeaLevelRise is expected to occur
   max.high<-which(abs(spline.high$y-SeaLevelRise)==min(abs(spline.high$y-SeaLevelRise)))
-  lines(spline.high$x,spline.high$y,col=mypalette[1],lwd=5)
+  lines(spline.high$x[1:max.high],spline.high$y[1:max.high],col=mypalette[1],lwd=5)
   max.int<-which(abs(spline.int$y-SeaLevelRise)==min(abs(spline.int$y-SeaLevelRise)))
-  lines(spline.int$x,spline.int$y,col=mypalette[2],lwd=5)
+  lines(spline.int$x[1:max.int],spline.int$y[1:max.int],col=mypalette[2],lwd=5)
   max.low<-which(abs(spline.low$y-SeaLevelRise)==min(abs(spline.low$y-SeaLevelRise)))
-  lines(spline.low$x[1:max],spline.low$y[1:max],col=mypalette[3],lwd=5)
+  lines(spline.low$x[1:max.low],spline.low$y[1:max.low],col=mypalette[3],lwd=5)
  }
 
  #Plotting the estimated time for the required SeaLevelRise to occur
@@ -161,3 +161,4 @@ SLR_Scenarios<-function(SeaLevelRise, Scenario="Compact", Unit = "m", Year=2022,
 }
 
 
+SLR_Scenarios(SeaLevelRise=0.45,Unit="m")
