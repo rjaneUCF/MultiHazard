@@ -138,26 +138,38 @@ SLR_Scenarios<-function(SeaLevelRise, Scenario="Compact", Unit = "m", Year=2022,
    }
    rect(Year,1,spline.int$x[1:max.int],1.5,col=mypalette[2],border=NA)
    Intermediate<-spline.int[max.int]
-   text(spline.int$x[max.int]+1.5,1.25,ifelse(Intermediate>2100,"> 80",paste(Intermediate-Year)),cex=1.5,font=3)
+   if(Intermediate>2100){
+    text(spline.int$x[max.int]+1.5,1.25,"> 80",cex=1.5,font=3)
+   } else{
+     text(spline.int$x[max.int]+1.5,1.25,paste(Intermediate-Year),cex=1.5,font=3)
+   }
    rect(Year,0,spline.low$x[1:max.low],0.5,col=mypalette[3],border=NA)
    Low<-spline.low$x[max.low]
-   text(spline.low$x[max.low]+1.5,0.25,ifelse(Low>2100,"> 80",paste(Low-Year)),cex=1.5,font=3)
+   if(Low>2100){
+     text(spline.low$x[max.low]+1.5,0.25,"> 80",cex=1.5,font=3)
+   } else{
+    text(spline.low$x[max.low]+1.5,0.25,paste(Low-Year),cex=1.5,font=3)
+   }
    res<-list("High" = High, "Intermediate" = Intermediate, "Low" = Low)
  }
 
  if(Scenario=="Other"){
-   SLR_Year<-numeric(ncol(New_Scenario)-1)
-   plot(0,xlab="Number of years",ylab="",type='n',xlim=c(Year,max.Year),ylim=c(0,ncol(New_Scenario)-1),cex.lab=1.5,cex.axis=1.5,yaxt="n",xaxt="n",bty="n")
-   axis(1,at=seq(Year,max.Year,20),seq(0,max.Year-Year,20),cex.axis=1.5)
-   mtext(colnames(New_Scenario)[-1],2,ifelse((max.Year-Year)<100,-4.15,-1.1),at=rev(seq(0,ncol(New_Scenario)-2,1))+0.25)
-   for(i in 1:(ncol(New_Scenario)-1)){
-     j<-rev(1:(ncol(New_Scenario)-1))[i]
-     max<-which(abs(splines[[j]]$y-SeaLevelRise)==min(abs(splines[[j]]$y-SeaLevelRise)))
-     rect(Year,seq(0,ncol(New_Scenario)-2,1)[i],splines[[i]]$x[1:max],seq(0,ncol(New_Scenario)-2,1)[i]+0.5,col=mypalette[j],border=NA)
-     SLR_Year[i]<-round(splines[[i]]$x[max],0)
-     text(splines[[i]]$x[max]+ifelse(max.Year-Year<100,1.5,2.6),seq(0,ncol(New_Scenario)-2,1)[i]+0.25,ifelse(SLR_Year[i]>max.Year,paste('>',SLR_Year[i]-Year),paste(SLR_Year[i]-Year)),cex=1.5,font=3)
+  SLR_Year<-numeric(ncol(New_Scenario)-1)
+  plot(0,xlab="Number of years",ylab="",type='n',xlim=c(Year,max.Year),ylim=c(0,ncol(New_Scenario)-1),cex.lab=1.5,cex.axis=1.5,yaxt="n",xaxt="n",bty="n")
+  axis(1,at=seq(Year,max.Year,20),seq(0,max.Year-Year,20),cex.axis=1.5)
+  mtext(colnames(New_Scenario)[-1],2,ifelse((max.Year-Year)<100,-4.15,-1.1),at=rev(seq(0,ncol(New_Scenario)-2,1))+0.25)
+  for(i in 1:(ncol(New_Scenario)-1)){
+   j<-rev(1:(ncol(New_Scenario)-1))[i]
+   max<-which(abs(splines[[j]]$y-SeaLevelRise)==min(abs(splines[[j]]$y-SeaLevelRise)))
+   rect(Year,seq(0,ncol(New_Scenario)-2,1)[i],splines[[i]]$x[1:max],seq(0,ncol(New_Scenario)-2,1)[i]+0.5,col=mypalette[j],border=NA)
+   SLR_Year[i]<-round(splines[[i]]$x[max],0)
+   if((max.Year-Year)>100){
+    text(splines[[i]]$x[max]+2.6,seq(0,ncol(New_Scenario)-2,1)[i]+0.25,paste('>',SLR_Year[i]-Year),cex=1.5,font=3)
+   } else{
+    text(splines[[i]]$x[max]+1.5,seq(0,ncol(New_Scenario)-2,1)[i]+0.25,paste(SLR_Year[i]-Year),cex=1.5,font=3)
    }
-   res<-list("SLR_Year" = SLR_Year)
+  }
+  res<-list("SLR_Year" = SLR_Year)
  }
 
  return(res)
