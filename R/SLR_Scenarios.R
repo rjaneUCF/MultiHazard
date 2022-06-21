@@ -113,19 +113,19 @@ SLR_Scenarios<-function(SeaLevelRise, Scenario="Compact", Unit = "m", Year=2022,
  if(Scenario=="Compact"){
    plot(0,xlab="Number of years",ylab="",type='n',xlim=c(Year,2100),ylim=c(0,3),cex.lab=1.5,cex.axis=1.5,yaxt="n",xaxt="n",bty="n")
    axis(1,at=seq(Year,2100,20),seq(0,2100-Year,20),cex.axis=1.5)
-   mtext(c("NOAA et al. (2012)","High","USACE 2013","High","IPCC AR5","Medium"),2,-4.15,at=c(2.4,2.2,1.4,1.2,0.4,0.2))
+   mtext(c("NOAA et al. (2012)","High","USACE 2013","High","IPCC AR5","Medium"),2,-2,at=c(2.4,2.2,1.4,1.2,0.4,0.2),cex=0.75)
  }
 
  if(Scenario=="NOAA2017"){
    plot(0,xlab="Number of years",ylab="",type='n',xlim=c(Year,2100),ylim=c(0,3),cex.lab=1.5,cex.axis=1.5,yaxt="n",xaxt="n",bty="n")
    axis(1,at=seq(Year,2100,20),seq(0,2100-Year,20),cex.axis=1.5)
-   mtext(c("High","Int.","Low"),2,-3,at=c(2.25,1.25,0.25))
+   mtext(c("High","Int.","Low"),2,-1,at=c(2.25,1.25,0.25))
  }
 
  if(Scenario=="NOAA2022"){
    plot(0,xlab="Number of years",ylab="",type='n',xlim=c(Year,2100),ylim=c(0,3),cex.lab=1.5,cex.axis=1.5,yaxt="n",xaxt="n",bty="n")
    axis(1,at=seq(Year,2100,20),seq(0,2100-Year,20),cex.axis=1.5)
-   mtext(c("High","Int.","Low"),2,-3.5,at=c(2.25,1.25,0.25))
+   mtext(c("High","Int.","Low"),2,-1,at=c(2.25,1.25,0.25))
  }
 
  if(Scenario=="Compact" | Scenario=="NOAA2017" | Scenario=="NOAA2022"){
