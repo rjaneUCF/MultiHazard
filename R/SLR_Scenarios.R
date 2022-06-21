@@ -54,7 +54,7 @@ SLR_Scenarios<-function(SeaLevelRise, Scenario="Compact", Unit = "m", Year=2022,
   spline.low<-spline(SeaLevelRise.AR5$Year,ifelse(Unit=="m",1,0.00328084)*SeaLevelRise.AR5$Int, xout=seq(Year,2100,0.25))
   spline.low$y<-spline.low$y-spline.low$y[1]
  }
- res<-("x"=spline.high$x,"y"=spline.high$y)
+ res<-list("x"==spline.high$x,"y"==spline.high$y)
  return(res)
 }
 
