@@ -66,11 +66,11 @@ SLR_Scenarios<-function(SeaLevelRise, Scenario="Compact", Unit = "m", Year=2022,
  if(Scenario=="NOAA2022"){
    NOAAetal2022.Year<-c(2020,2030,2040,2050,2060,2070,2080,2090,2100)
    x<-ifelse(Location=="Miami Beach",1,2)
-   spline.high<-spline(NOAAetal2022.Year,ifelse(Unit=="m",1,0.00328084)*NOAAetal2022[c(29,14)[x],6:14], xout=seq(Year,2100,0.25))
+   spline.high<-spline(NOAAetal2022.Year,ifelse(Unit=="m",1,0.00328084)*NOAAetal2022[c(29,14)[x],6:14]/1000, xout=seq(Year,2100,0.25))
    spline.high$y<-spline.high$y-spline.high$y[1]
-   spline.int<-spline(NOAAetal2022.Year,ifelse(Unit=="m",1,0.00328084)*NOAAetal2022[c(23,8)[x],6:14], xout=seq(Year,2100,0.25))
+   spline.int<-spline(NOAAetal2022.Year,ifelse(Unit=="m",1,0.00328084)*NOAAetal2022[c(23,8)[x],6:14]/1000, xout=seq(Year,2100,0.25))
    spline.int$y<-spline.int$y-spline.int$y[1]
-   spline.low<-spline(NOAAetal2022.Year,ifelse(Unit=="m",1,0.00328084)*NOAAetal2022[c(17,2)[x],6:14], xout=seq(Year,2100,0.25))
+   spline.low<-spline(NOAAetal2022.Year,ifelse(Unit=="m",1,0.00328084)*NOAAetal2022[c(17,2)[x],6:14]/1000, xout=seq(Year,2100,0.25))
    spline.low$y<-spline.low$y-spline.low$y[1]
  }
 
