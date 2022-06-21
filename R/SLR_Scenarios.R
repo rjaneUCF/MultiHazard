@@ -128,13 +128,13 @@ SLR_Scenarios<-function(SeaLevelRise, Scenario="Compact", Unit = "m", Year=2022,
    mtext(c("High","Intermediate","Low"),2,-4.15,at=c(2.25,1.25,0.25))
  }
 
- if(Scenario=="Compact" | Scenario=="NOAA2022" | Scenario=="NOAA2022"){
+ if(Scenario=="Compact" | Scenario=="NOAA2017" | Scenario=="NOAA2022"){
    rect(Year,2,spline.int$x[1:max.high],2.5,col=mypalette[1],border=NA)
    High<-spline.high[max.high]
    text(spline.high$x[max.high]+1.5,2.25,ifelse(High>2100,"> 80",paste(High-Year)),cex=1.5,font=3)
    rect(Year,1,spline.int$x[1:max.int],1.5,col=mypalette[2],border=NA)
-   Intermedite<-spline.int[max.int]
-   text(spline.int$x[max.int]+1.5,1.25,ifelse(Intermedite>2100,"> 80",paste(Intermediate-Year)),cex=1.5,font=3)
+   Intermediate<-spline.int[max.int]
+   text(spline.int$x[max.int]+1.5,1.25,ifelse(Intermediate>2100,"> 80",paste(Intermediate-Year)),cex=1.5,font=3)
    rect(Year,0,spline.low$x[1:max.low],0.5,col=mypalette[3],border=NA)
    Low<-spline.low$x[max.low]
    text(spline.low$x[max.low]+1.5,0.25,ifelse(Low>2100,"> 80",paste(Low-Year)),cex=1.5,font=3)
