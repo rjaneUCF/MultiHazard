@@ -119,34 +119,34 @@ SLR_Scenarios<-function(SeaLevelRise, Scenario="Compact", Unit = "m", Year=2022,
  if(Scenario=="NOAA2017"){
    plot(0,xlab="Number of years",ylab="",type='n',xlim=c(Year,2100),ylim=c(0,3),cex.lab=1.5,cex.axis=1.5,yaxt="n",xaxt="n",bty="n")
    axis(1,at=seq(Year,2100,20),seq(0,2100-Year,20),cex.axis=1.5)
-   mtext(c("High","Intermediate","Low"),2,-4.15,at=c(2.25,1.25,0.25))
+   mtext(c("High","Int.","Low"),2,-3,at=c(2.25,1.25,0.25))
  }
 
  if(Scenario=="NOAA2022"){
    plot(0,xlab="Number of years",ylab="",type='n',xlim=c(Year,2100),ylim=c(0,3),cex.lab=1.5,cex.axis=1.5,yaxt="n",xaxt="n",bty="n")
    axis(1,at=seq(Year,2100,20),seq(0,2100-Year,20),cex.axis=1.5)
-   mtext(c("High","Int.","Low"),2,-2,at=c(2.25,1.25,0.25))
+   mtext(c("High","Int.","Low"),2,-3.5,at=c(2.25,1.25,0.25))
  }
 
  if(Scenario=="Compact" | Scenario=="NOAA2017" | Scenario=="NOAA2022"){
    rect(Year,2,spline.int$x[1:max.high],2.5,col=mypalette[1],border=NA)
-   High<-spline.high$x[max.high]
-   if(High>2100){
+   High<-round(spline.high$x[max.high],0)
+   if(High>=2100){
     text(spline.high$x[max.high]+1.5,2.25,paste('>',2100-Year),cex=1.5,font=3)
    } else{
     text(spline.high$x[max.high]+1.5,2.25,paste(High-Year),cex=1.5,font=3)
    }
    rect(Year,1,spline.int$x[1:max.int],1.5,col=mypalette[2],border=NA)
-   Intermediate<-spline.int$x[max.int]
-   if(Intermediate>2100){
+   Intermediate<-round(spline.int$x[max.int],0)
+   if(Intermediate>=2100){
     text(spline.int$x[max.int]+1.5,1.25,paste('>',2100-Year),cex=1.5,font=3)
    } else{
      text(spline.int$x[max.int]+1.5,1.25,paste(Intermediate-Year),cex=1.5,font=3)
    }
    rect(Year,0,spline.low$x[1:max.low],0.5,col=mypalette[3],border=NA)
-   Low<-spline.low$x[max.low]
+   Low<-round(spline.low$x[max.low],0)
    if(Low>=2100){
-     text(spline.low$x[max.low]+1.5,0.25,paste('>',2100-Year),cex=1.5,font=3)
+     text(spline.low$x[max.low]+1.75,0.25,paste('>',2100-Year),cex=1.5,font=3)
    } else{
     text(spline.low$x[max.low]+1.5,0.25,paste(Low-Year),cex=1.5,font=3)
    }
