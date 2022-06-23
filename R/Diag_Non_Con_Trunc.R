@@ -44,16 +44,16 @@ Diag_Non_Con_Trunc<-function(Data,Omit=NA,x_lab="Data",y_lim_min=0,y_lim_max=1){
   if(any(Test==1)){
   bdata2 <- data.frame(shape = exp(-0.5), scale = exp(0.5))
   bdata2 <- transform(bdata2, y = Data)
-  fit <- vglm(y ~ 1, bisa, data = bdata2, trace = FALSE)
-  AIC.BS<-2*length(coef(fit))-2*logLik(fit)
+  fit.BS <- vglm(y ~ 1, bisa, data = bdata2, trace = FALSE)
+  AIC.BS<-2*length(coef(fit.BS))-2*logLik(fit.BS)
   }
   if(any(Test==2)){
-  fit<-fitdistr(Data,"exponential")
-  AIC.Exp<-2*length(fit$estimate)-2*fit$loglik
+  fit.Exp<-fitdistr(Data,"exponential")
+  AIC.Exp<-2*length(fit.Exp$estimate)-2*fit.Exp$loglik
   }
   if(any(Test==3)){
-  fit<-fitdistr(Data, "gamma")
-  AIC.Gam2<-2*length(fit$estimate)-2*fit$loglik
+  fit.Gam2<-fitdistr(Data, "gamma")
+  AIC.Gam2<-2*length(fit.Gam2$estimate)-2*fit.Gam2$loglik
   }
   data.gamlss <- data.frame(X=Data)
   if(any(Test==4)){
@@ -104,21 +104,21 @@ Diag_Non_Con_Trunc<-function(Data,Omit=NA,x_lab="Data",y_lim_min=0,y_lim_max=1){
   #fit<-fitdist(Data, "invgauss", start = list(mean = 5, shape = 1))
   #AIC.InverseNormal<-2*length(fit$estimate)-2*fit$loglik
   if(any(Test==7)){
-  fit<-fitdistr(Data,"lognormal")
-  AIC.logNormal<-2*length(fit$estimate)-2*fit$loglik
+  fit.LogN<-fitdistr(Data,"lognormal")
+  AIC.logNormal<-2*length(fit.LogN$estimate)-2*fit.LogN$loglik
   }
   if(any(Test==8)){
-  fit <- fitdistr(Data, "normal")
-  AIC.TNormal <- 2 * length(fit$estimate) - 2 * fit$loglik
+  fit.TNorm <- fitdistr(Data, "normal")
+  AIC.TNormal <- 2 * length(fit.TNorm$estimate) - 2 * fit.TNorm$loglik
   }
   if(any(Test==9)){
-  fit <- tweedie.profile(Data ~ 1,
+  fit.Twe <- tweedie.profile(Data ~ 1,
                          p.vec=seq(1.5, 2.5, by=0.2), do.plot=FALSE)
-  AIC.Tweedie<-2*3-2*fit$L.max
+  AIC.Tweedie<-2*3-2*fit.Twe$L.max
   }
   if(any(Test==10)){
-  fit<-fitdistr(Data,"weibull")
-  AIC.Weib<-2*length(fit$estimate)-2*fit$loglik
+  fit.Weib<-fitdistr(Data,"weibull")
+  AIC.Weib<-2*length(fit.Weib$estimate)-2*fit.Weib$loglik
   }
 
   #Plot layout
@@ -146,18 +146,13 @@ Diag_Non_Con_Trunc<-function(Data,Omit=NA,x_lab="Data",y_lim_min=0,y_lim_max=1){
   #text(5.35,0.1,"(f)",font=2,cex=1.75)
 
   if(any(Test==1)){
-  bdata2 <- data.frame(shape = exp(-0.5), scale = exp(0.5))
-  bdata2 <- transform(bdata2, y = Data)
-  fit <- vglm(y ~ 1, bisa, data = bdata2, trace = FALSE)
-  lines(x,dbisa(x,Coef(fit)[1],Coef(fit)[2]),col=mypalette[1],lwd=2)
+   lines(x,dbisa(x,Coef(fit.BS)[1],Coef(fit.BS)[2]),col=mypalette[1],lwd=2)
   }
   if(any(Test==2)){
-  fit<-fitdistr(Data,"exponential")
-  lines(x,dexp(x,fit$estimate[1]),col=mypalette[2],lwd=2)
+   lines(x,dexp(x,fit.Exp$estimate[1]),col=mypalette[2],lwd=2)
   }
   if(any(Test==3)){
-   fit<-fitdistr(Data, "gamma")
-   lines(x,dgamma(x,fit$estimate[1],fit$estimate[2]),col=mypalette[3],lwd=2)
+   lines(x,dgamma(x,fit.Gam2$estimate[1],fit.Gam2$estimate[2]),col=mypalette[3],lwd=2)
   }
 
   if(any(Test==4)){
@@ -165,19 +160,12 @@ Diag_Non_Con_Trunc<-function(Data,Omit=NA,x_lab="Data",y_lim_min=0,y_lim_max=1){
   }
 
   if(any(Test==5)){
-    prob.MX1 <- round(fit.GamMIX2_GA$prob[1],3)
-    prob.MX2 <- 1 - prob.MX1
-    #prob.MX2 - round(fit.GamMIX2_GA$prob[2],5) < 0.00001
     lines(x,dMX(x, mu=list(mu1=exp(fit.GamMIX2_GA$models[[1]]$mu.coefficients), mu2=exp(fit.GamMIX2_GA$models[[2]]$mu.coefficients)),
                           sigma=list(sigma1=exp(fit.GamMIX2_GA$models[[1]]$sigma.coefficients), sigma2=exp(fit.GamMIX2_GA$models[[2]]$sigma.coefficients)),
                           pi = list(pi1=prob.MX1, pi2=prob.MX2), family=list(fam1="GA", fam2="GA")),col=mypalette[5],lwd=2)
   }
 
   if(any(Test==6)){
-    prob.MX1 <- round(fit.GamMIX3_GA$prob[1],3)
-    prob.MX2 <- round(fit.GamMIX3_GA$prob[2],3)
-    prob.MX3 <- 1 - prob.MX1 - prob.MX2
-    #prob.MX3 - round(fit.GamMIX3_GA$prob[3],5) < 0.00001
     lines(x,dMX(x, mu=list(mu1=exp(fit.GamMIX3_GA$models[[1]]$mu.coefficients), mu2=exp(fit.GamMIX3_GA$models[[2]]$mu.coefficients), mu3=exp(fit.GamMIX3_GA$models[[3]]$mu.coefficients)),
                            sigma=list(sigma1=exp(fit.GamMIX3_GA$models[[1]]$sigma.coefficients), sigma2=exp(fit.GamMIX3_GA$models[[2]]$sigma.coefficients), sigma3=exp(fit.GamMIX3_GA$models[[3]]$sigma.coefficients)),
                            pi = list(pi1=prob.MX1, pi2=prob.MX2, pi3=prob.MX3), family=list(fam1="GA", fam2="GA", fam3="GA")),col=mypalette[6],lwd=2)
@@ -185,23 +173,18 @@ Diag_Non_Con_Trunc<-function(Data,Omit=NA,x_lab="Data",y_lim_min=0,y_lim_max=1){
 
 
   if(any(Test==7)){
-  fit<-fitdistr(Data,"lognormal")
-  lines(x,dlnorm(x,fit$estimate[1],fit$estimate[2]),col=mypalette[7],lwd=2)
+  lines(x,dlnorm(x,fit.LNorm$estimate[1],fit.LNorm$estimate[2]),col=mypalette[7],lwd=2)
   }
   if(any(Test==8)){
-  fit <- fitdistr(Data, "normal")
-  lines(x, dtruncnorm(x, a = min(Data), mean = fit$estimate[1],
-                        sd = fit$estimate[2]), col = mypalette[8], lwd = 2)
+   lines(x, dtruncnorm(x, a = min(Data), mean = fit.TNorm$estimate[1],
+                        sd = fit.TNorm$estimate[2]), col = mypalette[8], lwd = 2)
   }
   if(any(Test==9)){
-  fit <- tweedie.profile(Data ~ 1,
-                           p.vec=seq(1.5, 2.5, by=0.2), do.plot=FALSE)
-  lines(x,dtweedie(x,  power=fit$p.max, mu=mean(Data), phi=fit$phi.max),col=mypalette[9],lwd=2)
+   lines(x,dtweedie(x,  power=fit.Twe$p.max, mu=mean(Data), phi=fit.Twe$phi.max),col=mypalette[9],lwd=2)
   }
 
   if(any(Test==10)){
-  fit<-fitdistr(Data,"weibull")
-  lines(x,dweibull(x,fit$estimate[1],fit$estimate[2]),col=mypalette[10],lwd=2)
+   lines(x,dweibull(x,fit.Weib$estimate[1],fit.Weib$estimate[2]),col=mypalette[10],lwd=2)
   }
 
   plot(sort(Data),seq(1,length(Data),1)/(length(Data)),ylim=c(0,1),xlab=x_lab,ylab="P(X<x)",main="",pch=16,cex.lab=1,cex.axis=1,las=1)
@@ -212,18 +195,13 @@ Diag_Non_Con_Trunc<-function(Data,Omit=NA,x_lab="Data",y_lim_min=0,y_lim_max=1){
   legend("bottomright",c("95% Conf. Interval","Fitted distributions"),lty=c(2,1),col=c(1,4),cex=1,bty='n',border = "white")
   #text(2,1,"(g)",font=2,cex=1.75)
   if(any(Test==1)){
-  bdata2 <- data.frame(shape = exp(-0.5), scale = exp(0.5))
-  bdata2 <- transform(bdata2, y = Data)
-  fit <- vglm(y ~ 1, bisa, data = bdata2, trace = FALSE)
-  lines(x,pbisa(x,Coef(fit)[1],Coef(fit)[2]),col=mypalette[1],lwd=2)
+   lines(x,pbisa(x,Coef(fit.BS)[1],Coef(fit.BS)[2]),col=mypalette[1],lwd=2)
   }
   if(any(Test==2)){
-  fit<-fitdistr(Data,"exponential")
-  lines(x,pexp(x,fit$estimate[1]),col=mypalette[2],lwd=2)
+   lines(x,pexp(x,fit.Exp$estimate[1]),col=mypalette[2],lwd=2)
   }
   if(any(Test==3)){
-  fit<-fitdistr(Data,"gamma")
-  lines(x,pgamma(x,fit$estimate[1],fit$estimate[2]),col=mypalette[3],lwd=2)
+   lines(x,pgamma(x,fit.Gam2$estimate[1],fit.Gam2$estimate[2]),col=mypalette[3],lwd=2)
   }
 
   if(any(Test==4)){
@@ -231,41 +209,29 @@ Diag_Non_Con_Trunc<-function(Data,Omit=NA,x_lab="Data",y_lim_min=0,y_lim_max=1){
   }
 
   if(any(Test==5)){
-    prob.MX1 <- round(fit.GamMIX2_GA$prob[1],3)
-    prob.MX2 <- 1 - prob.MX1
-    #prob.MX2 - round(fit.GamMIX2_GA$prob[2],5) < 0.00001
     lines(x,pMX(x, mu=list(mu1=exp(fit.GamMIX2_GA$models[[1]]$mu.coefficients), mu2=exp(fit.GamMIX2_GA$models[[2]]$mu.coefficients)),
                 sigma=list(sigma1=exp(fit.GamMIX2_GA$models[[1]]$sigma.coefficients), sigma2=exp(fit.GamMIX2_GA$models[[2]]$sigma.coefficients)),
                 pi = list(pi1=prob.MX1, pi2=prob.MX2), family=list(fam1="GA", fam2="GA")),col=mypalette[5],lwd=2)
   }
 
   if(any(Test==6)){
-    prob.MX1 <- round(fit.GamMIX3_GA$prob[1],3)
-    prob.MX2 <- round(fit.GamMIX3_GA$prob[2],3)
-    prob.MX3 <- 1 - prob.MX1 - prob.MX2
-    #prob.MX3 - round(fit.GamMIX3_GA$prob[3],5) < 0.00001
     lines(x,pMX(x, mu=list(mu1=exp(fit.GamMIX3_GA$models[[1]]$mu.coefficients), mu2=exp(fit.GamMIX3_GA$models[[2]]$mu.coefficients), mu3=exp(fit.GamMIX3_GA$models[[3]]$mu.coefficients)),
                 sigma=list(sigma1=exp(fit.GamMIX3_GA$models[[1]]$sigma.coefficients), sigma2=exp(fit.GamMIX3_GA$models[[2]]$sigma.coefficients), sigma3=exp(fit.GamMIX3_GA$models[[3]]$sigma.coefficients)),
                 pi = list(pi1=prob.MX1, pi2=prob.MX2, pi3=prob.MX3), family=list(fam1="GA", fam2="GA", fam3="GA")),col=mypalette[6],lwd=2)
   }
 
   if(any(Test==7)){
-  fit<-fitdistr(Data,"lognormal")
-  lines(x,plnorm(x,fit$estimate[1],fit$estimate[2]),col=mypalette[7],lwd=2)
+    lines(x,plnorm(x,fit.LNorm$estimate[1],fit.LNorm$estimate[2]),col=mypalette[7],lwd=2)
   }
   if(any(Test==8)){
-  fit <- fitdistr(Data,"normal")
-  lines(x, ptruncnorm(x, a = min(Data), mean = fit$estimate[1],
-                      sd = fit$estimate[2]), col = mypalette[8], lwd = 2)
+   lines(x, ptruncnorm(x, a = min(Data), mean = fit.TNorm$estimate[1],
+                      sd = fit.TNorm$estimate[2]), col = mypalette[8], lwd = 2)
   }
   if(any(Test==9)){
-  fit <- tweedie.profile(Data ~ 1,
-                           p.vec=seq(1.5, 2.5, by=0.2), do.plot=FALSE)
-  lines(x,ptweedie(x,  power=fit$p.max, mu=mean(Data), phi=fit$phi.max),col=mypalette[9],lwd=2,pch=16,ylab="P(X<x)")
+   lines(x,ptweedie(x,  power=fit.Twe$p.max, mu=mean(Data), phi=fit.Twe$phi.max),col=mypalette[9],lwd=2,pch=16,ylab="P(X<x)")
   }
   if(any(Test==10)){
-  fit<-fitdistr(Data,"weibull")
-  lines(x,pweibull(x,fit$estimate[1],fit$estimate[2]),col=mypalette[10],lwd=2)
+   lines(x,pweibull(x,fit.Weib$estimate[1],fit.Weib$estimate[2]),col=mypalette[10],lwd=2)
   }
 
   AIC<-data.frame(c("BS","Exp","Gam2","Gam3","GamMix2","GamMix3","LogN","TNorm","Twe","Weib")[Test],c(AIC.BS,AIC.Exp,AIC.Gam2,AIC.Gam3,AIC.GamMix2,AIC.GamMix3,AIC.logNormal,AIC.TNormal,AIC.Tweedie,AIC.Weib)[Test])
