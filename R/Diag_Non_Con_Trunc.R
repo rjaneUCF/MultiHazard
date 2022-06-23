@@ -104,8 +104,8 @@ Diag_Non_Con_Trunc<-function(Data,Omit=NA,x_lab="Data",y_lim_min=0,y_lim_max=1){
   #fit<-fitdist(Data, "invgauss", start = list(mean = 5, shape = 1))
   #AIC.InverseNormal<-2*length(fit$estimate)-2*fit$loglik
   if(any(Test==7)){
-  fit.LogN<-fitdistr(Data,"lognormal")
-  AIC.logNormal<-2*length(fit.LogN$estimate)-2*fit.LogN$loglik
+  fit.LNorm<-fitdistr(Data,"lognormal")
+  AIC.logNormal<-2*length(fit.LNorm$estimate)-2*fit.LNorm$loglik
   }
   if(any(Test==8)){
   fit.TNorm <- fitdistr(Data, "normal")
