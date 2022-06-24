@@ -677,13 +677,16 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
       MostLikelyEvent[[k]]<-MostLikelyEvent.AND
 
       #Find the design event under the assumption of full dependence and add it to the plot (denoted by a triangle).
-      if(is.na(GPD1)==T | is.na(GPD2)==T){
-        FullDependence.AND<-data.frame(as.numeric(u2gpd(1-EL/(RP[k]), p = 1, th=Thres1 , sigma=exp(GPD_con1$coefficients[1]),xi= GPD_con1$coefficients[2])),
-                                       as.numeric(u2gpd(1-EL/(RP[k]), p = 1, th=Thres2 , sigma=exp(GPD_con2$coefficients[1]),xi= GPD_con2$coefficients[2])))
-      } else{
-        FullDependence.AND<-data.frame(as.numeric(u2gpd(1-1/(RP[k]*mu), p = GPD1$Rate, th = GPD1$Threshold, sigma = GPD1$sigma, xi = GPD1$xi)),
-                                       as.numeric(u2gpd(1-1/(RP[k]*mu), p = GPD2$Rate, th = GPD2$Threshold, sigma = GPD2$sigma, xi = GPD2$xi)))
-      }
+      ##if(is.na(GPD1)==T | is.na(GPD2)==T){
+      ##  FullDependence.AND<-data.frame(as.numeric(u2gpd(1-EL/(RP[k]), p = 1, th=Thres1 , sigma=exp(GPD_con1$coefficients[1]),xi= GPD_con1$coefficients[2])),
+      ##                                as.numeric(u2gpd(1-EL/(RP[k]), p = 1, th=Thres2 , sigma=exp(GPD_con2$coefficients[1]),xi= GPD_con2$coefficients[2])))
+      ##} else{
+      ##  FullDependence.AND<-data.frame(as.numeric(u2gpd(1-1/(RP[k]*mu), p = GPD1$Rate, th = GPD1$Threshold, sigma = GPD1$sigma, xi = GPD1$xi)),
+      ##                                 as.numeric(u2gpd(1-1/(RP[k]*mu), p = GPD2$Rate, th = GPD2$Threshold, sigma = GPD2$sigma, xi = GPD2$xi)))
+      ##}
+      
+      FullDependence.AND<-data.frame(max(Iso[,1]),max(Iso[,2]))
+                                     
       colnames(FullDependence.AND)<- c(names(Data)[1],names(Data)[2])
       FullDependence[[k]]<-FullDependence.AND
       #Generate a sample of events along the contour. Sample is weighted according to the probabilities
@@ -799,13 +802,16 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
       MostLikelyEvent[[k]]<-MostLikelyEvent.AND
 
       #Find the design event under the assumption of full dependence and add it to the plot (denoted by a triangle).
-      if(is.na(GPD1)==T | is.na(GPD2)==T){
-        FullDependence.AND<-data.frame(as.numeric(u2gpd(1-EL/(RP[k]), p = 1, th=Thres1 , sigma=exp(GPD_con1$coefficients[1]),xi= GPD_con1$coefficients[2])),
-                                      as.numeric(u2gpd(1-EL/(RP[k]), p = 1, th=Thres2 , sigma=exp(GPD_con2$coefficients[1]),xi= GPD_con2$coefficients[2])))
-      } else{
-        FullDependence.AND<-data.frame(as.numeric(u2gpd(1-1/(RP[k]*mu), p = GPD1$Rate, th = GPD1$Threshold, sigma = GPD1$sigma, xi = GPD1$xi)),
-                                       as.numeric(u2gpd(1-1/(RP[k]*mu), p = GPD2$Rate, th = GPD2$Threshold, sigma = GPD2$sigma, xi = GPD2$xi)))
-      }
+      ## if(is.na(GPD1)==T | is.na(GPD2)==T){
+      ##  FullDependence.AND<-data.frame(as.numeric(u2gpd(1-EL/(RP[k]), p = 1, th=Thres1 , sigma=exp(GPD_con1$coefficients[1]),xi= GPD_con1$coefficients[2])),
+      ##                                as.numeric(u2gpd(1-EL/(RP[k]), p = 1, th=Thres2 , sigma=exp(GPD_con2$coefficients[1]),xi= GPD_con2$coefficients[2])))
+      ## } else{
+      ## FullDependence.AND<-data.frame(as.numeric(u2gpd(1-1/(RP[k]*mu), p = GPD1$Rate, th = GPD1$Threshold, sigma = GPD1$sigma, xi = GPD1$xi)),
+      ##                                 as.numeric(u2gpd(1-1/(RP[k]*mu), p = GPD2$Rate, th = GPD2$Threshold, sigma = GPD2$sigma, xi = GPD2$xi)))
+      ##}
+      
+      FullDependence.AND<-data.frame(max(Iso[,1],Iso[,2])
+                                     
       colnames(FullDependence.AND)<- c(names(Data)[1],names(Data)[2])
       FullDependence[[k]]<-FullDependence.AND
       #Generate a sample of events along the contour. Sample is weighted according to the probabilities
@@ -925,14 +931,14 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
         MostLikelyEvent[[k]]<-MostLikelyEvent.AND
 
         #Find the design event under the assumption of full dependence and add it to the plot (denoted by a triangle).
-        if(is.na(GPD1)==T | is.na(GPD2)==T){
-         FullDependence.AND<-data.frame(as.numeric(u2gpd(1-EL/(RP[k]), p = 1, th=Thres1 , sigma=exp(GPD_con1$coefficients[1]),xi= GPD_con1$coefficients[2])),
-                                        as.numeric(u2gpd(1-EL/(RP[k]), p = 1, th=Thres2 , sigma=exp(GPD_con2$coefficients[1]),xi= GPD_con2$coefficients[2])))
-        }else{
-          FullDependence.AND<-data.frame(as.numeric(u2gpd(1-1/(RP[k]*mu), p = GPD1$Rate, th = GPD1$Threshold, sigma = GPD1$sigma, xi = GPD1$xi)),
-                                         as.numeric(u2gpd(1-1/(RP[k]*mu), p = GPD2$Rate, th = GPD2$Threshold, sigma = GPD2$sigma, xi = GPD2$xi)))
-
-        }
+        ##if(is.na(GPD1)==T | is.na(GPD2)==T){
+        ## FullDependence.AND<-data.frame(as.numeric(u2gpd(1-EL/(RP[k]), p = 1, th=Thres1 , sigma=exp(GPD_con1$coefficients[1]),xi= GPD_con1$coefficients[2])),
+        ##                                as.numeric(u2gpd(1-EL/(RP[k]), p = 1, th=Thres2 , sigma=exp(GPD_con2$coefficients[1]),xi= GPD_con2$coefficients[2])))
+        ## }else{
+        ##  FullDependence.AND<-data.frame(as.numeric(u2gpd(1-1/(RP[k]*mu), p = GPD1$Rate, th = GPD1$Threshold, sigma = GPD1$sigma, xi = GPD1$xi)),
+        ##                                 as.numeric(u2gpd(1-1/(RP[k]*mu), p = GPD2$Rate, th = GPD2$Threshold, sigma = GPD2$sigma, xi = GPD2$xi)))
+        ##}
+        FullDependence.AND<-data.frame(max(Iso[,1],Iso[,2])
         colnames(FullDependence.AND)<- c(names(Data)[1],names(Data)[2])
         FullDependence[[k]]<-FullDependence.AND
         #Generate a sample of events along the contour. Sample is weighted according to the probabilities
