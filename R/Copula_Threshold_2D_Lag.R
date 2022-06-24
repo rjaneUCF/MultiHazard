@@ -15,8 +15,8 @@
 #' @param x_lim_max Numeric vector of length one specifying x-axis maximum. Default is \code{NA}.
 #' @param y_lim_min Numeric vector of length one specifying y-axis minimum. Default \code{-1.0}.
 #' @param y_lim_max Numeric vector of length one specifying y-axis maximum. Default \code{1.0}.
-#' @param Upper Numeric vector specifying the element number of the \code{u1} argument for which the copula family name label to appear above the corresponding point on the Kendall's tau coefficient vs uhold plot, when conditioning on the variable in column 1. Default is \code{0}.
-#' @param Lower Numeric vector specifying the element number of the \code{u2} argument for which the copula family name label to appear below the corresponding point on the Kendall's tau coefficient vs uhold plot, when conditioning on the variable in column 2. Default is \code{0}.
+#' @param Upper Numeric vector specifying the element number of the \code{u1} argument for which the copula family name label to appear above the corresponding point on the Kendall's tau coefficient vs uhold plot, when conditioning on the variable in column 1. Default is \code{NA}.
+#' @param Lower Numeric vector specifying the element number of the \code{u2} argument for which the copula family name label to appear below the corresponding point on the Kendall's tau coefficient vs uhold plot, when conditioning on the variable in column 2. Default is \code{NA}.
 #' @param GAP Numeric vector of length one specifying the distance above or below the copula family name label appears the corresponding point on the Kendall's tau coefficient vs uhold plot. Default is \code{0.05}.
 #' @param Legend Logic vector of length one specifying whether a legend should be plotted. Default is \code{TRUE}.
 #' @return List comprising: \itemize{
@@ -38,7 +38,7 @@
 #'                     Data_Declust=S20.Detrend.Declustered.df[,-c(1,4)],
 #'                     y_lim_min=-0.075, y_lim_max =0.25,
 #'                     Upper=c(6,8), Lower=c(6,8),GAP=0.1)
-Copula_Threshold_2D_Lag<-function(Data_Detrend,Data_Declust,u1=seq(0.9,0.99,0.01),u2=seq(0.9,0.99,0.01),PLOT=TRUE,Lag_Backward_Var1=1,Lag_Forward_Var1=1,Lag_Backward_Var2=1,Lag_Forward_Var2=1,x_lim_min=NA,x_lim_max=NA,y_lim_min=-1,y_lim_max=1,Upper=0,Lower=0,GAP=0.05,Legend=TRUE){
+Copula_Threshold_2D_Lag<-function(Data_Detrend,Data_Declust,u1=seq(0.9,0.99,0.01),u2=seq(0.9,0.99,0.01),PLOT=TRUE,Lag_Backward_Var1=1,Lag_Forward_Var1=1,Lag_Backward_Var2=1,Lag_Forward_Var2=1,x_lim_min=NA,x_lim_max=NA,y_lim_min=-1,y_lim_max=1,Upper=NA,Lower=NA,GAP=0.05,Legend=TRUE){
 
   #Axes limits for plots
   x_lim_min<-ifelse(is.na(x_lim_min)==T,min(u1,u2,na.rm=T),x_lim_min)
