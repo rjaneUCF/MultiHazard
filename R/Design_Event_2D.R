@@ -810,7 +810,7 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
       ##                                 as.numeric(u2gpd(1-1/(RP[k]*mu), p = GPD2$Rate, th = GPD2$Threshold, sigma = GPD2$sigma, xi = GPD2$xi)))
       ##}
       
-      FullDependence.AND<-data.frame(max(Iso[,1],Iso[,2])
+      FullDependence.AND<-data.frame(max(Iso[,1]),max(Iso[,2]))
                                      
       colnames(FullDependence.AND)<- c(names(Data)[1],names(Data)[2])
       FullDependence[[k]]<-FullDependence.AND
