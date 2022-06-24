@@ -134,7 +134,7 @@ GPD_Threshold_Solari_Sel<-function(Event,Data,Solari_Output,Thres,Alpha=0.1,N_Si
        pch=16,col="Green")
   polygon(c(log10(as.numeric(colnames(Solari_Output$GPD_MLE)[7:(6+length(Solari_Output_RPs))])),log10(as.numeric(colnames(Solari_Output$GPD_MLE)[rev(c(7:(6+length(Solari_Output_RPs))))]))),
           c(apply(Solari_Output$CI_Lower[z,c(7:(6+length(Solari_Output_RPs)))],2,min),apply(Solari_Output$CI_Upper[z,rev(c(7:(6+length(Solari_Output_RPs))))],2,max)),
-          col="Grey",boarder = FALSE)
+          col="Grey",border = FALSE)
   lines(log10(RP),Estimate[-(1:4)],col="Blue",lwd=2)
   lines(log10(RP),CI.Upper[-(1:4)],lwd=2)
   lines(log10(RP),CI.Lower[-(1:4)],lwd=2)
@@ -144,7 +144,7 @@ GPD_Threshold_Solari_Sel<-function(Event,Data,Solari_Output,Thres,Alpha=0.1,N_Si
           xlab=paste(RP_Plot,'year return level',y_lab),ylab="Frequency",col="Grey",
           xlim=c(min(Solari_Output$GPD_MLE[z,which(colnames(Solari_Output$GPD_MLE)==RP_Plot)])-diff(range(Solari_Output$GPD_MLE[z,which(colnames(Solari_Output$GPD_MLE)==RP_Plot)]))/4,
                  max(Solari_Output$GPD_MLE[z,which(colnames(Solari_Output$GPD_MLE)==RP_Plot)])+diff(range(Solari_Output$GPD_MLE[z,which(colnames(Solari_Output$GPD_MLE)==RP_Plot)]))/4),
-          main="",boarder = "Grey")
+          main="",border = "Grey")
   abline(v=Estimate[-(1:4)][which(RP==RP_Plot)],col="Blue",lwd=2)
   par(new=TRUE)
   K<-BOOT[,which(RP==RP_Plot)][BOOT[,which(RP==RP_Plot)]>min(h$breaks) & BOOT[,which(RP==RP_Plot)]<max(h$breaks)]
