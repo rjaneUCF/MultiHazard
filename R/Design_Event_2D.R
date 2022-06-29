@@ -363,9 +363,9 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
   for(k in 1:length(RP)){
 
     #Generate a regular grid on the unit square.
-    x<- c(10^(-5),seq(999.9*10^(-5),1-(1*10^(-6)),10^(-4)))
-    y<- c(10^(-5),seq(999.9*10^(-5),1-(1*10^(-6)),10^(-4)))
-    u<-expand.grid(x,y,10^(-3))
+    x<- c(10^(-4),seq(999.9*10^(-4),1-(1*10^(-5)),10^(-3)))
+    y<- c(10^(-4),seq(999.9*10^(-4),1-(1*10^(-5)),10^(-3)))
+    u<-expand.grid(x,y)
     #Evaluate the copula at each point on the grid.
     u1<-BiCopCDF(u[,1], u[,2], obj1)
 
@@ -461,9 +461,9 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
     ###Deriving the quantile isoline from the sample conditioned on variable 'Con2' i.e. Data_Con2.
 
     #Generate a regular grid on the unit square.
-    x<- c(10^(-5),seq(999.9*10^(-5),1-(1*10^(-6)),10^(-4)))
-    y<- c(10^(-5),seq(999.9*10^(-5),1-(1*10^(-6)),10^(-4)))
-    u<-expand.grid(x,y,10^(-3))
+    x<- c(10^(-4),seq(999.9*10^(-4),1-(1*10^(-5)),10^(-3)))
+    y<- c(10^(-4),seq(999.9*10^(-4),1-(1*10^(-5)),10^(-3)))
+    u<-expand.grid(x,y)
     #Evaluate the copula at each point on the grid.
     u1<-BiCopCDF(u[,1], u[,2], obj2)
 
