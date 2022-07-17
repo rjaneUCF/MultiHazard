@@ -59,7 +59,7 @@
 #'                              Plot_Quantile_Isoline=FALSE)
 #'#Extracting the 100-year isoline from the output
 #'Design.Event$`100`$Isoline
-Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=NA, Copula_Family1, Copula_Family2, Marginal_Dist1, Marginal_Dist2, Con1="Rainfall",Con2="OsWL", GPD1=NA, GPD2=NA, mu=365.25, GPD_Bayes=FALSE, Decimal_Place=2, RP, Interval=10000, End=F, x_lab="Rainfall (mm)",y_lab="O-sWL (mNGVD 29)",x_lim_min = NA,x_lim_max = NA,y_lim_min = NA,y_lim_max = NA,N=10^6,N_Ensemble=0,Sim_Max=10,Plot_Quantile_Isoline=FALSE,Isoline_Type="Combined"){
+Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=NA, Copula_Family1, Copula_Family2, Marginal_Dist1, Marginal_Dist2, Con1="Rainfall",Con2="OsWL", GPD1=NA, GPD2=NA, mu=365.25, GPD_Bayes=FALSE, Decimal_Place=2, RP, Interval=10000, End=F, Resolution="Low", x_lab="Rainfall (mm)",y_lab="O-sWL (mNGVD 29)",x_lim_min = NA,x_lim_max = NA,y_lim_min = NA,y_lim_max = NA,N=10^6,N_Ensemble=0,Sim_Max=10,Plot_Quantile_Isoline=FALSE,Isoline_Type="Combined"){
 
   ###Preliminaries
 
@@ -363,8 +363,14 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
   for(k in 1:length(RP)){
 
     #Generate a regular grid on the unit square.
+    if(Resolution=="Low"){
     x<- c(10^(-4),seq(999.9*10^(-4),1-(1*10^(-5)),10^(-3)))
     y<- c(10^(-4),seq(999.9*10^(-4),1-(1*10^(-5)),10^(-3)))
+    }
+    if(Resolution=="High"){
+    x<- c(10^(-5),seq(999.9*10^(-5),1-(1*10^(-6)),10^(-4)))
+    y<- c(10^(-5),seq(999.9*10^(-5),1-(1*10^(-6)),10^(-4)))
+    }
     u<-expand.grid(x,y)
     #Evaluate the copula at each point on the grid.
     u1<-BiCopCDF(u[,1], u[,2], obj1)
@@ -461,8 +467,14 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
     ###Deriving the quantile isoline from the sample conditioned on variable 'Con2' i.e. Data_Con2.
 
     #Generate a regular grid on the unit square.
+    if(Resolution=="High"){
     x<- c(10^(-4),seq(999.9*10^(-4),1-(1*10^(-5)),10^(-3)))
     y<- c(10^(-4),seq(999.9*10^(-4),1-(1*10^(-5)),10^(-3)))
+    }    
+    if(Resolution=="High"){
+    x<- c(10^(-5),seq(999.9*10^(-5),1-(1*10^(-6)),10^(-4)))
+    y<- c(10^(-5),seq(999.9*10^(-5),1-(1*10^(-6)),10^(-4)))
+    }
     u<-expand.grid(x,y)
     #Evaluate the copula at each point on the grid.
     u1<-BiCopCDF(u[,1], u[,2], obj2)
