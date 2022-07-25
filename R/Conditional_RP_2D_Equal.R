@@ -415,13 +415,13 @@ Conditional_RP_2D_Equal<-function(Data, Data_Con1, Data_Con2, Thres1, Thres2, Co
 
   ##Calculating the conditional probabilities using a simulation approach
   if(con_var==con1){
-    plot(cop.sample[, con1],
-         cop.sample[, con2],xlim = c(min(cop.sample[, con1]), max(cop.sample[, con1])),
-         ylim = c(min(cop.sample[, con2]), max(cop.sample[, con2])), col = "Light Grey", xlab = x_lab,
-         ylab = y_lab, cex.lab = 1.5, cex.axis = 1.5)
-    rect(Var1-Width,min(cop.sample[, con2],na.omit(Data[,con2])),Var1+Width,max(cop.sample[, con2],na.omit(Data[,con2])),col="Light grey")
-    points(cop.sample[which(cop.sample[,con1]>(Var1-Width) & cop.sample[,con1]<(Var1+Width)),con1],
-           cop.sample[which(cop.sample[,con1]>(Var1-Width) & cop.sample[,con1]<(Var1+Width)),con2],col=1,pch=16)
+    #plot(cop.sample[, con1],
+    #     cop.sample[, con2],xlim = c(min(cop.sample[, con1]), max(cop.sample[, con1])),
+    #     ylim = c(min(cop.sample[, con2]), max(cop.sample[, con2])), col = "Light Grey", xlab = x_lab,
+    #     ylab = y_lab, cex.lab = 1.5, cex.axis = 1.5)
+    #rect(Var1-Width,min(cop.sample[, con2],na.omit(Data[,con2])),Var1+Width,max(cop.sample[, con2],na.omit(Data[,con2])),col="Light grey")
+    #points(cop.sample[which(cop.sample[,con1]>(Var1-Width) & cop.sample[,con1]<(Var1+Width)),con1],
+    #       cop.sample[which(cop.sample[,con1]>(Var1-Width) & cop.sample[,con1]<(Var1+Width)),con2],col=1,pch=16)
     #Rate
     rate<-length(which(cop.sample[, con1] > Var1))/N
     #Histogram of the values of the non-conditioned variable when the conditioning variable is in the interval around Var1 i.e. [Var1-width,Var1+width]
@@ -442,13 +442,13 @@ Conditional_RP_2D_Equal<-function(Data, Data_Con1, Data_Con2, Thres1, Thres2, Co
   }
 
   if(con_var==con2){
-    plot(cop.sample[, con1], cop.sample[, con2], xlim = c(min(cop.sample[, con1]), max(cop.sample[, con1])),
-         ylim = c(min(cop.sample[, con2]), max(cop.sample[, con2])), col = "Light Grey", xlab = x_lab,
-         ylab = y_lab, cex.lab = 1.5, cex.axis = 1.5)
-    rect(Var2-Width,min(cop.sample[, con1],na.omit(Data[,con1])),Var2+Width,max(cop.sample[, con1],na.omit(Data[,con1])),col="Light grey")
-    points(cop.sample[which(cop.sample[,con2]>(Var2-Width) & cop.sample[,con2]<(Var2+Width)),con1],
-           cop.sample[which(cop.sample[,con2]>(Var2-Width) & cop.sample[,con2]<(Var2+Width)),con2],col=1,pch=16)
-    box()
+    #plot(cop.sample[, con1], cop.sample[, con2], xlim = c(min(cop.sample[, con1]), max(cop.sample[, con1])),
+    #     ylim = c(min(cop.sample[, con2]), max(cop.sample[, con2])), col = "Light Grey", xlab = x_lab,
+    #     ylab = y_lab, cex.lab = 1.5, cex.axis = 1.5)
+    #rect(Var2-Width,min(cop.sample[, con1],na.omit(Data[,con1])),Var2+Width,max(cop.sample[, con1],na.omit(Data[,con1])),col="Light grey")
+    #points(cop.sample[which(cop.sample[,con2]>(Var2-Width) & cop.sample[,con2]<(Var2+Width)),con1],
+    #       cop.sample[which(cop.sample[,con2]>(Var2-Width) & cop.sample[,con2]<(Var2+Width)),con2],col=1,pch=16)
+    #box()
     #Rate
     rate<-length(which(cop.sample[, con2] > Var2))/N
     #Histogram of the values of the non-conditioned variable when the conditioning variable is in the interval around Var2 i.e. [Var2-width,Var2+width]
