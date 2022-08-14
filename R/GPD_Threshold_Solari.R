@@ -121,6 +121,7 @@ GPD_Threshold_Solari<-function(Event,Data,RPs=c(10,50,100,500,1000),RPs_PLOT=c(2
     print(y.max)
     print(which(x_AR2==x.max))
     print(which(y_AR2==y.min))
+    print(p_val[5,23,2370])
     f.x.ymin <- ((x-x.min)/(x.max-x.min)) *  p_val[which(x_AR2==x.max),which(y_AR2==y.min),m] + ((x.max-x)/(x.max-x.min)) * p_val[which(x_AR2==x.min),which(y_AR2==y.min),m]
     print(f.x.ymin)
     f.x.ymax <- ((x-x.min)/(x.max-x.min)) *  p_val[which(x_AR2==x.max),which(y_AR2==y.max),m] + ((x.max-x)/(x.max-x.min)) * p_val[which(x_AR2==x.min),which(y_AR2==y.max),m]
