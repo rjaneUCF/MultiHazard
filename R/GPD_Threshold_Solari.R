@@ -111,9 +111,9 @@ GPD_Threshold_Solari<-function(Event,Data,RPs=c(10,50,100,500,1000),RPs_PLOT=c(2
     x.max <- min(x_AR2>x)
     y.min <- max(y_AR2<y)
     y.max <- min(y_AR2>y)
-    f.x.ymin = ((x_AR2-x.min)/(x.max-x.min)) *  p_val[x.max,y.min,m] + ((x.max-x_AR2)/(x.max-x.min)) * p_val[x.min,y.min,m]
-    f.x.ymax = ((x_AR2-x.min)/(x.max-x.min)) *  p_val[x.max,y.max,m] + ((x.max-x_AR2)/(x.max-x.min)) * p_val[x.min,y.max,m]
-    AR2.pValue[i] <- ((y_AR2-y.min)/(y.max-y.min)) *  f.x.ymax + ((y.max-y_AR2)/(y.max-y.min)) * f.x.ymin
+    f.x.ymin = ((x-x.min)/(x.max-x.min)) *  p_val[which(x_AR2==x.max),which(y_AR2==y.min),m] + ((x.max-x)/(x.max-x.min)) * p_val[which(x_AR2==x.min),which(y_AR2==y.min),m]
+    f.x.ymax = ((x-x.min)/(x.max-x.min)) *  p_val[which(x_AR2==x.max),which(y_AR2==y.max),m] + ((x.max-x)/(x.max-x.min)) * p_val[which(x_AR2==x.min),which(y_AR2==y.max),m]
+    AR2.pValue[i] <- ((y-y.min)/(y.max-y.min)) *  f.x.ymax + ((y.max-y)/(y.max-y.min)) * f.x.ymin
   }
   colnames(GPD.MLE)<-c("xi","sigma","u","MRLP","mod_sigma","rate",paste(RPs))
 
