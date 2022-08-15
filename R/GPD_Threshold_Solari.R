@@ -107,6 +107,7 @@ GPD_Threshold_Solari<-function(Event,Data,RPs=c(10,50,100,500,1000),RPs_PLOT=c(2
     #AR2.pValue[i] = interp(x,y,p_val[,,m],
     #                       sign(GPD.MLE[i,1])*min(abs(GPD.MLE[i,1]),0.5),
     #                       max(10,min(500,length(Event[Event>u_Candidate[i]]))))$z
+    print(dim(p_val))
     print(x)
     print(y)
     print(m)
