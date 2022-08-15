@@ -39,12 +39,12 @@
 #'                     y_lim_min=-0.075, y_lim_max =0.25,
 #'                     Upper=c(6,8), Lower=c(6,8),GAP=0.1)
 Copula_Threshold_2D_Lag<-function(Data_Detrend,Data_Declust,u1=seq(0.9,0.99,0.01),u2=seq(0.9,0.99,0.01),PLOT=TRUE,Lag_Backward_Var1=1,Lag_Forward_Var1=1,Lag_Backward_Var2=1,Lag_Forward_Var2=1,x_lim_min=NA,x_lim_max=NA,y_lim_min=-1,y_lim_max=1,Upper=NA,Lower=NA,GAP=0.05,Legend=TRUE){
-
+  
   #Axes limits for plots
   x_lim_min<-ifelse(is.na(x_lim_min)==T,min(u1,u2,na.rm=T),x_lim_min)
   x_lim_max<-ifelse(is.na(x_lim_max)==T,max(u1,u2,na.rm=T),x_lim_max)
   y_lim=y_lim_max-y_lim_min
-
+  
   #Table of copula codes in Vine copula package
   copula_table<-data.frame(c(seq(0,40,1)[-(c(11,12,15,21,22,25,31,32,35)+1)],104,114,124,134,204,214,224,234),
                            c("Ind.","Gaussian", "t-copula", "Clayton", "Gumbel","Frank","Joe","BB1","BB6","BB7","BB8","Sur. Clayton","Sur. Gumbel","Sur. Joe",
@@ -52,7 +52,7 @@ Copula_Threshold_2D_Lag<-function(Data_Detrend,Data_Declust,u1=seq(0.9,0.99,0.01
                              "Rot. BB7","Rot. BB8","Rot. Clayton","Rot. Gumbel","Rot. Joe","Rot. BB1","Rot. BB6","Rot. BB7","Rot. BB8",
                              "Tawn type 1","Rot. Tawn type 1","Rot. Tawn type 1","Rot. Tawn type 1","Tawn type 2","Rot. Tawn type 2","Rot. Tawn type 2","Rot. Tawn type 2"))
   colnames(copula_table)<-c("Number","Family")
-
+  
   #Removing date column
   if(class(Data_Detrend[,1])=="Date" | class(Data_Detrend[,1])=="factor" | class(Data_Detrend[,1])[1]=="POSIXct"){
     Data_Detrend<-Data_Detrend[,-1]
@@ -60,187 +60,187 @@ Copula_Threshold_2D_Lag<-function(Data_Detrend,Data_Declust,u1=seq(0.9,0.99,0.01
   if(class(Data_Declust[,1])=="Date" | class(Data_Declust[,1])=="factor" | class(Data_Declust[,1])[1]=="POSIXct"){
     Data_Declust<-Data_Declust[,-1]
   }
-
+  
   #Conditional on Var1
- if(is.na(u1[1])==FALSE){
-  correlation_Var1_Value<-numeric(length(u1))
-  correlation_Var1_Test<-numeric(length(u1))
-  correlation_Var1_N<-numeric(length(u1))
-  copula_Var1_Family<-numeric(length(u1))
-  copula_Var1_Family_Name<-numeric(length(u1))
-   for(j in 1:length(u1)){
-    u<-u1[j]
-    Var1_Var1_x<-which(Data_Declust[,1]>quantile(na.omit(Data_Detrend[,1]),u))
-    #Var1_Var1<-numeric(length(Var1_Var1_x))
-    Var1_df<-array(0,dim=c(length(Var1_Var1_x),2))
-     for(i in 1:length(Var1_Var1_x)){
-      Var1_df[i,1]<-Data_Declust[Var1_Var1_x[i],1]
-      Var1_df[i,2]<-max(Data_Detrend[c(max((Var1_Var1_x[i]-Lag_Backward_Var1),1):(min((Var1_Var1_x[i]+Lag_Forward_Var1),nrow(Data_Declust)))),2],na.rm=T)[1]
-     }
-    colnames(Var1_df)<-c(names(Data_Detrend))
-     if(length(which(Var1_df[,1]==-Inf | Var1_df[,2]==-Inf))>0){
-      z<-unique(which(Var1_df[,1]==-Inf | Var1_df[,2]==-Inf))
-      Var1_df[z,]<-NA
-      Var1_Var1_x[z]<-NA
-     }
-      if(length(which(is.na(Var1_df[,1])==TRUE | is.na(Var1_df[,2])==TRUE))>0){
-       z<-unique(which(is.na(Var1_df[,1])==TRUE | is.na(Var1_df[,2])==TRUE))
-       Var1_df<-Var1_df[-z,]
-       Var1_Var1_x<-Var1_Var1_x[-z]
+  if(is.na(u1[1])==FALSE){
+    correlation_Var1_Value<-numeric(length(u1))
+    correlation_Var1_Test<-numeric(length(u1))
+    correlation_Var1_N<-numeric(length(u1))
+    copula_Var1_Family<-numeric(length(u1))
+    copula_Var1_Family_Name<-numeric(length(u1))
+    for(j in 1:length(u1)){
+      u<-u1[j]
+      Var1_Var1_x<-which(Data_Declust[,1]>quantile(na.omit(Data_Detrend[,1]),u))
+      #Var1_Var1<-numeric(length(Var1_Var1_x))
+      Var1_df<-array(0,dim=c(length(Var1_Var1_x),2))
+      for(i in 1:length(Var1_Var1_x)){
+        Var1_df[i,1]<-Data_Declust[Var1_Var1_x[i],1]
+        Var1_df[i,2]<-max(Data_Detrend[c(max((Var1_Var1_x[i]-Lag_Backward_Var1),1):(min((Var1_Var1_x[i]+Lag_Forward_Var1),nrow(Data_Declust)))),2],na.rm=T)[1]
       }
-     correlation_Var1_Value[j]<-cor(pobs(Var1_df[,1]), pobs(Var1_df[,2]),method="kendall")
-     correlation_Var1_Test[j]<-cor.test(pobs(Var1_df[,1]), pobs(Var1_df[,2]))$p.value
-     correlation_Var1_N[j]<-nrow(Var1_df)
-     copula_Var1_Family[j]<-BiCopSelect(pobs(Var1_df[,1]), pobs(Var1_df[,2]), familyset = NA, selectioncrit = "AIC",
-                                        indeptest = FALSE, level = 0.05, weights = NA, rotations = TRUE,
-                                        se = FALSE, presel = TRUE, method = "mle")$family
-     copula_Var1_Family_Name[j]<-as.character(copula_table$Family[which(copula_table$Number==copula_Var1_Family[j])])
-   }
- }
-
- #Conditional on Var2
- if(is.na(u2[1])==FALSE){
-  correlation_Var2_Value<-numeric(length(u2))
-  correlation_Var2_Test<-numeric(length(u2))
-  correlation_Var2_N<-numeric(length(u2))
-  copula_Var2_Family<-numeric(length(u2))
-  copula_Var2_Family_Name<-numeric(length(u2))
-   for(k in 1:length(u2)){
-    u<-u2[k]
-    Var2_Var2_x<-which(Data_Declust[,2]>quantile(na.omit(Data_Detrend[,2]),u))
-    Var2_df<-array(0,dim=c(length(Var2_Var2_x),2))
-     for(i in 1:length(Var2_Var2_x)){
-      Var2_df[i,2]<-Data_Declust[Var2_Var2_x[i],2]
-      Var2_df[i,1]<-max(Data_Detrend[c(max((Var2_Var2_x[i]-Lag_Backward_Var2),1):(min((Var2_Var2_x[i]+Lag_Forward_Var2),nrow(Data_Declust)))),1],na.rm=T)[1]
-     }
-    Var2_df<-data.frame(Var2_df)
-    colnames(Var2_df)<-c(names(Data_Detrend))
-     if(length(which(Var2_df[,1]==-Inf | Var2_df[,2]==-Inf))>0){
-      z<-unique(which(Var2_df[,1]==-Inf | Var2_df[,2]==-Inf))
-      Var2_df[z,]<-NA
-      Var2_Var2_x[z]<-NA
+      colnames(Var1_df)<-c(names(Data_Detrend))
+      if(length(which(Var1_df[,1]==-Inf | Var1_df[,2]==-Inf))>0){
+        z<-unique(which(Var1_df[,1]==-Inf | Var1_df[,2]==-Inf))
+        Var1_df[z,]<-NA
+        Var1_Var1_x[z]<-NA
+      }
+      if(length(which(is.na(Var1_df[,1])==TRUE | is.na(Var1_df[,2])==TRUE))>0){
+        z<-unique(which(is.na(Var1_df[,1])==TRUE | is.na(Var1_df[,2])==TRUE))
+        Var1_df<-Var1_df[-z,]
+        Var1_Var1_x<-Var1_Var1_x[-z]
+      }
+      correlation_Var1_Value[j]<-cor(pobs(Var1_df[,1]), pobs(Var1_df[,2]),method="kendall")
+      correlation_Var1_Test[j]<-cor.test(pobs(Var1_df[,1]), pobs(Var1_df[,2]))$p.value
+      correlation_Var1_N[j]<-nrow(Var1_df)
+      copula_Var1_Family[j]<-BiCopSelect(pobs(Var1_df[,1]), pobs(Var1_df[,2]), familyset = NA, selectioncrit = "AIC",
+                                         indeptest = FALSE, level = 0.05, weights = NA, rotations = TRUE,
+                                         se = FALSE, presel = TRUE, method = "mle")$family
+      copula_Var1_Family_Name[j]<-as.character(copula_table$Family[which(copula_table$Number==copula_Var1_Family[j])])
+    }
+  }
+  
+  #Conditional on Var2
+  if(is.na(u2[1])==FALSE){
+    correlation_Var2_Value<-numeric(length(u2))
+    correlation_Var2_Test<-numeric(length(u2))
+    correlation_Var2_N<-numeric(length(u2))
+    copula_Var2_Family<-numeric(length(u2))
+    copula_Var2_Family_Name<-numeric(length(u2))
+    for(k in 1:length(u2)){
+      u<-u2[k]
+      Var2_Var2_x<-which(Data_Declust[,2]>quantile(na.omit(Data_Detrend[,2]),u))
+      Var2_df<-array(0,dim=c(length(Var2_Var2_x),2))
+      for(i in 1:length(Var2_Var2_x)){
+        Var2_df[i,2]<-Data_Declust[Var2_Var2_x[i],2]
+        Var2_df[i,1]<-max(Data_Detrend[c(max((Var2_Var2_x[i]-Lag_Backward_Var2),1):(min((Var2_Var2_x[i]+Lag_Forward_Var2),nrow(Data_Declust)))),1],na.rm=T)[1]
+      }
+      Var2_df<-data.frame(Var2_df)
+      colnames(Var2_df)<-c(names(Data_Detrend))
+      if(length(which(Var2_df[,1]==-Inf | Var2_df[,2]==-Inf))>0){
+        z<-unique(which(Var2_df[,1]==-Inf | Var2_df[,2]==-Inf))
+        Var2_df[z,]<-NA
+        Var2_Var2_x[z]<-NA
       }
       if(length(which(is.na(Var2_df[,1])==TRUE | is.na(Var2_df[,2])==TRUE))>0){
-       z<-unique(which(is.na(Var2_df[,1])==TRUE | is.na(Var2_df[,2])==TRUE))
-       Var2_df<-Var2_df[-z,]
-       Var2_Var2_x<-Var2_Var2_x[-z]
+        z<-unique(which(is.na(Var2_df[,1])==TRUE | is.na(Var2_df[,2])==TRUE))
+        Var2_df<-Var2_df[-z,]
+        Var2_Var2_x<-Var2_Var2_x[-z]
       }
-     correlation_Var2_Value[k]<-cor(pobs(Var2_df[,1]), pobs(Var2_df[,2]),method="kendall")
-     correlation_Var2_Test[k]<-cor.test(pobs(Var2_df[,1]), pobs(Var2_df[,2]))$p.value
-     correlation_Var2_N[k]<-nrow(Var2_df)
-     copula_Var2_Family[k]<-BiCopSelect(pobs(Var2_df[,1]), pobs(Var2_df[,2]), familyset = NA, selectioncrit = "AIC",
-                                        indeptest = FALSE, level = 0.05, weights = NA, rotations = TRUE,
-                                        se = FALSE, presel = TRUE, method = "mle")$family
-     copula_Var2_Family_Name[k]<-as.character(copula_table$Family[which(copula_table$Number==copula_Var2_Family[k])])
-   }
- }
-
- if(PLOT==TRUE){
+      correlation_Var2_Value[k]<-cor(pobs(Var2_df[,1]), pobs(Var2_df[,2]),method="kendall")
+      correlation_Var2_Test[k]<-cor.test(pobs(Var2_df[,1]), pobs(Var2_df[,2]))$p.value
+      correlation_Var2_N[k]<-nrow(Var2_df)
+      copula_Var2_Family[k]<-BiCopSelect(pobs(Var2_df[,1]), pobs(Var2_df[,2]), familyset = NA, selectioncrit = "AIC",
+                                         indeptest = FALSE, level = 0.05, weights = NA, rotations = TRUE,
+                                         se = FALSE, presel = TRUE, method = "mle")$family
+      copula_Var2_Family_Name[k]<-as.character(copula_table$Family[which(copula_table$Number==copula_Var2_Family[k])])
+    }
+  }
+  
+  if(PLOT==TRUE){
+    if(is.na(u1[1])==FALSE & is.na(u2[1])==FALSE){
+      plot(u1,correlation_Var1_Value,xlab="Threshold",ylab=expression("Kendall's "*tau*" correlation coefficient"),type='l',lwd=3,xlim=c(x_lim_min,x_lim_max),ylim=c(y_lim_min,y_lim_max),col="Blue")
+      mtext(round(quantile(na.omit(Data_Detrend[,1]),u1),2),at=u1,side=1,line=2,col="Blue")
+      points(u1,correlation_Var1_Value,pch=ifelse(correlation_Var1_Test<0.05,16,16),col=ifelse(correlation_Var1_Test<0.05,"Blue","White"),cex=5)
+      points(u1,correlation_Var1_Value,pch=ifelse(correlation_Var1_Test<0.05,16,1),cex=5,col="Blue")
+      text(u1,correlation_Var1_Value,as.character(correlation_Var1_N),col=ifelse(correlation_Var1_Test<0.05,"White","Black"))
+      
+      if(is.na(Upper[1])==TRUE){
+        text(u1,(correlation_Var1_Value-y_lim*GAP),copula_Var1_Family_Name,col="Blue")
+      }
+      if(length(u1[Upper])==length(u1)){
+        text(u1[Upper],(correlation_Var1_Value+y_lim*GAP)[Upper],copula_Var1_Family_Name[Upper],col="Blue")
+      }
+      if(sum(Upper)>0 & length(u1[Upper])<length(u1)){
+        text(u1[-Upper],(correlation_Var1_Value-y_lim*GAP)[-Upper],copula_Var1_Family_Name[-Upper],col="Blue")
+        text(u1[Upper],(correlation_Var1_Value+y_lim*GAP)[Upper],copula_Var1_Family_Name[Upper],col="Blue")
+      }
+      
+      mtext(round(quantile(na.omit(Data_Detrend[,2]),u2),2),at=u2,side=3,line=1,col="Red")
+      lines(u2,correlation_Var2_Value,col="Red")
+      points(u2,correlation_Var2_Value,pch=ifelse(correlation_Var2_Test<0.05,16,16),col=ifelse(correlation_Var2_Test<0.05,"Red","White"),cex=5)
+      points(u2,correlation_Var2_Value,pch=ifelse(correlation_Var2_Test<0.05,16,1),cex=5,col="Red")
+      text(u2,correlation_Var2_Value,as.character(correlation_Var2_N),col=ifelse(correlation_Var2_Test<0.05,"White","Black"))
+      
+      if(is.na(Lower)==TRUE){
+        text(u2,(correlation_Var2_Value+y_lim*GAP),copula_Var2_Family_Name,col="Red")
+      }
+      if(length(u2[Lower])==length(u2)){
+        text(u2[Lower],(correlation_Var2_Value-y_lim*GAP)[Lower],copula_Var2_Family_Name[Lower],col="Red")
+      }
+      if(sum(Lower)>0 & length(u2[Lower])<length(u2)){
+        text(u2[-Lower],(correlation_Var2_Value+y_lim*GAP)[-Lower],copula_Var2_Family_Name[-Lower],col="Red")
+        text(u2[Lower],(correlation_Var2_Value-y_lim*GAP)[Lower],copula_Var2_Family_Name[Lower],col="Red")
+      }
+      
+      if(Legend==TRUE){
+        legend("bottomleft",c(paste("Conditioning on ",colnames(Data_Detrend)[1],sep=""),
+                              paste("Conditioning on ",colnames(Data_Detrend)[2],sep="")),
+               bty="n",lwd=3,col=c("Blue","Red"))
+      }
+    }
+    if(is.na(u2[1])==TRUE){
+      plot(u1,correlation_Var1_Value,xlab="Threshold",ylab=expression("Kendall's "*tau*" correlation coefficient"),type='l',lwd=3,xlim=c(x_lim_min,x_lim_max),ylim=c(y_lim_min,y_lim_max),col="Blue")
+      mtext(round(quantile(na.omit(Data_Detrend[,1]),u1),2),at=u1,side=1,line=2,col="Blue")
+      points(u1,correlation_Var1_Value,pch=ifelse(correlation_Var1_Test<0.05,16,16),col=ifelse(correlation_Var1_Test<0.05,"Blue","White"),cex=5)
+      points(u1,correlation_Var1_Value,pch=ifelse(correlation_Var1_Test<0.05,16,1),cex=5,col="Blue")
+      text(u1,correlation_Var1_Value,as.character(correlation_Var1_N),col=ifelse(correlation_Var1_Test<0.05,"White","Black"))
+      
+      if(is.na(Upper[1])==TRUE){
+        text(u1,(correlation_Var1_Value-y_lim*GAP),copula_Var1_Family_Name,col="Blue")
+      }
+      if(length(u1[Upper])==length(u1)){
+        text(u1[Upper],(correlation_Var1_Value+y_lim*GAP)[Upper],copula_Var1_Family_Name[Upper],col="Blue")
+      }
+      if(sum(Upper)>0 & length(u1[Upper])<length(u1)){
+        text(u1[-Upper],(correlation_Var1_Value-y_lim*GAP)[-Upper],copula_Var1_Family_Name[-Upper],col="Blue")
+        text(u1[Upper],(correlation_Var1_Value+y_lim*GAP)[Upper],copula_Var1_Family_Name[Upper],col="Blue")
+      }
+      
+      if(Legend==TRUE){
+        legend("bottomleft",paste("Conditioning on ",colnames(Data_Detrend)[1],sep=""),
+               bty="n",lwd=3,col="Blue")
+      }
+    }
+    
+    if(is.na(u1[1])==TRUE){
+      plot(u2,correlation_Var2_Value,xlab="Threshold",ylab=expression("Kendall's "*tau*" correlation coefficient"),type='l',lwd=3,xlim=c(x_lim_min,x_lim_max),ylim=c(y_lim_min,y_lim_max),col="Red")
+      points(u2,correlation_Var2_Value,pch=ifelse(correlation_Var2_Test<0.05,16,16),col=ifelse(correlation_Var2_Test<0.05,"Red","White"),cex=5)
+      points(u2,correlation_Var2_Value,pch=ifelse(correlation_Var2_Test<0.05,16,1),cex=5,col="Red")
+      text(u2,correlation_Var2_Value,as.character(correlation_Var2_N),col=ifelse(correlation_Var2_Test<0.05,"White","Black"))
+      
+      if(is.na(Lower[1])==TRUE){
+        text(u2,(correlation_Var2_Value+y_lim*GAP),copula_Var2_Family_Name,col="Red")
+      }
+      if(length(u2[Lower])==length(u2)){
+        text(u2[Lower],(correlation_Var2_Value-y_lim*GAP)[Lower],copula_Var2_Family_Name[Lower],col="Red")
+      }
+      if(sum(Lower)>0 & length(u2[Lower])<length(u2)){
+        text(u2[-Lower],(correlation_Var2_Value+y_lim*GAP)[-Lower],copula_Var2_Family_Name[-Lower],col="Red")
+        text(u2[Lower],(correlation_Var2_Value-y_lim*GAP)[Lower],copula_Var2_Family_Name[Lower],col="Red")
+      }
+      
+      if(Legend==TRUE){
+        legend("bottomleft",paste("Conditioning on ",colnames(Data_Detrend)[2],sep=""),
+               bty="n",lwd=3,col="Red")
+      }
+    }
+  }
+  
   if(is.na(u1[1])==FALSE & is.na(u2[1])==FALSE){
-   plot(u1,correlation_Var1_Value,xlab="Threshold",ylab=expression("Kendall's "*tau*" correlation coefficient"),type='l',lwd=3,xlim=c(x_lim_min,x_lim_max),ylim=c(y_lim_min,y_lim_max),col="Blue")
-   mtext(round(quantile(na.omit(Data_Detrend[,1]),u1),2),at=u1,side=1,line=2,col="Blue")
-   points(u1,correlation_Var1_Value,pch=ifelse(correlation_Var1_Test<0.05,16,16),col=ifelse(correlation_Var1_Test<0.05,"Blue","White"),cex=5)
-   points(u1,correlation_Var1_Value,pch=ifelse(correlation_Var1_Test<0.05,16,1),cex=5,col="Blue")
-   text(u1,correlation_Var1_Value,as.character(correlation_Var1_N),col=ifelse(correlation_Var1_Test<0.05,"White","Black"))
-
-   if(is.na(Upper[1])==TRUE){
-    text(u1,(correlation_Var1_Value-y_lim*GAP),copula_Var1_Family_Name,col="Blue")
-   }
-   if(length(u1[Upper])==length(u1)){
-    text(u1[Upper],(correlation_Var1_Value+y_lim*GAP)[Upper],copula_Var1_Family_Name[Upper],col="Blue")
-   }
-   if(sum(Upper)>0 & length(u1[Upper])<length(u1)){
-    text(u1[-Upper],(correlation_Var1_Value-y_lim*GAP)[-Upper],copula_Var1_Family_Name[-Upper],col="Blue")
-    text(u1[Upper],(correlation_Var1_Value+y_lim*GAP)[Upper],copula_Var1_Family_Name[Upper],col="Blue")
-   }
-
-  mtext(round(quantile(na.omit(Data_Detrend[,2]),u2),2),at=u2,side=3,line=1,col="Red")
-  lines(u2,correlation_Var2_Value,col="Red")
-  points(u2,correlation_Var2_Value,pch=ifelse(correlation_Var2_Test<0.05,16,16),col=ifelse(correlation_Var2_Test<0.05,"Red","White"),cex=5)
-  points(u2,correlation_Var2_Value,pch=ifelse(correlation_Var2_Test<0.05,16,1),cex=5,col="Red")
-  text(u2,correlation_Var2_Value,as.character(correlation_Var2_N),col=ifelse(correlation_Var2_Test<0.05,"White","Black"))
-
-   if(is.na(Lower)==TRUE){
-    text(u2,(correlation_Var2_Value+y_lim*GAP),copula_Var2_Family_Name,col="Red")
-   }
-   if(length(u2[Lower])==length(u2)){
-    text(u2[Lower],(correlation_Var2_Value-y_lim*GAP)[Lower],copula_Var2_Family_Name[Lower],col="Red")
-   }
-   if(sum(Lower)>0 & length(u2[Lower])<length(u2)){
-    text(u2[-Lower],(correlation_Var2_Value+y_lim*GAP)[-Lower],copula_Var2_Family_Name[-Lower],col="Red")
-    text(u2[Lower],(correlation_Var2_Value-y_lim*GAP)[Lower],copula_Var2_Family_Name[Lower],col="Red")
-   }
-
-  if(Legend==TRUE){
-    legend("bottomleft",c(paste("Conditioning on ",colnames(Data_Detrend)[1],sep=""),
-                          paste("Conditioning on ",colnames(Data_Detrend)[2],sep="")),
-           bty="n",lwd=3,col=c("Blue","Red"))
+    res<-list("Kendalls_Tau1" = correlation_Var1_Value,"p_value_Var1" = correlation_Var1_Test,
+              "N_Var1" = correlation_Var1_N,"Copula_Family_Var1" =copula_Var1_Family,
+              "Kendalls_Tau2" = correlation_Var2_Value,"p_value_Var2" = correlation_Var2_Test,
+              "N_Var2" = correlation_Var2_N,"Copula_Family_Var2" = copula_Var2_Family)
   }
-  }
-  if(is.na(u2[1])==TRUE){
-    plot(u1,correlation_Var1_Value,xlab="Threshold",ylab=expression("Kendall's "*tau*" correlation coefficient"),type='l',lwd=3,xlim=c(x_lim_min,x_lim_max),ylim=c(y_lim_min,y_lim_max),col="Blue")
-    mtext(round(quantile(na.omit(Data_Detrend[,1]),u1),2),at=u1,side=1,line=2,col="Blue")
-    points(u1,correlation_Var1_Value,pch=ifelse(correlation_Var1_Test<0.05,16,16),col=ifelse(correlation_Var1_Test<0.05,"Blue","White"),cex=5)
-    points(u1,correlation_Var1_Value,pch=ifelse(correlation_Var1_Test<0.05,16,1),cex=5,col="Blue")
-    text(u1,correlation_Var1_Value,as.character(correlation_Var1_N),col=ifelse(correlation_Var1_Test<0.05,"White","Black"))
-
-    if(is.na(Upper[1])==TRUE){
-      text(u1,(correlation_Var1_Value-y_lim*GAP),copula_Var1_Family_Name,col="Blue")
-    }
-    if(length(u1[Upper])==length(u1)){
-      text(u1[Upper],(correlation_Var1_Value+y_lim*GAP)[Upper],copula_Var1_Family_Name[Upper],col="Blue")
-    }
-    if(sum(Upper)>0 & length(u1[Upper])<length(u1)){
-      text(u1[-Upper],(correlation_Var1_Value-y_lim*GAP)[-Upper],copula_Var1_Family_Name[-Upper],col="Blue")
-      text(u1[Upper],(correlation_Var1_Value+y_lim*GAP)[Upper],copula_Var1_Family_Name[Upper],col="Blue")
-    }
-
-     if(Legend==TRUE){
-      legend("bottomleft",paste("Conditioning on ",colnames(Data_Detrend)[1],sep=""),
-             bty="n",lwd=3,col="Blue")
-    }
-  }
-
+  
   if(is.na(u1[1])==TRUE){
-  plot(u2,correlation_Var2_Value,xlab="Threshold",ylab=expression("Kendall's "*tau*" correlation coefficient"),type='l',lwd=3,xlim=c(x_lim_min,x_lim_max),ylim=c(y_lim_min,y_lim_max),col="Red")
-  points(u2,correlation_Var2_Value,pch=ifelse(correlation_Var2_Test<0.05,16,16),col=ifelse(correlation_Var2_Test<0.05,"Red","White"),cex=5)
-  points(u2,correlation_Var2_Value,pch=ifelse(correlation_Var2_Test<0.05,16,1),cex=5,col="Red")
-  text(u2,correlation_Var2_Value,as.character(correlation_Var2_N),col=ifelse(correlation_Var2_Test<0.05,"White","Black"))
-
-  if(is.na(Lower[1])==TRUE){
-    text(u2,(correlation_Var2_Value+y_lim*GAP),copula_Var2_Family_Name,col="Red")
+    res<-list("Kendalls_Tau2" = correlation_Var2_Value,"p_value_Var2" = correlation_Var2_Test,
+              "N_Var2" = correlation_Var2_N,"Copula_Family_Var2" = copula_Var2_Family)
   }
-  if(length(u2[Lower])==length(u2)){
-    text(u2[Lower],(correlation_Var2_Value-y_lim*GAP)[Lower],copula_Var2_Family_Name[Lower],col="Red")
+  
+  if(is.na(u2[1])==TRUE){
+    res<-list("Kendalls_Tau1" = correlation_Var1_Value,"p_value_Var1" = correlation_Var1_Test,
+              "N_Var1" = correlation_Var1_N,"Copula_Family_Var1" =copula_Var1_Family)
   }
-  if(sum(Lower)>0 & length(u2[Lower])<length(u2)){
-    text(u2[-Lower],(correlation_Var2_Value+y_lim*GAP)[-Lower],copula_Var2_Family_Name[-Lower],col="Red")
-    text(u2[Lower],(correlation_Var2_Value-y_lim*GAP)[Lower],copula_Var2_Family_Name[Lower],col="Red")
-  }
-
-  if(Legend==TRUE){
-    legend("bottomleft",paste("Conditioning on ",colnames(Data_Detrend)[2],sep=""),
-           bty="n",lwd=3,col="Red")
-    }
-   }
- }
-
- if(is.na(u1[1])==FALSE & is.na(u2[1])==FALSE){
- res<-list("Kendalls_Tau1" = correlation_Var1_Value,"p_value_Var1" = correlation_Var1_Test,
-           "N_Var1" = correlation_Var1_N,"Copula_Family_Var1" =copula_Var1_Family,
-           "Kendalls_Tau2" = correlation_Var2_Value,"p_value_Var2" = correlation_Var2_Test,
-           "N_Var2" = correlation_Var2_N,"Copula_Family_Var2" = copula_Var2_Family)
- }
-
- if(is.na(u1[1])==TRUE){
-   res<-list("Kendalls_Tau2" = correlation_Var2_Value,"p_value_Var2" = correlation_Var2_Test,
-             "N_Var2" = correlation_Var2_N,"Copula_Family_Var2" = copula_Var2_Family)
- }
-
- if(is.na(u2[1])==TRUE){
-  res<-list("Kendalls_Tau1" = correlation_Var1_Value,"p_value_Var1" = correlation_Var1_Test,
-             "N_Var1" = correlation_Var1_N,"Copula_Family_Var1" =copula_Var1_Family)
- }
-
- return(res)
+  
+  return(res)
 }

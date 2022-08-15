@@ -60,9 +60,9 @@
 #'#Extracting the 100-year isoline from the output
 #'Design.Event$`100`$Isoline
 Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=NA, Copula_Family1, Copula_Family2, Marginal_Dist1, Marginal_Dist2, Con1="Rainfall",Con2="OsWL", GPD1=NA, GPD2=NA, mu=365.25, GPD_Bayes=FALSE, Decimal_Place=2, RP, Interval=10000, End=F, Resolution="Low", x_lab="Rainfall (mm)",y_lab="O-sWL (mNGVD 29)",x_lim_min = NA,x_lim_max = NA,y_lim_min = NA,y_lim_max = NA,N=10^6,N_Ensemble=0,Sim_Max=10,Plot_Quantile_Isoline=FALSE,Isoline_Type="Combined"){
-
+  
   ###Preliminaries
-
+  
   #Vectors and lists for results
   Quantile_Isoline_1<-vector(mode = "list", length = length(RP))
   names(Quantile_Isoline_1)<-RP
@@ -78,30 +78,30 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
   names(MostLikelyEvent)<-RP
   FullDependence<-vector(mode = "list", length = length(RP))
   names(FullDependence)<-RP
-
+  
   #Remove 1st column of Data if it is a Date or factor object.
   if(class(Data[,1])=="Date" | class(Data[,1])=="factor" | class(Data[,1])[1]=="POSIXct"){
     Data<-Data[,-1]
   }
-
+  
   #Find the columns in Data (which should be consistent in terms of column order of the other data input objects) of conditioning variable 1 (Con1) and conditioning variable 2 (Con2).
   con1<-which(names(Data)==Con1)
   con2<-which(names(Data)==Con2)
-
+  
   ###Fit the 4 marginal distributions (2 GPD and 2 parametric non-extreme value distributions).
-
+  
   #Fit the GPD to the conditioned variable con1 in Data_Con1.
   if(is.na(GPD1)==T & is.na(Thres1)==T){
     Thres1<-quantile(na.omit(Data[,con1]),u1)
   }
-
+  
   if(is.na(GPD1)==T & GPD_Bayes==T){
     GPD_con1<-evm(Data_Con1[,con1], th = Thres1,penalty = "gaussian",priorParameters = list(c(0, 0), matrix(c(100^2, 0, 0, 0.25), nrow = 2)))
   }
   if(is.na(GPD1)==T & GPD_Bayes==F){
     GPD_con1<-evm(Data_Con1[,con1], th = Thres1)
   }
-
+  
   #Fit the specified marginal distribution (Marginal_Dist1) to the non-conditioned variable con2 in Data_Con1.
   if(Marginal_Dist1 == "BS"){
     bdata2 <- data.frame(shape = exp(-0.5), scale = exp(0.5))
@@ -117,17 +117,17 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
   if(Marginal_Dist1 == "Gam(3)"){
     data.gamlss<-data.frame(X=Data_Con1[,con2])
     marginal_non_con1 <- tryCatch(gamlss(X~1, data=data.gamlss, family=GG),
-                         error = function(e) "error")
+                                  error = function(e) "error")
   }
   if(Marginal_Dist1 == "GamMix(2)"){
     data.gamlss<-data.frame(X=Data_Con1[,con2])
     marginal_non_con1 <- tryCatch(gamlssMX(X~1, data=data.gamlss, family=GA, K=2),
-                             error = function(e) "error")
+                                  error = function(e) "error")
   }
   if(Marginal_Dist1 == "GamMix(3)"){
     data.gamlss<-data.frame(X=Data_Con1[,con2])
     marginal_non_con1 <- tryCatch(gamlssMX(X~1, data=data.gamlss, family=GA, K=3),
-                               error = function(e) "error")
+                                  error = function(e) "error")
   }
   if(Marginal_Dist1 == "Gaus"){
     marginal_non_con1<-fitdistr(Data_Con1[,con2],"normal")
@@ -150,19 +150,19 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
   if(Marginal_Dist1 == "Weib"){
     marginal_non_con1<-fitdistr(Data_Con1[,con2], "weibull")
   }
-
+  
   #Fit the GPD to the conditioned variable con2 in Data_Con2.
   if(is.na(GPD2)==T & is.na(Thres2)==T){
-   Thres2<-quantile(na.omit(Data[,con2]),u2)
+    Thres2<-quantile(na.omit(Data[,con2]),u2)
   }
-
+  
   if(is.na(GPD1)==T & GPD_Bayes==T){
-   GPD_con2<-evm(Data_Con2[,con2], th=Thres2 ,penalty = "gaussian",priorParameters = list(c(0, 0), matrix(c(100^2, 0, 0, 0.25), nrow = 2)))
+    GPD_con2<-evm(Data_Con2[,con2], th=Thres2 ,penalty = "gaussian",priorParameters = list(c(0, 0), matrix(c(100^2, 0, 0, 0.25), nrow = 2)))
   }
   if(is.na(GPD1)==T & GPD_Bayes==F){
-   GPD_con2<-evm(Data_Con2[,con2], th= Thres2)
+    GPD_con2<-evm(Data_Con2[,con2], th= Thres2)
   }
-
+  
   ##Fit the specified marginal distribution (Marginal_Dist2) to the non-conditioned variable con1 in Data_Con2.
   if(Marginal_Dist2 == "BS"){
     bdata2 <- data.frame(shape = exp(-0.5), scale = exp(0.5))
@@ -178,12 +178,12 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
   if(Marginal_Dist2 == "Gam(3)"){
     data.gamlss<-data.frame(X=Data_Con2[,con1])
     marginal_non_con2 <- tryCatch(gamlss(X~1, data=data.gamlss, family=GG),
-                           error = function(e) "error")
+                                  error = function(e) "error")
   }
   if(Marginal_Dist2 == "GamMix(2)"){
     data.gamlss<-data.frame(X=Data_Con2[,con1])
     marginal_non_con2 <- tryCatch(gamlssMX(X~1, data=data.gamlss, family=GA, K=2),
-                               error = function(e) "error")
+                                  error = function(e) "error")
   }
   if(Marginal_Dist2 == "GamMix(3)"){
     data.gamlss<-data.frame(X=Data_Con2[,con1])
@@ -211,9 +211,9 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
   if(Marginal_Dist2 == "Weib"){
     marginal_non_con2<-fitdistr(Data_Con2[,con1], "weibull")
   }
-
+  
   ###Generate samples from the copula models to which a kernel density estimate will be applied to estimate relative probabilities along the isoline.
-
+  
   #Fit the specified copula family (Copula_Family1) to the observations in Data_Con1.
   obj1<-BiCopSelect(pobs(Data_Con1[,1]), pobs(Data_Con1[,2]), familyset=Copula_Family1, selectioncrit = "AIC",
                     indeptest = FALSE, level = 0.05, weights = NA, rotations = TRUE,
@@ -223,10 +223,10 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
   #Transform the realizations of the conditioned variable con1 to the original scale using inverse cumulative distribution a.k.a. quantile functions (inverse probability integral transform) of the GPD contained in the u2gpd function.
   if(is.na(GPD1)==T){
     cop.sample1.con<-u2gpd(sample[,con1], p = 1, th=Thres1 , sigma=exp(GPD_con1$coefficients[1]),xi= GPD_con1$coefficients[2])
-   } else{
+  } else{
     cop.sample1.con<-u2gpd(sample[,con1], p = 1, th = GPD1$Threshold, sigma = GPD1$sigma, xi= GPD1$xi)
-   }
-
+  }
+  
   #Transform the realizations of the non-conditioned variable con2 to the original scale using the quantile function of the selected parametric (non-extreme value) distribution (Marginal_Dist1).
   if(Marginal_Dist1=="BS"){
     cop.sample1.non.con<-qbisa(sample[,con2], as.numeric(Coef(marginal_non_con1)[1]), as.numeric(Coef(marginal_non_con1)[2]))
@@ -250,14 +250,14 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
     cop.sample1.non.con <- approx(cdf.MX, xx, sample[,con2])$y
   }
   if(Marginal_Dist1=="GamMix(3)"){
-   xx <- seq(0, max(Data_Con2[,2])*10, 0.001)
-   prob.MX1 <- round(marginal_non_con1$prob[1],3)
-   prob.MX2 <- round(marginal_non_con1$prob[2],3)
-   prob.MX3 <- 1 - prob.MX1 - prob.MX2
-   cdf.MX<-pMX(xx, mu=list(mu1=exp(marginal_non_con1$models[[1]]$mu.coefficients), mu2=exp(marginal_non_con1$models[[2]]$mu.coefficients), mu3=exp(marginal_non_con1$models[[3]]$mu.coefficients)),
-               sigma=list(sigma1=exp(marginal_non_con1$models[[1]]$sigma.coefficients), sigma2=exp(marginal_non_con1$models[[2]]$sigma.coefficients), sigma3=exp(marginal_non_con1$models[[3]]$sigma.coefficients)),
-               pi = list(pi1=prob.MX1, pi2=prob.MX2, pi3=prob.MX3), family=list(fam1="GA", fam2="GA", fam3="GA"))
-   cop.sample1.non.con <- approx(cdf.MX, xx, sample[,con2])$y
+    xx <- seq(0, max(Data_Con2[,2])*10, 0.001)
+    prob.MX1 <- round(marginal_non_con1$prob[1],3)
+    prob.MX2 <- round(marginal_non_con1$prob[2],3)
+    prob.MX3 <- 1 - prob.MX1 - prob.MX2
+    cdf.MX<-pMX(xx, mu=list(mu1=exp(marginal_non_con1$models[[1]]$mu.coefficients), mu2=exp(marginal_non_con1$models[[2]]$mu.coefficients), mu3=exp(marginal_non_con1$models[[3]]$mu.coefficients)),
+                sigma=list(sigma1=exp(marginal_non_con1$models[[1]]$sigma.coefficients), sigma2=exp(marginal_non_con1$models[[2]]$sigma.coefficients), sigma3=exp(marginal_non_con1$models[[3]]$sigma.coefficients)),
+                pi = list(pi1=prob.MX1, pi2=prob.MX2, pi3=prob.MX3), family=list(fam1="GA", fam2="GA", fam3="GA"))
+    cop.sample1.non.con <- approx(cdf.MX, xx, sample[,con2])$y
   }
   if(Marginal_Dist1=="Gaus"){
     cop.sample1.non.con<-qnorm(sample[,con2], mean = as.numeric(marginal_non_con1$estimate[1]), sd = as.numeric(marginal_non_con1$estimate[2]))
@@ -283,21 +283,21 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
   #Put the realizations that have been transformed to the original scale in a data frame
   cop.sample1<-data.frame(cop.sample1.con,cop.sample1.non.con)
   colnames(cop.sample1)<-c("Var1","Var2")
-
+  
   #Fit the specified copula family (Copula_Family2) to the observations in Data_Con2.
   obj2<-BiCopSelect(pobs(Data_Con2[,1]), pobs(Data_Con2[,2]), familyset=Copula_Family2, selectioncrit = "AIC",
                     indeptest = FALSE, level = 0.05, weights = NA, rotations = TRUE,
                     se = FALSE, presel = TRUE, method = "mle")
   #Simulate a sample from the fitted copula. Out of the sample size 'N' the proportion of the sample from the copula assoicated with Data_Con2 is proportional to the size of Data_Con2 relative to Data_Con1.
   sample<-BiCopSim(round(N*nrow(Data_Con2)/(nrow(Data_Con1)+nrow(Data_Con2)),0),obj2)
-
+  
   #Transform the realizations of the conditioned variable con2 to the original scale using the inverse CDF (quantile function) of the GPD contained in the u2gpd function.
   if(is.na(GPD2)==T){
     cop.sample2.con<-u2gpd(sample[,con2], p = 1, th=Thres2, sigma=exp(GPD_con2$coefficients[1]),xi= GPD_con2$coefficients[2])
   } else{
     cop.sample2.con<-u2gpd(sample[,con2], p = 1, th = GPD2$Threshold, sigma = GPD2$sigma, xi= GPD2$xi)
   }
-
+  
   #Transform the realizations of the non-conditioned variable con1 to the original scale using the inverse CDF (quantile function) of the selected parametric (non-extreme value) distribution (Marginal_Dist2).
   if(Marginal_Dist2=="BS"){
     cop.sample2.non.con<-qbisa(sample[,con1], as.numeric(Coef(marginal_non_con2)[1]), as.numeric(Coef(marginal_non_con2)[2]))
@@ -326,8 +326,8 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
     prob.MX2 <- round(marginal_non_con2$prob[2],3)
     prob.MX3 <- 1 - prob.MX1 - prob.MX2
     cdf.MX<-pMX(xx, mu=list(mu1=exp(marginal_non_con2$models[[1]]$mu.coefficients), mu2=exp(marginal_non_con2$models[[2]]$mu.coefficients), mu3=exp(marginal_non_con2$models[[3]]$mu.coefficients)),
-               sigma=list(sigma1=exp(marginal_non_con2$models[[1]]$sigma.coefficients), sigma2=exp(marginal_non_con2$models[[2]]$sigma.coefficients), sigma3=exp(marginal_non_con2$models[[3]]$sigma.coefficients)),
-               pi = list(pi1=prob.MX1, pi2=prob.MX2, pi3=prob.MX3), family=list(fam1="GA", fam2="GA", fam3="GA"))
+                sigma=list(sigma1=exp(marginal_non_con2$models[[1]]$sigma.coefficients), sigma2=exp(marginal_non_con2$models[[2]]$sigma.coefficients), sigma3=exp(marginal_non_con2$models[[3]]$sigma.coefficients)),
+                pi = list(pi1=prob.MX1, pi2=prob.MX2, pi3=prob.MX3), family=list(fam1="GA", fam2="GA", fam3="GA"))
     cop.sample2.non.con <- approx(cdf.MX, xx, sample[,con1])$y
   }
   if(Marginal_Dist2=="Gaus"){
@@ -354,34 +354,34 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
   #Put the realizations that have been transformed to the original scale in a data frame.
   cop.sample2<-data.frame(cop.sample2.non.con,cop.sample2.con)
   colnames(cop.sample2)<-c("Var1","Var2")
-
+  
   #Combine the data frames containg the samples from two copulas (on the original scale)
   cop.sample<-rbind(cop.sample1,cop.sample2)
-
+  
   ###Deriving the quantile isoline from the sample conditioned on variable 'Con2' i.e. Data_Con1
-
+  
   for(k in 1:length(RP)){
-
+    
     #Generate a regular grid on the unit square.
     if(Resolution=="Low"){
-    x<- c(10^(-4),seq(999.9*10^(-4),1-(1*10^(-5)),10^(-3)))
-    y<- c(10^(-4),seq(999.9*10^(-4),1-(1*10^(-5)),10^(-3)))
+      x<- c(10^(-4),seq(999.9*10^(-4),1-(1*10^(-5)),10^(-3)))
+      y<- c(10^(-4),seq(999.9*10^(-4),1-(1*10^(-5)),10^(-3)))
     }
     if(Resolution=="High"){
-    x<- c(10^(-5),seq(999.9*10^(-5),1-(1*10^(-6)),10^(-4)))
-    y<- c(10^(-5),seq(999.9*10^(-5),1-(1*10^(-6)),10^(-4)))
+      x<- c(10^(-5),seq(999.9*10^(-5),1-(1*10^(-6)),10^(-4)))
+      y<- c(10^(-5),seq(999.9*10^(-5),1-(1*10^(-6)),10^(-4)))
     }
     u<-expand.grid(x,y)
     #Evaluate the copula at each point on the grid.
     u1<-BiCopCDF(u[,1], u[,2], obj1)
-
+    
     #Calculate the time period spanned by the original dataset in terms of mu (only including occasions where both variables are observed).
     time.period<-nrow(Data[which(is.na(Data[,1])==FALSE & is.na(Data[,2])==FALSE),])/mu
     #Calculate the rate of occurrences of extremes (in terms of mu) in Data_Con1.
     rate<-nrow(Data_Con1)/time.period
     #Calculate the inter-arrival time of extremes (in terms of mu) in Data_Con1.
     EL<-1/rate
-
+    
     #Define a function which evaluates the return period at a given point (x,y).
     f<-function(x,y){EL/(1-x-y+u1[which(u[,1]==x & u[,2]==y)]) }
     #Evaluate the return period at each point on the grid 'u' (the 'outer' function creates the grid internally using the points on the boundary i.e. the x and y we defined earlier).
@@ -449,48 +449,48 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
     if(Marginal_Dist1=="Weib"){
       con1.y<-qweibull(as.numeric(unlist(xy160[[1]][3])),as.numeric(marginal_non_con1$estimate[1]),as.numeric(marginal_non_con1$estimate[2]))
     }
-
+    
     #Linearly interpolate the points at a 0.01 increment  on the x-axis between the smallest and largest x-value on the contour.
     prediction.points<-approx(c(con1.x),c(con1.y),xout=seq(min(con1.x),max(con1.x),0.01))$y
     #Put the results of the interpolation in a data frame.
     prediction.points<-data.frame(seq(min(con1.x),max(con1.x),0.01),prediction.points)
-
+    
     #Linearly interpolate the points at a 0.01 increment  on the y-axis between the smallest and largest y-value on the contour (as above but with x and y reversed).
     prediction.points.reverse<-approx(c(con1.y),c(con1.x),xout=seq(min(con1.y),max(con1.y),0.01))$y
     #Put the results of the interpolation in a data frame.
     prediction.points.reverse<-data.frame(seq(min(con1.y),max(con1.y),0.01),prediction.points.reverse)
-
+    
     #Combine the two data frames derived above - ordering the rows in terms of the magnitudes of the x-values.
     con1.prediction.points.ALL<-data.frame(c(prediction.points[,1],prediction.points.reverse[,2])[order((c(prediction.points[,1],prediction.points.reverse[,2])))],c(prediction.points[,2],prediction.points.reverse[,1])[order((c(prediction.points[,1],prediction.points.reverse[,2])))])
     colnames(con1.prediction.points.ALL)<-c(names(Data)[1],names(Data)[2])
-
+    
     ###Deriving the quantile isoline from the sample conditioned on variable 'Con2' i.e. Data_Con2.
-
+    
     #Generate a regular grid on the unit square.
     if(Resolution=="High"){
-    x<- c(10^(-4),seq(999.9*10^(-4),1-(1*10^(-5)),10^(-3)))
-    y<- c(10^(-4),seq(999.9*10^(-4),1-(1*10^(-5)),10^(-3)))
+      x<- c(10^(-4),seq(999.9*10^(-4),1-(1*10^(-5)),10^(-3)))
+      y<- c(10^(-4),seq(999.9*10^(-4),1-(1*10^(-5)),10^(-3)))
     }    
     if(Resolution=="High"){
-    x<- c(10^(-5),seq(999.9*10^(-5),1-(1*10^(-6)),10^(-4)))
-    y<- c(10^(-5),seq(999.9*10^(-5),1-(1*10^(-6)),10^(-4)))
+      x<- c(10^(-5),seq(999.9*10^(-5),1-(1*10^(-6)),10^(-4)))
+      y<- c(10^(-5),seq(999.9*10^(-5),1-(1*10^(-6)),10^(-4)))
     }
     u<-expand.grid(x,y)
     #Evaluate the copula at each point on the grid.
     u1<-BiCopCDF(u[,1], u[,2], obj2)
-
+    
     #Calculate the rate of occurrences of extremes (in terms of mu) in Data_Con2.
     rate<-nrow(Data_Con2)/time.period
     #Calculate the inter-arrival time of extremes (in terms of mu) in Data_Con2.
     EL<-1/rate
-
+    
     #Define a function which evaluates the return period at a given point (x,y).
     f<-function(x,y){EL/(1-x-y+u1[which(u[,1]==x & u[,2]==y)]) }
     #Evaluate the return period at each point on the grid 'u' (the 'outer' function creates the grid internally using the points on the boundary i.e. the x and y we defined earlier)
     z<- outer(x,y,f)
     #The contourLines function in the grDevices package extracts the isoline with the specified return period - 'RP' in our case.
     xy160<-contourLines(x,y,z,levels= RP[k])
-
+    
     #Transform the points on the contour to the original scale using the inverse cumulative distributions a.k.a. quantile functions (i.e. using the inverse probability integral transform).
     #Transforming the conditioned variable in Data_Con2, Con2 to the original scale using the inverse CDF of the GPD contained in the u2gpd function.
     if(is.na(GPD1)==T){
@@ -552,27 +552,27 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
     if(Marginal_Dist2=="Weib"){
       con2.x<-qweibull(as.numeric(unlist(xy160[[1]][2])), as.numeric(marginal_non_con2$estimate[1]), as.numeric(marginal_non_con2$estimate[2]))
     }
-
+    
     #Linearly interpolate the points at a 0.01 increment on the x-axis between the smallest and largest x-value on the contour.
     prediction.points<-approx(c(con2.x),c(con2.y),xout=seq(min(con2.x),max(con2.x),10^-Decimal_Place))$y
     #Put the results of the interpolation in a data frame.
     prediction.points<-data.frame(seq(min(con2.x),max(con2.x),10^-Decimal_Place),prediction.points)
-
+    
     #Linearly interpolate the points at a 0.01 increment on the y-axis between the smallest and largest y-value on the contour (as above but with x and y reversed).
     prediction.points.reverse<-approx(c(con2.y),c(con2.x),xout=seq(min(con2.y),max(con2.y),10^-Decimal_Place))$y
     #Put the results of the interpolation in a data frame.
     prediction.points.reverse<-data.frame(seq(min(con2.y),max(con2.y),10^-Decimal_Place),prediction.points.reverse)
-
+    
     #Combine the two data frames derived above - ordering the rows in terms of the magnitudes of the x-values.
     con2.prediction.points.ALL<-data.frame(c(prediction.points[,1],prediction.points.reverse[,2])[order((c(prediction.points[,1],prediction.points.reverse[,2])))],c(prediction.points[,2],prediction.points.reverse[,1])[order((c(prediction.points[,1],prediction.points.reverse[,2])))])
     colnames(con2.prediction.points.ALL)<-c(names(Data)[1],names(Data)[2])
     ##plot(con1.prediction.points.ALL,col=1,xlim=c(9,11),ylim=c(-2,9))
-
+    
     x_min<-ifelse(is.na(x_lim_min)==T,min(na.omit(Data[,con1])),x_lim_min)
     x_max<-ifelse(is.na(x_lim_max)==T,max(na.omit(Data[,con1])),x_lim_max)
     y_min<-ifelse(is.na(y_lim_min)==T,min(na.omit(Data[,con2])),y_lim_min)
     y_max<-ifelse(is.na(y_lim_max)==T,max(na.omit(Data[,con2])),y_lim_max)
-
+    
     if(Plot_Quantile_Isoline==T){
       #Plot
       par(mar=c(4.5,4.2,0.5,0.5))
@@ -582,15 +582,15 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
       points(con1.prediction.points.ALL,col=4,pch=16,cex=1)
       points(con2.prediction.points.ALL,col="Red",pch=16,cex=1)
     }
-
+    
     Quantile_Isoline_1[[k]]<-con1.prediction.points.ALL
     Quantile_Isoline_2[[k]]<-con2.prediction.points.ALL
-
+    
     if(Isoline_Type==Con1){
       ###Combining the two quantile isolines
-
+      
       #In the following lines of code the maximum y-values at each x-value from the two quantile isolines are extracted
-
+      
       #Generate a sequence of x-values at a 0.01 increment starting at the minimum and ending at the maximum points from the two conditional isolines. Round to 2 decimal places.
       x.1<-round(seq(min(Data[,1],con1.prediction.points.ALL[,1],con2.prediction.points.ALL[,1],na.rm = T),max(Data[,1],con1.prediction.points.ALL[,1],con2.prediction.points.ALL[,1],na.rm = T),10^-Decimal_Place),Decimal_Place)
       #Round the x-values  from both quantile isolines to 2 decimal places
@@ -608,40 +608,40 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
                                       max(c(con1.prediction.points.ALL[,2],con2.prediction.points.ALL[,2])),
                                       NA)
       }
-
+      
       #If any x.1 or y.1 elements are 'NA' then remove.
       if(length(which(is.na(y.1)==T))>0){
         x.1<-x.1[-which(is.na(y.1)==TRUE)]
         y.1<-y.1[-which(is.na(y.1)==TRUE)]
       }
-
+      
       #In the following lines of code, the maximum x-values at each y-value from the two quantile isolines are extracted
-
+      
       #Generate a sequence of y-values at a 0.01 increment starting at the minimum and ending at the maximum points from the two conditional isolines. Round to 2 decimal places.
       y.2<-round(seq(min(Data[,2],con1.prediction.points.ALL[,2],con2.prediction.points.ALL[,2],na.rm=T),max(Data[,2],con1.prediction.points.ALL[,2],con2.prediction.points.ALL[,2],na.rm=T),10^-Decimal_Place),Decimal_Place)
       #Round the y-values from both quantile isolines to 2 decimal places
       con1.prediction.points.ALL.Round<-round(con1.prediction.points.ALL[,2],Decimal_Place)
       con2.prediction.points.ALL.Round<-round(con2.prediction.points.ALL[,2],Decimal_Place)
-
+      
       #Find the maximum x-value from the two quantile isolines at each x-value in y.2.
       x.2<-numeric(length(y.2))
       for(i in 1:length(y.2)){
         x.2[i]<-max(round(con1.prediction.points.ALL[,1],2)[which(con1.prediction.points.ALL.Round==y.2[i])])
       }
-
+      
       if(any(x.2==-Inf)==T){
         x.2[which(x.2==-Inf)]<-NA
       }
-
+      
       #If any x.2 or y.2 elements are 'NA' then remove.
       if(length(which(is.na(x.2)==T))>0){
         y.2<-y.2[-which(is.na(x.2)==TRUE)]
         x.2<-x.2[-which(is.na(x.2)==TRUE)]
       }
-
+      
       prediction.points.ALL<-data.frame(c(x.1,x.2),c(y.1,y.2))[-1,]
       colnames(prediction.points.ALL)<-c(names(Data)[1],names(Data)[2])
-
+      
       #Round the points defining the isoline to 2 decimal places.
       prediction.points.ALL[,1]<-round(prediction.points.ALL[,1],Decimal_Place)
       #To ensure each x is only paired withe y value and vice versa we remove any
@@ -662,11 +662,11 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
       Iso<-data.frame(v.x,v.y)
       Iso<-Iso[-which(Iso[,con1]<Thres1),]
       colnames(Iso)<-c(names(Data)[1],names(Data)[2])
-
+      
       #Put the points composing the isoline into a data frame to form part of the function's output.
       Isoline[[k]] <- data.frame(x=Iso[,1],y=Iso[,2])
       #colnames(Isoline) <- c(names(Data)[1],names(Data)[2])
-
+      
       ###Estimate the (relative) probabilty of events along the isoline
       #Estimate the (relative) probability of events along the isoline by applying a KDE to 'cop.sample'
       #i.e. the large sample of events generated from the two fitted copulas (with sample sizes proportional
@@ -677,17 +677,17 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
         cop.sample<-cop.sample[-remove,]
       }
       prediction<-kde(x=cop.sample, eval.points=Iso)$estimate
-
+      
       #(relative) Probabilities implied by the data for the points composing the isoline. Probabilities are scaled to [0,1].
       Contour[[k]] <- (prediction-min(prediction))/(max(prediction)-min(prediction))
-
+      
       ###Extract design event(s)
-
+      
       #Find the 'most likely' design event and add it to the plot (denoted by a diamond).
       MostLikelyEvent.AND<-data.frame(as.numeric(Iso[which(prediction==max(prediction,na.rm=T)),1]),as.numeric(Iso[which(prediction==max(prediction,na.rm=T)),2]))
       colnames(MostLikelyEvent.AND) <- c(names(Data)[1],names(Data)[2])
       MostLikelyEvent[[k]]<-MostLikelyEvent.AND
-
+      
       #Find the design event under the assumption of full dependence and add it to the plot (denoted by a triangle).
       ##if(is.na(GPD1)==T | is.na(GPD2)==T){
       ##  FullDependence.AND<-data.frame(as.numeric(u2gpd(1-EL/(RP[k]), p = 1, th=Thres1 , sigma=exp(GPD_con1$coefficients[1]),xi= GPD_con1$coefficients[2])),
@@ -698,7 +698,7 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
       ##}
       
       FullDependence.AND<-data.frame(max(Iso[,1]),max(Iso[,2]))
-                                     
+      
       colnames(FullDependence.AND)<- c(names(Data)[1],names(Data)[2])
       FullDependence[[k]]<-FullDependence.AND
       #Generate a sample of events along the contour. Sample is weighted according to the probabilities
@@ -709,12 +709,12 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
       Ensemble[[k]] <- data.frame(sample.AND)
       #colnames(Ensemble) <- c(names(Data)[1],names(Data)[2])
     }
-
+    
     if(Isoline_Type==Con2){
       ###Combining the two quantile isolines
-
+      
       #In the following lines of code the maximum y-values at each x-value from the two quantile isolines are extracted
-
+      
       #Generate a sequence of x-values at a 0.01 increment starting at the minimum and ending at the maximum points from the two conditional isolines. Round to 2 decimal places.
       x.1<-round(seq(min(Data[,1],con1.prediction.points.ALL[,1],con2.prediction.points.ALL[,1],na.rm = T),max(Data[,1],con1.prediction.points.ALL[,1],con2.prediction.points.ALL[,1],na.rm = T),10^-10^-Decimal_Place),Decimal_Place)
       #Round the x-values  from both quantile isolines to 2 decimal places
@@ -732,40 +732,40 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
                                       max(c(con1.prediction.points.ALL[,2],con2.prediction.points.ALL[,2])),
                                       NA)
       }
-
+      
       #If any x.1 or y.1 elements are 'NA' then remove.
       if(length(which(is.na(y.1)==T))>0){
         x.1<-x.1[-which(is.na(y.1)==TRUE)]
         y.1<-y.1[-which(is.na(y.1)==TRUE)]
       }
-
+      
       #In the following lines of code, the maximum x-values at each y-value from the two quantile isolines are extracted
-
+      
       #Generate a sequence of y-values at a 0.01 increment starting at the minimum and ending at the maximum points from the two conditional isolines. Round to 2 decimal places.
       y.2<-round(seq(min(Data[,2],con1.prediction.points.ALL[,2],con2.prediction.points.ALL[,2],na.rm=T),max(Data[,2],con1.prediction.points.ALL[,2],con2.prediction.points.ALL[,2],na.rm=T),10^-Decimal_Place),Decimal_Place)
       #Round the y-values from both quantile isolines to 2 decimal places
       con1.prediction.points.ALL.Round<-round(con1.prediction.points.ALL[,2],Decimal_Place)
       con2.prediction.points.ALL.Round<-round(con2.prediction.points.ALL[,2],Decimal_Place)
-
+      
       #Find the maximum x-value from the two quantile isolines at each x-value in y.2.
       x.2<-numeric(length(y.2))
       for(i in 1:length(y.2)){
         x.2[i]<-max(round(con1.prediction.points.ALL[,1],2)[which(con1.prediction.points.ALL.Round==y.2[i])])
       }
-
+      
       if(any(x.2==-Inf)==T){
         x.2[which(x.2==-Inf)]<-NA
       }
-
+      
       #If any x.2 or y.2 elements are 'NA' then remove.
       if(length(which(is.na(x.2)==T))>0){
         y.2<-y.2[-which(is.na(x.2)==TRUE)]
         x.2<-x.2[-which(is.na(x.2)==TRUE)]
       }
-
+      
       prediction.points.ALL<-data.frame(c(x.1,x.2),c(y.1,y.2))[-1,]
       colnames(prediction.points.ALL)<-c(names(Data)[1],names(Data)[2])
-
+      
       #Round the points defining the isoline to 2 decimal places.
       prediction.points.ALL[,1]<-round(prediction.points.ALL[,1],Decimal_Place)
       #To ensure each x is only paired withe y value and vice versa we remove any
@@ -786,11 +786,11 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
       Iso<-data.frame(v.x,v.y)
       Iso<-Iso[-which(Iso[,con2]<Thres2),]
       colnames(Iso)<-c(names(Data)[1],names(Data)[2])
-
+      
       #Put the points composing the isoline into a data frame to form part of the function's output.
       Isoline[[k]] <- data.frame(x=Iso[,1],y=Iso[,2])
       #colnames(Isoline) <- c(names(Data)[1],names(Data)[2])
-
+      
       ###Estimate the (relative) probabilty of events along the isoline
       #Estimate the (relative) probability of events along the isoline by applying a KDE to 'cop.sample'
       #i.e. the large sample of events generated from the two fitted copulas (with sample sizes proportional
@@ -801,18 +801,18 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
         cop.sample<-cop.sample[-remove,]
       }
       prediction<-kde(x=cop.sample, eval.points=Iso)$estimate
-
+      
       #(relative) Probabilities implied by the data for the points composing the isoline. Probabilities are scaled to [0,1].
       Contour[[k]] <- (prediction-min(prediction))/(max(prediction)-min(prediction))
-
+      
       ###Extract design event(s)
-
+      
       #Find the 'most likely' design event and add it to the plot (denoted by a diamond).
       #x.MostLikelyEvent.AND[k]<-as.numeric(Iso[which(prediction==max(prediction,na.rm=T)),1])
       MostLikelyEvent.AND<-data.frame(as.numeric(Iso[which(prediction==max(prediction,na.rm=T)),1]),as.numeric(Iso[which(prediction==max(prediction,na.rm=T)),2]))
       colnames(MostLikelyEvent.AND) <- c(names(Data)[1],names(Data)[2])
       MostLikelyEvent[[k]]<-MostLikelyEvent.AND
-
+      
       #Find the design event under the assumption of full dependence and add it to the plot (denoted by a triangle).
       ## if(is.na(GPD1)==T | is.na(GPD2)==T){
       ##  FullDependence.AND<-data.frame(as.numeric(u2gpd(1-EL/(RP[k]), p = 1, th=Thres1 , sigma=exp(GPD_con1$coefficients[1]),xi= GPD_con1$coefficients[2])),
@@ -823,7 +823,7 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
       ##}
       
       FullDependence.AND<-data.frame(max(Iso[,1]),max(Iso[,2]))
-                                     
+      
       colnames(FullDependence.AND)<- c(names(Data)[1],names(Data)[2])
       FullDependence[[k]]<-FullDependence.AND
       #Generate a sample of events along the contour. Sample is weighted according to the probabilities
@@ -834,16 +834,16 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
       Ensemble[[k]] <- data.frame(sample.AND)
       #colnames(Ensemble) <- c(names(Data)[1],names(Data)[2])
     }
-
-
+    
+    
     if(Isoline_Type=="Combined"){
       ###Combining the two quantile isolines
-
+      
       #In the following lines of code the maximum y-values at each x-value from the two quantile isolines are extracted
-
+      
       #Generate a sequence of x-values at a 0.01 increment starting at the minimum and ending at the maximum points from the two conditional isolines. Round to 2 decimal places.
       x.1<-round(seq(min(Data[,1],con1.prediction.points.ALL[,1],con2.prediction.points.ALL[,1],na.rm = T),max(Data[,1],con1.prediction.points.ALL[,1],con2.prediction.points.ALL[,1],na.rm = T),10^-Decimal_Place),Decimal_Place)
-
+      
       #Round the x-values  from both quantile isolines to 2 decimal places
       con1.prediction.points.ALL.Round<-round(con1.prediction.points.ALL[,1],Decimal_Place)
       con2.prediction.points.ALL.Round<-round(con2.prediction.points.ALL[,1],Decimal_Place)
@@ -853,124 +853,124 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
         y.1[i]<-max(con1.prediction.points.ALL[,2][which(con1.prediction.points.ALL.Round==x.1[i])],
                     con2.prediction.points.ALL[,2][which(con2.prediction.points.ALL.Round==x.1[i])])
       }
-
+      
       #If any y.1 elements are '-Inf' then remove.
       if(any(y.1==-Inf)==T){
         y.1[which(y.1==-Inf)]<-ifelse(y.1[which(y.1==-Inf)]==max(y.1,na.rm=T),
                                       max(c(con1.prediction.points.ALL[,2],con2.prediction.points.ALL[,2])),
                                       NA)
       }
-
+      
       #If any x.1 or y.1 elements are 'NA' then remove.
       if(length(which(is.na(y.1)==T))>0){
         x.1<-x.1[-which(is.na(y.1)==TRUE)]
         y.1<-y.1[-which(is.na(y.1)==TRUE)]
       }
-
-     #In the following lines of code, the maximum x-values at each y-value from the two quantile isolines are extracted
-
+      
+      #In the following lines of code, the maximum x-values at each y-value from the two quantile isolines are extracted
+      
       #Generate a sequence of y-values at a 0.01 increment starting at the minimum and ending at the maximum points from the two conditional isolines. Round to 2 decimal places.
       y.2<-round(seq(min(Data[,2],con1.prediction.points.ALL[,2],con2.prediction.points.ALL[,2],na.rm=T),max(Data[,2],con1.prediction.points.ALL[,2],con2.prediction.points.ALL[,2],na.rm=T),10^-Decimal_Place),Decimal_Place)
       #Round the y-values from both quantile isolines to 2 decimal places
       con1.prediction.points.ALL.Round<-round(con1.prediction.points.ALL[,2],Decimal_Place)
       con2.prediction.points.ALL.Round<-round(con2.prediction.points.ALL[,2],Decimal_Place)
-
-     #Find the maximum x-value from the two quantile isolines at each x-value in y.2.
-     x.2<-numeric(length(y.2))
-     for(i in 1:length(y.2)){
-         x.2[i]<-max(con1.prediction.points.ALL[,1][which(con1.prediction.points.ALL.Round==y.2[i])],
-                     con2.prediction.points.ALL[,1][which(con2.prediction.points.ALL.Round==y.2[i])])
-     }
-
-     if(any(x.2==-Inf)==T){
-         x.2[which(x.2==-Inf)]<-NA
+      
+      #Find the maximum x-value from the two quantile isolines at each x-value in y.2.
+      x.2<-numeric(length(y.2))
+      for(i in 1:length(y.2)){
+        x.2[i]<-max(con1.prediction.points.ALL[,1][which(con1.prediction.points.ALL.Round==y.2[i])],
+                    con2.prediction.points.ALL[,1][which(con2.prediction.points.ALL.Round==y.2[i])])
       }
-
-     #If any x.2 or y.2 elements are 'NA' then remove.
-        if(length(which(is.na(x.2)==T))>0){
-          y.2<-y.2[-which(is.na(x.2)==TRUE)]
-          x.2<-x.2[-which(is.na(x.2)==TRUE)]
-        }
-
-
-        prediction.points.ALL<-data.frame(c(x.1,x.2),c(y.1,y.2))[-1,]
-        colnames(prediction.points.ALL)<-c(names(Data)[1],names(Data)[2])
-
-        #Round the points defining the isoline to 2 decimal places.
-        prediction.points.ALL[,1]<-round(prediction.points.ALL[,1],Decimal_Place)
-        #To ensure each x is only paired withe y value and vice versa we remove any
-        prediction.points.ALL<-prediction.points.ALL[!duplicated(prediction.points.ALL[,1]), ]
-        if(End==T){
+      
+      if(any(x.2==-Inf)==T){
+        x.2[which(x.2==-Inf)]<-NA
+      }
+      
+      #If any x.2 or y.2 elements are 'NA' then remove.
+      if(length(which(is.na(x.2)==T))>0){
+        y.2<-y.2[-which(is.na(x.2)==TRUE)]
+        x.2<-x.2[-which(is.na(x.2)==TRUE)]
+      }
+      
+      
+      prediction.points.ALL<-data.frame(c(x.1,x.2),c(y.1,y.2))[-1,]
+      colnames(prediction.points.ALL)<-c(names(Data)[1],names(Data)[2])
+      
+      #Round the points defining the isoline to 2 decimal places.
+      prediction.points.ALL[,1]<-round(prediction.points.ALL[,1],Decimal_Place)
+      #To ensure each x is only paired withe y value and vice versa we remove any
+      prediction.points.ALL<-prediction.points.ALL[!duplicated(prediction.points.ALL[,1]), ]
+      if(End==T){
         prediction.points.ALL<-rbind(con2.prediction.points.ALL[1,],prediction.points.ALL,con1.prediction.points.ALL[nrow(con1.prediction.points.ALL),])
-        }
-        #Order the rows in terms of magnitude of the x-values.
-        z<-order(prediction.points.ALL[,1])
-        prediction.points.ALL.1<-(prediction.points.ALL[z,1]-min(prediction.points.ALL[z,1]))/(max(prediction.points.ALL[z,1])-min(prediction.points.ALL[z,1]))
-        prediction.points.ALL.2<-(prediction.points.ALL[z,2]-min(prediction.points.ALL[z,2]))/(max(prediction.points.ALL[z,2])-min(prediction.points.ALL[z,2]))
-        #Calculate the distance between adjacent points on the isoline.
-        x.diff<-c(0,diff(prediction.points.ALL.1))
-        y.diff<-c(0,diff(prediction.points.ALL.2))
-        d<-sqrt(x.diff^2 + y.diff^2)
-        #Linearly interpolate the x values with respect to their cumulative distance along the isoline.
-        v.x<-approx(x=cumsum(d),y=prediction.points.ALL.1,xout=seq(0,sum(d),length.out=Interval))$y*(max(prediction.points.ALL[z,1])-min(prediction.points.ALL[z,1]))+min(prediction.points.ALL[z,1])
-        #Linearly interpolate the y values with respect to their cumulative distance along the isoline.
-        v.y<-approx(x=cumsum(d),y=prediction.points.ALL.2,xout=seq(0,sum(d),length.out=Interval))$y*(max(prediction.points.ALL[z,2])-min(prediction.points.ALL[z,2]))+min(prediction.points.ALL[z,2])
-        ##plot(prediction.points.ALL.1,cumsum(d))
-        Iso<-data.frame(v.x,v.y)
-        colnames(Iso)<-c(names(Data)[1],names(Data)[2])
-        #Put the points composing the isoline into a data frame to form part of the function's output.
-        Isoline[[k]] <- data.frame(x=Iso[,1],y=Iso[,2])
-        #colnames(Isoline) <- c(names(Data)[1],names(Data)[2])
-
-        ###Estimate the (relative) probabilty of events along the isoline
-        #Estimate the (relative) probability of events along the isoline by applying a KDE to 'cop.sample'
-        #i.e. the large sample of events generated from the two fitted copulas (with sample sizes proportional
-        #to the size of the two conditional samples) and transformed back to the original scale. These probabilities are
-        #used as estimates of the relative probability of the points on the isoline according to the original data.
-        remove<-which(cop.sample[,1] > Sim_Max*max(Data[,1],na.rm=T) | cop.sample[,2] > Sim_Max*max(Data[,2],na.rm=T))
-        if(length(remove)>1){
-          cop.sample<-cop.sample[-remove,]
-        }
-        prediction<-kde(x=cop.sample, eval.points=Iso)$estimate
-        #(relative) Probabilities implied by the data for the points composing the isoline. Probabilities are scaled to [0,1].
-        Contour[[k]] <- (prediction-min(prediction))/(max(prediction)-min(prediction))
-
-        ###Extract design event(s)
-
-        #Find the 'most likely' design event and add it to the plot (denoted by a diamond).
-        MostLikelyEvent.AND<-data.frame(as.numeric(Iso[which(prediction==max(prediction,na.rm=T)),1]),as.numeric(Iso[which(prediction==max(prediction,na.rm=T)),2]))
-        colnames(MostLikelyEvent.AND) <- c(names(Data)[1],names(Data)[2])
-        MostLikelyEvent[[k]]<-MostLikelyEvent.AND
-
-        #Find the design event under the assumption of full dependence and add it to the plot (denoted by a triangle).
-        ##if(is.na(GPD1)==T | is.na(GPD2)==T){
-        ## FullDependence.AND<-data.frame(as.numeric(u2gpd(1-EL/(RP[k]), p = 1, th=Thres1 , sigma=exp(GPD_con1$coefficients[1]),xi= GPD_con1$coefficients[2])),
-        ##                                as.numeric(u2gpd(1-EL/(RP[k]), p = 1, th=Thres2 , sigma=exp(GPD_con2$coefficients[1]),xi= GPD_con2$coefficients[2])))
-        ## }else{
-        ##  FullDependence.AND<-data.frame(as.numeric(u2gpd(1-1/(RP[k]*mu), p = GPD1$Rate, th = GPD1$Threshold, sigma = GPD1$sigma, xi = GPD1$xi)),
-        ##                                 as.numeric(u2gpd(1-1/(RP[k]*mu), p = GPD2$Rate, th = GPD2$Threshold, sigma = GPD2$sigma, xi = GPD2$xi)))
-        ##}
-        FullDependence.AND<-data.frame(max(Iso[,1]),max(Iso[,2]))
-        colnames(FullDependence.AND)<- c(names(Data)[1],names(Data)[2])
-        FullDependence[[k]]<-FullDependence.AND
-        #Generate a sample of events along the contour. Sample is weighted according to the probabilities
-        #given by the KDE estimate for each point on the isoline. Sample size is N_Ensemble.
-        sample.AND <- Iso[sample(1:length(prediction[prediction>0]),size = N_Ensemble, replace = TRUE, prob=prediction[prediction>0]),]
-        colnames(sample.AND) <- c(names(Data)[1],names(Data)[2])
-        #Put the ensemble of design event into a data frame to form part of the function's output.
-        Ensemble[[k]] <- data.frame(sample.AND)
-        #colnames(Ensemble) <- c(names(Data)[1],names(Data)[2])
       }
+      #Order the rows in terms of magnitude of the x-values.
+      z<-order(prediction.points.ALL[,1])
+      prediction.points.ALL.1<-(prediction.points.ALL[z,1]-min(prediction.points.ALL[z,1]))/(max(prediction.points.ALL[z,1])-min(prediction.points.ALL[z,1]))
+      prediction.points.ALL.2<-(prediction.points.ALL[z,2]-min(prediction.points.ALL[z,2]))/(max(prediction.points.ALL[z,2])-min(prediction.points.ALL[z,2]))
+      #Calculate the distance between adjacent points on the isoline.
+      x.diff<-c(0,diff(prediction.points.ALL.1))
+      y.diff<-c(0,diff(prediction.points.ALL.2))
+      d<-sqrt(x.diff^2 + y.diff^2)
+      #Linearly interpolate the x values with respect to their cumulative distance along the isoline.
+      v.x<-approx(x=cumsum(d),y=prediction.points.ALL.1,xout=seq(0,sum(d),length.out=Interval))$y*(max(prediction.points.ALL[z,1])-min(prediction.points.ALL[z,1]))+min(prediction.points.ALL[z,1])
+      #Linearly interpolate the y values with respect to their cumulative distance along the isoline.
+      v.y<-approx(x=cumsum(d),y=prediction.points.ALL.2,xout=seq(0,sum(d),length.out=Interval))$y*(max(prediction.points.ALL[z,2])-min(prediction.points.ALL[z,2]))+min(prediction.points.ALL[z,2])
+      ##plot(prediction.points.ALL.1,cumsum(d))
+      Iso<-data.frame(v.x,v.y)
+      colnames(Iso)<-c(names(Data)[1],names(Data)[2])
+      #Put the points composing the isoline into a data frame to form part of the function's output.
+      Isoline[[k]] <- data.frame(x=Iso[,1],y=Iso[,2])
+      #colnames(Isoline) <- c(names(Data)[1],names(Data)[2])
+      
+      ###Estimate the (relative) probabilty of events along the isoline
+      #Estimate the (relative) probability of events along the isoline by applying a KDE to 'cop.sample'
+      #i.e. the large sample of events generated from the two fitted copulas (with sample sizes proportional
+      #to the size of the two conditional samples) and transformed back to the original scale. These probabilities are
+      #used as estimates of the relative probability of the points on the isoline according to the original data.
+      remove<-which(cop.sample[,1] > Sim_Max*max(Data[,1],na.rm=T) | cop.sample[,2] > Sim_Max*max(Data[,2],na.rm=T))
+      if(length(remove)>1){
+        cop.sample<-cop.sample[-remove,]
+      }
+      prediction<-kde(x=cop.sample, eval.points=Iso)$estimate
+      #(relative) Probabilities implied by the data for the points composing the isoline. Probabilities are scaled to [0,1].
+      Contour[[k]] <- (prediction-min(prediction))/(max(prediction)-min(prediction))
+      
+      ###Extract design event(s)
+      
+      #Find the 'most likely' design event and add it to the plot (denoted by a diamond).
+      MostLikelyEvent.AND<-data.frame(as.numeric(Iso[which(prediction==max(prediction,na.rm=T)),1]),as.numeric(Iso[which(prediction==max(prediction,na.rm=T)),2]))
+      colnames(MostLikelyEvent.AND) <- c(names(Data)[1],names(Data)[2])
+      MostLikelyEvent[[k]]<-MostLikelyEvent.AND
+      
+      #Find the design event under the assumption of full dependence and add it to the plot (denoted by a triangle).
+      ##if(is.na(GPD1)==T | is.na(GPD2)==T){
+      ## FullDependence.AND<-data.frame(as.numeric(u2gpd(1-EL/(RP[k]), p = 1, th=Thres1 , sigma=exp(GPD_con1$coefficients[1]),xi= GPD_con1$coefficients[2])),
+      ##                                as.numeric(u2gpd(1-EL/(RP[k]), p = 1, th=Thres2 , sigma=exp(GPD_con2$coefficients[1]),xi= GPD_con2$coefficients[2])))
+      ## }else{
+      ##  FullDependence.AND<-data.frame(as.numeric(u2gpd(1-1/(RP[k]*mu), p = GPD1$Rate, th = GPD1$Threshold, sigma = GPD1$sigma, xi = GPD1$xi)),
+      ##                                 as.numeric(u2gpd(1-1/(RP[k]*mu), p = GPD2$Rate, th = GPD2$Threshold, sigma = GPD2$sigma, xi = GPD2$xi)))
+      ##}
+      FullDependence.AND<-data.frame(max(Iso[,1]),max(Iso[,2]))
+      colnames(FullDependence.AND)<- c(names(Data)[1],names(Data)[2])
+      FullDependence[[k]]<-FullDependence.AND
+      #Generate a sample of events along the contour. Sample is weighted according to the probabilities
+      #given by the KDE estimate for each point on the isoline. Sample size is N_Ensemble.
+      sample.AND <- Iso[sample(1:length(prediction[prediction>0]),size = N_Ensemble, replace = TRUE, prob=prediction[prediction>0]),]
+      colnames(sample.AND) <- c(names(Data)[1],names(Data)[2])
+      #Put the ensemble of design event into a data frame to form part of the function's output.
+      Ensemble[[k]] <- data.frame(sample.AND)
+      #colnames(Ensemble) <- c(names(Data)[1],names(Data)[2])
     }
-
+  }
+  
   ###Plot the isoline
-
+  
   #Find the minimum and maximum x- and y-axis limits for the plot. If the limits are not specified in the input use the minimum and maximum values of the Data.
   x_min<-ifelse(is.na(x_lim_min)==T,min(na.omit(Data[,con1])),x_lim_min)
   x_max<-ifelse(is.na(x_lim_max)==T,max(na.omit(Data[,con1])),x_lim_max)
   y_min<-ifelse(is.na(y_lim_min)==T,min(na.omit(Data[,con2])),y_lim_min)
   y_max<-ifelse(is.na(y_lim_max)==T,max(na.omit(Data[,con2])),y_lim_max)
-
+  
   #Plot
   par(mar=c(4.5,4.2,0.5,0.5))
   plot(Data[, con1], Data[, con2], xlim = c(x_min, x_max), ylim = c(y_min, y_max), col = "Light Grey",xlab = x_lab, ylab = y_lab, cex.lab = 1.5, cex.axis = 1.5)

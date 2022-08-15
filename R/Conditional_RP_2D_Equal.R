@@ -83,13 +83,13 @@ Conditional_RP_2D_Equal<-function(Data, Data_Con1, Data_Con2, Thres1, Thres2, Co
                                   y_lab = "O-sWL (mNGVD 29)", x_lim_min = NA, x_lim_max = NA,
                                   y_lim_min = NA, y_lim_max = NA, N){
   ###Preliminaries
-
+  
   #Remove 1st column of Data if it is a Date or factor object.
   if (class(Data[, 1]) == "Date" | class(Data[, 1]) ==
       "factor") {
     Data <- Data[, -1]
   }
-
+  
   #Find the columns in Data (which should be consistent in terms of column order of the other data input objects)
   #of conditioning variable 1 (Con1) and conditioning variable 2 (Con2).
   con1 <- which(names(Data) == Con1)
@@ -97,13 +97,13 @@ Conditional_RP_2D_Equal<-function(Data, Data_Con1, Data_Con2, Thres1, Thres2, Co
   con_var <-which(names(Data) == Con_Var)
   RP_Var1<-ifelse(con_var==1,RP_Con,RP_Non_Con)
   RP_Var2<-ifelse(con_var==2,RP_Con,RP_Non_Con)
-
+  
   #Axis limits for plots
   x_min <- ifelse(is.na(x_lim_min) == T, min(na.omit(Data[, con1])), x_lim_min)
   x_max <- ifelse(is.na(x_lim_max) == T, max(na.omit(Data[, con1])), x_lim_max)
   y_min <- ifelse(is.na(y_lim_min) == T, min(na.omit(Data[,con2])), y_lim_min)
   y_max <- ifelse(is.na(y_lim_max) == T, max(na.omit(Data[,con2])), y_lim_max)
-
+  
   ##Finding the value of variable con1 associated with a return peroid of RP_Var1
   #Fitting the GPD
   GPD_con1 <- evm(Data_Con1[, con1], th = quantile(na.omit(Data[,con1]), Thres1), penalty = "gaussian", priorParameters = list(c(0,0), matrix(c(100^2, 0, 0, 0.25), nrow = 2)))
@@ -115,7 +115,7 @@ Conditional_RP_2D_Equal<-function(Data, Data_Con1, Data_Con2, Thres1, Thres2, Co
   EL_Con1<-1/rate
   #Value of con1 with return period RP_Var1
   Var1<-as.numeric(u2gpd((1-EL_Con1/RP_Var1), p = 1, th=quantile(na.omit(Data[,con1]),Thres1) , sigma=exp(GPD_con1$coefficients[1]),xi= GPD_con1$coefficients[2]))
-
+  
   ##Fit the specified marginal distribution (Marginal_Dist1) to the variable con2 in Data_Con1.
   if (Marginal_Dist1 == "BS") {
     bdata2 <- data.frame(shape = exp(-0.5), scale = exp(0.5))
@@ -167,7 +167,7 @@ Conditional_RP_2D_Equal<-function(Data, Data_Con1, Data_Con2, Thres1, Thres2, Co
   if (Marginal_Dist1 == "Weib") {
     marginal_non_con1 <- fitdistr(Data_Con1[, con2], "weibull")
   }
-
+  
   ##Finding the value of variable con2 associated with a return peroid of RP_Var2
   #Fitting the GPD to con2 in Data_Con2
   GPD_con2 <- evm(Data_Con2[, con2], th = quantile(na.omit(Data[,con2]), Thres2), penalty = "gaussian", priorParameters = list(c(0, 0), matrix(c(100^2, 0, 0, 0.25), nrow = 2)))
@@ -179,7 +179,7 @@ Conditional_RP_2D_Equal<-function(Data, Data_Con1, Data_Con2, Thres1, Thres2, Co
   EL_Con2<-1/rate
   #Value of con2 with return period RP_Var2
   Var2<-as.numeric(u2gpd((1-EL_Con2/RP_Var2), p = 1, th=quantile(na.omit(Data[,con2]),Thres2) , sigma=exp(GPD_con2$coefficients[1]),xi= GPD_con2$coefficients[2]))
-
+  
   ##Fit the specified marginal distribution (Marginal_Dist2) to the non-conditioned variable con1 in Data_Con2.
   if (Marginal_Dist2 == "BS") {
     bdata2 <- data.frame(shape = exp(-0.5), scale = exp(0.5))
@@ -231,7 +231,7 @@ Conditional_RP_2D_Equal<-function(Data, Data_Con1, Data_Con2, Thres1, Thres2, Co
   if (Marginal_Dist2 == "Weib") {
     marginal_non_con2 <- fitdistr(Data_Con2[, con1], "weibull")
   }
-
+  
   ###Simulating sample from the joint distribution (copula+marginals) fit to the sample conditioned on Con1
   #Fit the specified copula family (Copula_Family1) to the observations in Data_Con1.
   obj1 <- BiCopSelect(pobs(Data_Con1[, 1]), pobs(Data_Con1[,2]), familyset = Copula_Family1, selectioncrit = "AIC",
@@ -244,7 +244,7 @@ Conditional_RP_2D_Equal<-function(Data, Data_Con1, Data_Con2, Thres1, Thres2, Co
   #Transform the realizations of the variable con1 to the original scale using the inverse CDF (quantile function)
   #of the GPD contained in the u2gpd function.
   cop.sample1.con <- u2gpd(sample[, con1], p = 1, th = quantile(na.omit(Data[,con1]), Thres1), sigma = exp(GPD_con1$coefficients[1]),xi = GPD_con1$coefficients[2])
-
+  
   #Transform the realizations of variable con2 to the original scale using the inverse CDF (quantile function)
   #of the selected parametric (non-extreme value) distribution (Marginal_Dist1)
   if (Marginal_Dist1 == "BS") {
@@ -308,7 +308,7 @@ Conditional_RP_2D_Equal<-function(Data, Data_Con1, Data_Con2, Thres1, Thres2, Co
   #Put the realizations that have been transformed to the original scale in a data frame.
   cop.sample1 <- data.frame(cop.sample1.con, cop.sample1.non.con)
   colnames(cop.sample1) <- c("Var1", "Var2")
-
+  
   ###Simulating sample from the joint distribution (copula+marginals) fit to the sample conditioned on Con2
   #Fit the specified copula family (Copula_Family2) to the observations in Data_Con2.
   obj2 <- BiCopSelect(pobs(Data_Con2[, 1]), pobs(Data_Con2[,
@@ -321,7 +321,7 @@ Conditional_RP_2D_Equal<-function(Data, Data_Con1, Data_Con2, Thres1, Thres2, Co
   #Transform the realizations of variable con2 to the original scale using the inverse CDF (quantile function)
   #of the GPD contained in the u2gpd function.
   cop.sample2.con <- u2gpd(sample[, con2], p = 1, th = quantile(na.omit(Data[,con2]), Thres2), sigma = exp(GPD_con2$coefficients[1]),xi = GPD_con2$coefficients[2])
-
+  
   #Transform the realizations of variable con1 to the original scale using the inverse CDF (quantile function)
   #of the selected parametric (non-extreme value) distribution (Marginal_Dist2)
   if (Marginal_Dist2 == "BS") {
@@ -385,10 +385,10 @@ Conditional_RP_2D_Equal<-function(Data, Data_Con1, Data_Con2, Thres1, Thres2, Co
   #Put the realizations that have been transformed to the original scale in a data frame.
   cop.sample2 <- data.frame(cop.sample2.non.con, cop.sample2.con)
   colnames(cop.sample2) <- c("Var1", "Var2")
-
+  
   #Combine the data frames containg the samples from two joint models (on the original scale)
   cop.sample <- rbind(cop.sample1, cop.sample2)
-
+  
   ##Calculating the joint probability
   #Joint probability from the model conditioned on Con1
   RP_Con1<-(EL_Con1/(1-(1-EL_Con1/RP_Var1)-(1-EL_Con1/RP_Var2)+BiCopCDF(1-EL_Con1/RP_Var1, 1-EL_Con1/RP_Var2, obj1)))
@@ -396,7 +396,7 @@ Conditional_RP_2D_Equal<-function(Data, Data_Con1, Data_Con2, Thres1, Thres2, Co
   RP_Con2<-(EL_Con2/(1-(1-EL_Con2/RP_Var1)-(1-EL_Con2/RP_Var2)+BiCopCDF(1-EL_Con2/RP_Var1, 1-EL_Con2/RP_Var2, obj2)))
   #Joint return period will be maximum of the retunr periods from the two models
   RP_Copula<-max(RP_Con1,RP_Con2)
-
+  
   #Plotting the results so far
   par(mfrow = c(2, 2))
   par(mar = c(4.5, 4.2, 0.5, 0.5))
@@ -412,7 +412,7 @@ Conditional_RP_2D_Equal<-function(Data, Data_Con1, Data_Con2, Thres1, Thres2, Co
   axis(1,Var1,labels=paste(round(Var1,2)),line=1.2)
   segments(0,Var2,Var1,Var2,lty=2)
   axis(2,Var2,labels=paste(round(Var2,2)),line=1.2)
-
+  
   ##Calculating the conditional probabilities using a simulation approach
   if(con_var==con1){
     #plot(cop.sample[, con1],
@@ -440,7 +440,7 @@ Conditional_RP_2D_Equal<-function(Data, Data_Con1, Data_Con2, Thres1, Thres2, Co
     #Number of realizations where the conditioned variable is in [Var1-width,Var1+width]
     N_Sub_Sample<-length(which(cop.sample[,con1]>(Var1-Width) & cop.sample[,con1]<(Var1+Width)))
   }
-
+  
   if(con_var==con2){
     #plot(cop.sample[, con1], cop.sample[, con2], xlim = c(min(cop.sample[, con1]), max(cop.sample[, con1])),
     #     ylim = c(min(cop.sample[, con2]), max(cop.sample[, con2])), col = "Light Grey", xlab = x_lab,
@@ -455,7 +455,7 @@ Conditional_RP_2D_Equal<-function(Data, Data_Con1, Data_Con2, Thres1, Thres2, Co
     hist(cop.sample[which(cop.sample[,con2]>(Var2-Width) & cop.sample[,con2]<(Var2+Width)),con1],
          cex.lab = 1.5, cex.axis = 1.5,freq=F,main="", xlab = y_lab,col="Grey")
     #Cummulative distribution function (CDF) of the non-conditioned variable when the conditioning variable is approximately Var2 i.e. [Var2-width,Var2+width]
-        CDF_Var<-approx(seq(1,length(which(cop.sample[,con2]>(Var2-Width) & cop.sample[,con2]<(Var2+Width))),1)/length(which(cop.sample[,con2]>(Var2-Width) & cop.sample[,con2]<(Var2+Width))),
+    CDF_Var<-approx(seq(1,length(which(cop.sample[,con2]>(Var2-Width) & cop.sample[,con2]<(Var2+Width))),1)/length(which(cop.sample[,con2]>(Var2-Width) & cop.sample[,con2]<(Var2+Width))),
                     cop.sample[which(cop.sample[,con2]>(Var2-Width) & cop.sample[,con2]<(Var2+Width)),con1][order(cop.sample[which(cop.sample[,con2]>(Var2-Width) & cop.sample[,con2]<(Var2+Width)),con1])],
                     seq(round(min(1/length(which(cop.sample[,con2]>(Var2-Width) & cop.sample[,con2]<(Var2+Width)))+0.0005),3),1,0.001))
     #Plotting the conditional CDF
@@ -466,7 +466,7 @@ Conditional_RP_2D_Equal<-function(Data, Data_Con1, Data_Con2, Thres1, Thres2, Co
     #Number of realizations where the conditioned variable is in [Var2-width,Var2+width]
     N_Sub_Sample<-length(which(cop.sample[,con2]>(Var2-Width) & cop.sample[,con2]<(Var2+Width)))
   }
-
+  
   #Create a list of outputs.
   res<-list(Con_Var=Con_Var,
             RP_Var1=RP_Var1,RP_Var2=RP_Var2,

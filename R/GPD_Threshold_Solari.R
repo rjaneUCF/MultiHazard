@@ -54,20 +54,20 @@
 #' GPD_Threshold_Solari(Event=Rainfall_Declust_SW$Declustered,
 #'                      Data=22.Detrend.df[,2])
 GPD_Threshold_Solari<-function(Event,Data,RPs=c(10,50,100,500,1000),RPs_PLOT=c(2,3,4),Min_Quantile=0.95,Alpha=0.1,mu=365.25,N_Sim=10){
-
+  
   # Loads the p-values matrix
   p_val <- array(c(PVAL_AU2_LMOM_1$PVAL,PVAL_AU2_LMOM_2$PVAL,PVAL_AU2_LMOM_3$PVAL,PVAL_AU2_LMOM_4$PVAL),dim=c(24,6,100001))
-
+  
   # Removing NAs in Data
   Data = na.omit(Data)
-
+  
   # Auxiliary variables
   N_Years = length(Data)/mu
-
+  
   # POT with L-moments and with bootstrapping confidence intervals
   Event = na.omit(Event)
   Event = sort(Event[Event>quantile(Data,Min_Quantile)])
-
+  
   # initialize variables
   u_Candidate         = sort(Event)
   u_Candidate         = u_Candidate[1:(length(u_Candidate)-30)]
@@ -79,11 +79,11 @@ GPD_Threshold_Solari<-function(Event,Data,RPs=c(10,50,100,500,1000),RPs_PLOT=c(2
   CI.Lower      = array(0,dim=c(N_u_Candidate,6+length(RPs)))
   AR2           = rep(NA,N_u_Candidate)
   AR2.pValue    = rep(NA,N_u_Candidate)
-
+  
   # Analysis
   for(i in 1:N_u_Candidate){
     GPD.MLE[i,] = unlist(GPD_Eval_MLE(Event[Event>u_Candidate[i]],RPs,N_Years))
-
+    
     # Bootstraping
     BOOT = array(0,dim=c(N_Sim,length(GPD.MLE[i,])))
     for(J in 1:N_Sim){
@@ -93,10 +93,10 @@ GPD_Threshold_Solari<-function(Event,Data,RPs=c(10,50,100,500,1000),RPs_PLOT=c(2
         }, silent = TRUE)
       }
     }
-
+    
     CI.Upper[i,] =  apply(BOOT, 2,  quantile, 1-Alpha/2)
     CI.Lower[i,] =  apply(BOOT, 2,  quantile, Alpha/2)
-
+    
     # Anderson-Darling Upper without confidence intervals for L-Moments
     AR2[i] = AR2(GPD.MLE[i,1:3],Event[Event>u_Candidate[i]])
     x_AR2 <- c(10,12,14,16,18,20,22,24,26,28,30,35,40,45,50,60,70,80,90,100,200,300,400,500)
@@ -116,7 +116,7 @@ GPD_Threshold_Solari<-function(Event,Data,RPs=c(10,50,100,500,1000),RPs_PLOT=c(2
     AR2.pValue[i] <- ((y-y.min)/(y.max-y.min)) *  f.x.ymax + ((y.max-y)/(y.max-y.min)) * f.x.ymin
   }
   colnames(GPD.MLE)<-c("xi","sigma","u","MRLP","mod_sigma","rate",paste(RPs))
-
+  
   RPs<-as.character(RPs)
   z<-which(GPD.MLE[,1]>-0.5 & GPD.MLE[,1]<0.5 & GPD.MLE[,6]<(length(na.omit(Data)/365.25)))
   par(mfrow=c(3,3))
@@ -151,10 +151,10 @@ GPD_Threshold_Solari<-function(Event,Data,RPs=c(10,50,100,500,1000),RPs_PLOT=c(2
   plot(u_Candidate[z],AR2.pValue[z],type="l",ylim=c(min(AR2.pValue[z]),max(AR2.pValue[z])),xlab="Threshold",ylab=expression('1-p'[value]))
   #Events per year
   plot(u_Candidate[z],GPD.MLE[z,6],type="l",ylim=c(0,max(GPD.MLE[z,6])),xlab="Threshold",ylab="Events per year")
-
+  
   ecdf_fun <- function(x,perc) ecdf(x)(perc)
   u_Candidate_Quantile<-ecdf_fun(Data,Event)
-
+  
   Candidate_Thres<-u_Candidate[z][which(AR2.pValue[z]==min(AR2.pValue[z]))]
   res<-list("Thres_Candidate"=u_Candidate,"Thres_Candidate_Quantile"=u_Candidate_Quantile,"GPD_MLE"=GPD.MLE,"CI_Upper"=CI.Upper,"CI_Lower"=CI.Lower,"AR2"=AR2,"AR2_pValue"=AR2.pValue,"Candidate_Thres"=Candidate_Thres)
   return(res)
