@@ -151,7 +151,7 @@ GPD_Threshold_Solari<-function(Event,Data,RPs=c(10,50,100,500,1000),RPs_PLOT=c(2
   plot(u_Candidate[z],AR2.pValue[z],type="l",ylim=c(min(AR2.pValue[z]),max(AR2.pValue[z])),xlab="Threshold",ylab=expression('1-p'[value]))
   #Events per year
   plot(u_Candidate[z],GPD.MLE[z,6],type="l",ylim=c(0,max(GPD.MLE[z,6])),xlab="Threshold",ylab="Events per year")
-  
+  par(mfrow=c(1,1))
   ecdf_fun <- function(x,perc) ecdf(x)(perc)
   u_Candidate_Quantile<-ecdf_fun(Data,Event)
   

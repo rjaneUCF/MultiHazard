@@ -153,7 +153,7 @@ GPD_Threshold_Solari_Sel<-function(Event,Data,Solari_Output,Thres,Alpha=0.1,N_Si
        xlim=c(min(Solari_Output$GPD_MLE[z,which(colnames(Solari_Output$GPD_MLE)==RP_Plot)])-diff(range(Solari_Output$GPD_MLE[z,which(colnames(Solari_Output$GPD_MLE)==RP_Plot)]))/4,
               max(Solari_Output$GPD_MLE[z,which(colnames(Solari_Output$GPD_MLE)==RP_Plot)])+diff(range(Solari_Output$GPD_MLE[z,which(colnames(Solari_Output$GPD_MLE)==RP_Plot)]))/4),
        lwd=2,xlab="",ylab="",xaxt='n',yaxt='n')
-  
+  par(mfrow=c(1,1))
   names(Estimate)<-c("xi","sigma","Thres","rate",as.character(RP))
   res<-list(Estimate=Estimate,CI_Lower=CI.Lower,CI_Upper=CI.Upper,BOOT=BOOT)
   return(res)
