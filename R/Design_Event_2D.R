@@ -769,6 +769,7 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
       prediction.points.ALL[,1]<-round(prediction.points.ALL[,1],Decimal_Place)
       #To ensure each x is only paired withe y value and vice versa we remove any
       prediction.points.ALL<-prediction.points.ALL[!duplicated(prediction.points.ALL[,1]), ]
+      print(summary(prediction.points.ALL))
       #Order the rows in terms of magnitude of the x-values.
       z<-order(prediction.points.ALL[,1])
       prediction.points.ALL.1<-(prediction.points.ALL[z,1]-min(prediction.points.ALL[z,1]))/(max(prediction.points.ALL[z,1])-min(prediction.points.ALL[z,1]))
@@ -785,7 +786,8 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
       Iso<-data.frame(v.x,v.y)
       Iso<-Iso[-which(Iso[,con2]<Thres2),]
       colnames(Iso)<-c(names(Data)[1],names(Data)[2])
-      
+      print("Iso")
+      print(summary(Iso))
       #Put the points composing the isoline into a data frame to form part of the function's output.
       Isoline[[k]] <- data.frame(x=Iso[,1],y=Iso[,2])
       #colnames(Isoline) <- c(names(Data)[1],names(Data)[2])
