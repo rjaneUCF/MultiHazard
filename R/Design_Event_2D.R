@@ -586,7 +586,7 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
     Quantile_Isoline_1[[k]]<-con1.prediction.points.ALL
     Quantile_Isoline_2[[k]]<-con2.prediction.points.ALL
     
-    if(Isoline_Type==Con1){
+    if(Isoline_Type=="Con1"){
       ###Combining the two quantile isolines
       
       #In the following lines of code the maximum y-values at each x-value from the two quantile isolines are extracted
@@ -710,7 +710,7 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
       #colnames(Ensemble) <- c(names(Data)[1],names(Data)[2])
     }
     
-    if(Isoline_Type==Con2){
+    if(Isoline_Type=="Con2"){
       ###Combining the two quantile isolines
       
       #In the following lines of code the maximum y-values at each x-value from the two quantile isolines are extracted
