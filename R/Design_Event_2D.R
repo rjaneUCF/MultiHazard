@@ -736,7 +736,8 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
         x.1<-x.1[-which(is.na(y.1)==TRUE)]
         y.1<-y.1[-which(is.na(y.1)==TRUE)]
       }
-      
+      print(summary(x.1))
+      print(summary(y.1))
       #In the following lines of code, the maximum x-values at each y-value from the two quantile isolines are extracted
       
       #Generate a sequence of y-values at a 0.01 increment starting at the minimum and ending at the maximum points from the two conditional isolines. Round to 2 decimal places.
@@ -763,7 +764,7 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
       
       prediction.points.ALL<-data.frame(c(x.1,x.2),c(y.1,y.2))[-1,]
       colnames(prediction.points.ALL)<-c(names(Data)[1],names(Data)[2])
-      
+       print(summary(prediction.points.ALL))
       #Round the points defining the isoline to 2 decimal places.
       prediction.points.ALL[,1]<-round(prediction.points.ALL[,1],Decimal_Place)
       #To ensure each x is only paired withe y value and vice versa we remove any
@@ -864,8 +865,7 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
         x.1<-x.1[-which(is.na(y.1)==TRUE)]
         y.1<-y.1[-which(is.na(y.1)==TRUE)]
       }
-      print(summary(x.1))
-      print(summary(y.1))
+
       #In the following lines of code, the maximum x-values at each y-value from the two quantile isolines are extracted
       
       #Generate a sequence of y-values at a 0.01 increment starting at the minimum and ending at the maximum points from the two conditional isolines. Round to 2 decimal places.
@@ -894,7 +894,7 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
    
       prediction.points.ALL<-data.frame(c(x.1,x.2),c(y.1,y.2))[-1,]
       colnames(prediction.points.ALL)<-c(names(Data)[1],names(Data)[2])
-      print(summary(prediction.points.ALL))
+     
       #Round the points defining the isoline to 2 decimal places.
       prediction.points.ALL[,1]<-round(prediction.points.ALL[,1],Decimal_Place)
       #To ensure each x is only paired withe y value and vice versa we remove any
