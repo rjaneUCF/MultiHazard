@@ -763,7 +763,7 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
         x.2<-x.2[-which(is.na(x.2)==TRUE)]
       }
       
-      prediction.points.ALL<-data.frame(c(x.1,x.2),c(y.1,y.2))[-1,]
+      prediction.points.ALL<-data.frame(c(x.1,x.2),c(y.1,y.2))
       colnames(prediction.points.ALL)<-c(names(Data)[1],names(Data)[2])
      
       #Round the points defining the isoline to 2 decimal places.
