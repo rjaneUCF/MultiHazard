@@ -800,7 +800,7 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
         cop.sample<-cop.sample[-remove,]
       }
       prediction<-kde(x=cop.sample, eval.points=Iso)$estimate
-      
+      print(summary(prediction))
       #(relative) Probabilities implied by the data for the points composing the isoline. Probabilities are scaled to [0,1].
       Contour[[k]] <- (prediction-min(prediction))/(max(prediction)-min(prediction))
       
@@ -822,12 +822,12 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
       ##}
       
       FullDependence.AND<-data.frame(max(Iso[,1]),max(Iso[,2]))
-      
+      print(FullDependence.AND)
       colnames(FullDependence.AND)<- c(names(Data)[1],names(Data)[2])
       FullDependence[[k]]<-FullDependence.AND
       #Generate a sample of events along the contour. Sample is weighted according to the probabilities
       #given by the KDE estimate for each point on the isoline. Sample size is N_Ensemble.
-      sample.AND <- Iso[sample(1:length(prediction[prediction>0]),size = N_Ensemble, replace = TRUE, prob=prediction[prediction>0]),]
+      sample.AND <- NA #Iso[sample(1:length(prediction[prediction>0]),size = N_Ensemble, replace = TRUE, prob=prediction[prediction>0]),]
       colnames(sample.AND) <- c(names(Data)[1],names(Data)[2])
       #Put the ensemble of design event into a data frame to form part of the function's output.
       Ensemble[[k]] <- data.frame(sample.AND)
