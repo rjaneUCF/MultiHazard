@@ -835,7 +835,9 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
       #Generate a sample of events along the contour. Sample is weighted according to the probabilities
       #given by the KDE estimate for each point on the isoline. Sample size is N_Ensemble.
       sample.AND <- Iso[sample(1:length(prediction[prediction>0]),size = N_Ensemble, replace = TRUE, prob=prediction[prediction>0]),]
+      print( sample.AND )
       colnames(sample.AND) <- c(names(Data)[1],names(Data)[2])
+      print( sample.AND )
       #Put the ensemble of design event into a data frame to form part of the function's output.
       Ensemble[[k]] <- data.frame(sample.AND)
       #colnames(Ensemble) <- c(names(Data)[1],names(Data)[2])
