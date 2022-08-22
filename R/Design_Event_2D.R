@@ -787,7 +787,9 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
       print("Iso")
       print(summary(Iso))
       print(length(which(Iso[,con2]<Thres2)))
+      if(length(which(Iso[,con2]<Thres2)>0){
       Iso<-Iso[-which(Iso[,con2]<Thres2),]
+      }
       colnames(Iso)<-c(names(Data)[1],names(Data)[2])
       print("Iso")
       print(summary(Iso))
