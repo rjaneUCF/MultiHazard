@@ -659,7 +659,9 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
       v.y<-approx(x=cumsum(d),y=prediction.points.ALL.2,xout=seq(0,sum(d),length.out=Interval))$y*(max(prediction.points.ALL[z,2])-min(prediction.points.ALL[z,2]))+min(prediction.points.ALL[z,2])
       ##plot(prediction.points.ALL.1,cumsum(d))
       Iso<-data.frame(v.x,v.y)
-      Iso<-Iso[-which(Iso[,con1]<Thres1),]
+      if(length(which(Iso[,con1]<Thres1))>0){
+       Iso<-Iso[-which(Iso[,con1]<Thres1),]
+      }
       colnames(Iso)<-c(names(Data)[1],names(Data)[2])
       
       #Put the points composing the isoline into a data frame to form part of the function's output.
@@ -736,8 +738,7 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
         x.1<-x.1[-which(is.na(y.1)==TRUE)]
         y.1<-y.1[-which(is.na(y.1)==TRUE)]
       }
-      print(summary(x.1))
-      print(summary(y.1))
+
       #In the following lines of code, the maximum x-values at each y-value from the two quantile isolines are extracted
       
       #Generate a sequence of y-values at a 0.01 increment starting at the minimum and ending at the maximum points from the two conditional isolines. Round to 2 decimal places.
@@ -764,12 +765,11 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
       
       prediction.points.ALL<-data.frame(c(x.1,x.2),c(y.1,y.2))[-1,]
       colnames(prediction.points.ALL)<-c(names(Data)[1],names(Data)[2])
-       print(summary(prediction.points.ALL))
+     
       #Round the points defining the isoline to 2 decimal places.
       prediction.points.ALL[,1]<-round(prediction.points.ALL[,1],Decimal_Place)
       #To ensure each x is only paired withe y value and vice versa we remove any
       prediction.points.ALL<-prediction.points.ALL[!duplicated(prediction.points.ALL[,1]), ]
-      print(summary(prediction.points.ALL))
       #Order the rows in terms of magnitude of the x-values.
       z<-order(prediction.points.ALL[,1])
       prediction.points.ALL.1<-(prediction.points.ALL[z,1]-min(prediction.points.ALL[z,1]))/(max(prediction.points.ALL[z,1])-min(prediction.points.ALL[z,1]))
@@ -784,15 +784,11 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
       v.y<-approx(x=cumsum(d),y=prediction.points.ALL.2,xout=seq(0,sum(d),length.out=Interval))$y*(max(prediction.points.ALL[z,2])-min(prediction.points.ALL[z,2]))+min(prediction.points.ALL[z,2])
       ##plot(prediction.points.ALL.1,cumsum(d))
       Iso<-data.frame(v.x,v.y)
-      print("Iso")
-      print(summary(Iso))
-      print(length(which(Iso[,con2]<Thres2)))
       if(length(which(Iso[,con2]<Thres2))>0){
       Iso<-Iso[-which(Iso[,con2]<Thres2),]
       }
       colnames(Iso)<-c(names(Data)[1],names(Data)[2])
-      print("Iso")
-      print(summary(Iso))
+     
       #Put the points composing the isoline into a data frame to form part of the function's output.
       Isoline[[k]] <- data.frame(x=Iso[,1],y=Iso[,2])
       #colnames(Isoline) <- c(names(Data)[1],names(Data)[2])
@@ -807,7 +803,7 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
         cop.sample<-cop.sample[-remove,]
       }
       prediction<-kde(x=cop.sample, eval.points=Iso)$estimate
-      print(summary(prediction))
+      
       #(relative) Probabilities implied by the data for the points composing the isoline. Probabilities are scaled to [0,1].
       Contour[[k]] <- (prediction-min(prediction))/(max(prediction)-min(prediction))
       
@@ -829,15 +825,12 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
       ##}
       
       FullDependence.AND<-data.frame(max(Iso[,1]),max(Iso[,2]))
-      print(FullDependence.AND)
       colnames(FullDependence.AND)<- c(names(Data)[1],names(Data)[2])
       FullDependence[[k]]<-FullDependence.AND
       #Generate a sample of events along the contour. Sample is weighted according to the probabilities
       #given by the KDE estimate for each point on the isoline. Sample size is N_Ensemble.
       sample.AND <- Iso[sample(1:length(prediction[prediction>0]),size = N_Ensemble, replace = TRUE, prob=prediction[prediction>0]),]
-      print( sample.AND )
       colnames(sample.AND) <- c(names(Data)[1],names(Data)[2])
-      print( sample.AND )
       #Put the ensemble of design event into a data frame to form part of the function's output.
       Ensemble[[k]] <- data.frame(sample.AND)
       #colnames(Ensemble) <- c(names(Data)[1],names(Data)[2])
