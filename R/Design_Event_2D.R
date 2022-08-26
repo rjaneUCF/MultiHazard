@@ -59,7 +59,7 @@
 #'                              Plot_Quantile_Isoline=FALSE)
 #'#Extracting the 100-year isoline from the output
 #'Design.Event$`100`$Isoline
-Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=NA, Copula_Family1, Copula_Family2, Marginal_Dist1, Marginal_Dist2, Con1="Rainfall",Con2="OsWL", GPD1=NA, GPD2=NA, mu=365.25, GPD_Bayes=FALSE, Decimal_Place=2, RP, Interval=10000, End=F, Resolution="Low", x_lab="Rainfall (mm)",y_lab="O-sWL (mNGVD 29)",x_lim_min = NA,x_lim_max = NA,y_lim_min = NA,y_lim_max = NA,N=10^6,N_Ensemble=0,Sim_Max=10,Plot_Quantile_Isoline=FALSE,Isoline_Type="Combined"){
+Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=NA, Copula_Family1, Copula_Family2, Marginal_Dist1, Marginal_Dist2, Marginal_Dist1_Par, Marginal_Dist2_Par, Con1="Rainfall",Con2="OsWL", GPD1=NA, GPD2=NA, mu=365.25, GPD_Bayes=FALSE, Decimal_Place=2, RP, Interval=10000, End=F, Resolution="Low", x_lab="Rainfall (mm)",y_lab="O-sWL (mNGVD 29)",x_lim_min = NA,x_lim_max = NA,y_lim_min = NA,y_lim_max = NA,N=10^6,Isoline_Probs="Sample",N_Ensemble=0,Sim_Max=10,Plot_Quantile_Isoline=FALSE,Isoline_Type="Combined"){
   
   ###Preliminaries
   
@@ -104,51 +104,103 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
   
   #Fit the specified marginal distribution (Marginal_Dist1) to the non-conditioned variable con2 in Data_Con1.
   if(Marginal_Dist1 == "BS"){
+   if(is.na(Marginal_Dist1_Par)==T){
     bdata2 <- data.frame(shape = exp(-0.5), scale = exp(0.5))
     bdata2 <- transform(bdata2, y = Data_Con1[,con2])
     marginal_non_con1<-vglm(y ~ 1, bisa, data = bdata2, trace = FALSE)
+   }else{
+    marginal_non_con1<-Marginal_Dist1_Par
+   }
   }
   if(Marginal_Dist1 == "Exp"){
+   if(is.na(Marginal_Dist1_Par)==T){ 
     marginal_non_con1<-fitdistr(Data_Con1[,con2],"exponential")
+   }else{
+    marginal_non_con1<-Marginal_Dist1_Par
+   }
   }
   if(Marginal_Dist1 == "Gam(2)"){
+   if(is.na(Marginal_Dist1_Par)==T){
     marginal_non_con1<-fitdistr(Data_Con1[,con2], "gamma")
+   }else{
+    marginal_non_con1<-Marginal_Dist1_Par
+   }
   }
   if(Marginal_Dist1 == "Gam(3)"){
+   if(is.na(Marginal_Dist1_Par)==T){
     data.gamlss<-data.frame(X=Data_Con1[,con2])
     marginal_non_con1 <- tryCatch(gamlss(X~1, data=data.gamlss, family=GG),
                                   error = function(e) "error")
+   }else{
+    marginal_non_con1<-Marginal_Dist1_Par
+   }
   }
   if(Marginal_Dist1 == "GamMix(2)"){
+   if(is.na(Marginal_Dist1_Par)==T){
     data.gamlss<-data.frame(X=Data_Con1[,con2])
     marginal_non_con1 <- tryCatch(gamlssMX(X~1, data=data.gamlss, family=GA, K=2),
                                   error = function(e) "error")
+   }else{
+    marginal_non_con1<-Marginal_Dist1_Par
+   }
   }
   if(Marginal_Dist1 == "GamMix(3)"){
+   if(is.na(Marginal_Dist1_Par)==T){
     data.gamlss<-data.frame(X=Data_Con1[,con2])
     marginal_non_con1 <- tryCatch(gamlssMX(X~1, data=data.gamlss, family=GA, K=3),
                                   error = function(e) "error")
+   }else{
+    marginal_non_con1<-Marginal_Dist1_Par
+   }
   }
   if(Marginal_Dist1 == "Gaus"){
+   if(is.na(Marginal_Dist1_Par)==T){
     marginal_non_con1<-fitdistr(Data_Con1[,con2],"normal")
+   }else{
+    marginal_non_con1<-Marginal_Dist1_Par
+   }
   }
   if(Marginal_Dist1 == "InvG"){
+   if(is.na(Marginal_Dist1_Par)==T){
     marginal_non_con1<-fitdist(Data_Con1[,con2], "invgauss", start = list(mean = 5, shape = 1))
+   }else{
+    marginal_non_con1<-Marginal_Dist1_Par
+   }
   }
   if(Marginal_Dist1 == "Logis"){
+   if(is.na(Marginal_Dist1_Par)==T){
     marginal_non_con1<-fitdistr(Data_Con1[,con2], "logistic")
+   }else{
+    marginal_non_con1<-Marginal_Dist1_Par
+   }
   }
   if(Marginal_Dist1 == "LogN"){
+   if(is.na(Marginal_Dist1_Par)==T){
     marginal_non_con1<-fitdistr(Data_Con1[,con2],"lognormal")
+   }else{
+    marginal_non_con1<-Marginal_Dist1_Par
+   }
   }
   if(Marginal_Dist1 == "TNorm"){
+   if(is.na(Marginal_Dist1_Par)==T){
     marginal_non_con1<-fitdistr(Data_Con1[,con2],"normal")
+   }else{
+    marginal_non_con1<-Marginal_Dist1_Par
+   }
   }
   if(Marginal_Dist1 == "Twe"){
+   if(is.na(Marginal_Dist1_Par)==T){
     marginal_non_con1<-tweedie.profile(Data_Con1[,con2] ~ 1,p.vec=seq(1.5, 2.5, by=0.2), do.plot=FALSE)
+   }else{
+    marginal_non_con1<-Marginal_Dist1_Par
+   }
   }
   if(Marginal_Dist1 == "Weib"){
+   if(is.na(Marginal_Dist1_Par)==T){
     marginal_non_con1<-fitdistr(Data_Con1[,con2], "weibull")
+   }else{
+    marginal_non_con1<-Marginal_Dist1_Par
+   }
   }
   
   #Fit the GPD to the conditioned variable con2 in Data_Con2.
@@ -165,51 +217,103 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
   
   ##Fit the specified marginal distribution (Marginal_Dist2) to the non-conditioned variable con1 in Data_Con2.
   if(Marginal_Dist2 == "BS"){
+   if(is.na(Marginal_Dist2_Par)==T){
     bdata2 <- data.frame(shape = exp(-0.5), scale = exp(0.5))
     bdata2 <- transform(bdata2, y = Data_Con2[,con1])
     marginal_non_con2<-vglm(y ~ 1, bisa, data = bdata2, trace = FALSE)
+   }else{
+    marginal_non_con2<-Marginal_Dist2_Par
+   }
   }
   if(Marginal_Dist2 == "Exp"){
+   if(is.na(Marginal_Dist2_Par)==T){
     marginal_non_con2<-fitdistr(Data_Con2[,con1],"exponential")
+    }else{
+    marginal_non_con2<-Marginal_Dist2_Par
+   }
   }
   if(Marginal_Dist2 == "Gam(2)"){
+   if(is.na(Marginal_Dist2_Par)==T){
     marginal_non_con2<-fitdistr(Data_Con2[,con1], "gamma")
+    }else{
+    marginal_non_con2<-Marginal_Dist2_Par
+   }
   }
   if(Marginal_Dist2 == "Gam(3)"){
+   if(is.na(Marginal_Dist2_Par)==T){
     data.gamlss<-data.frame(X=Data_Con2[,con1])
     marginal_non_con2 <- tryCatch(gamlss(X~1, data=data.gamlss, family=GG),
                                   error = function(e) "error")
+   }else{
+    marginal_non_con2<-Marginal_Dist2_Par
+   }
   }
   if(Marginal_Dist2 == "GamMix(2)"){
+   if(is.na(Marginal_Dist2_Par)==T){
     data.gamlss<-data.frame(X=Data_Con2[,con1])
     marginal_non_con2 <- tryCatch(gamlssMX(X~1, data=data.gamlss, family=GA, K=2),
                                   error = function(e) "error")
+   }else{
+    marginal_non_con2<-Marginal_Dist2_Par
+   }
   }
   if(Marginal_Dist2 == "GamMix(3)"){
+   if(is.na(Marginal_Dist2_Par)==T){
     data.gamlss<-data.frame(X=Data_Con2[,con1])
     marginal_non_con2 <- tryCatch(gamlssMX(X~1, data=data.gamlss, family=GA, K=3),
                                   error = function(e) "error")
+   }else{
+    marginal_non_con2<-Marginal_Dist2_Par
+   }
   }
   if(Marginal_Dist2 == "Gaus"){
+   if(is.na(Marginal_Dist2_Par)==T){
     marginal_non_con2<-fitdistr(Data_Con2[,con1],"normal")
+   }else{
+    marginal_non_con2<-Marginal_Dist2_Par
+   }
   }
   if(Marginal_Dist2 == "InvG"){
+   if(is.na(Marginal_Dist2_Par)==T){
     marginal_non_con2<-fitdist(Data_Con2[,con1], "invgauss", start = list(mean = 5, shape = 1))
+   }else{
+    marginal_non_con2<-Marginal_Dist2_Par
+   }
   }
   if(Marginal_Dist2 == "Logis"){
+   if(is.na(Marginal_Dist2_Par)==T){
     marginal_non_con2<-fitdistr(Data_Con2[,con1],"logistic")
+   }else{
+    marginal_non_con2<-Marginal_Dist2_Par
+   }
   }
   if(Marginal_Dist2 == "LogN"){
+   if(is.na(Marginal_Dist2_Par)==T){
     marginal_non_con2<-fitdistr(Data_Con2[,con1],"lognormal")
+   }else{
+    marginal_non_con2<-Marginal_Dist2_Par
+   }
   }
   if(Marginal_Dist2 == "TNorm"){
+   if(is.na(Marginal_Dist2_Par)==T){
     marginal_non_con2<-fitdistr(Data_Con2[,con1],"normal")
+   }else{
+    marginal_non_con2<-Marginal_Dist2_Par
+   }
   }
   if(Marginal_Dist2 == "Twe"){
+   if(is.na(Marginal_Dist2_Par)==T){
     marginal_non_con2<-tweedie.profile(Data_Con2[,con1] ~ 1,p.vec=seq(1.5, 2.5, by=0.2), do.plot=FALSE)
+   }else{
+    marginal_non_con2<-Marginal_Dist2_Par
+   }
   }
   if(Marginal_Dist2 == "Weib"){
+   if(is.na(Marginal_Dist2_Par)==T){
     marginal_non_con2<-fitdistr(Data_Con2[,con1], "weibull")
+   }else{
+    marginal_non_con2<-Marginal_Dist2_Par
+   }
   }
   
   ###Generate samples from the copula models to which a kernel density estimate will be applied to estimate relative probabilities along the isoline.
@@ -674,10 +778,15 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
       #to the size of the two conditional samples) and transformed back to the original scale. These probabilities are
       #used as estimates of the relative probability of the points on the isoline according to the original data.
       remove<-which(cop.sample[,1] > Sim_Max*max(Data[,1],na.rm=T) | cop.sample[,2] > Sim_Max*max(Data[,2],na.rm=T))
-      if(length(remove)>1){
+            if(Isoline_Probs=="Sample"){
+       if(length(remove)>1){
         cop.sample<-cop.sample[-remove,]
+        }
+       prediction<-kde(x=cop.sample, eval.points=Iso)$estimate
       }
-      prediction<-kde(x=cop.sample, eval.points=Iso)$estimate
+      if(Isoline_Probs=="Observations"){
+        prediction<-kde(x=na.omit(Data), eval.points=Iso)$estimate
+      }
       
       #(relative) Probabilities implied by the data for the points composing the isoline. Probabilities are scaled to [0,1].
       Contour[[k]] <- (prediction-min(prediction))/(max(prediction)-min(prediction))
@@ -799,11 +908,15 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
       #to the size of the two conditional samples) and transformed back to the original scale. These probabilities are
       #used as estimates of the relative probability of the points on the isoline according to the original data.
       remove<-which(cop.sample[,1] > Sim_Max*max(Data[,1],na.rm=T) | cop.sample[,2] > Sim_Max*max(Data[,2],na.rm=T))
-      if(length(remove)>1){
+            if(Isoline_Probs=="Sample"){
+       if(length(remove)>1){
         cop.sample<-cop.sample[-remove,]
+        }
+       prediction<-kde(x=cop.sample, eval.points=Iso)$estimate
       }
-      prediction<-kde(x=cop.sample, eval.points=Iso)$estimate
-      
+      if(Isoline_Probs=="Observations"){
+        prediction<-kde(x=na.omit(Data), eval.points=Iso)$estimate
+      }      
       #(relative) Probabilities implied by the data for the points composing the isoline. Probabilities are scaled to [0,1].
       Contour[[k]] <- (prediction-min(prediction))/(max(prediction)-min(prediction))
       
@@ -929,10 +1042,15 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
       #to the size of the two conditional samples) and transformed back to the original scale. These probabilities are
       #used as estimates of the relative probability of the points on the isoline according to the original data.
       remove<-which(cop.sample[,1] > Sim_Max*max(Data[,1],na.rm=T) | cop.sample[,2] > Sim_Max*max(Data[,2],na.rm=T))
-      if(length(remove)>1){
+      if(Isoline_Probs=="Sample"){
+       if(length(remove)>1){
         cop.sample<-cop.sample[-remove,]
+        }
+       prediction<-kde(x=cop.sample, eval.points=Iso)$estimate
       }
-      prediction<-kde(x=cop.sample, eval.points=Iso)$estimate
+      if(Isoline_Probs=="Observations"){
+        prediction<-kde(x=na.omit(Data), eval.points=Iso)$estimate
+      }  
       #(relative) Probabilities implied by the data for the points composing the isoline. Probabilities are scaled to [0,1].
       Contour[[k]] <- (prediction-min(prediction))/(max(prediction)-min(prediction))
       
