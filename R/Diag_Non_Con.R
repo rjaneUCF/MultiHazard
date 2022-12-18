@@ -58,7 +58,7 @@ Diag_Non_Con<-function(Data,x_lab,y_lim_min=0,y_lim_max=1){
   fit<-fitdistr(Data,"logistic")
   lines(x,plogis(x,fit$estimate[1],fit$estimate[2]),col=mypalette[6],lwd=2)
 
-  AIC<-data.frame(c("Normal","Logistic"),c(AIC.Normal,AIC.Logistic))
+  AIC<-data.frame(c("Gaus","Logis"),c(AIC.Normal,AIC.Logistic))
   colnames(AIC)<-c("Distribution","AIC")
   Best_fit<-AIC$Distribution[which(AIC$AIC==min(AIC$AIC))]
   res<-list("AIC"=AIC,"Best_fit"=Best_fit)
