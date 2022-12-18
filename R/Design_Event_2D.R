@@ -571,7 +571,7 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
     ###Deriving the quantile isoline from the sample conditioned on variable 'Con2' i.e. Data_Con2.
     
     #Generate a regular grid on the unit square.
-    if(Resolution=="High"){
+    if(Resolution=="Low"){
       x<- c(10^(-4),seq(999.9*10^(-4),1-(1*10^(-5)),10^(-3)))
       y<- c(10^(-4),seq(999.9*10^(-4),1-(1*10^(-5)),10^(-3)))
     }    
