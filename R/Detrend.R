@@ -19,7 +19,7 @@
 #' #five years of observations to calculate the present day average.
 #' Detrend(S22_T_MAX_Daily_Completed_Detrend,Method = "window",Window_Width= 89,
 #'         End_Length = 1826, PLOT=FALSE,x_lab="Data",y_lab="Data")
-Detrend<-function(Data, Method = "window",Window_Width= 89, End_Length = 1826, PLOT=FALSE,x_lab="Data",y_lab="Data"){
+Detrend<-function(Data, Method = "window",Window_Width= 89, End_Length = 1826, PLOT=FALSE,x_lab="Date",y_lab="Data"){
   data_Detrend<-Data[,2]
 if(Method=="window"){
   for(i in 1:(Window_Width/2)){
