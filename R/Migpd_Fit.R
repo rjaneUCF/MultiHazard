@@ -26,22 +26,22 @@
 #' S22.GPD<-Migpd_Fit(Data=S22.Detrend.Declustered.df[,-1],
 #'                    mqu =c(S22.Rainfall.Quantile,S22.OsWL.Quantile,S22.GW.Quantile))
 Migpd_Fit<-function (Data, Data_Full=NA, mth, mqu, penalty = "gaussian", maxit = 10000,
-                      trace = 0, verbose = FALSE, priorParameters = NULL){
-
+                     trace = 0, verbose = FALSE, priorParameters = NULL){
+  
   if(class(Data[,1])=="Date" | class(Data[,1])=="factor"){
-  data <- Data[,-1]
+    data <- Data[,-1]
   } else {
-  data <- Data
+    data <- Data
   }
-
+  
   if(missing(mth)){
-  if(class(Data_Full[,1])=="Date" | class(Data_Full[,1])=="factor"){
-    data_full <- Data_Full[,-1]
-  } else {
-    data_full <- Data_Full
+    if(class(Data_Full[,1])=="Date" | class(Data_Full[,1])=="factor"){
+      data_full <- Data_Full[,-1]
+    } else {
+      data_full <- Data_Full
+    }
   }
-  }
-
+  
   theCall <- match.call()
   if (is.null(colnames(data))) {
     colnames(data) <- paste(rep("Column", ncol(data)), 1:ncol(data),
@@ -60,10 +60,10 @@ Migpd_Fit<-function (Data, Data_Full=NA, mth, mqu, penalty = "gaussian", maxit =
     mqu <- sapply(1:d, function(i, x, mth) 1 - mean(x[, i] > mth[i]), x = data, mth = mth)
   if (missing(mth)){
     mth<-numeric(d)
-  for(i in 1:d){
-    prob <- mqu[i]
-    mth[i] <- quantile(na.omit(data_full[,i]), prob)
-  }
+    for(i in 1:d){
+      prob <- mqu[i]
+      mth[i] <- quantile(na.omit(data_full[,i]), prob)
+    }
   }
   if (penalty %in% c("quadratic", "gaussian") & is.null(priorParameters)) {
     gp = list(c(0, 0), matrix(c(100^2, 0, 0, 0.25), nrow = 2))
@@ -101,5 +101,4 @@ Migpd_Fit<-function (Data, Data_Full=NA, mth, mqu, penalty = "gaussian", maxit =
   oldClass(res) <- "migpd"
   invisible(res)
 }
-
 

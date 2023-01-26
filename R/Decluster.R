@@ -13,35 +13,34 @@
 #' @examples
 #' Decluster(data=S20_T_MAX_Daily_Completed_Detrend$Detrend)
 Decluster<-function(Data,u=0.95,Thres=NA,SepCrit=3,mu=365.25){
-
- z<-0
- if(is.na(Thres)==T){
-   Thres<-as.numeric(quantile(na.omit(Data),u))
- }
-
- if(length(which(is.na(Data)==T))>0){
-  z<-which(is.na(Data)==T)
-  Data[z]<-min(Data,na.rm=T)-1000
- }
-
- Events<-Event_Identify(Data=Data,Threshold=Thres,SeparationPeriod=SepCrit)
- Events.Max<-Event_Max(Data=Data,Events=Events)
- Events.Start<-Event_Start(Data=Data,Threshold=Thres,Events=Events,Event.Max=Events.Max)
-
- Threshold<-Thres
- Rate<-length(Events)/(length(Data)/mu)
-
- #Declustered data as a vector
- data_Detrend_Declustered<-Data
- for(i in 1:length(Events)){
-   data_Detrend_Declustered[Events.Start[i]:Events[i]]<-NA
- }
- data_Detrend_Declustered[Events.Max]<-Data[Events.Max]
- if(min(z)>0){
-  data_Detrend_Declustered[z]<-NA
-  Data[z]<-NA
- }
- res<-list("Threshold" = Threshold, "Rate" = Rate, "EventsMax" = Events.Max, "Detrended" = Data, "Declustered" = data_Detrend_Declustered)
- return(res)
+  
+  z<-0
+  if(is.na(Thres)==T){
+    Thres<-as.numeric(quantile(na.omit(Data),u))
+  }
+  
+  if(length(which(is.na(Data)==T))>0){
+    z<-which(is.na(Data)==T)
+    Data[z]<-min(Data,na.rm=T)-1000
+  }
+  
+  Events<-Event_Identify(Data=Data,Threshold=Thres,SeparationPeriod=SepCrit)
+  Events.Max<-Event_Max(Data=Data,Events=Events)
+  Events.Start<-Event_Start(Data=Data,Threshold=Thres,Events=Events,Event.Max=Events.Max)
+  
+  Threshold<-Thres
+  Rate<-length(Events)/(length(Data)/mu)
+  
+  #Declustered data as a vector
+  data_Detrend_Declustered<-Data
+  for(i in 1:length(Events)){
+    data_Detrend_Declustered[Events.Start[i]:Events[i]]<-NA
+  }
+  data_Detrend_Declustered[Events.Max]<-Data[Events.Max]
+  if(min(z)>0){
+    data_Detrend_Declustered[z]<-NA
+    Data[z]<-NA
+  }
+  res<-list("Threshold" = Threshold, "Rate" = Rate, "EventsMax" = Events.Max, "Detrended" = Data, "Declustered" = data_Detrend_Declustered)
+  return(res)
 }
-

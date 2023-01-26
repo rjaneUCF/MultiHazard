@@ -21,28 +21,28 @@
 #'         End_Length = 1826, PLOT=FALSE,x_lab="Data",y_lab="Data")
 Detrend<-function(Data, Method = "window",Window_Width= 89, End_Length = 1826, PLOT=FALSE,x_lab="Date",y_lab="Data"){
   data_Detrend<-Data[,2]
-if(Method=="window"){
-  for(i in 1:(Window_Width/2)){
-    data_Detrend[i]<- Data[i,2] - mean(Data[i:(i+(Window_Width/2)),2])
+  if(Method=="window"){
+    for(i in 1:(Window_Width/2)){
+      data_Detrend[i]<- Data[i,2] - mean(Data[i:(i+(Window_Width/2)),2])
+    }
+    
+    for(i in ((Window_Width/2)+1):(nrow(Data)-(Window_Width/2))){
+      data_Detrend[i]<- Data[i,2] - mean(Data[(i-(Window_Width/2)):(i+(Window_Width/2)),2])
+    }
+    data_Detrend[1:(length(Data[,2])-(Window_Width/2))] <- data_Detrend[1:(length(Data[,2])-(Window_Width/2))] + mean(Data[(length(Data[,2])-(End_Length+1)):length(Data[,2]),2])
   }
-
- for(i in ((Window_Width/2)+1):(nrow(Data)-(Window_Width/2))){
-   data_Detrend[i]<- Data[i,2] - mean(Data[(i-(Window_Width/2)):(i+(Window_Width/2)),2])
- }
- data_Detrend[1:(length(Data[,2])-(Window_Width/2))] <- data_Detrend[1:(length(Data[,2])-(Window_Width/2))] + mean(Data[(length(Data[,2])-(End_Length+1)):length(Data[,2]),2])
-}
-
-if(Method=="linear"){
-  x<-seq(1,length(Data[,1]),1)
-  model <- lm(Data[,2] ~ x)
-  residuals <-  Data[,2] - predict(model, data.frame(x))
- data_Detrend <- residuals + mean(Data[(length(Data[,2])-(End_Length+1)):(length(Data[,2])),2])
-}
-
-
-if(PLOT==TRUE){
-  plot(as.Date(Data[,1]),Data[,2],type='l',col=1,xlab=x_lab,ylab=y_lab)
-  lines(as.Date(Data[,1]),data_Detrend,col=2)
-}
-return(data_Detrend)
+  
+  if(Method=="linear"){
+    x<-seq(1,length(Data[,1]),1)
+    model <- lm(Data[,2] ~ x)
+    residuals <-  Data[,2] - predict(model, data.frame(x))
+    data_Detrend <- residuals + mean(Data[(length(Data[,2])-(End_Length+1)):(length(Data[,2])),2])
+  }
+  
+  
+  if(PLOT==TRUE){
+    plot(as.Date(Data[,1]),Data[,2],type='l',col=1,xlab=x_lab,ylab=y_lab)
+    lines(as.Date(Data[,1]),data_Detrend,col=2)
+  }
+  return(data_Detrend)
 }

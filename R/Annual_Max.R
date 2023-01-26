@@ -14,16 +14,16 @@
 Annual_Max<-function(Data_Detrend, Complete_Prop=0.8){
   date<-as.numeric(which(sapply(Data_Detrend,class)=="Date"))
   val<-c(1:ncol(Data_Detrend))[-date]
-
+  
   years<-unique(year(Data_Detrend[,date]))
-
+  
   prop.complete<-rep(NA,length(years))
   for(i in 1:length(years)){
     prop.complete[i]<-length(which(is.na(Data_Detrend[which(year(Data_Detrend[,date])==years[i]),val])==FALSE))/length(which(year(Data_Detrend[,date])==years[i]))
   }
-
+  
   year.complete<-which(prop.complete>Complete_Prop)
-
+  
   x.val<-rep(NA,length(year.complete))
   for(i in 1:length(year.complete)){
     x.val[i] <- (min(which(year(Data_Detrend[,date])==years[year.complete[i]]))-1)+which(Data_Detrend[which(year(Data_Detrend[,date])==years[year.complete[i]]),val] == max(Data_Detrend[which(year(Data_Detrend[,date])==years[year.complete[i]]),val],na.rm=T))

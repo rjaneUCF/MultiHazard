@@ -2,8 +2,8 @@
 GPD_Eval_MLE<-function(Data,RP,Years){
   # parameters
   mod = evm(na.omit(Data), th = quantile(Data, 0))
-  xi = mod[[1]][2]
-  sigma = exp(mod[[1]][1])
+  xi = summary(mod)$coef[[2]]
+  sigma = exp(summary(mod)$coef[[1]])
   u = as.numeric(quantile(Data,0))
   # MRLP
   MRLP       = mean(Data - u)

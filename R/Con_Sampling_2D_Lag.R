@@ -63,4 +63,3 @@ Con_Sampling_2D_Lag<-
     return(list("Threshold" = Thres, "Data" = Sample_df, "Con_Variable" = names(Data_Detrend)[con], "x.con" = x.con, "x.noncon" = x.noncon))
   }
 
-

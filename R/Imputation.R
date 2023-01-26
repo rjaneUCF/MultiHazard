@@ -41,20 +41,19 @@ Imputation<-function(Data,Variable,x_lab,y_lab){
   } else {
     data <- Data
   }
- variable<-which(names(data)==Variable)
- Other.variable<-c(1:ncol(data))[-which(names(data)==Variable)]
- data.NA<-which(is.na(data[,variable])==TRUE)
- Model<-lm(data[,variable] ~ data[,Other.variable])
- Data[,(ncol(Data)+1)]<-data[,variable]
- Data[data.NA,ncol(Data)]<-coef(Model)[1]+data[data.NA,Other.variable]*coef(Model)[2]
- names(Data)[ncol(Data)] <- 'ValuesFilled'
-
- #Plot linear model plus predicted points
- plot(data[-data.NA,Other.variable],Data[-data.NA,ncol(Data)],xlab=x_lab,ylab=y_lab,pch=16)
- lines(seq(0,9,0.1),coef(Model)[1]+seq(0,9,0.1)*coef(Model)[2],col=2)
- points(data[data.NA,Other.variable],Data[data.NA,ncol(Data)],col=4,pch=16)
- return(list(Data = Data, Model = summary(Model)))
+  variable<-which(names(data)==Variable)
+  Other.variable<-c(1:ncol(data))[-which(names(data)==Variable)]
+  data.NA<-which(is.na(data[,variable])==TRUE)
+  Model<-lm(data[,variable] ~ data[,Other.variable])
+  Data[,(ncol(Data)+1)]<-data[,variable]
+  Data[data.NA,ncol(Data)]<-coef(Model)[1]+data[data.NA,Other.variable]*coef(Model)[2]
+  names(Data)[ncol(Data)] <- 'ValuesFilled'
+  
+  #Plot linear model plus predicted points
+  plot(data[-data.NA,Other.variable],Data[-data.NA,ncol(Data)],xlab=x_lab,ylab=y_lab,pch=16)
+  lines(seq(0,9,0.1),coef(Model)[1]+seq(0,9,0.1)*coef(Model)[2],col=2)
+  points(data[data.NA,Other.variable],Data[data.NA,ncol(Data)],col=4,pch=16)
+  return(list(Data = Data, Model = summary(Model)))
 }
-
 
 

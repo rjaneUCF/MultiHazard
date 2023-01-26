@@ -28,56 +28,55 @@
 #'                                  data.3=0,
 #'                                  names=c("Rainfall","OsWL"))
 Dataframe_Combine<-function(data.1,data.2,data.3,data.4=0,data.5=0,n=3,names){
-
+  
   data_Detrend_1_df<-data.frame(data.1[,1],data.1[,2])
   colnames(data_Detrend_1_df)<-c("Date",colnames(data.1)[2])
-
+  
   data_Detrend_2_df<-data.frame(data.2[,1],data.2[,2])
   colnames(data_Detrend_2_df)<-c("Date",colnames(data.2)[2])
-
+  
   if(n==2){
-   Detrend_df<-full_join(data_Detrend_1_df, data_Detrend_2_df, by="Date")
+    Detrend_df<-full_join(data_Detrend_1_df, data_Detrend_2_df, by="Date")
   }
-
+  
   if(n==3){
-   data_Detrend_3_df<-data.frame(data.3[,1],data.3[,2])
-   colnames(data_Detrend_3_df)<-c("Date",colnames(data.3)[2])
-
-   data_Detrend_df1<-full_join(data_Detrend_1_df, data_Detrend_2_df, by="Date")
-   Detrend_df<-full_join(data_Detrend_df1, data_Detrend_3_df, by="Date")
+    data_Detrend_3_df<-data.frame(data.3[,1],data.3[,2])
+    colnames(data_Detrend_3_df)<-c("Date",colnames(data.3)[2])
+    
+    data_Detrend_df1<-full_join(data_Detrend_1_df, data_Detrend_2_df, by="Date")
+    Detrend_df<-full_join(data_Detrend_df1, data_Detrend_3_df, by="Date")
   }
-
+  
   if(n==4){
-   data_Detrend_3_df<-data.frame(data.3[,1],data.3[,2])
-   colnames(data_Detrend_3_df)<-c("Date",colnames(data.3)[2])
-
-   data_Detrend_4_df<-data.frame(data.4[,1],data.4[,2])
-   colnames(data_Detrend_4_df)<-c("Date",colnames(data.4)[2])
-
-   data_Detrend_df1<-full_join(data_Detrend_1_df, data_Detrend_2_df, by="Date")
-   data_Detrend_df2<-full_join(data_Detrend_df1, data_Detrend_3_df, by="Date")
-   Detrend_df<-full_join(data_Detrend_df2, data_Detrend_4_df, by="Date")
+    data_Detrend_3_df<-data.frame(data.3[,1],data.3[,2])
+    colnames(data_Detrend_3_df)<-c("Date",colnames(data.3)[2])
+    
+    data_Detrend_4_df<-data.frame(data.4[,1],data.4[,2])
+    colnames(data_Detrend_4_df)<-c("Date",colnames(data.4)[2])
+    
+    data_Detrend_df1<-full_join(data_Detrend_1_df, data_Detrend_2_df, by="Date")
+    data_Detrend_df2<-full_join(data_Detrend_df1, data_Detrend_3_df, by="Date")
+    Detrend_df<-full_join(data_Detrend_df2, data_Detrend_4_df, by="Date")
   }
-
+  
   if(n==5){
     data_Detrend_3_df<-data.frame(data.3[,1],data.3[,2])
     colnames(data_Detrend_3_df)<-c("Date",colnames(data.3)[2])
-
+    
     data_Detrend_4_df<-data.frame(data.4[,1],data.4[,2])
     colnames(data_Detrend_4_df)<-c("Date",colnames(data.4)[2])
-
+    
     data_Detrend_5_df<-data.frame(data.5[,1],data.5[,2])
     colnames(data_Detrend_5_df)<-c("Date",colnames(data.5)[2])
-
+    
     data_Detrend_df1<-full_join(data_Detrend_1_df, data_Detrend_2_df, by="Date")
     data_Detrend_df2<-full_join(data_Detrend_df1, data_Detrend_3_df, by="Date")
     data_Detrend_df3<-full_join(data_Detrend_df2, data_Detrend_4_df, by="Date")
     Detrend_df<-full_join(data_Detrend_df3, data_Detrend_5_df, by="Date")
   }
-
-Detrend_df[order(as.Date(Detrend_df$Date, format="%d/%m/%Y")),]
-colnames(Detrend_df)<-c("Date",names)
-return(Detrend_df)
+  
+  Detrend_df[order(as.Date(Detrend_df$Date, format="%d/%m/%Y")),]
+  colnames(Detrend_df)<-c("Date",names)
+  return(Detrend_df)
 }
-
 

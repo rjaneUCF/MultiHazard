@@ -21,11 +21,11 @@ Con_Sampling_2D<-function(Data_Detrend,Data_Declust,Con_Variable,u=0.97,Thres=NA
     Data_Declust<-Data_Declust[,-1]
   }
   if(is.numeric(Con_Variable)==FALSE){
-  con<-which(names(Data_Detrend)==Con_Variable)
-  noncon <- c(1,2)[-con]
+    con<-which(names(Data_Detrend)==Con_Variable)
+    noncon <- c(1,2)[-con]
   } else{
-  con<-Con_Variable
-  noncon<-c(1,2)[-con]
+    con<-Con_Variable
+    noncon<-c(1,2)[-con]
   }
   if(is.na(Thres)==T){
     Thres<-quantile(na.omit(Data_Detrend[,con]), u)
@@ -37,13 +37,12 @@ Con_Sampling_2D<-function(Data_Detrend,Data_Declust,Con_Variable,u=0.97,Thres=NA
     Sample_df[i,noncon]<-Data_Detrend[x[i],noncon]
   }
   if(length(which(is.na(Sample_df[,1])==TRUE | is.na(Sample_df[,2])==TRUE))>0){
-  z<-which(is.na(Sample_df[,1])==TRUE | is.na(Sample_df[,2])==TRUE)  #unique(which(is.na(Sample_df[,1] | Sample_df[,2])==TRUE))
-  Sample_df<-Sample_df[-z,]
-  x<-x[-z]
+    z<-which(is.na(Sample_df[,1])==TRUE | is.na(Sample_df[,2])==TRUE)  #unique(which(is.na(Sample_df[,1] | Sample_df[,2])==TRUE))
+    Sample_df<-Sample_df[-z,]
+    x<-x[-z]
   }
   Sample_df<-data.frame(Sample_df)
   colnames(Sample_df)<-c(names(Data_Detrend))
   return(list("Threshold"=Thres,"Data"=Sample_df, "Con_Variable"= names(Data_Detrend)[con],"x.con"=x))
 }
-
 
