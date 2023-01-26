@@ -29,12 +29,13 @@ A data frame with the following columns:  \itemize{
 \item \code{Intensity} Intensity of the O-sWL.
 \item \code{V} Total rainfall volume within \code{Rainfall_Interval} before and after the peak.
 }
+}
 \description{
 Calculates the "intensity" of extreme water levels, as defined in Wahl et al. (2011).
 }
 \examples{
 #Decluster O-sWL series at S-13 using a runs method
-S13.OsWL.Declust = Decluster(Data=S13.Detrend.df$OsWL, 
+S13.OsWL.Declust = Decluster(Data=S13.Detrend.df$OsWL,
                             SepCrit=24*7, u=0.99667)
 #Calculate O-sWL of the identified cluster maximum
 intensity = OsWL_Intensity(Data=S13.Detrend.df,Cluster_Max=S13.OsWL.Declust$EventsMax)

@@ -31,6 +31,7 @@ A data frame with the following columns:  \itemize{
 \item \code{Start} Index of \code{Data} where the sampled (\code{Samp}) event begins.
 \item \code{End} Index of \code{Data} where the sampled (\code{Samp}) event ends.
 }
+}
 \description{
 Implements conditional bootstrap procedure outlined in Serinaldi and Kilsby (2013) to generate non-peak rainfall totals for a simulated peak. The function also calculates hyetograph properties including net characteristics.
 }
@@ -42,12 +43,12 @@ S13_Rainfall$Rainfall[which(S13_Rainfall$Rainfall<0.01)] = 0
 z = which(is.na(S13_Rainfall$Rainfall)==T)
 #Temporarily set NAs to zero
 S13_Rainfall$Rainfall[z] = 0
-#Find times where there is 6-hours of no rainfall 
+#Find times where there is 6-hours of no rainfall
 no.rain = rep(NA,length(S13_Rainfall$Rainfall))
 for(i in 6:length(S13_Rainfall$Rainfall)){
   no.rain[i] = ifelse(sum(S13_Rainfall$Rainfall[(i-5):i])==0,i,NA)
 }
-#Remove NAs from results vector as these correspond to times where there is 
+#Remove NAs from results vector as these correspond to times where there is
 #rainfall at certain points in the 6 hour period.
 no.rain = na.omit(no.rain)
 #Reset missing values in the rainfall record back to NA
