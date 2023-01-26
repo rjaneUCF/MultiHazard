@@ -1,23 +1,24 @@
-#' Rainfall and O-sWL time series plots 
-#' 
+#' Rainfall and O-sWL time series plots
+#'
 #' Implements conditional bootstrap procedure outlined in Serinaldi and Kilsby (2013) to generate non-peak rainfall totals for a simulated peak. The function also calculates hyetograph properties including net characteristics.
 #'
 #' @param Data Vector of the rainfall time series.
 #' @param Cluster_Max Vector of the index of \code{Data} containing the cluster maximum. If declustering is carried out using \code{Decluster_SW()} set equal to \code{$EventsMax} output.
 #' @param D Numeric vector of the duration of the cluster maximum events.
 #' @param Xp Numeric vector of simulated peaks. To implement the method exactly as in Serinaldi and Kilsby (2013), set equal to a sample (taken with replacement) of the observed cluster maximum (peaks).
-#' @param Start Numeric vector of the index of \code{Data} where each cluster maximum event begins.  
+#' @param Start Numeric vector of the index of \code{Data} where each cluster maximum event begins.
 #' @param End Numeric vector of the index of \code{Data} where each cluster maximum event ends.
 #' @return A data frame with the following columns:  \itemize{
 #' \item \code{Xp} Simulated event peaks i.e. input \code{Xp}.
 #' \item \code{D} Duration sampled from the duration vector \code{D} for each simulated event.
-#' \item \code{Samp} Index of the cluster maximum event, sampled conditionally on \code{D}, that provides non-peak rainfall depths. 
+#' \item \code{Samp} Index of the cluster maximum event, sampled conditionally on \code{D}, that provides non-peak rainfall depths.
 #' \item \code{V} Volume of simulated events.
 #' \item \code{Vn} Net volume of simulated events.
 #' \item \code{I} Intensity of simulated events.
 #' \item \code{In} Net intensity of simulated events.
 #' \item \code{Start} Index of \code{Data} where the sampled (\code{Samp}) event begins.
 #' \item \code{End} Index of \code{Data} where the sampled (\code{Samp}) event ends.
+#' }
 #' @seealso \code{\link{Decluster}} \code{\link{Time_Series_Plot}} \code{\link{WL_Curve}}
 #' @export
 #' @examples
@@ -28,12 +29,12 @@
 #' z = which(is.na(S13_Rainfall$Rainfall)==T)
 #' #Temporarily set NAs to zero
 #' S13_Rainfall$Rainfall[z] = 0
-#' #Find times where there is 6-hours of no rainfall 
+#' #Find times where there is 6-hours of no rainfall
 #' no.rain = rep(NA,length(S13_Rainfall$Rainfall))
 #' for(i in 6:length(S13_Rainfall$Rainfall)){
 #'   no.rain[i] = ifelse(sum(S13_Rainfall$Rainfall[(i-5):i])==0,i,NA)
 #' }
-#' #Remove NAs from results vector as these correspond to times where there is 
+#' #Remove NAs from results vector as these correspond to times where there is
 #' #rainfall at certain points in the 6 hour period.
 #' no.rain = na.omit(no.rain)
 #' #Reset missing values in the rainfall record back to NA
@@ -57,47 +58,47 @@
 #'                            D=d,Start=start,End=end,
 #'                            Xp=sim.peak)
 C_Sample<-function(Data,Cluster_Max,D,Start,End,Xp){
-  
-  #Sample size 
+
+  #Sample size
   Nsim = length(Xp)
-  
+
   #Vectors for storing the results
   Samp = rep(NA,Nsim)
   v.net.csample = rep(NA,Nsim)
   v.csample = rep(NA,Nsim)
   s = rep(NA,Nsim)
   e = rep(NA,Nsim)
-  
+
   #Sample a duration for each peak
   d.csample = sample(D,Nsim,replace=T)
-  
+
   for(i in 1:Nsim){
-    
+
     #Conditionally sample a cluster maximum event with the sampled duration (d.csample)
     di = which(D==d.csample[i])
     Samp[i] = ifelse(length(di)>1,sample(di,1),di)
-    
-    #Indexes of rainfall time series associated with sampled cluster maximum event   
+
+    #Indexes of rainfall time series associated with sampled cluster maximum event
     s[i] = Start[Samp[i]]
     e[i] = End[Samp[i]]
-    
-    #Calculate net volume 
+
+    #Calculate net volume
     v.net.csample[i] = sum(Data[(Start[Samp[i]]):(End[Samp[i]])])-Data[Cluster_Max[Samp[i]]]
-    
-    #Calculate volume 
+
+    #Calculate volume
     v.csample[i] = sum(Data[(Start[Samp[i]]):(End[Samp[i]])])-Data[Cluster_Max[Samp[i]]]+Xp[i]
   }
-  
+
   #Calculate intensity
   I.csample = v.csample/d.csample
-  
+
   #Calculate net intensity
   I.net = v.net.csample/d.csample
-  
+
   #Put results in a data frame
-  res = data.frame(Samp,d.csample,v.csample,v.net.csample,xp,I.csample,I.net,s,e)
-  colnames(res) = c("Samp","D","V","Vn","Xp","I","In","Start","End")
-  
+  res = data.frame(Xp,d.csample,Samp,v.csample,v.net.csample,I.csample,I.net,s,e)
+  colnames(res) = c("Xp","D","Samp","V","Vn",,"I","In","Start","End")
+
   #Output data frame containing the results
-  return(res) 
+  return(res)
 }
