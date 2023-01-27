@@ -97,7 +97,7 @@ C_Sample<-function(Data,Cluster_Max,D,Start,End,Xp){
 
   #Put results in a data frame
   res = data.frame(Xp,d.csample,Samp,v.csample,v.net.csample,I.csample,I.net,s,e)
-  colnames(res) = c("Xp","D","Samp","V","Vn",,"I","In","Start","End")
+  colnames(res) = c("Xp","D","Samp","V","Vn","I","In","Start","End")
 
   #Output data frame containing the results
   return(res)
