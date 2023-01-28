@@ -39,7 +39,7 @@ Time_Series_Plot(
 \item{Mar}{Numeric vector of length one specifying the margin at the (bottom,left,top,right) of the subplots. Default is \code{c(4.2,4.5,1.5,3.5)}.}
 }
 \value{
-Figure
+Figure containing a (Row * Col) matrix of subplots each displaying the hyetogaph (grey bars) and water level curve (blue lines) comprising an event.
 }
 \description{
 Plots a user specified number of synthetic events where at least O-sWL or rainfall peak exceeds a high threshold. .

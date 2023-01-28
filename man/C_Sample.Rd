@@ -2,7 +2,7 @@
 % Please edit documentation in R/C_Sample.R
 \name{C_Sample}
 \alias{C_Sample}
-\title{Rainfall and O-sWL time series plots}
+\title{Implements bootstrap procedure in Serinaldi and Kilsby (2013)}
 \usage{
 C_Sample(Data, Cluster_Max, D, Start, End, Xp)
 }
@@ -33,7 +33,7 @@ A data frame with the following columns:  \itemize{
 }
 }
 \description{
-Implements conditional bootstrap procedure outlined in Serinaldi and Kilsby (2013) to generate non-peak rainfall totals for a simulated peak. The function also calculates hyetograph properties including net characteristics.
+Implements the conditional bootstrap procedure outlined in Serinaldi and Kilsby (2013) to generate non-peak rainfall totals for a simulated peak. The function also calculates hyetograph properties including net characteristics.
 }
 \examples{
 Set very small rainfall measurements to zero.

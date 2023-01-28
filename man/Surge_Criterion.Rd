@@ -41,10 +41,10 @@ Classify extreme water levels as either tidally dominated or surge driven.
 \examples{
 #Decluster O-sWL series at S-13 using a runs method
 S13.OsWL.Declust = Decluster(Data=S13.Detrend.df$OsWL,
-                           SepCrit=24*7, u=0.99667)
+                             SepCrit=24*7, u=0.99667)
 #Classify peak water levels as either surge or tidally driven
 surge_class = Surge_Criterion(Data = S13.Detrend.df,
-                             Clust_Max = S13.OsWL.Declust$EventsMax,
+                             Cluster_Max = S13.OsWL.Declust$EventsMax,
                              Criterion_Number = 5)
 #Plot O-sWL time series with peaks the color of peaks representing classification
 plot(S13.Detrend.df$Date_Time,S13.Detrend.df$OsWL)
@@ -56,7 +56,7 @@ legend("topleft",c("Tide","Surge"),pch=16,col=c("Blue","Red"))
 #Elevation difference between peak and preceding minimum at least 7 hrs before is less than 0.25.
 #Total rainfall from 72 hours before and to 72 hrs after the peak is less than 2 Inches
 surge_class = Surge_Criterion(Data = S13.Detrend.df,
-                              Clust_Max = S13.OsWL.Declust$EventsMax,
+                              Cluster_Max = S13.OsWL.Declust$EventsMax,
                               Surge_Thres=2.5,Rainfall_Thres=2,Pre_Sur=7,
                               MaxMin="Min",Rainfall_Interval=72)
 }

@@ -46,7 +46,7 @@ Generates water level curves for simulated extreme water levels based on a simul
 }
 \examples{
 #Declustering O-sWL series
-S13.OsWL.Declust = Decluster(Data=S13.Detrend.df$OsWL, 
+S13.OsWL.Declust = Decluster(Data=S13.Detrend.df$OsWL,
                              SepCrit=24*7, u=0.99667)
 #Use O-sWL intensity function to obtain index of preceding and following low water levels
 intensity = OsWL_Intensity(Data=S13.Detrend.df,Cluster_Max=S13.OsWL.Declust$EventsMax)
@@ -58,7 +58,7 @@ sim.intensity = c(38,48,120,1400)
 #Generating the water level curves
 oswl_ts_oswl = WL_Curve(Data = S13.Detrend.df,
                         Cluster_Max = S13.OsWL.Declust$EventsMax,
-                        Pre_Low = intensity$Pre.Low, 
+                        Pre_Low = intensity$Pre.Low,
                         Fol_Low = intensity$Fol.Low,
                         Thres = S13.OsWL.Declust$Threshold, Limit = 45,
                         Peak = sim.peaks,
