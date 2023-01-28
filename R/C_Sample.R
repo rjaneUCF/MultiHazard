@@ -1,6 +1,6 @@
-#' Rainfall and O-sWL time series plots
+#' Implements bootstrap procedure in Serinaldi and Kilsby (2013)
 #'
-#' Implements conditional bootstrap procedure outlined in Serinaldi and Kilsby (2013) to generate non-peak rainfall totals for a simulated peak. The function also calculates hyetograph properties including net characteristics.
+#' Implements the conditional bootstrap procedure outlined in Serinaldi and Kilsby (2013) to generate non-peak rainfall totals for a simulated peak. The function also calculates hyetograph properties including net characteristics.
 #'
 #' @param Data Vector of the rainfall time series.
 #' @param Cluster_Max Vector of the index of \code{Data} containing the cluster maximum. If declustering is carried out using \code{Decluster_SW()} set equal to \code{$EventsMax} output.

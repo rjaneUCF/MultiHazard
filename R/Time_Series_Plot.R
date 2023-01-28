@@ -1,5 +1,5 @@
-#' Rainfall and O-sWL time series plots 
-#' 
+#' Rainfall and O-sWL time series plots
+#'
 #' Plots a user specified number of synthetic events where at least O-sWL or rainfall peak exceeds a high threshold. .
 #'
 #' @param Sample Data frame containing the simulated events. Columns (and their names) required by the function are rainfall peak (Rainfall), O-sWL peak (OsWL), their lag time (Lag), and the ID of the sampled rainfall event (samp).
@@ -10,9 +10,9 @@
 #' @param Intensity Numeric vector specifying the "intensity" of the O-sWL events in \code{Sample}. Default is \code{NA}.
 #' @param Event_ID Numeric vector specifying the events in \code{Sample} to be plot.
 #' @param Row Numeric vector of length one specifying the number of rows of subplots in the Figure.
-#' @param Col Numeric vector of length one specifying the number of columns of subplots in the Figure. Product of \code{Row} and \code{Col} must be equal to or greater than \code{Event_ID}. 
+#' @param Col Numeric vector of length one specifying the number of columns of subplots in the Figure. Product of \code{Row} and \code{Col} must be equal to or greater than \code{Event_ID}.
 #' @param Mar Numeric vector of length one specifying the margin at the (bottom,left,top,right) of the subplots. Default is \code{c(4.2,4.5,1.5,3.5)}.
-#' @return Figure 
+#' @return Figure containing a (Row * Col) matrix of subplots each displaying the hyetogaph (grey bars) and water level curve (blue lines) comprising an event.
 #' @seealso \code{\link{C_Sample}} \code{\link{WL_Curve}}
 #' @export
 #' @examples
@@ -25,8 +25,8 @@ Time_Series_Plot<-function(Rainfall_Series,Oswl_Time_Series,Sample,Con_Variable,
  #Loop repeated for each event specified in Event_ID
  for(i in 1:length(Event_ID)){
   j<-Event_ID[i]
-  #Hourly rainfall totals sampled using Serinaldi and Kilsby (2013) method 
-  x_event<-Rainfall_Series[Sample$Samp[j],] 
+  #Hourly rainfall totals sampled using Serinaldi and Kilsby (2013) method
+  x_event<-Rainfall_Series[Sample$Samp[j],]
   #Replace peak in sampled event with the simulated peak
   x_event[which(Rainfall_Series[Sample$Samp[j],]==max(Rainfall_Series[Sample$Samp[i],],na.rm=T))] <- S13.rainfall.sample$Xp[i]
   #Find time of peak hourly rainfall
@@ -84,7 +84,7 @@ Time_Series_Plot<-function(Rainfall_Series,Oswl_Time_Series,Sample,Con_Variable,
    mtext("Time about peak (Hour)", side=1, line=2.25,cex=0.6)
    mtext("Hourly O-sWL [Ft NGVD 29]", side=4, line=2.5,cex=0.6)
   }
-  #Print total rainfall volume in upper left-hand corner of plot 
+  #Print total rainfall volume in upper left-hand corner of plot
   mtext(paste(round(Sample[i,]$V,2),'"',sep=""),side = 3, adj = 0, cex=0.75)
   #Print "intensity" in upper right-hand corner of plot
   mtext(paste(round(intensity.oswl[i],0)),side = 3, adj = 1, cex=0.75)
