@@ -22,7 +22,11 @@
 #' @seealso \code{\link{Decluster}} \code{\link{Time_Series_Plot}} \code{\link{WL_Curve}}
 #' @export
 #' @examples
-#' Set very small rainfall measurements to zero.
+#' #First decluster the rainfall series to find the 500 events
+#' #with the highest peaks
+#' S13.Rainfall.Declust = Decluster(Data=S13.Detrend.df$Rainfall,
+#'                                  SepCrit=24*3, u=0.99667)
+#' #Set very small rainfall measurements to zero.
 #' #Assumed to be the result of uncertainty in measuring equipment.
 #' S13_Rainfall$Rainfall[which(S13_Rainfall$Rainfall<0.01)] = 0
 #' #Find NAs in rainfall series
