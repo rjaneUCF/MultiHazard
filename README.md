@@ -2,6 +2,18 @@
 
 The `MultiHazard` package provides tools for stationary multivariate statistical modeling, for example, to estimate the joint distribution of MULTIple co-occurring HAZARDs. The package contains functions for pre-processing data including imputing missing values, detrending and declustering time series (Section 2) as well as analyzing pairwise correlations over a range of lags (Section 3). Functionality is also built in to implement the conditional sampling - copula theory approach in [Jane et al. (2020)](https://doi.org/10.5194/nhess-20-2681-2020) including the automated threshold selection approach in Solari et al. (2017). 
 
+### Citation: 
+>Jane, R., Cadavid, L., Obeysekera, J., and Wahl, T. (2020). Multivariate statistical modelling of the drivers of compound flood events in South Florida, Nat. Hazards Earth Syst. Sci., 20, 2681–2699, https://doi.org/10.5194/nhess-20-2681-2020.
+
+<br>
+
+## 1. Installation
+Install the latest version of this package by entering the following in R:
+```r
+install.packages("remotes")
+remotes::install_github("rjaneUCF/MultiHazard")
+```
+
 ## 1. Introduction
 
 The `MultiHazard` package provides tools for stationary multivariate statistical modeling, for example, to estimate the joint distribution of MULTIple co-occurring HAZARDs. The package contains functions for pre-processing data including imputing missing values, detrending and declustering time series (Section 2) as well as analyzing pairwise correlations over a range of lags (Section 3). Functionality is also built in to implement the conditional sampling - copula theory approach in Jane et al. (2020) including the automated threshold selection approach in Solari et al. (2017). Tools are provided for selecting the best fitting amongst an array of (non-extreme, truncated and non-truncated) parametric marginal distributions, and, copulas to model the dependence structure (Section 3). The package contains a function that calculates joint probability contours using the method of overlaying (conditional) contours given in Bender et al. (2016), and extracts design events such as the "most likely" event or an ensemble of possible design events (Section 4). The package also provides the capability of fitting and simulating synthetic records from three higher dimensional approaches - standard (elliptic/Archimedean) copulas, Pair Copula Constructions (PCCs) and the conditional threshold exceedance approach of Heffernan and Tawn (2004) (Section 5). Finally, a function that calculates the time for a user-specified height of sea level rise to occur under various scenarios is supplied (Section 6).
