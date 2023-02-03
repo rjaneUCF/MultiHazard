@@ -53,7 +53,7 @@ intensity = OsWL_Intensity(Data=S13.Detrend.df,Cluster_Max=S13.OsWL.Declust$Even
 
 #Four synthetic events
 sim.peaks = c(3.4,4,4.2,5)
-sim.intensity = c(38,48,120,1400)
+sim.intensity = c(38,48,120,140)
 
 #Generating the water level curves
 oswl_ts_oswl = WL_Curve(Data = S13.Detrend.df,
