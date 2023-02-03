@@ -1,5 +1,6 @@
-MultiHazard
-================
+# MultiHazard <img src="https://user-images.githubusercontent.com/15319503/195926656-9d3d37b5-86ab-4d4b-9e6d-3c70d5399c73.png" align="right" height="200"/>
+
+The `MultiHazard` package provides tools for stationary multivariate statistical modeling, for example, to estimate the joint distribution of MULTIple co-occurring HAZARDs. The package contains functions for pre-processing data including imputing missing values, detrending and declustering time series (Section 2) as well as analyzing pairwise correlations over a range of lags (Section 3). Functionality is also built in to implement the conditional sampling - copula theory approach in [Jane et al. (2020)](https://doi.org/10.5194/nhess-20-2681-2020) including the automated threshold selection approach in Solari et al. (2017). 
 
 ## 1. Introduction
 
