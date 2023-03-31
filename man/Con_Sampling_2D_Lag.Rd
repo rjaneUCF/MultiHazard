@@ -10,8 +10,8 @@ Con_Sampling_2D_Lag(
   Con_Variable,
   u = 0.97,
   Thres,
-  Lag_Backward = 0,
-  Lag_Forward = 0
+  Lag_Backward = 3,
+  Lag_Forward = 3
 )
 }
 \arguments{
@@ -25,15 +25,15 @@ Con_Sampling_2D_Lag(
 
 \item{Thres}{Threshold expressed on the original scale of the observations. Only one of \code{u} and \code{Thres} should be supplied. Default is \code{NA}.}
 
-\item{Lag_Backward}{Positieve lag applied to variable not assigned as the \code{Con_Variable}. Default is \code{0}}
+\item{Lag_Backward}{Positive lag applied to variable not assigned as the \code{Con_Variable}. Default is \code{3}}
 
-\item{Lag_Forward}{Negative lag to variable not assigned as the \code{Con_Variable}. Default is \code{0}}
+\item{Lag_Forward}{Negative lag to variable not assigned as the \code{Con_Variable}. Default is \code{3}}
 }
 \value{
-List comprising the specified \code{Threshold} as the quantile of the conditioning variable above which declustered excesses are paired with co-occurences of the other variable, the resulting two-dimensional sample \code{data} and \code{name} of the conditioning variable. The index of the input dataset that correspond to the events of the conditioning variable \code{x.con} and the non-conditioning variable \code{x.noncon} in the conditonal sample are also provided.
+List comprising the specified \code{Threshold} as the quantile of the conditioning variable above which declustered excesses are paired with co-occurences of the other variable, the resulting two-dimensional sample \code{data} and \code{Con_Variable} the name of the conditioning variable. The index of the input dataset that correspond to the events of the conditioning variable \code{x.con} and the non-conditioning variable \code{x.noncon} in the conditonal sample are also provided.
 }
 \description{
-Creates a data frame where the declustered excesses of a (conditioning) variable are paired with the maximum value of a second variable over a specified lag.
+Creates a data frame where the declustered excesses of a (conditioning) variable are paired with the maximum value of a second variable over a specified time-lag.
 }
 \examples{
 S20.Rainfall<-Con_Sampling_2D(Data_Detrend=S20.Detrend.df[,-c(1,4)],
