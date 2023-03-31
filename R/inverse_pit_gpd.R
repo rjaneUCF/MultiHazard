@@ -8,6 +8,7 @@
 #' @param Data_Declust Vector of the declustered observations.
 #' @param q Numeric vector of length one, giving the quantile of \code{Data} above which the GPD is fit.
 #' @return A vector of \code{u} transformed to the specified GPD.
+#' @export
 #' @examples
 #' #First decluster the rainfall series to find the 500 events
 #' #with the highest peaks
