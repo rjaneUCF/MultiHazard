@@ -49,5 +49,5 @@ Time_Series_Plot(Rainfall_Series=x_n,Oswl_Time_Series=oswl.ts.rainfall,
                  Sample=S13.rainfall.sample,Con_Variable="Rainfall",Event_ID=1:16)
 }
 \seealso{
-\code{\link{C_Sample}} \code{\link{WL_Curve}}
+\code{\link{U_Sample}} \code{\link{WL_Curve}}
 }
