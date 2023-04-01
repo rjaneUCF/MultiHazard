@@ -13,7 +13,7 @@
 #' @param Col Numeric vector of length one specifying the number of columns of subplots in the Figure. Product of \code{Row} and \code{Col} must be equal to or greater than \code{Event_ID}.
 #' @param Mar Numeric vector of length one specifying the margin at the (bottom,left,top,right) of the subplots. Default is \code{c(4.2,4.5,1.5,3.5)}.
 #' @return Figure containing a (Row * Col) matrix of subplots each displaying the hyetogaph (grey bars) and water level curve (blue lines) comprising an event.
-#' @seealso \code{\link{C_Sample}} \code{\link{WL_Curve}}
+#' @seealso \code{\link{U_Sample}} \code{\link{WL_Curve}}
 #' @export
 #' @examples
 #' Time_Series_Plot(Rainfall_Series=x_n,Oswl_Time_Series=oswl.ts.rainfall,
