@@ -9,7 +9,7 @@
 #' @examples
 #' S20.Vine<-Vine_Copula_Fit(Data=S20.Detrend.df)
 Vine_Copula_Fit<-function(Data){
-  if(class(Data[,1])=="Date" | class(Data[,1])=="factor"){
+  if(class(Data[,1])[1]=="Date" | class(Data[,1])[1]=="factor" | class(Data[,1])[1]=="POSIXct" | class(Data[,1])[1] == "character"){
     M<-RVineStructureSelect(pobs(na.omit(Data[,2:ncol(Data)])))
     Model <- RVineCopSelect(pobs(na.omit(Data[,2:ncol(Data)])),Matrix=M$Matrix)
   } else {

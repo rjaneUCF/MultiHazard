@@ -27,21 +27,21 @@
 #'                    mqu =c(S22.Rainfall.Quantile,S22.OsWL.Quantile,S22.GW.Quantile))
 Migpd_Fit<-function (Data, Data_Full=NA, mth, mqu, penalty = "gaussian", maxit = 10000,
                      trace = 0, verbose = FALSE, priorParameters = NULL){
-  
-  if(class(Data[,1])=="Date" | class(Data[,1])=="factor"){
+
+  if(class(Data[,1])[1]=="Date" | class(Data[,1])[1]=="factor" | class(Data[,1])[1]=="POSIXct" | class(Data[,1])[1]=="character"){
     data <- Data[,-1]
   } else {
     data <- Data
   }
-  
+
   if(missing(mth)){
-    if(class(Data_Full[,1])=="Date" | class(Data_Full[,1])=="factor"){
+    if(class(Data_Full[,1])[1]=="Date" | class(Data_Full[,1])[1]=="factor" | class(Data_Full[,1])[1]=="POSIXct" | class(Data_Full[,1])[1]=="character"){
       data_full <- Data_Full[,-1]
     } else {
       data_full <- Data_Full
     }
   }
-  
+
   theCall <- match.call()
   if (is.null(colnames(data))) {
     colnames(data) <- paste(rep("Column", ncol(data)), 1:ncol(data),

@@ -36,7 +36,7 @@
 #'            x_lab="Groundwater level (ft NGVD 29)",
 #'            y_lab="Groundwater level (ft NGVD 29)")
 Imputation<-function(Data,Variable,x_lab,y_lab){
-  if(class(Data[,1])=="Date"){
+  if(class(Data[,1])=="Date" | class(Data[,1])=="factor" | class(Data[,1])=="POSIXct" | class(Data[,1])=="character"){
     data <- Data[,-1]
   } else {
     data <- Data
@@ -48,7 +48,7 @@ Imputation<-function(Data,Variable,x_lab,y_lab){
   Data[,(ncol(Data)+1)]<-data[,variable]
   Data[data.NA,ncol(Data)]<-coef(Model)[1]+data[data.NA,Other.variable]*coef(Model)[2]
   names(Data)[ncol(Data)] <- 'ValuesFilled'
-  
+
   #Plot linear model plus predicted points
   plot(data[-data.NA,Other.variable],Data[-data.NA,ncol(Data)],xlab=x_lab,ylab=y_lab,pch=16)
   lines(seq(0,9,0.1),coef(Model)[1]+seq(0,9,0.1)*coef(Model)[2],col=2)
