@@ -36,7 +36,7 @@
 #'            x_lab="Groundwater level (ft NGVD 29)",
 #'            y_lab="Groundwater level (ft NGVD 29)")
 Imputation<-function(Data,Variable,x_lab,y_lab){
-  if(class(Data[,1])=="Date" | class(Data[,1])=="factor" | class(Data[,1])=="POSIXct" | class(Data[,1])=="character"){
+  if(class(Data[,1])[1]=="Date" | class(Data[,1])[1]=="factor" | class(Data[,1])[1]=="POSIXct" | class(Data[,1])[1]=="character"){
     data <- Data[,-1]
   } else {
     data <- Data
