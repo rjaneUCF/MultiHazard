@@ -5,8 +5,10 @@
 #' @param Data Data frame of dimension \code{nx2} containing two co-occurring time series of length \code{n}.
 #' @param Data_Con1 Data frame containing the conditional sample (declustered excesses paired with concurrent values of other variable), conditioned on the variable in the first column.
 #' @param Data_Con2 Data frame containing the conditional sample (declustered excesses paired with concurrent values of other variable), conditioned on the variable in the second column. Can be obtained using the \code{Con_Sampling_2D} function.
-#' @param Thres1 Numeric vector of length one specifying the threshold above which the variable in the first column was sampled in \code{Data_Con1}.
-#' @param Thres2 Numeric vector of length one specifying the threshold above which the variable in the second column was sampled in \code{Data_Con2}.
+#' @param u1 Numeric vector of length one specifying the (quantile) threshold above which the variable in the first column was sampled in \code{Data_Con1}.
+#' @param u2 Numeric vector of length one specifying the (quantile) threshold above which the variable in the second column was sampled in \code{Data_Con2}.
+#' @param Thres1 Numeric vector of length one specifying the threshold above which the variable in the first column was sampled in \code{Data_Con1}. Only one of \code{u1} and \code{Thres1} should be supplied. Default is \code{NA}.
+#' @param Thres2 Numeric vector of length one specifying the threshold above which the variable in the second column was sampled in \code{Data_Con2}. Only one of \code{u2} and \code{Thres2} should be supplied. Default is \code{NA}.
 #' @param Copula_Family1 Numeric vector of length one specifying the copula family used to model the \code{Data_Con1} dataset.
 #' @param Copula_Family2 Numeric vector of length one specifying the copula family used to model the \code{Data_Con2} dataset. Best fitting of 40 copulas can be found using the \code{Copula_Threshold_2D} function.
 #' @param Marginal_Dist1 Character vector of length one specifying (non-extreme) distribution used to model the marginal distribution of the non-conditioned variable in \code{Data_Con1}.
@@ -67,7 +69,7 @@
 #' #equal to or less than a 10yr surge event?
 #' Conditional_RP_2D_Equal(Data=S22.Detrend.df,
 #'                         Data_Con1=con.sample.Rainfall$Data, Data_Con2=con.sample.OsWL$Data,
-#'                         Thres1=0.98, Thres2=0.98,
+#'                         u1=0.98, u2=0.98,
 #'                         Copula_Family1=cop.Rainfall,Copula_Family2=cop.OsWL,
 #'                         Marginal_Dist1="Logis", Marginal_Dist2="Twe",
 #'                         Con1 = "Rainfall", Con2 = "OsWL",
@@ -77,8 +79,10 @@
 #'                         x_lab = "Rainfall (Inches)", y_lab = "O-sWL (ft NGVD 29)",
 #'                         y_lim_max = 10,
 #'                         N=10^8)
-Conditional_RP_2D_Equal<-function(Data, Data_Con1, Data_Con2, Thres1, Thres2, Copula_Family1,
-                                  Copula_Family2, Marginal_Dist1, Marginal_Dist2, Con1 = "Rainfall",
+Conditional_RP_2D_Equal<-function(Data, Data_Con1, Data_Con2,
+                                  Thres1, Thres2, u1, u2,
+                                  Copula_Family1,Copula_Family2,
+                                  Marginal_Dist1, Marginal_Dist2, Con1 = "Rainfall",
                                   Con2 = "OsWL", mu = 365.25, Con_Var, RP_Con, RP_Non_Con, Width=0.1, x_lab = "Rainfall (mm)",
                                   y_lab = "O-sWL (mNGVD 29)", x_lim_min = NA, x_lim_max = NA,
                                   y_lim_min = NA, y_lim_max = NA, N){
@@ -103,9 +107,14 @@ Conditional_RP_2D_Equal<-function(Data, Data_Con1, Data_Con2, Thres1, Thres2, Co
   y_min <- ifelse(is.na(y_lim_min) == T, min(na.omit(Data[,con2])), y_lim_min)
   y_max <- ifelse(is.na(y_lim_max) == T, max(na.omit(Data[,con2])), y_lim_max)
 
+  #Finding the threshold if specified as a quantile
+  if(is.na(Thres1)==T){
+    Thres1<-quantile(na.omit(Data[,con1]), u1)
+  }
+
   ##Finding the value of variable con1 associated with a return peroid of RP_Var1
   #Fitting the GPD
-  GPD_con1 <- evm(Data_Con1[, con1], th = quantile(na.omit(Data[,con1]), Thres1), penalty = "gaussian", priorParameters = list(c(0,0), matrix(c(100^2, 0, 0, 0.25), nrow = 2)))
+  GPD_con1 <- evm(Data_Con1[, con1], th = Thres1, penalty = "gaussian", priorParameters = list(c(0,0), matrix(c(100^2, 0, 0, 0.25), nrow = 2)))
   #Calculate the time period spanned by the original dataset in terms of mu (only including occasions where both variables are observed).
   time.period<-nrow(Data[which(is.na(Data[,con1]) == F & is.na(Data[, con2]) == F),])/mu
   #Calculate the rate of occurrences of extremes (in terms of mu) in Data_Con1.
@@ -113,7 +122,7 @@ Conditional_RP_2D_Equal<-function(Data, Data_Con1, Data_Con2, Thres1, Thres2, Co
   #Interarrival time
   EL_Con1<-1/rate
   #Value of con1 with return period RP_Var1
-  Var1<-as.numeric(u2gpd((1-EL_Con1/RP_Var1), p = 1, th=quantile(na.omit(Data[,con1]),Thres1) , sigma=exp(GPD_con1$coefficients[1]),xi= GPD_con1$coefficients[2]))
+  Var1<-as.numeric(u2gpd((1-EL_Con1/RP_Var1), p = 1, th=Thres1 , sigma=exp(GPD_con1$coefficients[1]),xi= GPD_con1$coefficients[2]))
 
   ##Fit the specified marginal distribution (Marginal_Dist1) to the variable con2 in Data_Con1.
   if (Marginal_Dist1 == "BS") {
@@ -167,9 +176,14 @@ Conditional_RP_2D_Equal<-function(Data, Data_Con1, Data_Con2, Thres1, Thres2, Co
     marginal_non_con1 <- fitdistr(Data_Con1[, con2], "weibull")
   }
 
+  #Finding the threshold if specified as a quantile
+  if(is.na(Thres2)==T){
+    Thres2<-quantile(na.omit(Data[,con2]), u2)
+  }
+
   ##Finding the value of variable con2 associated with a return peroid of RP_Var2
   #Fitting the GPD to con2 in Data_Con2
-  GPD_con2 <- evm(Data_Con2[, con2], th = quantile(na.omit(Data[,con2]), Thres2), penalty = "gaussian", priorParameters = list(c(0, 0), matrix(c(100^2, 0, 0, 0.25), nrow = 2)))
+  GPD_con2 <- evm(Data_Con2[, con2], th = Thres2, penalty = "gaussian", priorParameters = list(c(0, 0), matrix(c(100^2, 0, 0, 0.25), nrow = 2)))
   #Calculate the time period spanned by the original dataset in terms of mu (only including occasions where both variables are observed).
   time.period<-nrow(Data[which(is.na(Data[,con1]) == F & is.na(Data[, con2]) == F),])/mu
   #Calculate the rate of occurrences of extremes (in terms of mu) in Data_Con1.
@@ -177,7 +191,7 @@ Conditional_RP_2D_Equal<-function(Data, Data_Con1, Data_Con2, Thres1, Thres2, Co
   #Calculate the inter-arrival time of extremes (in terms of mu) in Data_Con1.
   EL_Con2<-1/rate
   #Value of con2 with return period RP_Var2
-  Var2<-as.numeric(u2gpd((1-EL_Con2/RP_Var2), p = 1, th=quantile(na.omit(Data[,con2]),Thres2) , sigma=exp(GPD_con2$coefficients[1]),xi= GPD_con2$coefficients[2]))
+  Var2<-as.numeric(u2gpd((1-EL_Con2/RP_Var2), p = 1, th= Thres2 , sigma=exp(GPD_con2$coefficients[1]),xi= GPD_con2$coefficients[2]))
 
   ##Fit the specified marginal distribution (Marginal_Dist2) to the non-conditioned variable con1 in Data_Con2.
   if (Marginal_Dist2 == "BS") {
@@ -242,7 +256,7 @@ Conditional_RP_2D_Equal<-function(Data, Data_Con1, Data_Con2, Thres1, Thres2, Co
                                                   nrow(Data_Con2)), 0), obj1)
   #Transform the realizations of the variable con1 to the original scale using the inverse CDF (quantile function)
   #of the GPD contained in the u2gpd function.
-  cop.sample1.con <- u2gpd(sample[, con1], p = 1, th = quantile(na.omit(Data[,con1]), Thres1), sigma = exp(GPD_con1$coefficients[1]),xi = GPD_con1$coefficients[2])
+  cop.sample1.con <- u2gpd(sample[, con1], p = 1, th = Thres1, sigma = exp(GPD_con1$coefficients[1]),xi = GPD_con1$coefficients[2])
 
   #Transform the realizations of variable con2 to the original scale using the inverse CDF (quantile function)
   #of the selected parametric (non-extreme value) distribution (Marginal_Dist1)
@@ -319,7 +333,7 @@ Conditional_RP_2D_Equal<-function(Data, Data_Con1, Data_Con2, Thres1, Thres2, Co
   sample <- BiCopSim(round(N * nrow(Data_Con2)/(nrow(Data_Con1) +nrow(Data_Con2)), 0), obj2)
   #Transform the realizations of variable con2 to the original scale using the inverse CDF (quantile function)
   #of the GPD contained in the u2gpd function.
-  cop.sample2.con <- u2gpd(sample[, con2], p = 1, th = quantile(na.omit(Data[,con2]), Thres2), sigma = exp(GPD_con2$coefficients[1]),xi = GPD_con2$coefficients[2])
+  cop.sample2.con <- u2gpd(sample[, con2], p = 1, th = Thres2, sigma = exp(GPD_con2$coefficients[1]),xi = GPD_con2$coefficients[2])
 
   #Transform the realizations of variable con1 to the original scale using the inverse CDF (quantile function)
   #of the selected parametric (non-extreme value) distribution (Marginal_Dist2)
