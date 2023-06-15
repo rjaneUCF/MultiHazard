@@ -80,7 +80,7 @@
 #'                         y_lim_max = 10,
 #'                         N=10^8)
 Conditional_RP_2D_Equal<-function(Data, Data_Con1, Data_Con2,
-                                  Thres1, Thres2, u1, u2,
+                                  u1, u2, Thres1=NA, Thres2=NA,
                                   Copula_Family1,Copula_Family2,
                                   Marginal_Dist1, Marginal_Dist2, Con1 = "Rainfall",
                                   Con2 = "OsWL", mu = 365.25, Con_Var, RP_Con, RP_Non_Con, Width=0.1, x_lab = "Rainfall (mm)",

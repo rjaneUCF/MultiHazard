@@ -79,7 +79,7 @@
 #'                   x_lab = "Rainfall (Inches)", y_lab = "O-sWL (ft NGVD 29)",
 #'                   y_lim_max = 10,
 #'                   N=10^7)
-Conditional_RP_2D<-function (Data, Data_Con1, Data_Con2, u1=NA, u2=NA,
+Conditional_RP_2D<-function (Data, Data_Con1, Data_Con2, u1, u2,
                              Thres1=NA, Thres2=NA, Copula_Family1,
                              Copula_Family2, Marginal_Dist1, Marginal_Dist2, Con1 = "Rainfall",
                              Con2 = "OsWL", mu = 365.25, Con_Var, RP_Con, RP_Non_Con,
