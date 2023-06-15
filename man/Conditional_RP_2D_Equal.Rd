@@ -8,10 +8,10 @@ Conditional_RP_2D_Equal(
   Data,
   Data_Con1,
   Data_Con2,
-  Thres1,
-  Thres2,
   u1,
   u2,
+  Thres1 = NA,
+  Thres2 = NA,
   Copula_Family1,
   Copula_Family2,
   Marginal_Dist1,
@@ -39,13 +39,13 @@ Conditional_RP_2D_Equal(
 
 \item{Data_Con2}{Data frame containing the conditional sample (declustered excesses paired with concurrent values of other variable), conditioned on the variable in the second column. Can be obtained using the \code{Con_Sampling_2D} function.}
 
-\item{Thres1}{Numeric vector of length one specifying the threshold above which the variable in the first column was sampled in \code{Data_Con1}. Only one of \code{u1} and \code{Thres1} should be supplied. Default is \code{NA}.}
-
-\item{Thres2}{Numeric vector of length one specifying the threshold above which the variable in the second column was sampled in \code{Data_Con2}. Only one of \code{u2} and \code{Thres2} should be supplied. Default is \code{NA}.}
-
 \item{u1}{Numeric vector of length one specifying the (quantile) threshold above which the variable in the first column was sampled in \code{Data_Con1}.}
 
 \item{u2}{Numeric vector of length one specifying the (quantile) threshold above which the variable in the second column was sampled in \code{Data_Con2}.}
+
+\item{Thres1}{Numeric vector of length one specifying the threshold above which the variable in the first column was sampled in \code{Data_Con1}. Only one of \code{u1} and \code{Thres1} should be supplied. Default is \code{NA}.}
+
+\item{Thres2}{Numeric vector of length one specifying the threshold above which the variable in the second column was sampled in \code{Data_Con2}. Only one of \code{u2} and \code{Thres2} should be supplied. Default is \code{NA}.}
 
 \item{Copula_Family1}{Numeric vector of length one specifying the copula family used to model the \code{Data_Con1} dataset.}
 
