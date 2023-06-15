@@ -8,8 +8,10 @@ Conditional_RP_2D(
   Data,
   Data_Con1,
   Data_Con2,
-  Thres1,
-  Thres2,
+  u1 = NA,
+  u2 = NA,
+  Thres1 = NA,
+  Thres2 = NA,
   Copula_Family1,
   Copula_Family2,
   Marginal_Dist1,
@@ -38,9 +40,13 @@ Conditional_RP_2D(
 
 \item{Data_Con2}{Data frame containing the conditional sample (declustered excesses paired with concurrent values of other variable), conditioned on the variable in the second column. Can be obtained using the \code{Con_Sampling_2D} function.}
 
-\item{Thres1}{Numeric vector of length one specifying the threshold above which the variable in the first column was sampled in Data_Con1.}
+\item{u1}{Numeric vector of length one specifying the (quantile) threshold above which the variable in the first column was sampled in Data_Con1.}
 
-\item{Thres2}{Numeric vector of length one specifying the threshold above which the variable in the second column was sampled in Data_Con2.}
+\item{u2}{Numeric vector of length one specifying the (quantile) threshold above which the variable in the second column was sampled in Data_Con2.}
+
+\item{Thres1}{Numeric vector of length one specifying the threshold above which the variable in the first column was sampled in Data_Con1. Only one of \code{u1} and \code{Thres1} should be supplied. Default is \code{NA}.}
+
+\item{Thres2}{Numeric vector of length one specifying the threshold above which the variable in the second column was sampled in Data_Con2. Only one of \code{u2} and \code{Thres2} should be supplied. Default is \code{NA}.}
 
 \item{Copula_Family1}{Numeric vector of length one specifying the copula family used to model the \code{Data_Con1} dataset.}
 
@@ -122,7 +128,7 @@ To find the conditional probabilities a large number of realizations are simulat
 #frequency equal to or less than a 10yr O-sWL event?
 Conditional_RP_2D(Data=S22.Detrend.df,
                   Data_Con1=con.sample.Rainfall$Data, Data_Con2=con.sample.OsWL$Data,
-                  Thres1=0.98, Thres2=0.98,
+                  u1=0.98, u2=0.98,
                   Copula_Family1=cop.Rainfall,Copula_Family2=cop.OsWL,
                   Marginal_Dist1="Logis", Marginal_Dist2="BS",
                   Con1 = "Rainfall", Con2 = "OsWL",
