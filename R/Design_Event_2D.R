@@ -510,7 +510,7 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
     if(is.na(GPD1)==F){
       con1.x<-u2gpd(as.numeric(unlist(xy160[[1]][2])), p = (GPD1$Rate*mu)/rate, th = GPD1$Threshold, sigma = GPD1$sigma, xi = GPD1$xi)
     }
-    if(is.na(GPD1[[1]][1])==F){
+    if(is.na(Tab1[[1]][1])==F){
       con1.x = approx(1-(1/rate)/Tab1[,1],Tab1[,2],xout=as.numeric(unlist(xy160[[1]][2])))$y
     }
 
