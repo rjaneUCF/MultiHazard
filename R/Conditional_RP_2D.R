@@ -404,11 +404,11 @@ Conditional_RP_2D<-function (Data, Data_Con1, Data_Con2, u1, u2,
 
   ##Calculating the joint probability
   #Joint probability from the model conditioned on Con1
-  RP_Con1<-(EL_Con1/(1-(1-EL_Con1/RP_Var1)-(1-EL_Con1/RP_Var2)+BiCopCDF(1-EL_Con1/RP_Var1, 1-EL_Con1/RP_Var2, obj1)))
+  RP_Con1<-(EL_Con1/(1-(1-1/RP_Var1)-(1-1/RP_Var2)+BiCopCDF(1-1/RP_Var1, 1-1/RP_Var2, obj1)))
   #Joint probability from the model conditioned on Con2
-  RP_Con2<-(EL_Con2/(1-(1-EL_Con2/RP_Var1)-(1-EL_Con2/RP_Var2)+BiCopCDF(1-EL_Con2/RP_Var1, 1-EL_Con2/RP_Var2, obj2)))
-  #Joint return period will be maximum of the retunr periods from the two models
-  RP_Copula<-max(RP_Con1,RP_Con2)
+  RP_Con2<-(EL_Con2/(1-(1-1/RP_Var1)-(1-1/RP_Var2)+BiCopCDF(1-1/RP_Var1, 1-1/RP_Var2, obj2)))
+  #One joint return period will be obtained from each model
+  RP_Copula<-c(RP_Con1,RP_Con2)
 
   #Plotting the results so far
   par(mfrow = c(2, 2))
@@ -420,7 +420,7 @@ Conditional_RP_2D<-function (Data, Data_Con1, Data_Con2, u1, u2,
   points(Data_Con2[, con1], Data_Con2[, con2], col = "Red",
          pch = 4, cex = 1.5)
   points(Var1, Var2, pch = 16, cex = 1.5)
-  legend("topright", c(paste("Full dependence RP = ", min(RP_Var1,RP_Var2), " years", sep = ""), paste("Joint RP = ", round(RP_Copula,0), " years", sep = ""), paste("Independence RP = ", RP_Var1 * RP_Var2, " years", sep = "")), bty = "n", cex = 1.25)
+  legend("topright", c(paste("Full dependence RP = ", min(RP_Var1,RP_Var2), " years", sep = ""), paste("Joint RP (Con1)= ", round(RP_Copula[1],0), " years", sep = ""), paste("Joint RP (Con2)= ", round(RP_Copula[2],0), " years", sep = ""), paste("Independence RP = ", RP_Var1 * RP_Var2, " years", sep = "")), bty = "n", cex = 1.25)
   segments(Var1,0,Var1,Var2,lty=2)
   axis(1,Var1,labels=paste(round(Var1,2)),line=1.2)
   segments(0,Var2,Var1,Var2,lty=2)
