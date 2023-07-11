@@ -96,6 +96,8 @@ Conditional_RP_2D<-function (Data, Data_Con1, Data_Con2, u1, u2,
 
   #Find the columns in Data (which should be consistent in terms of column order of the other data input objects)
   #of conditioning variable 1 (Con1) and conditioning variable 2 (Con2).
+  var1 <- Var1
+  var2 <- Var2
   con1 <- which(names(Data) == Con1)
   con2 <- which(names(Data) == Con2)
   con_var <- which(names(Data) == Con_Var)
@@ -125,10 +127,10 @@ Conditional_RP_2D<-function (Data, Data_Con1, Data_Con2, u1, u2,
   #Interarrival time
   EL_Con1<-1/rate
   #Value of con1 with return period RP_Var1
-  if(is.na(Var1)==T){
+  if(is.na(var1)==T){
    Var1<-as.numeric(u2gpd((1-EL_Con1/RP_Var1), p = 1, th=Thres1 , sigma=exp(GPD_con1$coefficients[1]),xi= GPD_con1$coefficients[2]))
   }
-  if(is.na(Var2)==F){
+  if(is.na(var2)==F){
    RP_Var1<-1/(1-pgpd(Var1, u=Thres1 , sigma=exp(GPD_con1$coefficients[1]),xi= GPD_con1$coefficients[2]))
    print(RP_Var1)
   }
@@ -190,7 +192,7 @@ Conditional_RP_2D<-function (Data, Data_Con1, Data_Con2, u1, u2,
     Thres2<-quantile(na.omit(Data[,con2]), u2)
   }
 
-  if (is.na(Var2)==F){
+  if (is.na(var2)==F){
     if (Marginal_Dist1 == "BS") {
       RP_Var2_con1 <- pbisa(Var2, as.numeric(Coef(marginal_non_con1)[1]),
                             as.numeric(Coef(marginal_non_con1)[2]))
@@ -260,10 +262,10 @@ Conditional_RP_2D<-function (Data, Data_Con1, Data_Con2, u1, u2,
   #Calculate the inter-arrival time of extremes (in terms of mu) in Data_Con1.
   EL_Con2<-1/rate
   #Value of con2 with return period RP_Var2
-  if(is.na(Var2)==T){
+  if(is.na(var2)==T){
    Var2<-as.numeric(u2gpd((1-EL_Con2/RP_Var2), p = 1, th=Thres2 , sigma=exp(GPD_con2$coefficients[1]),xi= GPD_con2$coefficients[2]))
   }
-  if(is.na(Var2)==F){
+  if(is.na(var2)==F){
    RP_Var2<-1/(1-pgpd(Var2, u=Thres2 , sigma=exp(GPD_con2$coefficients[1]),xi= GPD_con2$coefficients[2]))
    print(RP_Var2)
   }
@@ -320,7 +322,7 @@ Conditional_RP_2D<-function (Data, Data_Con1, Data_Con2, u1, u2,
     marginal_non_con2 <- fitdistr(Data_Con2[, con1], "weibull")
   }
 
-  if (is.na(Var2)==F){
+  if (is.na(var2)==F){
     if (Marginal_Dist2 == "BS") {
       RP_Var1_con2 <- pbisa(Var1, as.numeric(Coef(marginal_non_con2)[1]),
                             as.numeric(Coef(marginal_non_con2)[2]))
@@ -536,7 +538,7 @@ Conditional_RP_2D<-function (Data, Data_Con1, Data_Con2, u1, u2,
   #Combine the data frames containg the samples from two joint models (on the original scale)
   cop.sample <- rbind(cop.sample1, cop.sample2)
 
-  if(is.na(Var1)==T){
+  if(is.na(var1)==T){
   ##Calculating the joint probability
   #Joint probability from the model conditioned on Con1
   RP_Con1<-(EL_Con1/(1-(1-1/RP_Var1)-(1-1/RP_Var2)+BiCopCDF(1-1/RP_Var1, 1-1/RP_Var2, obj1)))
@@ -546,12 +548,12 @@ Conditional_RP_2D<-function (Data, Data_Con1, Data_Con2, u1, u2,
   RP_Copula<-c(RP_Con1,RP_Con2)
   }
 
-  if(is.na(Var1)==F){
+  if(is.na(var1)==F){
   #Joint probability from the model conditioned on Con1
   RP_Con1<-(EL_Con1/(1-(1-1/RP_Var1)-(1-1/RP_Var2_con1)+BiCopCDF(1-1/RP_Var1, 1-1/RP_Var2_con1, obj1)))
   #Joint probability from the model conditioned on Con2
   RP_Con2<-(EL_Con2/(1-(1-1/RP_Var1_con2)-(1-1/RP_Var2)+BiCopCDF(1-1/RP_Var1_con2, 1-1/RP_Var2, obj2)))
-  #Joint return period will be maximum of the retunr periods from the two models
+  #Joint return period will be maximum of the return periods from the two models
   RP_Copula<-c(RP_Con1,RP_Con2)
   }
 
