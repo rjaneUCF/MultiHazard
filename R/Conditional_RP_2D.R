@@ -83,7 +83,7 @@ Conditional_RP_2D<-function (Data, Data_Con1, Data_Con2, u1, u2,
                              Thres1=NA, Thres2=NA, Copula_Family1,
                              Copula_Family2, Marginal_Dist1, Marginal_Dist2, Con1 = "Rainfall",
                              Con2 = "OsWL", mu = 365.25, Con_Var, RP_Con, RP_Non_Con,
-                             Var1,Var2,
+                             Var1=NA,Var2=NA,
                              x_lab = "Rainfall (mm)", y_lab = "O-sWL (mNGVD 29)", x_lim_min = NA,
                              x_lim_max = NA, y_lim_min = NA, y_lim_max = NA, N)
 {
@@ -131,6 +131,63 @@ Conditional_RP_2D<-function (Data, Data_Con1, Data_Con2, u1, u2,
   if(is.na(Var2)==F){
    RP_Var1<-1/(1-pgpd(Var1, u=Thres1 , sigma=exp(GPD_con1$coefficients[1]),xi= GPD_con1$coefficients[2]))
    print(RP_Var1)
+  }
+
+  ##Fit the specified marginal distribution (Marginal_Dist1) to the variable con2 in Data_Con1.
+  if (Marginal_Dist1 == "BS") {
+    bdata2 <- data.frame(shape = exp(-0.5), scale = exp(0.5))
+    bdata2 <- transform(bdata2, y = Data_Con1[, con2])
+    marginal_non_con1 <- vglm(y ~ 1, bisa, data = bdata2,
+                              trace = FALSE)
+  }
+  if (Marginal_Dist1 == "Exp") {
+    marginal_non_con1 <- fitdistr(Data_Con1[, con2], "exponential")
+  }
+  if (Marginal_Dist1 == "Gam(2)") {
+    marginal_non_con1 <- fitdistr(Data_Con1[, con2], "gamma2")
+  }
+  if(Marginal_Dist1 == "Gam(3)"){
+    data.gamlss<-data.frame(X=Data_Con1[,con2])
+    marginal_non_con1 <- tryCatch(gamlss(X~1, data=data.gamlss, family=GG),
+                                  error = function(e) "error")
+  }
+  if(Marginal_Dist1 == "GamMix(2)"){
+    data.gamlss<-data.frame(X=Data_Con1[,con2])
+    marginal_non_con1 <- tryCatch(gamlssMX(X~1, data=data.gamlss, family=GA, K=2),
+                                  error = function(e) "error")
+  }
+  if(Marginal_Dist1 == "GamMix(3)"){
+    data.gamlss<-data.frame(X=Data_Con1[,con2])
+    marginal_non_con1 <- tryCatch(gamlssMX(X~1, data=data.gamlss, family=GA, K=3),
+                                  error = function(e) "error")
+  }
+  if (Marginal_Dist1 == "Gaus") {
+    marginal_non_con1 <- fitdistr(Data_Con1[, con2], "normal")
+  }
+  if (Marginal_Dist1 == "InvG") {
+    marginal_non_con1 <- fitdist(Data_Con1[, con2], "invgauss",
+                                 start = list(mean = 5, shape = 1))
+  }
+  if (Marginal_Dist1 == "Logis") {
+    marginal_non_con1 <- fitdistr(Data_Con1[, con2], "logistic")
+  }
+  if (Marginal_Dist1 == "LogN") {
+    marginal_non_con1 <- fitdistr(Data_Con1[, con2], "lognormal")
+  }
+  if (Marginal_Dist1 == "TNorm") {
+    marginal_non_con1 <- fitdistr(Data_Con1[, con2], "normal")
+  }
+  if (Marginal_Dist1 == "Twe") {
+    marginal_non_con1 <- tweedie.profile(Data_Con1[, con2] ~
+                                           1, p.vec = seq(1.5, 2.5, by = 0.2), do.plot = FALSE)
+  }
+  if (Marginal_Dist1 == "Weib") {
+    marginal_non_con1 <- fitdistr(Data_Con1[, con2], "weibull")
+  }
+
+  #Finding the threshold if specified as a quantile
+  if(is.na(Thres2)==T){
+    Thres2<-quantile(na.omit(Data[,con2]), u2)
   }
 
   if (is.na(Var2)==F){
@@ -193,64 +250,6 @@ Conditional_RP_2D<-function (Data, Data_Con1, Data_Con2, u1, u2,
     }
   }
 
-
-  ##Fit the specified marginal distribution (Marginal_Dist1) to the variable con2 in Data_Con1.
-  if (Marginal_Dist1 == "BS") {
-    bdata2 <- data.frame(shape = exp(-0.5), scale = exp(0.5))
-    bdata2 <- transform(bdata2, y = Data_Con1[, con2])
-    marginal_non_con1 <- vglm(y ~ 1, bisa, data = bdata2,
-                              trace = FALSE)
-  }
-  if (Marginal_Dist1 == "Exp") {
-    marginal_non_con1 <- fitdistr(Data_Con1[, con2], "exponential")
-  }
-  if (Marginal_Dist1 == "Gam(2)") {
-    marginal_non_con1 <- fitdistr(Data_Con1[, con2], "gamma2")
-  }
-  if(Marginal_Dist1 == "Gam(3)"){
-    data.gamlss<-data.frame(X=Data_Con1[,con2])
-    marginal_non_con1 <- tryCatch(gamlss(X~1, data=data.gamlss, family=GG),
-                                  error = function(e) "error")
-  }
-  if(Marginal_Dist1 == "GamMix(2)"){
-    data.gamlss<-data.frame(X=Data_Con1[,con2])
-    marginal_non_con1 <- tryCatch(gamlssMX(X~1, data=data.gamlss, family=GA, K=2),
-                                  error = function(e) "error")
-  }
-  if(Marginal_Dist1 == "GamMix(3)"){
-    data.gamlss<-data.frame(X=Data_Con1[,con2])
-    marginal_non_con1 <- tryCatch(gamlssMX(X~1, data=data.gamlss, family=GA, K=3),
-                                  error = function(e) "error")
-  }
-  if (Marginal_Dist1 == "Gaus") {
-    marginal_non_con1 <- fitdistr(Data_Con1[, con2], "normal")
-  }
-  if (Marginal_Dist1 == "InvG") {
-    marginal_non_con1 <- fitdist(Data_Con1[, con2], "invgauss",
-                                 start = list(mean = 5, shape = 1))
-  }
-  if (Marginal_Dist1 == "Logis") {
-    marginal_non_con1 <- fitdistr(Data_Con1[, con2], "logistic")
-  }
-  if (Marginal_Dist1 == "LogN") {
-    marginal_non_con1 <- fitdistr(Data_Con1[, con2], "lognormal")
-  }
-  if (Marginal_Dist1 == "TNorm") {
-    marginal_non_con1 <- fitdistr(Data_Con1[, con2], "normal")
-  }
-  if (Marginal_Dist1 == "Twe") {
-    marginal_non_con1 <- tweedie.profile(Data_Con1[, con2] ~
-                                           1, p.vec = seq(1.5, 2.5, by = 0.2), do.plot = FALSE)
-  }
-  if (Marginal_Dist1 == "Weib") {
-    marginal_non_con1 <- fitdistr(Data_Con1[, con2], "weibull")
-  }
-
-  #Finding the threshold if specified as a quantile
-  if(is.na(Thres2)==T){
-    Thres2<-quantile(na.omit(Data[,con2]), u2)
-  }
-
   ##Finding the value of variable con2 associated with a return peroid of RP_Var2
   #Fitting the GPD to con2 in Data_Con2
   GPD_con2 <- evm(Data_Con2[, con2], th = Thres2, penalty = "gaussian", priorParameters = list(c(0, 0), matrix(c(100^2, 0, 0, 0.25), nrow = 2)))
@@ -268,66 +267,6 @@ Conditional_RP_2D<-function (Data, Data_Con1, Data_Con2, u1, u2,
    RP_Var2<-1/(1-pgpd(Var2, u=Thres2 , sigma=exp(GPD_con2$coefficients[1]),xi= GPD_con2$coefficients[2]))
    print(RP_Var2)
   }
-
-if (is.na(Var2)==F){
-  if (Marginal_Dist2 == "BS") {
-    RP_Var1_con2 <- pbisa(Var1, as.numeric(Coef(marginal_non_con2)[1]),
-                                 as.numeric(Coef(marginal_non_con2)[2]))
-  }
-  if (Marginal_Dist2 == "Exp") {
-    RP_Var1_con2 <- pexp(Var1, rate = as.numeric(marginal_non_con2$estimate[1]))
-  }
-  if (Marginal_Dist2 == "Gam(2)") {
-    RP_Var1_con2 <- pgamma(Var1, shape = as.numeric(marginal_non_con2$estimate[1]),
-                                  rate = as.numeric(marginal_non_con2$estimate[2]))
-  }
-  if(Marginal_Dist2=="Gam(3)"){
-    RP_Var1_con2<-pGG(Var1, mu=exp(marginal_non_con2$mu.coefficients), sigma=exp(marginal_non_con2$sigma.coefficients), nu=marginal_non_con2$nu.coefficients)
-  }
-  if(Marginal_Dist2=="GamMix(2)"){
-    prob.MX1 <- round(marginal_non_con2$prob[1],3)
-    prob.MX2 <- 1 - prob.MX1
-    RP_Var1_con2<-pMX(Var1, mu=list(mu1=exp(marginal_non_con2$models[[1]]$mu.coefficients), mu2=exp(marginal_non_con2$models[[2]]$mu.coefficients)),
-                             sigma=list(sigma1=exp(marginal_non_con2$models[[1]]$sigma.coefficients), sigma2=exp(marginal_non_con2$models[[2]]$sigma.coefficients)),
-                             pi = list(pi1=prob.MX1, pi2=prob.MX2), family=list(fam1="GA", fam2="GA"))
-  }
-  if(Marginal_Dist2=="GamMix(3)"){
-    prob.MX1 <- round(marginal_non_con2$prob[1],3)
-    prob.MX2 <- round(marginal_non_con2$prob[2],3)
-    prob.MX3 <- 1 - prob.MX1 - prob.MX2
-    RP_Var1_con2<-pMX(Var1, mu=list(mu1=exp(marginal_non_con2$models[[1]]$mu.coefficients), mu2=exp(marginal_non_con2$models[[2]]$mu.coefficients), mu3=exp(marginal_non_con2$models[[3]]$mu.coefficients)),
-                             sigma=list(sigma1=exp(marginal_non_con2$models[[1]]$sigma.coefficients), sigma2=exp(marginal_non_con2$models[[2]]$sigma.coefficients), sigma3=exp(marginal_non_con2$models[[3]]$sigma.coefficients)),
-                             pi = list(pi1=prob.MX1, pi2=prob.MX2, pi3=prob.MX3), family=list(fam1="GA", fam2="GA", fam3="GA"))
-  }
-  if (Marginal_Dist2 == "Gaus") {
-    RP_Var1_con2 <- pnorm(Var1, mean = as.numeric(marginal_non_con2$estimate[1]),
-                                 sd = as.numeric(marginal_non_con2$estimate[2]))
-  }
-  if (Marginal_Dist2 == "InvG") {
-    RP_Var1_con2 <- pinvgauss(Var1, mean = as.numeric(marginal_non_con2$estimate[1]),
-                                     shape = as.numeric(marginal_non_con2$estimate[2]))
-  }
-  if (Marginal_Dist2 == "Logis") {
-    RP_Var1_con2 <- plogis(Var1, location = as.numeric(marginal_non_con2$estimate[1]),
-                                  scale = as.numeric(marginal_non_con2$estimate[2]))
-  }
-  if (Marginal_Dist2 == "LogN") {
-    RP_Var1_con2 <- plnorm(Var1, meanlog = as.numeric(marginal_non_con2$estimate[1]),
-                                  sdlog = as.numeric(marginal_non_con2$estimate[2]))
-  }
-  if (Marginal_Dist2 == "TNorm") {
-    RP_Var1_con2 <- ptruncnorm(Var1, a = min(Data_Con2[,con2]), mean = as.numeric(marginal_non_con2$estimate[1]),
-                                      sd = as.numeric(marginal_non_con2$estimate[2]))
-  }
-  if (Marginal_Dist2 == "Twe") {
-    RP_Var1_con2 <- ptweedie(Var1, power = marginal_non_con2$p.max,
-                                    mu = mean(Data_Con2[, con2]), phi = marginal_non_con2$phi.max)
-  }
-  if (Marginal_Dist2 == "Weib") {
-    RP_Var1_con2 <- pweibull(Var1, shape = as.numeric(marginal_non_con2$estimate[1]),
-                                    scale = as.numeric(marginal_non_con2$estimate[2]))
-  }
-}
 
   ##Fit the specified marginal distribution (Marginal_Dist2) to the non-conditioned variable con1 in Data_Con2.
   if (Marginal_Dist2 == "BS") {
@@ -379,6 +318,66 @@ if (is.na(Var2)==F){
   }
   if (Marginal_Dist2 == "Weib") {
     marginal_non_con2 <- fitdistr(Data_Con2[, con1], "weibull")
+  }
+
+  if (is.na(Var2)==F){
+    if (Marginal_Dist2 == "BS") {
+      RP_Var1_con2 <- pbisa(Var1, as.numeric(Coef(marginal_non_con2)[1]),
+                            as.numeric(Coef(marginal_non_con2)[2]))
+    }
+    if (Marginal_Dist2 == "Exp") {
+      RP_Var1_con2 <- pexp(Var1, rate = as.numeric(marginal_non_con2$estimate[1]))
+    }
+    if (Marginal_Dist2 == "Gam(2)") {
+      RP_Var1_con2 <- pgamma(Var1, shape = as.numeric(marginal_non_con2$estimate[1]),
+                             rate = as.numeric(marginal_non_con2$estimate[2]))
+    }
+    if(Marginal_Dist2=="Gam(3)"){
+      RP_Var1_con2<-pGG(Var1, mu=exp(marginal_non_con2$mu.coefficients), sigma=exp(marginal_non_con2$sigma.coefficients), nu=marginal_non_con2$nu.coefficients)
+    }
+    if(Marginal_Dist2=="GamMix(2)"){
+      prob.MX1 <- round(marginal_non_con2$prob[1],3)
+      prob.MX2 <- 1 - prob.MX1
+      RP_Var1_con2<-pMX(Var1, mu=list(mu1=exp(marginal_non_con2$models[[1]]$mu.coefficients), mu2=exp(marginal_non_con2$models[[2]]$mu.coefficients)),
+                        sigma=list(sigma1=exp(marginal_non_con2$models[[1]]$sigma.coefficients), sigma2=exp(marginal_non_con2$models[[2]]$sigma.coefficients)),
+                        pi = list(pi1=prob.MX1, pi2=prob.MX2), family=list(fam1="GA", fam2="GA"))
+    }
+    if(Marginal_Dist2=="GamMix(3)"){
+      prob.MX1 <- round(marginal_non_con2$prob[1],3)
+      prob.MX2 <- round(marginal_non_con2$prob[2],3)
+      prob.MX3 <- 1 - prob.MX1 - prob.MX2
+      RP_Var1_con2<-pMX(Var1, mu=list(mu1=exp(marginal_non_con2$models[[1]]$mu.coefficients), mu2=exp(marginal_non_con2$models[[2]]$mu.coefficients), mu3=exp(marginal_non_con2$models[[3]]$mu.coefficients)),
+                        sigma=list(sigma1=exp(marginal_non_con2$models[[1]]$sigma.coefficients), sigma2=exp(marginal_non_con2$models[[2]]$sigma.coefficients), sigma3=exp(marginal_non_con2$models[[3]]$sigma.coefficients)),
+                        pi = list(pi1=prob.MX1, pi2=prob.MX2, pi3=prob.MX3), family=list(fam1="GA", fam2="GA", fam3="GA"))
+    }
+    if (Marginal_Dist2 == "Gaus") {
+      RP_Var1_con2 <- pnorm(Var1, mean = as.numeric(marginal_non_con2$estimate[1]),
+                            sd = as.numeric(marginal_non_con2$estimate[2]))
+    }
+    if (Marginal_Dist2 == "InvG") {
+      RP_Var1_con2 <- pinvgauss(Var1, mean = as.numeric(marginal_non_con2$estimate[1]),
+                                shape = as.numeric(marginal_non_con2$estimate[2]))
+    }
+    if (Marginal_Dist2 == "Logis") {
+      RP_Var1_con2 <- plogis(Var1, location = as.numeric(marginal_non_con2$estimate[1]),
+                             scale = as.numeric(marginal_non_con2$estimate[2]))
+    }
+    if (Marginal_Dist2 == "LogN") {
+      RP_Var1_con2 <- plnorm(Var1, meanlog = as.numeric(marginal_non_con2$estimate[1]),
+                             sdlog = as.numeric(marginal_non_con2$estimate[2]))
+    }
+    if (Marginal_Dist2 == "TNorm") {
+      RP_Var1_con2 <- ptruncnorm(Var1, a = min(Data_Con2[,con2]), mean = as.numeric(marginal_non_con2$estimate[1]),
+                                 sd = as.numeric(marginal_non_con2$estimate[2]))
+    }
+    if (Marginal_Dist2 == "Twe") {
+      RP_Var1_con2 <- ptweedie(Var1, power = marginal_non_con2$p.max,
+                               mu = mean(Data_Con2[, con2]), phi = marginal_non_con2$phi.max)
+    }
+    if (Marginal_Dist2 == "Weib") {
+      RP_Var1_con2 <- pweibull(Var1, shape = as.numeric(marginal_non_con2$estimate[1]),
+                               scale = as.numeric(marginal_non_con2$estimate[2]))
+    }
   }
 
   ###Simulating sample from the joint distribution (copula+marginals) fit to the sample conditioned on Con1
