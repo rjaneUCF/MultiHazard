@@ -26,6 +26,7 @@
 #' @param x_lim_max Numeric vector of length one specifying x-axis maximum. Default is \code{NA}.
 #' @param y_lim_min Numeric vector of length one specifying y-axis minimum. Default is \code{NA}.
 #' @param y_lim_max Numeric vector of length one specifying y-axis maximum. Default is \code{NA}.
+#' @param DecP Numeric vector of length one specifying the number of decimal places to round the data in the conditional samples to in order to identify observations in both conditional samples. Default is \code{2}.
 #' @param N Numeric vector of length one specifying the size of the sample from the fitted joint distributions used to estimate the density along an isoline. Samples are collected from the two joint distribution with proportions consistent with the total number of extreme events conditioned on each variable. Default is \code{10^6}
 #' @return  Console output: \itemize{
 #' \item Con_Var
@@ -47,7 +48,7 @@
 #' \item Prob
 #' Probability associated with \code{RP_Copula}
 #' \item N_Sub_Sample
-#' Number of realizations of the \code{Con_Var} within +/- width of the value of \code{Con_Var} with retunr period \code{}.
+#' Number of realizations of the \code{Con_Var} within +/- width of the value of \code{Con_Var} with return period \code{}.
 #' \item Non_Con_Var_X
 #' Values of the non-conditioned variable of the (conditional) Cummulative Distribution Function (CDF) i.e. x-axis of bottom left plot
 #' \item Con_Prob
@@ -85,7 +86,7 @@ Conditional_RP_2D_Equal<-function(Data, Data_Con1, Data_Con2,
                                   Marginal_Dist1, Marginal_Dist2, Con1 = "Rainfall",
                                   Con2 = "OsWL", mu = 365.25, Con_Var, RP_Con, RP_Non_Con, Width=0.1, x_lab = "Rainfall (mm)",
                                   y_lab = "O-sWL (mNGVD 29)", x_lim_min = NA, x_lim_max = NA,
-                                  y_lim_min = NA, y_lim_max = NA, N){
+                                  y_lim_min = NA, y_lim_max = NA, DecP = 2, N){
   ###Preliminaries
 
   #Remove 1st column of Data if it is a Date or factor object.
@@ -402,13 +403,9 @@ Conditional_RP_2D_Equal<-function(Data, Data_Con1, Data_Con2,
   #Combine the data frames containg the samples from two joint models (on the original scale)
   cop.sample <- rbind(cop.sample1, cop.sample2)
 
-  ##Calculating the joint probability
-  #Joint probability from the model conditioned on Con1
-  RP_Con1<-(EL_Con1/(1-(1-1/RP_Var1)-(1-1/RP_Var2)+BiCopCDF(1-1/RP_Var1, 1-1/RP_Var2, obj1)))
-  #Joint probability from the model conditioned on Con2
-  RP_Con2<-(EL_Con2/(1-(1-1/RP_Var1)-(1-1/RP_Var2)+BiCopCDF(1-1/RP_Var1, 1-1/RP_Var2, obj2)))
-  #Joint return period will be maximum of the retunr periods from the two models
-  RP_Copula<-c(RP_Con1,RP_Con2)
+  Data_Con_Combined <- rbind(round(Data_Con1,DecP),round(Data_Con2,DecP))
+  Data_Con_N <- nrow(unique(Data_Con_Combined))
+  RP_Copula <- (1 / (Data_Con_N / time.period)) / (length(which(cop.sample[, con1] > Var1 & cop.sample[, con2] > Var2))/ N)
 
   #Plotting the results so far
   par(mfrow = c(2, 2))
@@ -420,7 +417,7 @@ Conditional_RP_2D_Equal<-function(Data, Data_Con1, Data_Con2,
   points(Data_Con2[, con1], Data_Con2[, con2], col = "Red",
          pch = 4, cex = 1.5)
   points(Var1, Var2, pch = 16, cex = 1.5)
-  legend("topright", c(paste("Full dependence RP = ", min(RP_Var1,RP_Var2), " years", sep = ""), paste("Joint RP (con 1)= ", round(RP_Copula[1],0), " years", sep = ""), paste("Joint RP (con 2)= ", round(RP_Copula[2],0), " years", sep = ""), paste("Independence RP = ", RP_Var1 * RP_Var2, " years", sep = "")), bty = "n", cex = 1.25)
+  legend("topright", c(paste("Full dependence RP = ", min(RP_Var1,RP_Var2), " years", sep = ""), paste("Joint RP (copula) = ", round(RP_Copula,0), " years", sep = ""), paste("Independence RP = ", RP_Var1 * RP_Var2, " years", sep = "")), bty = "n", cex = 1.25)
   segments(Var1,0,Var1,Var2,lty=2)
   axis(1,Var1,labels=paste(round(Var1,2)),line=1.2)
   segments(0,Var2,Var1,Var2,lty=2)
@@ -436,12 +433,12 @@ Conditional_RP_2D_Equal<-function(Data, Data_Con1, Data_Con2,
     #points(cop.sample[which(cop.sample[,con1]>(Var1-Width) & cop.sample[,con1]<(Var1+Width)),con1],
     #       cop.sample[which(cop.sample[,con1]>(Var1-Width) & cop.sample[,con1]<(Var1+Width)),con2],col=1,pch=16)
     #Rate
-    rate<-length(which(cop.sample[, con1] > Var1))/N
+    rate<-length(which(cop.sample[, con1] > Var1)) / (1 / (Data_Con_N / time.period) * N)
     #Histogram of the values of the non-conditioned variable when the conditioning variable is in the interval around Var1 i.e. [Var1-width,Var1+width]
     hist(cop.sample[which(cop.sample[,con1]>(Var1-Width) & cop.sample[,con1]<(Var1+Width)),con2],
          cex.lab = 1.5, cex.axis = 1.5,
          freq=F,main="",xlab = y_lab,col="Grey")
-    #Cummulative distribution function (CDF) of the non-conditioned variable when the conditioning variable is approximately Var1 i.e. [Var1-width,Var1+width]
+    #Cumulative distribution function (CDF) of the non-conditioned variable when the conditioning variable is approximately Var1 i.e. [Var1-width,Var1+width]
     CDF_Var<-approx(seq(1,length(which(cop.sample[,con1]>(Var1-Width) & cop.sample[,con1]<(Var1+Width))),1)/length(which(cop.sample[,con1]>(Var1-Width) & cop.sample[,con1]<(Var1+Width))),
                     cop.sample[which(cop.sample[,con1]>(Var1-Width) & cop.sample[,con1]<(Var1+Width)),con2][order(cop.sample[which(cop.sample[,con1]>(Var1-Width) & cop.sample[,con1]<(Var1+Width)),con2])],
                     seq(round(min(1/length(which(cop.sample[,con1]>(Var1-Width) & cop.sample[,con1]<(Var1+Width)))+0.0005),3),1,0.001))
@@ -463,11 +460,11 @@ Conditional_RP_2D_Equal<-function(Data, Data_Con1, Data_Con2,
     #       cop.sample[which(cop.sample[,con2]>(Var2-Width) & cop.sample[,con2]<(Var2+Width)),con2],col=1,pch=16)
     #box()
     #Rate
-    rate<-length(which(cop.sample[, con2] > Var2))/N
+    rate<-length(which(cop.sample[, con2] > Var2)) / (1 / (Data_Con_N / time.period) * N)
     #Histogram of the values of the non-conditioned variable when the conditioning variable is in the interval around Var2 i.e. [Var2-width,Var2+width]
     hist(cop.sample[which(cop.sample[,con2]>(Var2-Width) & cop.sample[,con2]<(Var2+Width)),con1],
          cex.lab = 1.5, cex.axis = 1.5,freq=F,main="", xlab = y_lab,col="Grey")
-    #Cummulative distribution function (CDF) of the non-conditioned variable when the conditioning variable is approximately Var2 i.e. [Var2-width,Var2+width]
+    #Cumulative distribution function (CDF) of the non-conditioned variable when the conditioning variable is approximately Var2 i.e. [Var2-width,Var2+width]
     CDF_Var<-approx(seq(1,length(which(cop.sample[,con2]>(Var2-Width) & cop.sample[,con2]<(Var2+Width))),1)/length(which(cop.sample[,con2]>(Var2-Width) & cop.sample[,con2]<(Var2+Width))),
                     cop.sample[which(cop.sample[,con2]>(Var2-Width) & cop.sample[,con2]<(Var2+Width)),con1][order(cop.sample[which(cop.sample[,con2]>(Var2-Width) & cop.sample[,con2]<(Var2+Width)),con1])],
                     seq(round(min(1/length(which(cop.sample[,con2]>(Var2-Width) & cop.sample[,con2]<(Var2+Width)))+0.0005),3),1,0.001))
