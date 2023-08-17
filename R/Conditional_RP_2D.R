@@ -594,9 +594,6 @@ Conditional_RP_2D<-function (Data, Data_Con1, Data_Con2, u1, u2,
     #Number of realizations in the sample where con1 exceeds Var1
     N_Excess <- length(which(cop.sample[, con1] > Var1))
     #Interpolating CDF
-    print(summary(cop.sample))
-    print(min(CDF_Var$y),2)
-    print(min(CDF_Var$y,na.rm=T),2)
     CDF_Var <- approx(CDF_Var$y, CDF_Var$x, seq(round(min(CDF_Var$y),2), round(max(CDF_Var$y), 2), 0.01))
     #Extracting conditional probability that con2 is less than Var2 given con1 exceeds Var1
     #By finding value of the last interpolation of the CDF at Var2
