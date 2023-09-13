@@ -210,10 +210,10 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
     Thres2<-quantile(na.omit(Data[,con2]),u2)
   }
 
-  if(is.na(GPD1)==T & GPD_Bayes==T & is.na(Tab2[[1]][1])==T){
+  if(is.na(GPD2)==T & GPD_Bayes==T & is.na(Tab2[[1]][1])==T){
     GPD_con2<-evm(Data_Con2[,con2], th=Thres2 ,penalty = "gaussian",priorParameters = list(c(0, 0), matrix(c(100^2, 0, 0, 0.25), nrow = 2)))
   }
-  if(is.na(GPD1)==T & GPD_Bayes==F & is.na(Tab2[[1]][1])==T){
+  if(is.na(GPD2)==T & GPD_Bayes==F & is.na(Tab2[[1]][1])==T){
     GPD_con2<-evm(Data_Con2[,con2], th= Thres2)
   }
 
