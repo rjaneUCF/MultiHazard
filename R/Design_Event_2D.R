@@ -612,10 +612,10 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
 
     #Transform the points on the contour to the original scale using the inverse cumulative distributions a.k.a. quantile functions (i.e. using the inverse probability integral transform).
     #Transforming the conditioned variable in Data_Con2, Con2 to the original scale using the inverse CDF of the GPD contained in the u2gpd function.
-    if(is.na(GPD1)==T & is.na(Tab2[[1]][1])==T){
+    if(is.na(GPD2)==T & is.na(Tab2[[1]][1])==T){
      con2.y<-u2gpd(as.numeric(unlist(xy160[[1]][3])), p = 1, th=Thres2 , sigma=exp(GPD_con2$coefficients[1]),xi= GPD_con2$coefficients[2] )
     }
-    if(is.na(GPD1)==F){
+    if(is.na(GPD2)==F){
      con2.y<-u2gpd(as.numeric(unlist(xy160[[1]][3])), p = (GPD2$Rate*mu)/rate, th = GPD2$Threshold, sigma = GPD2$sigma, xi = GPD2$xi)
     }
     if(is.na(Tab2[[1]][1])==F){
