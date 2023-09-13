@@ -29,6 +29,7 @@ Conditional_RP_2D_Equal(
   x_lim_max = NA,
   y_lim_min = NA,
   y_lim_max = NA,
+  DecP = 2,
   N
 )
 }
@@ -81,6 +82,8 @@ Conditional_RP_2D_Equal(
 
 \item{y_lim_max}{Numeric vector of length one specifying y-axis maximum. Default is \code{NA}.}
 
+\item{DecP}{Numeric vector of length one specifying the number of decimal places to round the data in the conditional samples to in order to identify observations in both conditional samples. Default is \code{2}.}
+
 \item{N}{Numeric vector of length one specifying the size of the sample from the fitted joint distributions used to estimate the density along an isoline. Samples are collected from the two joint distribution with proportions consistent with the total number of extreme events conditioned on each variable. Default is \code{10^6}}
 }
 \value{
@@ -104,7 +107,7 @@ Joint return period of the (Var1,Var2) event according to the two sided conditio
 \item Prob
 Probability associated with \code{RP_Copula}
 \item N_Sub_Sample
-Number of realizations of the \code{Con_Var} within +/- width of the value of \code{Con_Var} with retunr period \code{}.
+Number of realizations of the \code{Con_Var} within +/- width of the value of \code{Con_Var} with return period \code{}.
 \item Non_Con_Var_X
 Values of the non-conditioned variable of the (conditional) Cummulative Distribution Function (CDF) i.e. x-axis of bottom left plot
 \item Con_Prob

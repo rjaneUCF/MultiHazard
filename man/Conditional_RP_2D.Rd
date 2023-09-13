@@ -22,14 +22,15 @@ Conditional_RP_2D(
   Con_Var,
   RP_Con,
   RP_Non_Con,
-  Var1,
-  Var2,
+  Var1 = NA,
+  Var2 = NA,
   x_lab = "Rainfall (mm)",
   y_lab = "O-sWL (mNGVD 29)",
   x_lim_min = NA,
   x_lim_max = NA,
   y_lim_min = NA,
   y_lim_max = NA,
+  DecP = 2,
   N
 )
 }
@@ -79,6 +80,8 @@ Conditional_RP_2D(
 \item{y_lim_min}{Numeric vector of length one specifying y-axis minimum. Default is \code{NA}.}
 
 \item{y_lim_max}{Numeric vector of length one specifying y-axis maximum. Default is \code{NA}.}
+
+\item{DecP}{Numeric vector of length one specifying the number of decimal places to round the data in the conditional samples to in order to identify observations in both conditional samples. Default is \code{2}.}
 
 \item{N}{Numeric vector of length one specifying the size of the sample from the fitted joint distributions used to estimate the density along an isoline. Samples are collected from the two joint distribution with proportions consistent with the total number of extreme events conditioned on each variable. Default is \code{10^6}}
 }
