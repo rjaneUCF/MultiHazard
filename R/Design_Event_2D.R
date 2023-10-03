@@ -16,6 +16,8 @@
 #' @param Con2 Character vector of length one specifying the name of variable in the second column of \code{Data}.
 #' @param GPD1 Output of \code{GPD_Fit} applied to variable \code{con1} i.e., GPD fit \code{con1}. Default \code{NA}. Only one of \code{u1}, \code{Thres1}, \code{GPD1} and \code{Tab1} is required.
 #' @param GPD2 Output of \code{GPD_Fit} applied to variable \code{con2} i.e., GPD fit \code{con2}. Default \code{NA}. Only one of \code{u2}, \code{Thres2}, \code{GPD2} and \code{Tab2} is required.
+#' @param Rate_Con1 Numeric vector of length one specifying the occurrence rate of observations in \code{Data_Con1}. Default is \code{NA}.
+#' @param Rate_Con2 Numeric vector of length one specifying the occurrence rate of observations in \code{Data_Con2}. Default is \code{NA}.
 #' @param Tab1 Data frame specifying the return periods of variable \code{con1}, when conditioning on \code{con1}. First column specifies the return period and the second column gives the corresponding levels. First row must contain the return level of \code{con1} for the inter-arrival time (1/rate) of the sample. Only one of \code{u1}, \code{Thres1}, \code{GPD1} and \code{Tab1} is required.
 #' @param Tab2 Data frame specifying the return periods of variable \code{con2}, when conditioning on \code{con2}. First column specifies the return period and the second column gives the corresponding levels. First row must contain the return level of \code{con2} for the inter-arrival time (1/rate) of the sample. Only one of \code{u2}, \code{Thres2}, \code{GPD2} and \code{Tab2} is required.
 #' @param mu Numeric vector of length one specifying the (average) occurrence frequency of events in \code{Data}. Default is \code{365.25}, daily data.
@@ -61,7 +63,7 @@
 #'                              Plot_Quantile_Isoline=FALSE)
 #'#Extracting the 100-year isoline from the output
 #'Design.Event$`100`$Isoline
-Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=NA, Copula_Family1, Copula_Family2, Marginal_Dist1, Marginal_Dist2, Marginal_Dist1_Par=NA, Marginal_Dist2_Par=NA, Con1="Rainfall",Con2="OsWL", GPD1=NA, GPD2=NA, Tab1= NA, Tab2 = NA, mu=365.25, GPD_Bayes=FALSE, Decimal_Place=2, RP, Interval=10000, End=F, Resolution="Low", x_lab="Rainfall (mm)",y_lab="O-sWL (mNGVD 29)",x_lim_min = NA,x_lim_max = NA,y_lim_min = NA,y_lim_max = NA,Isoline_Probs="Sample", N=10^6,N_Ensemble=0,Sim_Max=10,Plot_Quantile_Isoline=FALSE,Isoline_Type="Combined"){
+Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=NA, Copula_Family1, Copula_Family2, Marginal_Dist1, Marginal_Dist2, Marginal_Dist1_Par=NA, Marginal_Dist2_Par=NA, Con1="Rainfall",Con2="OsWL", GPD1=NA, GPD2=NA, Rate_Con1=NA, Rate_Con_2=NA, Tab1= NA, Tab2 = NA, mu=365.25, GPD_Bayes=FALSE, Decimal_Place=2, RP, Interval=10000, End=F, Resolution="Low", x_lab="Rainfall (mm)",y_lab="O-sWL (mNGVD 29)",x_lim_min = NA,x_lim_max = NA,y_lim_min = NA,y_lim_max = NA,Isoline_Probs="Sample", N=10^6,N_Ensemble=0,Sim_Max=10,Plot_Quantile_Isoline=FALSE,Isoline_Type="Combined"){
 
   ###Preliminaries
 
@@ -102,6 +104,21 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
   }
   if(is.na(GPD1)==T & GPD_Bayes==F & is.na(Tab1[[1]][1])==T){
     GPD_con1<-evm(Data_Con1[,con1], th = Thres1)
+  }
+
+  #Find the occurrence rates of the two conditional samples
+
+  #Calculate the time period spanned by the original dataset in terms of mu (only including occasions where both variables are observed).
+  time.period<-nrow(Data[which(is.na(Data[,1])==FALSE & is.na(Data[,2])==FALSE),])/mu
+
+  #Calculate the rate of occurrences of extremes (in terms of mu) in Data_Con1.
+  if(is.na(Rate_Con1)==T){
+    Rate_Con1<-nrow(Data_Con1)/time.period
+  }
+
+  #Calculate the rate of occurrences of extremes (in terms of mu) in Data_Con2.
+  if(is.na(Rate_Con2)==T){
+    Rate_Con2<-nrow(Data_Con2)/time.period
   }
 
   #Fit the specified marginal distribution (Marginal_Dist1) to the non-conditioned variable con2 in Data_Con1.
@@ -486,18 +503,15 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
       y<- c(10^(-5),seq(999.9*10^(-5),1-(1*10^(-6)),10^(-4)))
     }
     u<-expand.grid(x,y)
+
     #Evaluate the copula at each point on the grid.
     u1<-BiCopCDF(u[,1], u[,2], obj1)
 
-    #Calculate the time period spanned by the original dataset in terms of mu (only including occasions where both variables are observed).
-    time.period<-nrow(Data[which(is.na(Data[,1])==FALSE & is.na(Data[,2])==FALSE),])/mu
-    #Calculate the rate of occurrences of extremes (in terms of mu) in Data_Con1.
-    rate<-nrow(Data_Con1)/time.period
     #Calculate the inter-arrival time of extremes (in terms of mu) in Data_Con1.
-    EL<-1/rate
+    EL_Con1<-1/Rate_Con1
 
     #Define a function which evaluates the return period at a given point (x,y).
-    f<-function(x,y){EL/(1-x-y+u1[which(u[,1]==x & u[,2]==y)]) }
+    f<-function(x,y){EL_Con1/(1-x-y+u1[which(u[,1]==x & u[,2]==y)]) }
     #Evaluate the return period at each point on the grid 'u' (the 'outer' function creates the grid internally using the points on the boundary i.e. the x and y we defined earlier).
     z<- outer(x,y,f)
     #The contourLines function in the grDevices package extracts the isoline with the specified return period - 'RP' in our case.
@@ -508,10 +522,10 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
       con1.x<-u2gpd(as.numeric(unlist(xy160[[1]][2])), p = 1, th=Thres1 , sigma=exp(GPD_con1$coefficients[1]),xi= GPD_con1$coefficients[2] )
     }
     if(is.na(GPD1)==F){
-      con1.x<-u2gpd(as.numeric(unlist(xy160[[1]][2])), p = (GPD1$Rate*mu)/rate, th = GPD1$Threshold, sigma = GPD1$sigma, xi = GPD1$xi)
+      con1.x<-u2gpd(as.numeric(unlist(xy160[[1]][2])), p = (GPD1$Rate*mu)/Rate_Con1, th = GPD1$Threshold, sigma = GPD1$sigma, xi = GPD1$xi)
     }
     if(is.na(Tab1[[1]][1])==F){
-      con1.x = approx(1-(1/rate)/Tab1[,1],Tab1[,2],xout=as.numeric(unlist(xy160[[1]][2])))$y
+      con1.x = approx(1-(1/Rate_Con1)/Tab1[,1],Tab1[,2],xout=as.numeric(unlist(xy160[[1]][2])))$y
     }
 
     #Transform the non-conditioned variable in Data_Con1, Con2' to the original scale using the quantile function of the selected parameteric (non-extreme value) distributions
@@ -598,13 +612,11 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
     #Evaluate the copula at each point on the grid.
     u1<-BiCopCDF(u[,1], u[,2], obj2)
 
-    #Calculate the rate of occurrences of extremes (in terms of mu) in Data_Con2.
-    rate<-nrow(Data_Con2)/time.period
     #Calculate the inter-arrival time of extremes (in terms of mu) in Data_Con2.
-    EL<-1/rate
+    EL_Con2<-1/Rate_Con2
 
     #Define a function which evaluates the return period at a given point (x,y).
-    f<-function(x,y){EL/(1-x-y+u1[which(u[,1]==x & u[,2]==y)]) }
+    f<-function(x,y){EL_Con2/(1-x-y+u1[which(u[,1]==x & u[,2]==y)]) }
     #Evaluate the return period at each point on the grid 'u' (the 'outer' function creates the grid internally using the points on the boundary i.e. the x and y we defined earlier)
     z<- outer(x,y,f)
     #The contourLines function in the grDevices package extracts the isoline with the specified return period - 'RP' in our case.
@@ -616,10 +628,10 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
      con2.y<-u2gpd(as.numeric(unlist(xy160[[1]][3])), p = 1, th=Thres2 , sigma=exp(GPD_con2$coefficients[1]),xi= GPD_con2$coefficients[2] )
     }
     if(is.na(GPD2)==F){
-     con2.y<-u2gpd(as.numeric(unlist(xy160[[1]][3])), p = (GPD2$Rate*mu)/rate, th = GPD2$Threshold, sigma = GPD2$sigma, xi = GPD2$xi)
+     con2.y<-u2gpd(as.numeric(unlist(xy160[[1]][3])), p = (GPD2$Rate*mu)/Rate_Con2, th = GPD2$Threshold, sigma = GPD2$sigma, xi = GPD2$xi)
     }
     if(is.na(Tab2[[1]][1])==F){
-     con2.y = approx(1-(1/rate)/Tab2[,1],Tab2[,2],xout=as.numeric(unlist(xy160[[1]][3])))$y
+     con2.y = approx(1-(1/Rate_Con2)/Tab2[,1],Tab2[,2],xout=as.numeric(unlist(xy160[[1]][3])))$y
     }
 
     #Transform the non-conditioned variable in Data_Con2, Con1' to the original scale using the quantile function of the selected parameteric (non-extreme value) distributions.
