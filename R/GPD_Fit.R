@@ -21,22 +21,22 @@
 #' @examples
 #' Decluster(Data=S20_T_MAX_Daily_Completed_Detrend$Detrend)
 GPD_Fit<-function(Data,Data_Full,u=0.95,Thres=NA,mu=365.25,GPD_Bayes=TRUE,Method="Standard",min.RI=1,PLOT=FALSE,xlab_hist="Data",y_lab="Data"){
-  
+
   Data_Full<-na.omit(Data_Full)
   if(is.na(Thres)==T){
     Thres<-ifelse(is.na(u)==T,Thres,quantile(Data_Full,u))
   }
   Data<-na.omit(Data)
-  
+
   if(Method=="Standard"){
     if(GPD_Bayes==T){
       gpd<-evm(Data, th = Thres,penalty = "gaussian",priorParameters = list(c(0, 0), matrix(c(100^2, 0, 0, 0.25), nrow = 2)))
     } else{
       gpd<-evm(Data, th = Thres)
     }
-    gpd$rate<-length(Data[which(Data>=Thres)])/(length(Data_Full))
+    gpd$rate<-length(Data[which(Data>=Thres)])/(length(Data_Full)/mu)
   }
-  
+
   if(Method=="Solari"){
     Exceedence<-Data[which(Data>=Thres)]
     if(GPD_Bayes==T){
@@ -46,9 +46,9 @@ GPD_Fit<-function(Data,Data_Full,u=0.95,Thres=NA,mu=365.25,GPD_Bayes=TRUE,Method
       gpd <- evm(Exceedence, th = min(Exceedence))
     }
     Thres=min(Exceedence)
-    gpd$rate<-length(Exceedence)/(length(Data_Full))
+    gpd$rate<-length(Exceedence)/(length(Data_Full)/mu)
   }
-  print(gpd)
+
   if(PLOT==TRUE){
     GPD_diag_HT04(Data=na.omit(Data),
                   Data_Full=Data_Full,
