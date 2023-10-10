@@ -66,11 +66,6 @@ Joint_RP_2D<-function (Data, Data_Con1, Data_Con2, u1, u2,
   var2 <- Var2
   con1 <- which(names(Data) == Con1)
   con2 <- which(names(Data) == Con2)
-  con_var <- which(names(Data) == Con_Var)
-  if(is.na(Var1)==T){
-  RP_Var1 <- ifelse(con_var == 1, RP_Con, RP_Non_Con)
-  RP_Var2 <- ifelse(con_var == 2, RP_Con, RP_Non_Con)
-  }
 
   #Axis limits for plots
   x_min <- ifelse(is.na(x_lim_min) == T, min(na.omit(Data[,con1])), x_lim_min)
