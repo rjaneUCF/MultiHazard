@@ -522,7 +522,7 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
       con1.x<-u2gpd(as.numeric(unlist(xy160[[1]][2])), p = 1, th=Thres1 , sigma=exp(GPD_con1$coefficients[1]),xi= GPD_con1$coefficients[2] )
     }
     if(is.na(GPD1)==F){
-      con1.x<-u2gpd(as.numeric(unlist(xy160[[1]][2])), p = (GPD1$Rate*mu)/Rate_Con1, th = GPD1$Threshold, sigma = GPD1$sigma, xi = GPD1$xi)
+      con1.x<-u2gpd(as.numeric(unlist(xy160[[1]][2])), p = (GPD1$Rate)/Rate_Con1, th = GPD1$Threshold, sigma = GPD1$sigma, xi = GPD1$xi)
     }
     if(is.na(Tab1[[1]][1])==F){
       con1.x = approx(1-(1/Rate_Con1)/Tab1[,1],Tab1[,2],xout=as.numeric(unlist(xy160[[1]][2])))$y
@@ -628,7 +628,7 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
      con2.y<-u2gpd(as.numeric(unlist(xy160[[1]][3])), p = 1, th=Thres2 , sigma=exp(GPD_con2$coefficients[1]),xi= GPD_con2$coefficients[2] )
     }
     if(is.na(GPD2)==F){
-     con2.y<-u2gpd(as.numeric(unlist(xy160[[1]][3])), p = (GPD2$Rate*mu)/Rate_Con2, th = GPD2$Threshold, sigma = GPD2$sigma, xi = GPD2$xi)
+     con2.y<-u2gpd(as.numeric(unlist(xy160[[1]][3])), p = (GPD2$Rate)/Rate_Con2, th = GPD2$Threshold, sigma = GPD2$sigma, xi = GPD2$xi)
     }
     if(is.na(Tab2[[1]][1])==F){
      con2.y = approx(1-(1/Rate_Con2)/Tab2[,1],Tab2[,2],xout=as.numeric(unlist(xy160[[1]][3])))$y
