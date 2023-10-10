@@ -504,7 +504,7 @@ Joint_RP_2D<-function (Data, Data_Con1, Data_Con2, u1, u2,
   (1 / (Data_Con_N / time.period)) / (length(which(cop.sample[, con1] > x[1] & cop.sample[, con2] > x[2]))/ N)
   }
 
-  y <- data.fame(Var1,Var2)
+  y <- data.frame(Var1,Var2)
   RP_Copula <-apply(y,1,JRP)
 
   return(RP_Copula)
