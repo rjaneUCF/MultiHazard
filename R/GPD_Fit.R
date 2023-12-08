@@ -55,7 +55,6 @@ GPD_Fit<-function(Data,Data_Full,u=0.95,Thres=NA,mu=365.25,GPD_Bayes=TRUE,Method
                   model=gpd,
                   param=c(exp(gpd$par[1]), gpd$par[2]),
                   thres=Thres,
-                  mu=mu,
                   min.RI=min.RI,
                   xlab.hist=xlab_hist,
                   y.lab=y_lab)
