@@ -7,7 +7,12 @@ The `MultiHazard` package provides tools for stationary multivariate statistical
 
 <br>
 
-## 1. Installation
+### Applications of package: 
+>Kim, H., Villarini, G., Jane, R., Wahl, T., Misra, S., and Michalek, A. (2023). On the generation of high‐resolution probabilistic design events capturing the joint occurrence of rainfall and storm surge in coastal basins, Int. J. Climatol, 43(2), 761-771, https://doi.org/10.1002/joc.7825.
+
+<br>
+
+## Installation
 Install the latest version of this package by entering the following in R:
 ```r
 install.packages("remotes")
