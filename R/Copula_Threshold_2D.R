@@ -15,6 +15,9 @@
 #' @param Lower Numeric vector specifying the element number of the \code{u2} argument for which the copula family name label to appear below the corresponding point on the Kendall's tau coefficient vs threshold plot, when conditioning on the variable in column 2. Default is \code{0}.
 #' @param GAP Numeric vector of length one specifying the distance above or below the copula family name label appears the corresponding point on the Kendall's tau coefficient vs threshold plot. Default is \code{0.05}.
 #' @param Legend Logic vector of length one specifying whether a legend should be plotted. Default is \code{TRUE}.
+#' @param Cex_Legend Numeric vector of length one specifying the font size of the legend. Default is \code{1}.
+#' @param Cex_Axis Numeric vector of length one specifying the font size of the axes. Default is \code{1}.
+#' @param Cex_Axis_Original Numeric vector of length one specifying the font size of the values of the quantiles on the original (data) scale (i.e. second x-axis). Default is \code{1}.
 #' @return List comprising: \itemize{
 #' \item \code{Kendalls_Tau1}
 #' Kendall's tau of a sample
@@ -26,7 +29,10 @@
 #' Best fitting copula for the specified thresholds
 #' }
 #' when the dataset is conditioned on the variable in column 1.
-#' Analogous vectors \code{Kendalls_Tau2},\code{p_value_Var2}, \code{N_Var2} and \code{Copula_Family_Var2} for the specified thresholds when the dataset is conditioned on the variable in column 2.
+#' Analogous vectors \code{Kendalls_Tau2},\code{p_value_Var2}, \code{N_Var2} and \code{Copula_Family_Var2} for the specified thresholds when the data set is conditioned on the variable in column 2.
+#' If \code{PLOT=TRUE} then a plot of the Kendall's tau correlation coefficient versus quantile threshold is also returned.
+#' Filled circles denote statistically significant correlation at a \code{5%} significance level. Numbers inside the circles correspond to the sample size while the best fitting copula family is printed above.
+#' Numbers below x-axis are the values of the corresponding quantiles on the original (data) scale.
 #' @seealso \code{\link{Dataframe_Combine}}
 #' @export
 #' @examples
@@ -34,7 +40,7 @@
 #'                     Data_Declust=S20.Detrend.Declustered.df[,-c(1,4)],
 #'                     y_lim_min=-0.075, y_lim_max =0.25,
 #'                     Upper=c(6,8), Lower=c(6,8),GAP=0.1)
-Copula_Threshold_2D<-function(Data_Detrend,Data_Declust,u1=seq(0.9,0.99,0.01),u2=seq(0.9,0.99,0.01),PLOT=TRUE,x_lim_min=NA,x_lim_max=NA,y_lim_min=-1,y_lim_max=1,Upper=NA,Lower=NA,GAP=0.05,Legend=TRUE){
+Copula_Threshold_2D<-function(Data_Detrend,Data_Declust,u1=seq(0.9,0.99,0.01),u2=seq(0.9,0.99,0.01),PLOT=TRUE,x_lim_min=NA,x_lim_max=NA,y_lim_min=-1,y_lim_max=1,Upper=NA,Lower=NA,GAP=0.05,Legend=TRUE,Cex_Legend=1,Cex_Axis=1,Cex_Axis_Original=1){
 
   #Axes limits for plots
   x_lim_min<-ifelse(is.na(x_lim_min)==T,min(u1,u2,na.rm=T),x_lim_min)
@@ -123,8 +129,8 @@ Copula_Threshold_2D<-function(Data_Detrend,Data_Declust,u1=seq(0.9,0.99,0.01),u2
 
   if(PLOT==TRUE){
     if(is.na(u1[1])==FALSE & is.na(u2[1])==FALSE){
-      plot(u1,correlation_Var1_Value,xlab="Threshold",ylab=expression("Kendall's "*tau*" correlation coefficient"),type='l',lwd=3,xlim=c(x_lim_min,x_lim_max),ylim=c(y_lim_min,y_lim_max),col="Blue")
-      mtext(round(quantile(na.omit(Data_Detrend[,1]),u1),2),at=u1,side=1,line=2,col="Blue")
+      plot(u1,correlation_Var1_Value,xlab="Threshold",ylab=expression("Kendall's "*tau*" correlation coefficient"),type='l',lwd=3,xlim=c(x_lim_min,x_lim_max),ylim=c(y_lim_min,y_lim_max),col="Blue",cex=Cex_Axis)
+      mtext(round(quantile(na.omit(Data_Detrend[,1]),u1),2),at=u1,side=1,line=2,col="Blue",cex=Cex_Axis_Original)
       points(u1,correlation_Var1_Value,pch=ifelse(correlation_Var1_Test<0.05,16,16),col=ifelse(correlation_Var1_Test<0.05,"Blue","White"),cex=5)
       points(u1,correlation_Var1_Value,pch=ifelse(correlation_Var1_Test<0.05,16,1),cex=5,col="Blue")
       text(u1,correlation_Var1_Value,as.character(correlation_Var1_N),col=ifelse(correlation_Var1_Test<0.05,"White","Black"))
@@ -160,18 +166,18 @@ Copula_Threshold_2D<-function(Data_Detrend,Data_Declust,u1=seq(0.9,0.99,0.01),u2
       if(Legend==TRUE){
         legend("bottomleft",c(paste("Conditioning on ",colnames(Data_Detrend)[1],sep=""),
                               paste("Conditioning on ",colnames(Data_Detrend)[2],sep="")),
-               bty="n",lwd=1,col=c("Blue","Red"))
+               bty="n",lwd=1,col=c("Blue","Red"),cex=Cex_Legend)
       }
     }
 
     if(is.na(u2[1])==TRUE){
-      plot(u1,correlation_Var1_Value,xlab="Threshold",ylab=expression("Kendall's "*tau*" correlation coefficient"),type='l',lwd=3,xlim=c(x_lim_min,x_lim_max),ylim=c(y_lim_min,y_lim_max),col="Blue")
-      mtext(round(quantile(na.omit(Data_Detrend[,1]),u1),2),at=u1,side=1,line=2,col="Blue")
+      plot(u1,correlation_Var1_Value,xlab="Threshold",ylab=expression("Kendall's "*tau*" correlation coefficient"),type='l',lwd=3,xlim=c(x_lim_min,x_lim_max),ylim=c(y_lim_min,y_lim_max),col="Blue",cex=Cex_Axis)
+      mtext(round(quantile(na.omit(Data_Detrend[,1]),u1),2),at=u1,side=1,line=2,col="Blue",cex=Cex_Axis_Original)
       points(u1,correlation_Var1_Value,pch=ifelse(correlation_Var1_Test<0.05,16,16),col=ifelse(correlation_Var1_Test<0.05,"Blue","White"),cex=5)
       points(u1,correlation_Var1_Value,pch=ifelse(correlation_Var1_Test<0.05,16,1),cex=5,col="Blue")
       text(u1,correlation_Var1_Value,as.character(correlation_Var1_N),col=ifelse(correlation_Var1_Test<0.05,"White","Black"))
 
-      if(is.na(Upper)==TRUE){
+      if(is.na(Upper[1])==TRUE){
         text(u1,(correlation_Var1_Value-y_lim*GAP),copula_Var1_Family_Name,col="Blue")
       }
       if(length(u1[Upper])==length(u1)){
@@ -184,13 +190,13 @@ Copula_Threshold_2D<-function(Data_Detrend,Data_Declust,u1=seq(0.9,0.99,0.01),u2
 
       if(Legend==TRUE){
         legend("bottomleft",paste("Conditioning on ",colnames(Data_Detrend)[1],sep=""),
-               bty="n",lwd=3,col="Blue")
+               bty="n",lwd=3,col="Blue",cex=Cex_Legend)
       }
     }
 
     if(is.na(u1[1])==TRUE){
-      plot(u2,correlation_Var2_Value,xlab="Threshold",ylab=expression("Kendall's "*tau*" correlation coefficient"),type='l',lwd=3,xlim=c(x_lim_min,x_lim_max),ylim=c(y_lim_min,y_lim_max),col="Red")
-      mtext(round(quantile(na.omit(Data_Detrend[,2]),u2),2),at=u2,side=1,line=2,col="Red")
+      plot(u2,correlation_Var2_Value,xlab="Threshold",ylab=expression("Kendall's "*tau*" correlation coefficient"),type='l',lwd=3,xlim=c(x_lim_min,x_lim_max),ylim=c(y_lim_min,y_lim_max),col="Red",cex=Cex_Axis)
+      mtext(round(quantile(na.omit(Data_Detrend[,2]),u2),2),at=u2,side=1,line=2,col="Red",cex=Cex_Axis_Original)
       points(u2,correlation_Var2_Value,pch=ifelse(correlation_Var2_Test<0.05,16,16),col=ifelse(correlation_Var2_Test<0.05,"Red","White"),cex=5)
       points(u2,correlation_Var2_Value,pch=ifelse(correlation_Var2_Test<0.05,16,1),cex=5,col="Red")
       text(u2,correlation_Var2_Value,as.character(correlation_Var2_N),col=ifelse(correlation_Var2_Test<0.05,"White","Black"))
@@ -208,7 +214,7 @@ Copula_Threshold_2D<-function(Data_Detrend,Data_Declust,u1=seq(0.9,0.99,0.01),u2
 
       if(Legend==TRUE){
         legend("bottomleft",paste("Conditioning on ",colnames(Data_Detrend)[2],sep=""),
-               bty="n",lwd=3,col="Red")
+               bty="n",lwd=3,col="Red",cex=Cex_Legend)
       }
     }
   }

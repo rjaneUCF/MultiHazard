@@ -18,8 +18,8 @@
 #' @param GPD2 Output of \code{GPD_Fit} applied to variable \code{con2} i.e., GPD fit \code{con2}. Default \code{NA}. Only one of \code{u2}, \code{Thres2}, \code{GPD2} and \code{Tab2} is required.
 #' @param Rate_Con1 Numeric vector of length one specifying the occurrence rate of observations in \code{Data_Con1}. Default is \code{NA}.
 #' @param Rate_Con2 Numeric vector of length one specifying the occurrence rate of observations in \code{Data_Con2}. Default is \code{NA}.
-#' @param Tab1 Data frame specifying the return periods of variable \code{con1}, when conditioning on \code{con1}. First column specifies the return period and the second column gives the corresponding levels. First row must contain the return level of \code{con1} for the inter-arrival time (1/rate) of the sample. Only one of \code{u1}, \code{Thres1}, \code{GPD1} and \code{Tab1} is required.
-#' @param Tab2 Data frame specifying the return periods of variable \code{con2}, when conditioning on \code{con2}. First column specifies the return period and the second column gives the corresponding levels. First row must contain the return level of \code{con2} for the inter-arrival time (1/rate) of the sample. Only one of \code{u2}, \code{Thres2}, \code{GPD2} and \code{Tab2} is required.
+#' @param Tab1 Data frame specifying the return periods of variable \code{con1}, when conditioning on \code{con1}. First column specifies the return period and the second column gives the corresponding levels. First row must contain the return level of \code{con1} for the inter-arrival time (1/rate) of the sample.
+#' @param Tab2 Data frame specifying the return periods of variable \code{con2}, when conditioning on \code{con2}. First column specifies the return period and the second column gives the corresponding levels. First row must contain the return level of \code{con2} for the inter-arrival time (1/rate) of the sample.
 #' @param mu Numeric vector of length one specifying the (average) occurrence frequency of events in \code{Data}. Default is \code{365.25}, daily data.
 #' @param GPD_Bayes Logical; indicating whether to use a Bayesian approach to estimate GPD parameters. This involves applying a penalty to the likelihood to aid in the stability of the optimization procedure. Default is \code{FALSE}.
 #' @param RP Numeric vector specifying the return periods of interest.
@@ -95,20 +95,20 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
   ###Fit the 4 marginal distributions (2 GPD and 2 parametric non-extreme value distributions).
 
   #Fit the GPD to the conditioned variable con1 in Data_Con1.
-  if(is.na(GPD1)==T & is.na(Thres1)==T & is.na(Tab1[[1]][1])==T){
+  if(is.na(GPD1[[1]][1])==T & is.na(Thres1)==T & is.na(Tab1[[1]][1])==T){
     Thres1<-quantile(na.omit(Data[,con1]),u1)
   }
 
-  if(is.na(GPD1)==T & GPD_Bayes==T & is.na(Tab1[[1]][1])==T){
+  if(is.na(GPD1[[1]][1])==T & GPD_Bayes==T & is.na(Tab1[[1]][1])==T){
     GPD_con1<-evm(Data_Con1[,con1], th = Thres1,penalty = "gaussian",priorParameters = list(c(0, 0), matrix(c(100^2, 0, 0, 0.25), nrow = 2)))
   }
-  if(is.na(GPD1)==T & GPD_Bayes==F & is.na(Tab1[[1]][1])==T){
+  if(is.na(GPD1[[1]][1])==T & GPD_Bayes==F & is.na(Tab1[[1]][1])==T){
     GPD_con1<-evm(Data_Con1[,con1], th = Thres1)
   }
 
   #Find the occurrence rates of the two conditional samples
 
-  #Calculate the time period spanned by the original dataset in terms of mu (only including occasions where both variables are observed).
+  #Calculate the time period spanned by the original dataset
   time.period<-nrow(Data[which(is.na(Data[,1])==FALSE & is.na(Data[,2])==FALSE),])/mu
 
   #Calculate the rate of occurrences of extremes (in terms of mu) in Data_Con1.
@@ -223,14 +223,14 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
   }
 
   #Fit the GPD to the conditioned variable con2 in Data_Con2.
-  if(is.na(GPD2)==T & is.na(Thres2)==T & is.na(Tab2[[1]][1])==T){
+  if(is.na(GPD2[[1]][1])==T & is.na(Thres2)==T & is.na(Tab2[[1]][1])==T){
     Thres2<-quantile(na.omit(Data[,con2]),u2)
   }
 
-  if(is.na(GPD2)==T & GPD_Bayes==T & is.na(Tab2[[1]][1])==T){
+  if(is.na(GPD2[[1]][1])==T & GPD_Bayes==T & is.na(Tab2[[1]][1])==T){
     GPD_con2<-evm(Data_Con2[,con2], th=Thres2 ,penalty = "gaussian",priorParameters = list(c(0, 0), matrix(c(100^2, 0, 0, 0.25), nrow = 2)))
   }
-  if(is.na(GPD2)==T & GPD_Bayes==F & is.na(Tab2[[1]][1])==T){
+  if(is.na(GPD2[[1]][1])==T & GPD_Bayes==F & is.na(Tab2[[1]][1])==T){
     GPD_con2<-evm(Data_Con2[,con2], th= Thres2)
   }
 
@@ -344,14 +344,14 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
   #Simulate a sample from the fitted copula. Out of the sample size 'N' the proportion of the sample from the copula associated with Data_Con1 is proportional to the size of Data_Con1 relative to Data_Con2.
   sample<-BiCopSim(round(N*nrow(Data_Con1)/(nrow(Data_Con1)+nrow(Data_Con2)),0),obj1)
   #Transform the realizations of the conditioned variable con1 to the original scale using inverse cumulative distribution a.k.a. quantile functions (inverse probability integral transform) of the GPD contained in the u2gpd function.
-  if(is.na(GPD1)==T & is.na(Tab1[[1]][1])==T){
+  if(is.na(GPD1[[1]][1])==T & is.na(Tab1[[1]][1])==T){
    cop.sample1.con<-u2gpd(sample[,con1], p = 1, th=Thres1 , sigma=exp(GPD_con1$coefficients[1]),xi= GPD_con1$coefficients[2])
   }
-  if(is.na(GPD1)==F){
+  if(is.na(GPD1[[1]][1])==F){
    cop.sample1.con<-u2gpd(sample[,con1], p = 1, th = GPD1$Threshold, sigma = GPD1$sigma, xi= GPD1$xi)
   }
   if(is.na(Tab1[[1]][1])==F){
-   cop.sample1.con = approx(1-(1/rate)/Tab1[,1],Tab1[,2],xout=sample[,con1])$y
+    cop.sample1.con = approx(1-1/Tab1[,1],Tab1[,2],xout=u1+sample[,con1]*(1-u1))$y
   }
 
   #Transform the realizations of the non-conditioned variable con2 to the original scale using the quantile function of the selected parametric (non-extreme value) distribution (Marginal_Dist1).
@@ -419,14 +419,14 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
   sample<-BiCopSim(round(N*nrow(Data_Con2)/(nrow(Data_Con1)+nrow(Data_Con2)),0),obj2)
 
   #Transform the realizations of the conditioned variable con2 to the original scale using the inverse CDF (quantile function) of the GPD contained in the u2gpd function.
-  if(is.na(GPD2)==T & is.na(Tab2[[1]][1])==T){
+  if(is.na(GPD2[[1]][1])==T & is.na(Tab2[[1]][1])==T){
    cop.sample2.con<-u2gpd(sample[,con2], p = 1, th=Thres2, sigma=exp(GPD_con2$coefficients[1]),xi= GPD_con2$coefficients[2])
   }
-  if(is.na(GPD2)==F){
+  if(is.na(GPD2[[1]][1])==F){
    cop.sample2.con<-u2gpd(sample[,con2], p = 1, th = GPD2$Threshold, sigma = GPD2$sigma, xi= GPD2$xi)
   }
   if(is.na(Tab2[[1]][1])==F){
-   cop.sample2.con = approx(1-(1/rate)/Tab2[,1],Tab2[,2],xout=sample[,con2])$y
+    cop.sample2.con = approx(1-1/Tab2[,1],Tab2[,2],xout=u2+sample[,con2]*(1-u2))$y
   }
 
   #Transform the realizations of the non-conditioned variable con1 to the original scale using the inverse CDF (quantile function) of the selected parametric (non-extreme value) distribution (Marginal_Dist2).
@@ -489,14 +489,25 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
   #Combine the data frames containg the samples from two copulas (on the original scale)
   cop.sample<-rbind(cop.sample1,cop.sample2)
 
+  #Find the minimum and maximum x- and y-axis limits for the plot. If the limits are not specified in the input use the minimum and maximum values of the Data.
+  x_min<-ifelse(is.na(x_lim_min)==T,min(na.omit(Data[,con1])),x_lim_min)
+  x_max<-ifelse(is.na(x_lim_max)==T,max(na.omit(Data[,con1])),x_lim_max)
+  y_min<-ifelse(is.na(y_lim_min)==T,min(na.omit(Data[,con2])),y_lim_min)
+  y_max<-ifelse(is.na(y_lim_max)==T,max(na.omit(Data[,con2])),y_lim_max)
+
+  plot(Data[, con1], Data[, con2], xlim = c(x_min, x_max), ylim = c(y_min, y_max), col = "Light Grey",xlab = x_lab, ylab = y_lab, cex.lab = 1.5, cex.axis = 1.5)
+  points(cop.sample)
+  points(Data_Con1[,con1],Data_Con1[,con2],col=4,cex=1.5)
+  points(Data_Con2[,con1],Data_Con2[,con2],col="Red",pch=4,cex=1.5)
+
   ###Deriving the quantile isoline from the sample conditioned on variable 'Con2' i.e. Data_Con1
 
   for(k in 1:length(RP)){
 
     #Generate a regular grid on the unit square.
     if(Resolution=="Low"){
-      x<- c(10^(-4),seq(999.9*10^(-4),1-(1*10^(-5)),10^(-3)))
-      y<- c(10^(-4),seq(999.9*10^(-4),1-(1*10^(-5)),10^(-3)))
+      x<- c(10^(-4),seq(999.9*10^(-4),1-(1*10^(-6)),10^(-3)))
+      y<- c(10^(-4),seq(999.9*10^(-4),1-(1*10^(-6)),10^(-3)))
     }
     if(Resolution=="High"){
       x<- c(10^(-5),seq(999.9*10^(-5),1-(1*10^(-6)),10^(-4)))
@@ -505,27 +516,26 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
     u<-expand.grid(x,y)
 
     #Evaluate the copula at each point on the grid.
-    u1<-BiCopCDF(u[,1], u[,2], obj1)
+    u.cop<-BiCopCDF(u[,1], u[,2], obj1)
 
     #Calculate the inter-arrival time of extremes (in terms of mu) in Data_Con1.
-    EL_Con1<-1/Rate_Con1
-
+    EL_Con1<-mu/Rate_Con1
     #Define a function which evaluates the return period at a given point (x,y).
-    f<-function(x,y){EL_Con1/(1-x-y+u1[which(u[,1]==x & u[,2]==y)]) }
+    f<-function(x,y){EL_Con1/(1-x-y+u.cop[which(u[,1]==x & u[,2]==y)]) }
     #Evaluate the return period at each point on the grid 'u' (the 'outer' function creates the grid internally using the points on the boundary i.e. the x and y we defined earlier).
     z<- outer(x,y,f)
     #The contourLines function in the grDevices package extracts the isoline with the specified return period - 'RP' in our case.
-    xy160<-contourLines(x,y,z,levels= RP[k])
+    xy160<-contourLines(x,y,z,levels= mu*RP[k])
     #Transform the points on the contour to the original scale using the inverse cumulative distribution a.k.a. quantile functions (inverse probability integral transform)
     #Transform the conditioned variable in Data_Con1, Con1 to the original scale using the inverse CDF of the GPD contained in the u2gpd function
-    if(is.na(GPD1)==T & is.na(Tab1[[1]][1])==T){
+    if(is.na(GPD1[[1]][1])==T & is.na(Tab1[[1]][1])==T){
       con1.x<-u2gpd(as.numeric(unlist(xy160[[1]][2])), p = 1, th=Thres1 , sigma=exp(GPD_con1$coefficients[1]),xi= GPD_con1$coefficients[2] )
     }
-    if(is.na(GPD1)==F){
+    if(is.na(GPD1[[1]][1])==F){
       con1.x<-u2gpd(as.numeric(unlist(xy160[[1]][2])), p = (GPD1$Rate)/Rate_Con1, th = GPD1$Threshold, sigma = GPD1$sigma, xi = GPD1$xi)
     }
     if(is.na(Tab1[[1]][1])==F){
-      con1.x = approx(1-(1/Rate_Con1)/Tab1[,1],Tab1[,2],xout=as.numeric(unlist(xy160[[1]][2])))$y
+      con1.x = approx(1-1/Tab1[,1],Tab1[,2],xout=u1+as.numeric(unlist(xy160[[1]][2]))*(((1-1/(mu*RP[k]))-u1)/max(as.numeric(unlist(xy160[[1]][2])))))$y
     }
 
     #Transform the non-conditioned variable in Data_Con1, Con2' to the original scale using the quantile function of the selected parameteric (non-extreme value) distributions
@@ -610,28 +620,28 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
     }
     u<-expand.grid(x,y)
     #Evaluate the copula at each point on the grid.
-    u1<-BiCopCDF(u[,1], u[,2], obj2)
+    u.cop<-BiCopCDF(u[,1], u[,2], obj2)
 
     #Calculate the inter-arrival time of extremes (in terms of mu) in Data_Con2.
-    EL_Con2<-1/Rate_Con2
+    EL_Con2<-mu/Rate_Con2
 
     #Define a function which evaluates the return period at a given point (x,y).
-    f<-function(x,y){EL_Con2/(1-x-y+u1[which(u[,1]==x & u[,2]==y)]) }
+    f<-function(x,y){EL_Con2/(1-x-y+u.cop[which(u[,1]==x & u[,2]==y)]) }
     #Evaluate the return period at each point on the grid 'u' (the 'outer' function creates the grid internally using the points on the boundary i.e. the x and y we defined earlier)
     z<- outer(x,y,f)
     #The contourLines function in the grDevices package extracts the isoline with the specified return period - 'RP' in our case.
-    xy160<-contourLines(x,y,z,levels= RP[k])
+    xy160<-contourLines(x,y,z,levels= mu*RP[k])
 
     #Transform the points on the contour to the original scale using the inverse cumulative distributions a.k.a. quantile functions (i.e. using the inverse probability integral transform).
     #Transforming the conditioned variable in Data_Con2, Con2 to the original scale using the inverse CDF of the GPD contained in the u2gpd function.
-    if(is.na(GPD2)==T & is.na(Tab2[[1]][1])==T){
+    if(is.na(GPD2[[1]][1])==T & is.na(Tab2[[1]][1])==T){
      con2.y<-u2gpd(as.numeric(unlist(xy160[[1]][3])), p = 1, th=Thres2 , sigma=exp(GPD_con2$coefficients[1]),xi= GPD_con2$coefficients[2] )
     }
-    if(is.na(GPD2)==F){
+    if(is.na(GPD2[[1]][1])==F){
      con2.y<-u2gpd(as.numeric(unlist(xy160[[1]][3])), p = (GPD2$Rate)/Rate_Con2, th = GPD2$Threshold, sigma = GPD2$sigma, xi = GPD2$xi)
     }
     if(is.na(Tab2[[1]][1])==F){
-     con2.y = approx(1-(1/Rate_Con2)/Tab2[,1],Tab2[,2],xout=as.numeric(unlist(xy160[[1]][3])))$y
+     con2.y = approx(1-1/Tab2[,1],Tab2[,2],xout=u2+as.numeric(unlist(xy160[[1]][3]))*(((1-1/(mu*RP[k]))-u2)/max(as.numeric(unlist(xy160[[1]][3])))))$y
     }
 
     #Transform the non-conditioned variable in Data_Con2, Con1' to the original scale using the quantile function of the selected parameteric (non-extreme value) distributions.
@@ -832,7 +842,7 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
       MostLikelyEvent[[k]]<-MostLikelyEvent.AND
 
       #Find the design event under the assumption of full dependence and add it to the plot (denoted by a triangle).
-      ##if(is.na(GPD1)==T | is.na(GPD2)==T){
+      ##if(is.na(GPD1[[1]][1])==T | is.na(GPD2[[1]][1])==T){
       ##  FullDependence.AND<-data.frame(as.numeric(u2gpd(1-EL/(RP[k]), p = 1, th=Thres1 , sigma=exp(GPD_con1$coefficients[1]),xi= GPD_con1$coefficients[2])),
       ##                                as.numeric(u2gpd(1-EL/(RP[k]), p = 1, th=Thres2 , sigma=exp(GPD_con2$coefficients[1]),xi= GPD_con2$coefficients[2])))
       ##} else{
@@ -963,7 +973,7 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
       MostLikelyEvent[[k]]<-MostLikelyEvent.AND
 
       #Find the design event under the assumption of full dependence and add it to the plot (denoted by a triangle).
-      ## if(is.na(GPD1)==T | is.na(GPD2)==T){
+      ## if(is.na(GPD1[[1]][1])==T | is.na(GPD2[[1]][1])==T){
       ##  FullDependence.AND<-data.frame(as.numeric(u2gpd(1-EL/(RP[k]), p = 1, th=Thres1 , sigma=exp(GPD_con1$coefficients[1]),xi= GPD_con1$coefficients[2])),
       ##                                as.numeric(u2gpd(1-EL/(RP[k]), p = 1, th=Thres2 , sigma=exp(GPD_con2$coefficients[1]),xi= GPD_con2$coefficients[2])))
       ## } else{
@@ -1041,7 +1051,6 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
         x.2<-x.2[-which(is.na(x.2)==TRUE)]
       }
 
-
       prediction.points.ALL<-data.frame(c(x.1,x.2),c(y.1,y.2))[-1,]
       colnames(prediction.points.ALL)<-c(names(Data)[1],names(Data)[2])
 
@@ -1096,7 +1105,7 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
       MostLikelyEvent[[k]]<-MostLikelyEvent.AND
 
       #Find the design event under the assumption of full dependence and add it to the plot (denoted by a triangle).
-      ##if(is.na(GPD1)==T | is.na(GPD2)==T){
+      ##if(is.na(GPD1[[1]][1])==T | is.na(GPD2[[1]][1])==T){
       ## FullDependence.AND<-data.frame(as.numeric(u2gpd(1-EL/(RP[k]), p = 1, th=Thres1 , sigma=exp(GPD_con1$coefficients[1]),xi= GPD_con1$coefficients[2])),
       ##                                as.numeric(u2gpd(1-EL/(RP[k]), p = 1, th=Thres2 , sigma=exp(GPD_con2$coefficients[1]),xi= GPD_con2$coefficients[2])))
       ## }else{
