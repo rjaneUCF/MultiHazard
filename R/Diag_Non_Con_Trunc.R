@@ -17,17 +17,17 @@
 #' Diag_Non_Con_Trunc(Data=S20.OsWL$Data$Rainfall,x_lab="Rainfall (Inches)",
 #'                    y_lim_min=0,y_lim_max=2)
 Diag_Non_Con_Trunc<-function(Data,Omit=NA,x_lab="Data",y_lim_min=0,y_lim_max=1){
-  
+
   #Colors for plots
   mypalette<-c("Black",brewer.pal(9,"Set1"))
-  
+
   #Distributions to test
   Dist<-c("BS","Exp","Gam(2)","Gam(3)","GamMix(2)","GamMix(3)","LNorm","TNorm","Twe","Weib")
   Test<-1:10
-  if(is.na(Omit)==F){
+  if(is.na(Omit[1])==F){
     Test<-Test[-which(Dist %in% Omit)]
   }
-  
+
   #AIC result objects
   AIC.BS<-NA
   AIC.Exp<-NA
@@ -39,7 +39,7 @@ Diag_Non_Con_Trunc<-function(Data,Omit=NA,x_lab="Data",y_lim_min=0,y_lim_max=1){
   AIC.TNormal<-NA
   AIC.Tweedie<-NA
   AIC.Weib<-NA
-  
+
   #AIC
   if(any(Test==1)){
     bdata2 <- data.frame(shape = exp(-0.5), scale = exp(0.5))
@@ -120,11 +120,11 @@ Diag_Non_Con_Trunc<-function(Data,Omit=NA,x_lab="Data",y_lim_min=0,y_lim_max=1){
     fit.Weib<-fitdistr(Data,"weibull")
     AIC.Weib<-2*length(fit.Weib$estimate)-2*fit.Weib$loglik
   }
-  
+
   #Plot layout
   par(mfrow=c(3,1))
   par(mar=c(4.2,4.2,1,1))
-  
+
   #Plotting AIC
   plot(0,xlim=c(0,length(Test)),ylim=c(min(0,AIC.BS,AIC.Exp,AIC.Gam2,AIC.Gam3,AIC.GamMix2,AIC.GamMix3,AIC.logNormal,AIC.TNormal,AIC.Tweedie,AIC.Weib,na.rm=T),max(0,AIC.BS,AIC.Exp,AIC.Gam2,AIC.Gam3,AIC.GamMix2,AIC.GamMix3,AIC.TNormal,AIC.logNormal,AIC.Tweedie,AIC.Weib,na.rm=T)),type='n',xlab="Probability Distribution",ylab="AIC",xaxt='n',cex.axis=1,cex.lab=1,las=1)
   axis(1,seq(0.5,length(Test)-0.5,1),c("Birn-S","Exp","Gam(2)","Gam(3)","GamMix(2)","GamMix(3)","LogN","TNorm","Twe","Weib")[Test],cex.axis=0.71)
@@ -138,13 +138,13 @@ Diag_Non_Con_Trunc<-function(Data,Omit=NA,x_lab="Data",y_lim_min=0,y_lim_max=1){
   if(any(Test==8)){rect(which(Test==8)-0.5-length(Test)/40,0,which(Test==8)-0.5+length(Test)/40,AIC.TNormal,col=mypalette[8])}
   if(any(Test==9)){rect(which(Test==9)-0.5-length(Test)/40,0,which(Test==9)-0.5+length(Test)/40,AIC.Tweedie,col=mypalette[9])}
   if(any(Test==10)){rect(which(Test==10)-0.5-length(Test)/40,0,which(Test==10)-0.5+length(Test)/40,AIC.Weib,col=mypalette[10])}
-  
+
   #Colors
-  
+
   hist(Data, freq=FALSE,xlab=x_lab,col="white",main="",cex.lab=1,cex.axis=1,ylim=c(y_lim_min,y_lim_max),las=1)
   x<-seq(min(Data),max(Data),0.01)
   #text(5.35,0.1,"(f)",font=2,cex=1.75)
-  
+
   if(any(Test==1)){
     lines(x,dbisa(x,Coef(fit.BS)[1],Coef(fit.BS)[2]),col=mypalette[1],lwd=2)
   }
@@ -154,11 +154,11 @@ Diag_Non_Con_Trunc<-function(Data,Omit=NA,x_lab="Data",y_lim_min=0,y_lim_max=1){
   if(any(Test==3)){
     lines(x,dgamma(x,fit.Gam2$estimate[1],fit.Gam2$estimate[2]),col=mypalette[3],lwd=2)
   }
-  
+
   if(any(Test==4)){
     lines(x,dGG(x, mu=exp(fit.Gamma3$mu.coefficients), sigma=exp(fit.Gamma3$sigma.coefficients), nu=fit.Gamma3$nu.coefficients),col=mypalette[4],lwd=2)
   }
-  
+
   if(any(Test==5)){
     prob.MX1 <- round(fit.GamMIX2_GA$prob[1],3)
     prob.MX2 <- 1 - prob.MX1
@@ -166,17 +166,17 @@ Diag_Non_Con_Trunc<-function(Data,Omit=NA,x_lab="Data",y_lim_min=0,y_lim_max=1){
                 sigma=list(sigma1=exp(fit.GamMIX2_GA$models[[1]]$sigma.coefficients), sigma2=exp(fit.GamMIX2_GA$models[[2]]$sigma.coefficients)),
                 pi = list(pi1=prob.MX1, pi2=prob.MX2), family=list(fam1="GA", fam2="GA")),col=mypalette[5],lwd=2)
   }
-  
+
   if(any(Test==6)){
     prob.MX1 <- round(fit.GamMIX3_GA$prob[1],3)
     prob.MX2 <- round(fit.GamMIX3_GA$prob[2],3)
-    prob.MX3 <- 1 - prob.MX1 - prob.MX2 
+    prob.MX3 <- 1 - prob.MX1 - prob.MX2
     lines(x,dMX(x, mu=list(mu1=exp(fit.GamMIX3_GA$models[[1]]$mu.coefficients), mu2=exp(fit.GamMIX3_GA$models[[2]]$mu.coefficients), mu3=exp(fit.GamMIX3_GA$models[[3]]$mu.coefficients)),
                 sigma=list(sigma1=exp(fit.GamMIX3_GA$models[[1]]$sigma.coefficients), sigma2=exp(fit.GamMIX3_GA$models[[2]]$sigma.coefficients), sigma3=exp(fit.GamMIX3_GA$models[[3]]$sigma.coefficients)),
                 pi = list(pi1=prob.MX1, pi2=prob.MX2, pi3=prob.MX3), family=list(fam1="GA", fam2="GA", fam3="GA")),col=mypalette[6],lwd=2)
   }
-  
-  
+
+
   if(any(Test==7)){
     lines(x,dlnorm(x,fit.LNorm$estimate[1],fit.LNorm$estimate[2]),col=mypalette[7],lwd=2)
   }
@@ -187,11 +187,11 @@ Diag_Non_Con_Trunc<-function(Data,Omit=NA,x_lab="Data",y_lim_min=0,y_lim_max=1){
   if(any(Test==9)){
     lines(x,dtweedie(x,  power=fit.Twe$p.max, mu=mean(Data), phi=fit.Twe$phi.max),col=mypalette[9],lwd=2)
   }
-  
+
   if(any(Test==10)){
     lines(x,dweibull(x,fit.Weib$estimate[1],fit.Weib$estimate[2]),col=mypalette[10],lwd=2)
   }
-  
+
   plot(sort(Data),seq(1,length(Data),1)/(length(Data)),ylim=c(0,1),xlab=x_lab,ylab="P(X<x)",main="",pch=16,cex.lab=1,cex.axis=1,las=1)
   x<-seq(min(Data),max(Data),0.01)
   eta<-sqrt((1/(2*length(Data)))*log(2/0.95))
@@ -208,11 +208,11 @@ Diag_Non_Con_Trunc<-function(Data,Omit=NA,x_lab="Data",y_lim_min=0,y_lim_max=1){
   if(any(Test==3)){
     lines(x,pgamma(x,fit.Gam2$estimate[1],fit.Gam2$estimate[2]),col=mypalette[3],lwd=2)
   }
-  
+
   if(any(Test==4)){
     lines(x,pGG(x, mu=exp(fit.Gamma3$mu.coefficients), sigma=exp(fit.Gamma3$sigma.coefficients), nu=fit.Gamma3$nu.coefficients),col=mypalette[4],lwd=2)
   }
-  
+
   if(any(Test==5)){
     prob.MX1 <- round(fit.GamMIX2_GA$prob[1],3)
     prob.MX2 <- 1 - prob.MX1
@@ -220,16 +220,16 @@ Diag_Non_Con_Trunc<-function(Data,Omit=NA,x_lab="Data",y_lim_min=0,y_lim_max=1){
                 sigma=list(sigma1=exp(fit.GamMIX2_GA$models[[1]]$sigma.coefficients), sigma2=exp(fit.GamMIX2_GA$models[[2]]$sigma.coefficients)),
                 pi = list(pi1=prob.MX1, pi2=prob.MX2), family=list(fam1="GA", fam2="GA")),col=mypalette[5],lwd=2)
   }
-  
+
   if(any(Test==6)){
     prob.MX1 <- round(fit.GamMIX3_GA$prob[1],3)
     prob.MX2 <- round(fit.GamMIX3_GA$prob[2],3)
-    prob.MX3 <- 1 - prob.MX1 - prob.MX2 
+    prob.MX3 <- 1 - prob.MX1 - prob.MX2
     lines(x,pMX(x, mu=list(mu1=exp(fit.GamMIX3_GA$models[[1]]$mu.coefficients), mu2=exp(fit.GamMIX3_GA$models[[2]]$mu.coefficients), mu3=exp(fit.GamMIX3_GA$models[[3]]$mu.coefficients)),
                 sigma=list(sigma1=exp(fit.GamMIX3_GA$models[[1]]$sigma.coefficients), sigma2=exp(fit.GamMIX3_GA$models[[2]]$sigma.coefficients), sigma3=exp(fit.GamMIX3_GA$models[[3]]$sigma.coefficients)),
                 pi = list(pi1=prob.MX1, pi2=prob.MX2, pi3=prob.MX3), family=list(fam1="GA", fam2="GA", fam3="GA")),col=mypalette[6],lwd=2)
   }
-  
+
   if(any(Test==7)){
     lines(x,plnorm(x,fit.LNorm$estimate[1],fit.LNorm$estimate[2]),col=mypalette[7],lwd=2)
   }
@@ -243,7 +243,7 @@ Diag_Non_Con_Trunc<-function(Data,Omit=NA,x_lab="Data",y_lim_min=0,y_lim_max=1){
   if(any(Test==10)){
     lines(x,pweibull(x,fit.Weib$estimate[1],fit.Weib$estimate[2]),col=mypalette[10],lwd=2)
   }
-  
+
   AIC<-data.frame(c("BS","Exp","Gam2","Gam3","GamMix2","GamMix3","LogN","TNorm","Twe","Weib")[Test],c(AIC.BS,AIC.Exp,AIC.Gam2,AIC.Gam3,AIC.GamMix2,AIC.GamMix3,AIC.logNormal,AIC.TNormal,AIC.Tweedie,AIC.Weib)[Test])
   colnames(AIC)<-c("Distribution","AIC")
   Best_fit<-AIC$Distribution[which(AIC$AIC==min(AIC$AIC))]
