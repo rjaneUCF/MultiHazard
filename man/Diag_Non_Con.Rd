@@ -4,10 +4,12 @@
 \alias{Diag_Non_Con}
 \title{Goodness of fit of non-extreme marginal distributions}
 \usage{
-Diag_Non_Con(Data, x_lab, y_lim_min = 0, y_lim_max = 1)
+Diag_Non_Con(Data, Omit = NA, x_lab, y_lim_min = 0, y_lim_max = 1)
 }
 \arguments{
 \item{Data}{Numeric vector containing realizations of the variable of interest.}
+
+\item{Omit}{Character vector specifying any distributions that are not to be tested. Default \code{"NA"}, all distributions are fit.}
 
 \item{x_lab}{Character vector of length one specifying the label on the x-axis of histogram and cumulative distribution plot.}
 
@@ -20,6 +22,7 @@ Dataframe \code{$AIC} giving the AIC associated with each distribution and the n
 }
 \description{
 Fits two (unbounded) non-extreme marginal distributions to a dataset and returns three plots demonstrating their relative goodness of fit.
+The distributions are the Laplace \code{"Lapl"}, Logistic \code{"Logis"}, Gaussian \code{"Gaus"}, Gumbel \code{"Gum"} and the reverse Gumbel \code{"RGum"}.
 }
 \examples{
 S20.Rainfall<-Con_Sampling_2D(Data_Detrend=S20.Detrend.df[,-c(1,4)],
