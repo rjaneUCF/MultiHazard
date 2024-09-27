@@ -83,7 +83,7 @@ Diag_Non_Con<-function(Data,Omit=NA,x_lab,y_lim_min=0,y_lim_max=1){
   if(any(Test==1)){
     ldata <- data.frame(y = Data)
     fit <- vglm(y  ~ 1, laplace, ldata, trace = TRUE)
-    lines(x,dlaplace(x,Coef(fit)[1],Coef(fit)[2]),col=mypalette[8],lwd=2)
+    lines(x,dlaplace(x,Coef(fit)[1],Coef(fit)[2]),col=mypalette[4],lwd=2)
   }
 
   if(any(Test==2)){
@@ -93,7 +93,7 @@ Diag_Non_Con<-function(Data,Omit=NA,x_lab,y_lim_min=0,y_lim_max=1){
 
   if(any(Test==3)){
   fit<-fitdistr(Data, "normal")
-  lines(x,dnorm(x,fit$estimate[1],fit$estimate[2]),col=mypalette[4],lwd=2)
+  lines(x,dnorm(x,fit$estimate[1],fit$estimate[2]),col=mypalette[3],lwd=2)
   }
 
   if(any(Test==4)){
@@ -118,7 +118,7 @@ Diag_Non_Con<-function(Data,Omit=NA,x_lab,y_lim_min=0,y_lim_max=1){
   if(any(Test==1)){
     ldata <- data.frame(y = Data)
     fit <- vglm(y  ~ 1, laplace, ldata, trace = TRUE)
-    lines(x,plaplace(x,Coef(fit)[1],Coef(fit)[2]),col=mypalette[8],lwd=2)
+    lines(x,plaplace(x,Coef(fit)[1],Coef(fit)[2]),col=mypalette[4],lwd=2)
   }
 
   if(any(Test==2)){
@@ -128,7 +128,7 @@ Diag_Non_Con<-function(Data,Omit=NA,x_lab,y_lim_min=0,y_lim_max=1){
 
   if(any(Test==3)){
     fit<-fitdistr(Data,"normal")
-    lines(x,pnorm(x,fit$estimate[1],fit$estimate[2]),col=mypalette[4],lwd=2)
+    lines(x,pnorm(x,fit$estimate[1],fit$estimate[2]),col=mypalette[3],lwd=2)
   }
 
   if(any(Test==4)){
