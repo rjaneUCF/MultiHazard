@@ -1,7 +1,7 @@
 #' Goodness of fit of non-extreme marginal distributions
 #'
 #' Fits two (unbounded) non-extreme marginal distributions to a dataset and returns three plots demonstrating their relative goodness of fit.
-#' The distributions are the Laplace \code{"Lapl"}, Logistic \code{"Logis"}, Gaussian \code{"Gaus"}, Gumbel \code{"Gum"} and the reverse Gumbel \code{"RGum"}.
+#' The distributions are the Gaussian \code{"Gaus"}, Gumbel \code{"Gum"}, Laplace \code{"Lapl"}, Logistic \code{"Logis"} and the reverse Gumbel \code{"RGum"}.
 
 #' @param Data Numeric vector containing realizations of the variable of interest.
 #' @param Omit Character vector specifying any distributions that are not to be tested. Default \code{"NA"}, all distributions are fit.
@@ -23,7 +23,7 @@ Diag_Non_Con<-function(Data,Omit=NA,x_lab,y_lim_min=0,y_lim_max=1){
   mypalette<-brewer.pal(9,"Set1")
 
   #Distributions to test
-  Dist<-c("Lapl","Logis","Gaus","Gum","RGum")
+  Dist<-c("Gaus","Gum","Lapl","Logis","RGum")
   Test<-1:5
   if(is.na(Omit[1])==F){
     Test<-Test[-which(Dist %in% Omit)]
@@ -41,25 +41,25 @@ Diag_Non_Con<-function(Data,Omit=NA,x_lab,y_lim_min=0,y_lim_max=1){
 
   #AIC
   if(any(Test==1)){
+    fit<-fitdistr(Data, "normal")
+    AIC.Gaus<-2*length(fit$estimate)-2*fit$loglik
+  }
+
+  if(any(Test==2)){
+    ldata <- data.frame(y = Data)
+    fit <- vglm(y  ~ 1, gumbel, ldata, trace = TRUE)
+    AIC.Gum <-length(coef(fit))-2*logLik(fit)
+  }
+
+  if(any(Test==3)){
     ldata <- data.frame(y = Data)
     fit <- vglm(y  ~ 1, laplace, ldata, trace = TRUE)
     AIC.Lapl<-length(coef(fit))-2*logLik(fit)
   }
 
-  if(any(Test==2)){
+  if(any(Test==4)){
   fit<-fitdistr(Data,"logistic")
   AIC.Logis<-2*length(fit$estimate)-2*fit$loglik
-  }
-
-  if(any(Test==3)){
-  fit<-fitdistr(Data, "normal")
-  AIC.Gaus<-2*length(fit$estimate)-2*fit$loglik
-  }
-
-  if(any(Test==4)){
-  ldata <- data.frame(y = Data)
-  fit <- vglm(y  ~ 1, gumbel, ldata, trace = TRUE)
-  AIC.Gum <-length(coef(fit))-2*logLik(fit)
   }
 
   if(any(Test==5)){
@@ -68,12 +68,12 @@ Diag_Non_Con<-function(Data,Omit=NA,x_lab,y_lim_min=0,y_lim_max=1){
   }
 
 
-  plot(0,xlim=c(0,length(Test)),ylim=c(min(0,AIC.Lapl,AIC.Logis,AIC.Gaus,AIC.Gum,AIC.RGum,na.rm=T),max(0,AIC.Gaus,AIC.Logis,AIC.Gum,AIC.RGum,na.rm=T)),type='n',xlab="Probability Distribution",ylab="AIC",xaxt='n',cex.axis=1,cex.lab=1,las=1)
+  plot(0,xlim=c(0,length(Test)),ylim=c(min(0,AIC.Gaus,AIC.Gum,AIC.Lapl,AIC.Logis,AIC.RGum,na.rm=T),max(0,AIC.Gaus,AIC.Gum,AIC.Logis,AIC.RGum,na.rm=T)),type='n',xlab="Probability Distribution",ylab="AIC",xaxt='n',cex.axis=1,cex.lab=1,las=1)
   axis(1,seq(0.5,length(Test)-0.5,1),c("Laplace","Logistic","Gaussian","Gumbel","Rev. Gumbel")[Test],cex.axis=0.71)
-  if(any(Test==1)){rect(which(Test==1)-0.5-length(Test)/40,0,which(Test==1)-0.5+length(Test)/40,AIC.Lapl,col=mypalette[4])}
-  if(any(Test==2)){rect(which(Test==2)-0.5-length(Test)/40,0,which(Test==2)-0.5+length(Test)/40,AIC.Logis,col=mypalette[6])}
-  if(any(Test==3)){rect(which(Test==3)-0.5-length(Test)/40,0,which(Test==3)-0.5+length(Test)/40,AIC.Gaus,col=mypalette[3])}
-  if(any(Test==4)){rect(which(Test==4)-0.5-length(Test)/40,0,which(Test==4)-0.5+length(Test)/40,AIC.Gum,col=mypalette[2])}
+  if(any(Test==1)){rect(which(Test==1)-0.5-length(Test)/40,0,which(Test==1)-0.5+length(Test)/40,AIC.Gaus,col=mypalette[3])}
+  if(any(Test==2)){rect(which(Test==2)-0.5-length(Test)/40,0,which(Test==2)-0.5+length(Test)/40,AIC.Gum,col=mypalette[2])}
+  if(any(Test==3)){rect(which(Test==3)-0.5-length(Test)/40,0,which(Test==3)-0.5+length(Test)/40,AIC.Lapl,col=mypalette[4])}
+  if(any(Test==4)){rect(which(Test==4)-0.5-length(Test)/40,0,which(Test==4)-0.5+length(Test)/40,AIC.Logis,col=mypalette[6])}
   if(any(Test==5)){rect(which(Test==5)-0.5-length(Test)/40,0,which(Test==5)-0.5+length(Test)/40,AIC.RGum,col=mypalette[1])}
 
   hist(Data, freq=FALSE,xlab=x_lab,col="white",main="",cex.lab=1,cex.axis=1,ylim=c(y_lim_min,y_lim_max),las=1)
@@ -81,25 +81,25 @@ Diag_Non_Con<-function(Data,Omit=NA,x_lab,y_lim_min=0,y_lim_max=1){
   #text(5.35,0.1,"(f)",font=2,cex=1.75)
 
   if(any(Test==1)){
+    fit<-fitdistr(Data, "normal")
+    lines(x,dnorm(x,fit$estimate[1],fit$estimate[2]),col=mypalette[3],lwd=2)
+  }
+
+  if(any(Test==2)){
+    ldata <- data.frame(y = Data)
+    fit <- vglm(y  ~ 1, gumbel, ldata, trace = TRUE)
+    lines(x,dgumbel(x,Coef(fit)[1],Coef(fit)[2]),col=mypalette[2],lwd=2)
+  }
+
+  if(any(Test==3)){
     ldata <- data.frame(y = Data)
     fit <- vglm(y  ~ 1, laplace, ldata, trace = TRUE)
     lines(x,dlaplace(x,Coef(fit)[1],Coef(fit)[2]),col=mypalette[4],lwd=2)
   }
 
-  if(any(Test==2)){
+  if(any(Test==4)){
   fit<-fitdistr(Data,"logistic")
   lines(x,dlogis(x,fit$estimate[1],fit$estimate[2]),col=mypalette[6],lwd=2)
-  }
-
-  if(any(Test==3)){
-  fit<-fitdistr(Data, "normal")
-  lines(x,dnorm(x,fit$estimate[1],fit$estimate[2]),col=mypalette[3],lwd=2)
-  }
-
-  if(any(Test==4)){
-  ldata <- data.frame(y = Data)
-  fit <- vglm(y  ~ 1, gumbel, ldata, trace = TRUE)
-  lines(x,dgumbel(x,Coef(fit)[1],Coef(fit)[2]),col=mypalette[2],lwd=2)
   }
 
   if(any(Test==5)){
@@ -116,25 +116,25 @@ Diag_Non_Con<-function(Data,Omit=NA,x_lab,y_lim_min=0,y_lim_max=1){
   #text(2,1,"(g)",font=2,cex=1.75)
 
   if(any(Test==1)){
+    fit<-fitdistr(Data,"normal")
+    lines(x,pnorm(x,fit$estimate[1],fit$estimate[2]),col=mypalette[3],lwd=2)
+  }
+
+  if(any(Test==2)){
+  ldata <- data.frame(y = Data)
+  fit <- vglm(y  ~ 1, gumbel, ldata, trace = TRUE)
+  lines(x,pgumbel(x,Coef(fit)[1],Coef(fit)[2]),col=mypalette[2],lwd=2)
+  }
+
+  if(any(Test==3)){
     ldata <- data.frame(y = Data)
     fit <- vglm(y  ~ 1, laplace, ldata, trace = TRUE)
     lines(x,plaplace(x,Coef(fit)[1],Coef(fit)[2]),col=mypalette[4],lwd=2)
   }
 
-  if(any(Test==2)){
-  fit<-fitdistr(Data,"logistic")
-  lines(x,plogis(x,fit$estimate[1],fit$estimate[2]),col=mypalette[6],lwd=2)
-  }
-
-  if(any(Test==3)){
-    fit<-fitdistr(Data,"normal")
-    lines(x,pnorm(x,fit$estimate[1],fit$estimate[2]),col=mypalette[3],lwd=2)
-  }
-
   if(any(Test==4)){
-  ldata <- data.frame(y = Data)
-  fit <- vglm(y  ~ 1, gumbel, ldata, trace = TRUE)
-  lines(x,pgumbel(x,Coef(fit)[1],Coef(fit)[2]),col=mypalette[2],lwd=2)
+    fit<-fitdistr(Data,"logistic")
+    lines(x,plogis(x,fit$estimate[1],fit$estimate[2]),col=mypalette[6],lwd=2)
   }
 
   if(any(Test==5)){
@@ -142,7 +142,7 @@ Diag_Non_Con<-function(Data,Omit=NA,x_lab,y_lim_min=0,y_lim_max=1){
   lines(x,pRG(x,fit$mu.coefficients,fit$sigma.coefficients),col=mypalette[1],lwd=2)
   }
 
-  AIC<-data.frame(c("Lapl","Logis","Gaus","Gum","RGum"),c(AIC.Lapl,AIC.Logis,AIC.Gaus,AIC.Gum,AIC.RGum))
+  AIC<-data.frame(c("Gaus","Gum","Lapl","Logis","RGum"),c(AIC.Gaus,AIC.Gum,AIC.Lapl,AIC.Logis,AIC.RGum))
   colnames(AIC)<-c("Distribution","AIC")
   Best_fit<-AIC$Distribution[which(AIC$AIC==min(AIC$AIC))]
   res<-list("AIC"=AIC,"Best_fit"=Best_fit)
