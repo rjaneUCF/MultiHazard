@@ -69,7 +69,7 @@ Diag_Non_Con<-function(Data,Omit=NA,x_lab,y_lim_min=0,y_lim_max=1){
 
 
   plot(0,xlim=c(0,length(Test)),ylim=c(min(0,AIC.Gaus,AIC.Gum,AIC.Lapl,AIC.Logis,AIC.RGum,na.rm=T),max(0,AIC.Gaus,AIC.Gum,AIC.Logis,AIC.RGum,na.rm=T)),type='n',xlab="Probability Distribution",ylab="AIC",xaxt='n',cex.axis=1,cex.lab=1,las=1)
-  axis(1,seq(0.5,length(Test)-0.5,1),c("Laplace","Logistic","Gaussian","Gumbel","Rev. Gumbel")[Test],cex.axis=0.71)
+  axis(1,seq(0.5,length(Test)-0.5,1),c("Gaussian","Gumbel","Laplace","Logistic","Rev. Gumbel")[Test],cex.axis=0.71)
   if(any(Test==1)){rect(which(Test==1)-0.5-length(Test)/40,0,which(Test==1)-0.5+length(Test)/40,AIC.Gaus,col=mypalette[3])}
   if(any(Test==2)){rect(which(Test==2)-0.5-length(Test)/40,0,which(Test==2)-0.5+length(Test)/40,AIC.Gum,col=mypalette[2])}
   if(any(Test==3)){rect(which(Test==3)-0.5-length(Test)/40,0,which(Test==3)-0.5+length(Test)/40,AIC.Lapl,col=mypalette[4])}
