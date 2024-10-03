@@ -3,7 +3,7 @@
 #' Generates water level curves for simulated extreme water levels based on a simulated "intensity".
 #'
 #' @param Data A data frame of the time series with the column containing ocean-side water levels labeled \code{"OsWL"}.
-#' @param Cluster_Max Numeric vector containing indexes of peaks in the O-sWL column of \code{Data}. If analyzing a sample conditioned on O-sWL derived using \code{Con_Sample_2D()} set equal to the \code{$xcon} output.
+#' @param Cluster_Max Numeric vector containing indexes of peaks in the O-sWL column of \code{Data}. If analyzing a sample conditioned on O-sWL derived using \code{Con_Sample_2D()} set equal to the \code{$x.con} output.
 #' @param Pre_Low Numeric vector of the indexes of the O-sWL column in \code{Data} containing the preceding low water level.
 #' @param Fol_Low Numeric vector of the indexes of the O-sWL column in \code{Data} containing the following low water level.
 #' @param Thres Numeric vector of length one, specifying threshold above which to apply the method. Below the threshold an observed curve with an intensity less than \code{limit} is randomly sampled.
@@ -45,7 +45,7 @@
 #'         S13.Detrend.df$OsWL[(S13.OsWL.Declust$EventsMax[i]-144):
 #'                             (S13.OsWL.Declust$EventsMax[i]+144)])
 #' }
-#' #Superimpose the curves generated ro the four synthetic events
+#' #Superimpose the curves generated for the four synthetic events
 #' for(i in 1:4){
 #'   lines(1:289,oswl_ts_oswl$Series[i,],col=2)
 #' }
@@ -55,6 +55,7 @@ WL_Curve<-function(Data,Cluster_Max,Pre_Low,Fol_Low,Thres,Base_Line=mean(Data$Os
   intensity.scaled = numeric(length(Cluster_Max))
   intensity.event = Intensity
   series = matrix("NA",nrow=length(Intensity),ncol=(2*Length+1))
+  e = numeric(length(Peak))
 
   #Repeat this loop for every simulated peak
   for(k in 1:length(Peak)){
@@ -81,7 +82,7 @@ WL_Curve<-function(Data,Cluster_Max,Pre_Low,Fol_Low,Thres,Base_Line=mean(Data$Os
       event = (Peak[k]-Data$OsWL[Cluster_Max[ce]])+Data$OsWL[Pre_Low[ce]:Fol_Low[ce]]
 
       #Compute the intensity
-      intensity.event[k] = sum(event[event>mean(Data$OsWL,na.rm=T)]-mean(Data$OsWL,na.rm=T))
+      intensity.event[k] = sum(event[event>Base_Line]-Base_Line)
 
     } else{
       #For simulated peaks above the threshold
@@ -101,7 +102,7 @@ WL_Curve<-function(Data,Cluster_Max,Pre_Low,Fol_Low,Thres,Base_Line=mean(Data$Os
         ts[Cluster_Max[j]+4] = 0.3*(Peak[k]-Data$OsWL[(Cluster_Max[j]+5)])+Data$OsWL[(Cluster_Max[j]+5)]
 
         #Calculate intensity of re-scaled curve
-        intensity.scaled[j] = sum(ts[which(ts>mean(Data$OsWL,na.rm=T))]-mean(Data$OsWL,na.rm=T))
+        intensity.scaled[j] = sum(ts[which(ts>Base_Line)]-Base_Line)
 
       }
 
@@ -153,11 +154,11 @@ WL_Curve<-function(Data,Cluster_Max,Pre_Low,Fol_Low,Thres,Base_Line=mean(Data$Os
 
     #Assign water level curve to the appropriate row in the results data frame
     series[k,] = new
-
+    e[k] = ce
   }
 
   #Put result objects into a list
-  res = list("Series" = series, "Intensity" = intensity.event)
+  res = list("Series" = series, "Intensity" = intensity.event, "Event"=e)
 
   #Output data frame containing the results
   return(res)
