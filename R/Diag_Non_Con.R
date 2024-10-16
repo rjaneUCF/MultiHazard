@@ -46,14 +46,13 @@ Diag_Non_Con<-function(Data,Omit=NA,x_lab,y_lim_min=0,y_lim_max=1){
   }
 
   if(any(Test==2)){
-    ldata <- data.frame(y = Data)
-    fit <- vglm(y  ~ 1, gumbel, ldata, trace = TRUE)
-    AIC.Gum <-2*length(coef(fit))-2*logLik(fit)
+    fit <- gamlss(Data  ~ 1, family=GU)
+    AIC.Gum <-fit$aic
   }
 
   if(any(Test==3)){
-    ldata <- data.frame(y = Data)
-    fit <- vglm(y  ~ 1, laplace, ldata, trace = TRUE)
+    fit <- tryCatch(fitdistr(Data, dLaplace, start=list(mu=mean(Data), b=sd(Data)/sqrt(2))),
+                    error = function(e) "error")
     AIC.Lapl<-2*length(coef(fit))-2*logLik(fit)
   }
 
@@ -63,8 +62,7 @@ Diag_Non_Con<-function(Data,Omit=NA,x_lab,y_lim_min=0,y_lim_max=1){
   }
 
   if(any(Test==5)){
-  data.gamlss <- data.frame(y = Data)
-  fit <- gamlss(y~1,data.gamlss,family=RG)
+  fit <- gamlss(Data ~ 1,family=RG)
   AIC.RGum<-fit$aic
   }
 
