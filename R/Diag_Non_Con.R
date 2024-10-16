@@ -48,13 +48,13 @@ Diag_Non_Con<-function(Data,Omit=NA,x_lab,y_lim_min=0,y_lim_max=1){
   if(any(Test==2)){
     ldata <- data.frame(y = Data)
     fit <- vglm(y  ~ 1, gumbel, ldata, trace = TRUE)
-    AIC.Gum <-length(coef(fit))-2*logLik(fit)
+    AIC.Gum <-2*length(coef(fit))-2*logLik(fit)
   }
 
   if(any(Test==3)){
     ldata <- data.frame(y = Data)
     fit <- vglm(y  ~ 1, laplace, ldata, trace = TRUE)
-    AIC.Lapl<-length(coef(fit))-2*logLik(fit)
+    AIC.Lapl<-2*length(coef(fit))-2*logLik(fit)
   }
 
   if(any(Test==4)){
@@ -63,7 +63,8 @@ Diag_Non_Con<-function(Data,Omit=NA,x_lab,y_lim_min=0,y_lim_max=1){
   }
 
   if(any(Test==5)){
-  fit <- gamlss(Data~1,family=RG)
+  data.gamlss <- data.frame(y = Data)
+  fit <- gamlss(y~1,data.gamlss,family=RG)
   AIC.RGum<-fit$aic
   }
 
@@ -148,4 +149,5 @@ Diag_Non_Con<-function(Data,Omit=NA,x_lab,y_lim_min=0,y_lim_max=1){
   res<-list("AIC"=AIC,"Best_fit"=Best_fit)
   return(res)
 }
+
 
