@@ -24,20 +24,50 @@ Diag_Non_Con<-function(Data,Omit=NA,x_lab,y_lim_min=0,y_lim_max=1){
 
   #Distributions to test
   Dist<-c("Gaus","Gum","Lapl","Logis","RGum")
+  Dist.2 <- Dist
   Test<-1:5
   if(is.na(Omit[1])==F){
     Test<-Test[-which(Dist %in% Omit)]
+    Dist.2 <- Dist.2[-which(Dist %in% Omit)]
   }
+
+  #Second omit vector for distributions where paramter estimation fails
+  Omit.2 = rep(NA,3)
 
   par(mfrow=c(3,1))
   par(mar=c(4.2,4.2,1,1))
 
   #AIC result objects
-  AIC.Lapl <- NA
-  AIC.Logis <- NA
   AIC.Gaus <- NA
   AIC.Gum <- NA
+  AIC.Lapl <- NA
+  AIC.Logis <- NA
   AIC.RGum <- NA
+
+  #
+  if(any(Test==2)){
+    fit <- tryCatch(gamlss(Data  ~ 1, family=GU),
+                    error = function(e) "error")
+    Omit.2[1] = ifelse(fit=="error","Gum",NA)
+  }
+
+  if(any(Test==3)){
+    fit <- tryCatch(fitdistr(Data, dlaplace, start=list(location=mean(Data),scale=sd(Data)/sqrt(2))),
+                    error = function(e) "error")
+    Omit.2[2] = ifelse(fit=="error","Lapl",NA)
+  }
+
+  if(any(Test==5)){
+    fit <- tryCatch(gamlss(Data ~ 1,family=RG),
+                    error = function(e) "error")
+    Omit.2[3] = ifelse(fit=="error","RGum",NA)
+  }
+
+
+  #Distributions to test
+  if(any(is.na(Omit.2[1])==F)){
+    Test<-Test[-which(Dist.2 %in% Omit.2)]
+  }
 
   #AIC
   if(any(Test==1)){
@@ -46,24 +76,24 @@ Diag_Non_Con<-function(Data,Omit=NA,x_lab,y_lim_min=0,y_lim_max=1){
   }
 
   if(any(Test==2)){
-    fit <- gamlss(Data  ~ 1, family=GU)
+    fit <- gamlss(Data  ~ 1, family= GU)
     AIC.Gum <-fit$aic
   }
 
   if(any(Test==3)){
-    fit <- tryCatch(fitdistr(Data, dLaplace, start=list(mu=mean(Data), b=sd(Data)/sqrt(2))),
-                    error = function(e) "error")
+    fit <- fitdistr(Data, dlaplace, start=list(location=mean(Data), scale=sd(Data)/sqrt(2)))
     AIC.Lapl<-2*length(coef(fit))-2*logLik(fit)
   }
 
+
   if(any(Test==4)){
-  fit<-fitdistr(Data,"logistic")
-  AIC.Logis<-2*length(fit$estimate)-2*fit$loglik
+    fit<-fitdistr(Data,"logistic")
+    AIC.Logis<-2*length(fit$estimate)-2*fit$loglik
   }
 
   if(any(Test==5)){
-  fit <- gamlss(Data ~ 1,family=RG)
-  AIC.RGum<-fit$aic
+    fit <- gamlss(Data ~ 1,family=RG)
+    AIC.RGum<-fit$aic
   }
 
 
@@ -85,15 +115,13 @@ Diag_Non_Con<-function(Data,Omit=NA,x_lab,y_lim_min=0,y_lim_max=1){
   }
 
   if(any(Test==2)){
-    ldata <- data.frame(y = Data)
-    fit <- vglm(y  ~ 1, gumbel, ldata, trace = TRUE)
-    lines(x,dgumbel(x,Coef(fit)[1],Coef(fit)[2]),col=mypalette[2],lwd=2)
+    fit <- gamlss(Data  ~ 1, family=GU)
+    lines(x,dGU(x,as.numeric(fit$mu.coefficients),as.numeric(fit$sigma.coefficients)),col=mypalette[2],lwd=2)
   }
 
   if(any(Test==3)){
-    ldata <- data.frame(y = Data)
-    fit <- vglm(y  ~ 1, laplace, ldata, trace = TRUE)
-    lines(x,dlaplace(x,Coef(fit)[1],Coef(fit)[2]),col=mypalette[4],lwd=2)
+    fit <- fitdistr(Data, dlaplace, start=list(location=mean(Data), scale=sd(Data)/sqrt(2)))
+    lines(x,dlaplace(x,fit$estimate[1],fit$estimate[2]),col=mypalette[4],lwd=2)
   }
 
   if(any(Test==4)){
@@ -102,7 +130,7 @@ Diag_Non_Con<-function(Data,Omit=NA,x_lab,y_lim_min=0,y_lim_max=1){
   }
 
   if(any(Test==5)){
-  fit <- gamlss(Data~1,family=RG)
+  fit <- gamlss(Data ~ 1,family=RG)
   lines(x,dRG(x,fit$mu.coefficients,fit$sigma.coefficients),col=mypalette[1],lwd=2)
   }
 
@@ -120,15 +148,13 @@ Diag_Non_Con<-function(Data,Omit=NA,x_lab,y_lim_min=0,y_lim_max=1){
   }
 
   if(any(Test==2)){
-  ldata <- data.frame(y = Data)
-  fit <- vglm(y  ~ 1, gumbel, ldata, trace = TRUE)
-  lines(x,pgumbel(x,Coef(fit)[1],Coef(fit)[2]),col=mypalette[2],lwd=2)
+    fit <- gamlss(Data  ~ 1, family=GU)
+  lines(x,pGU(x,fit$mu.coefficients,fit$sigma.coefficients),col=mypalette[2],lwd=2)
   }
 
   if(any(Test==3)){
-    ldata <- data.frame(y = Data)
-    fit <- vglm(y  ~ 1, laplace, ldata, trace = TRUE)
-    lines(x,plaplace(x,Coef(fit)[1],Coef(fit)[2]),col=mypalette[4],lwd=2)
+    fit <- fitdistr(Data, dlaplace, start=list(location=mean(Data), scale=sd(Data)/sqrt(2)))
+    lines(x,plaplace(x,fit$estimate[1],fit$estimate[2]),col=mypalette[4],lwd=2)
   }
 
   if(any(Test==4)){
@@ -137,13 +163,13 @@ Diag_Non_Con<-function(Data,Omit=NA,x_lab,y_lim_min=0,y_lim_max=1){
   }
 
   if(any(Test==5)){
-  fit <- gamlss(Data~1,family=RG)
+  fit <- gamlss(Data ~ 1,family=RG)
   lines(x,pRG(x,fit$mu.coefficients,fit$sigma.coefficients),col=mypalette[1],lwd=2)
   }
 
   AIC<-data.frame(c("Gaus","Gum","Lapl","Logis","RGum"),c(AIC.Gaus,AIC.Gum,AIC.Lapl,AIC.Logis,AIC.RGum))
   colnames(AIC)<-c("Distribution","AIC")
-  Best_fit<-AIC$Distribution[which(AIC$AIC==min(AIC$AIC))]
+  Best_fit<-AIC$Distribution[which(AIC$AIC==min(AIC$AIC,na.rm=T))]
   res<-list("AIC"=AIC,"Best_fit"=Best_fit)
   return(res)
 }
