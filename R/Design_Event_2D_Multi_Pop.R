@@ -467,7 +467,7 @@ Design_Event_2D_Multi_Pop<-function(Data, Data_Con1, Data_Con2, Data_Con3, Data_
     cop.sample1.non.con<-qnorm(sample[,con2], mean = as.numeric(marginal_non_con1$estimate[1]), sd = as.numeric(marginal_non_con1$estimate[2]))
   }
   if(Marginal_Dist1=="Gum"){
-    cop.sample1.non.con<-qGU(sample[,con2],as.numeric(marginal_non_con1$mu.coefficients),as.numeric(marginal_non_con1$sigma.coefficients))
+    cop.sample1.non.con<-qGU(sample[,con2],as.numeric(marginal_non_con1$mu.coefficients),exp(as.numeric(marginal_non_con1$sigma.coefficients)))
   }
   if(Marginal_Dist1=="InvG"){
     cop.sample1.non.con<-qinvgauss(sample[,con2], mean = as.numeric(marginal_non_con1$estimate[1]), shape = as.numeric(marginal_non_con1$estimate[2]))
@@ -482,7 +482,7 @@ Design_Event_2D_Multi_Pop<-function(Data, Data_Con1, Data_Con2, Data_Con3, Data_
     cop.sample1.non.con<-qlnorm(sample[,con2], meanlog = as.numeric(marginal_non_con1$estimate[1]), sdlog = as.numeric(marginal_non_con1$estimate[2]))
   }
   if(Marginal_Dist1=="RGum"){
-    cop.sample1.non.con<-qRG(sample[,con2],marginal_non_con1$mu.coefficients,marginal_non_con1$sigma.coefficients)
+    cop.sample1.non.con<-qRG(sample[,con2],marginal_non_con1$mu.coefficients,exp(marginal_non_con1$sigma.coefficients))
   }
   if(Marginal_Dist1=="TNorm"){
     cop.sample1.non.con<-qtruncnorm(sample[,con2], a=min(Data_Con1[,con2]), mean = as.numeric(marginal_non_con1$estimate[1]), sd = as.numeric(marginal_non_con1$estimate[2]))
@@ -551,7 +551,7 @@ Design_Event_2D_Multi_Pop<-function(Data, Data_Con1, Data_Con2, Data_Con3, Data_
     cop.sample2.non.con<-qnorm(sample[,con1], mean = as.numeric(marginal_non_con2$estimate[1]), sd=as.numeric(marginal_non_con2$estimate[2]))
   }
   if(Marginal_Dist2=="Gum"){
-    cop.sample2.non.con<-qGU(sample[,con1],as.numeric(marginal_non_con2$mu.coefficients),as.numeric(marginal_non_con2$sigma.coefficients))
+    cop.sample2.non.con<-qGU(sample[,con1],as.numeric(marginal_non_con2$mu.coefficients),exp(as.numeric(marginal_non_con2$sigma.coefficients)))
   }
   if(Marginal_Dist2=="InvG"){
     cop.sample2.non.con<-qinvgauss(sample[,con1], mean = as.numeric(marginal_non_con2$estimate[1]), shape=as.numeric(marginal_non_con2$estimate[2]))
@@ -566,7 +566,7 @@ Design_Event_2D_Multi_Pop<-function(Data, Data_Con1, Data_Con2, Data_Con3, Data_
     cop.sample2.non.con<-qlogis(sample[,con1], location = as.numeric(marginal_non_con2$estimate[1]), scale=as.numeric(marginal_non_con2$estimate[2]))
   }
   if(Marginal_Dist2=="RGum"){
-    cop.sample2.non.con<-qRG(sample[,con1],marginal_non_con2$mu.coefficients,marginal_non_con2$sigma.coefficients)
+    cop.sample2.non.con<-qRG(sample[,con1],marginal_non_con2$mu.coefficients,exp(marginal_non_con2$sigma.coefficients))
   }
   if(Marginal_Dist2=="TNorm"){
     cop.sample2.non.con<-qtruncnorm(sample[,con1], a=min(Data_Con2[,con1]), mean = as.numeric(marginal_non_con2$estimate[1]), sd = as.numeric(marginal_non_con2$estimate[2]))
@@ -910,7 +910,7 @@ Design_Event_2D_Multi_Pop<-function(Data, Data_Con1, Data_Con2, Data_Con3, Data_
     cop.sample3.non.con<-qnorm(sample[,con4], mean = as.numeric(marginal_non_con3$estimate[1]), sd = as.numeric(marginal_non_con3$estimate[2]))
   }
   if(Marginal_Dist3=="Gum"){
-    cop.sample3.non.con<-qGU(sample[,con4],as.numeric(marginal_non_con3$mu.coefficients),as.numeric(marginal_non_con3$sigma.coefficients))
+    cop.sample3.non.con<-qGU(sample[,con4],as.numeric(marginal_non_con3$mu.coefficients),exp(as.numeric(marginal_non_con3$sigma.coefficients)))
   }
   if(Marginal_Dist3=="InvG"){
     cop.sample3.non.con<-qinvgauss(sample[,con4], mean = as.numeric(marginal_non_con3$estimate[1]), shape = as.numeric(marginal_non_con3$estimate[2]))
@@ -925,7 +925,7 @@ Design_Event_2D_Multi_Pop<-function(Data, Data_Con1, Data_Con2, Data_Con3, Data_
     cop.sample3.non.con<-qlnorm(sample[,con4], meanlog = as.numeric(marginal_non_con3$estimate[1]), sdlog = as.numeric(marginal_non_con3$estimate[2]))
   }
   if(Marginal_Dist3=="RGum"){
-    cop.sample3.non.con<-qRG(sample[,con4],marginal_non_con3$mu.coefficients,marginal_non_con3$sigma.coefficients)
+    cop.sample3.non.con<-qRG(sample[,con4],marginal_non_con3$mu.coefficients,exp(marginal_non_con3$sigma.coefficients))
   }
   if(Marginal_Dist3=="TNorm"){
     cop.sample3.non.con<-qtruncnorm(sample[,con4], a=min(Data_Con3[,con4]), mean = as.numeric(marginal_non_con3$estimate[1]), sd = as.numeric(marginal_non_con3$estimate[2]))
@@ -994,7 +994,7 @@ Design_Event_2D_Multi_Pop<-function(Data, Data_Con1, Data_Con2, Data_Con3, Data_
     cop.sample4.non.con<-qnorm(sample[,con3], mean = as.numeric(marginal_non_con4$estimate[1]), sd=as.numeric(marginal_non_con4$estimate[2]))
   }
   if(Marginal_Dist4=="Gum"){
-    cop.sample4.non.con<-qGU(sample[,con3],as.numeric(marginal_non_con4$mu.coefficients),as.numeric(marginal_non_con4$sigma.coefficients))
+    cop.sample4.non.con<-qGU(sample[,con3],as.numeric(marginal_non_con4$mu.coefficients),exp(as.numeric(marginal_non_con4$sigma.coefficients)))
   }
   if(Marginal_Dist4=="InvG"){
     cop.sample4.non.con<-qinvgauss(sample[,con3], mean = as.numeric(marginal_non_con4$estimate[1]), shape=as.numeric(marginal_non_con4$estimate[2]))
@@ -1009,7 +1009,7 @@ Design_Event_2D_Multi_Pop<-function(Data, Data_Con1, Data_Con2, Data_Con3, Data_
     cop.sample4.non.con<-qlogis(sample[,con3], location = as.numeric(marginal_non_con4$estimate[1]), scale=as.numeric(marginal_non_con4$estimate[2]))
   }
   if(Marginal_Dist4=="RGum"){
-    cop.sample4.non.con<-qRG(sample[,con3],marginal_non_con4$mu.coefficients,marginal_non_con4$sigma.coefficients)
+    cop.sample4.non.con<-qRG(sample[,con3],marginal_non_con4$mu.coefficients,exp(marginal_non_con4$sigma.coefficients))
   }
   if(Marginal_Dist4=="TNorm"){
     cop.sample4.non.con<-qtruncnorm(sample[,con3], a=min(Data_Con4[,con3]), mean = as.numeric(marginal_non_con4$estimate[1]), sd = as.numeric(marginal_non_con4$estimate[2]))
@@ -1086,7 +1086,7 @@ Design_Event_2D_Multi_Pop<-function(Data, Data_Con1, Data_Con2, Data_Con3, Data_
       con1.y.u<-pnorm(Pgrid[,2],as.numeric(marginal_non_con1$estimate[1]),as.numeric(marginal_non_con1$estimate[2]))
     }
     if(Marginal_Dist1=="Gum"){
-      con1.y.u<-pGU(Pgrid[,2],as.numeric(marginal_non_con1$mu.coefficients),as.numeric(marginal_non_con1$sigma.coefficients))
+      con1.y.u<-pGU(Pgrid[,2],as.numeric(marginal_non_con1$mu.coefficients),exp(as.numeric(marginal_non_con1$sigma.coefficients)))
     }
     if(Marginal_Dist1=="InvG"){
       con1.y.u<-pinvgauss(Pgrid[,2],as.numeric(marginal_non_con1$estimate[1]),as.numeric(marginal_non_con1$estimate[2]))
@@ -1101,7 +1101,7 @@ Design_Event_2D_Multi_Pop<-function(Data, Data_Con1, Data_Con2, Data_Con3, Data_
       con1.y.u<-plnorm(Pgrid[,2],meanlog = as.numeric(marginal_non_con1$estimate[1]), sdlog = as.numeric(marginal_non_con1$estimate[2]))
     }
     if(Marginal_Dist1=="RGum"){
-      con1.y.u<-pRG(Pgrid[,2],marginal_non_con1$mu.coefficients,marginal_non_con1$sigma.coefficients)
+      con1.y.u<-pRG(Pgrid[,2],marginal_non_con1$mu.coefficients,exp(marginal_non_con1$sigma.coefficients))
     }
     if(Marginal_Dist1=="TNorm"){
       con1.y.u<-ptruncnorm(Pgrid[,2],a=min(Data_Con1[,con2]),as.numeric(marginal_non_con1$estimate[1]),as.numeric(marginal_non_con1$estimate[2]))
@@ -1174,7 +1174,7 @@ Design_Event_2D_Multi_Pop<-function(Data, Data_Con1, Data_Con2, Data_Con3, Data_
       con2.x.u<-pnorm(Pgrid[,1], as.numeric(marginal_non_con2$estimate[1]), as.numeric(marginal_non_con2$estimate[2]))
     }
     if(Marginal_Dist2=="Gum"){
-      con2.x.u<-qGU(Pgrid[,1],as.numeric(marginal_non_con2$mu.coefficients),as.numeric(marginal_non_con2$sigma.coefficients))
+      con2.x.u<-qGU(Pgrid[,1],as.numeric(marginal_non_con2$mu.coefficients),exp(as.numeric(marginal_non_con2$sigma.coefficients)))
     }
     if(Marginal_Dist2=="InvG"){
       con2.x.u<-pinvgauss(Pgrid[,1], as.numeric(marginal_non_con2$estimate[1]), as.numeric(marginal_non_con2$estimate[2]))
@@ -1189,7 +1189,7 @@ Design_Event_2D_Multi_Pop<-function(Data, Data_Con1, Data_Con2, Data_Con3, Data_
       con2.x.u<-plnorm(Pgrid[,1], meanlog = as.numeric(marginal_non_con2$estimate[1]), sdlog = as.numeric(marginal_non_con2$estimate[2]))
     }
     if(Marginal_Dist2=="RGum"){
-      con2.x.u<-pRG(Pgrid[,1],marginal_non_con2$mu.coefficients,marginal_non_con2$sigma.coefficients)
+      con2.x.u<-pRG(Pgrid[,1],marginal_non_con2$mu.coefficients,exp(marginal_non_con2$sigma.coefficients))
     }
     if(Marginal_Dist2=="TNorm"){
       con2.x.u<-ptruncnorm(Pgrid[,1],a=min(Data_Con2[,con1]),as.numeric(marginal_non_con2$estimate[1]),as.numeric(marginal_non_con2$estimate[2]))
@@ -1277,7 +1277,7 @@ Design_Event_2D_Multi_Pop<-function(Data, Data_Con1, Data_Con2, Data_Con3, Data_
       con3.y.u<-pnorm(Pgrid[,2],as.numeric(marginal_non_con3$estimate[1]),as.numeric(marginal_non_con3$estimate[2]))
     }
     if(Marginal_Dist3=="Gum"){
-      con3.x.u<-qGU(Pgrid[,2],as.numeric(marginal_non_con3$mu.coefficients),as.numeric(marginal_non_con3$sigma.coefficients))
+      con3.x.u<-qGU(Pgrid[,2],as.numeric(marginal_non_con3$mu.coefficients),exp(as.numeric(marginal_non_con3$sigma.coefficients)))
     }
     if(Marginal_Dist3=="InvG"){
       con3.y.u<-pinvgauss(Pgrid[,2],as.numeric(marginal_non_con3$estimate[1]),as.numeric(marginal_non_con3$estimate[2]))
@@ -1292,7 +1292,7 @@ Design_Event_2D_Multi_Pop<-function(Data, Data_Con1, Data_Con2, Data_Con3, Data_
       con3.y.u<-plnorm(Pgrid[,2],meanlog = as.numeric(marginal_non_con3$estimate[1]), sdlog = as.numeric(marginal_non_con3$estimate[2]))
     }
     if(Marginal_Dist3=="RGum"){
-      con3.y.u<-pRG(Pgrid[,2],marginal_non_con3$mu.coefficients,marginal_non_con3$sigma.coefficients)
+      con3.y.u<-pRG(Pgrid[,2],marginal_non_con3$mu.coefficients,exp(marginal_non_con3$sigma.coefficients))
     }
     if(Marginal_Dist3=="TNorm"){
       con3.y.u<-ptruncnorm(Pgrid[,2],a=min(Data_Con3[,con4]),as.numeric(marginal_non_con3$estimate[1]),as.numeric(marginal_non_con3$estimate[2]))
@@ -1365,7 +1365,7 @@ Design_Event_2D_Multi_Pop<-function(Data, Data_Con1, Data_Con2, Data_Con3, Data_
       con4.x.u<-pnorm(Pgrid[,1], as.numeric(marginal_non_con4$estimate[1]), as.numeric(marginal_non_con4$estimate[2]))
     }
     if(Marginal_Dist4=="Gum"){
-      con4.x.u<-qGU(Pgrid[,1],as.numeric(marginal_non_con4$mu.coefficients),as.numeric(marginal_non_con4$sigma.coefficients))
+      con4.x.u<-qGU(Pgrid[,1],as.numeric(marginal_non_con4$mu.coefficients),exp(as.numeric(marginal_non_con4$sigma.coefficients)))
     }
     if(Marginal_Dist4=="InvG"){
       con4.x.u<-pinvgauss(Pgrid[,1], as.numeric(marginal_non_con4$estimate[1]), as.numeric(marginal_non_con4$estimate[2]))
@@ -1380,7 +1380,7 @@ Design_Event_2D_Multi_Pop<-function(Data, Data_Con1, Data_Con2, Data_Con3, Data_
       con4.x.u<-plnorm(Pgrid[,1], meanlog = as.numeric(marginal_non_con4$estimate[1]), sdlog = as.numeric(marginal_non_con4$estimate[2]))
     }
     if(Marginal_Dist4=="RGum"){
-      con4.x.u<-pRG(Pgrid[,1],marginal_non_con4$mu.coefficients,marginal_non_con4$sigma.coefficients)
+      con4.x.u<-pRG(Pgrid[,1],marginal_non_con4$mu.coefficients,exp(marginal_non_con4$sigma.coefficients))
     }
     if(Marginal_Dist4=="TNorm"){
       con4.x.u<-ptruncnorm(Pgrid[,1],a=min(Data_Con4[,con3]),as.numeric(marginal_non_con4$estimate[1]),as.numeric(marginal_non_con4$estimate[2]))
