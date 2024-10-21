@@ -116,7 +116,7 @@ Diag_Non_Con<-function(Data,Omit=NA,x_lab,y_lim_min=0,y_lim_max=1){
 
   if(any(Test==2)){
     fit <- gamlss(Data  ~ 1, family=GU)
-    lines(x,dGU(x,as.numeric(fit$mu.coefficients),as.numeric(fit$sigma.coefficients)),col=mypalette[2],lwd=2)
+    lines(x,dGU(x,fit$mu.coefficients,exp(fit$sigma.coefficients)),col=mypalette[2],lwd=2)
   }
 
   if(any(Test==3)){
@@ -131,7 +131,7 @@ Diag_Non_Con<-function(Data,Omit=NA,x_lab,y_lim_min=0,y_lim_max=1){
 
   if(any(Test==5)){
   fit <- gamlss(Data ~ 1,family=RG)
-  lines(x,dRG(x,fit$mu.coefficients,fit$sigma.coefficients),col=mypalette[1],lwd=2)
+  lines(x,dRG(x,fit$mu.coefficients,exp(fit$sigma.coefficients)),col=mypalette[1],lwd=2)
   }
 
   plot(sort(Data),seq(1,length(Data),1)/(length(Data)),ylim=c(0,1),xlab=x_lab,ylab="P(X<x)",main="",pch=16,cex.lab=1,cex.axis=1,las=1)
@@ -149,7 +149,7 @@ Diag_Non_Con<-function(Data,Omit=NA,x_lab,y_lim_min=0,y_lim_max=1){
 
   if(any(Test==2)){
     fit <- gamlss(Data  ~ 1, family=GU)
-  lines(x,pGU(x,fit$mu.coefficients,fit$sigma.coefficients),col=mypalette[2],lwd=2)
+  lines(x,pGU(x,fit$mu.coefficients,exp(fit$sigma.coefficients)),col=mypalette[2],lwd=2)
   }
 
   if(any(Test==3)){
@@ -164,7 +164,7 @@ Diag_Non_Con<-function(Data,Omit=NA,x_lab,y_lim_min=0,y_lim_max=1){
 
   if(any(Test==5)){
   fit <- gamlss(Data ~ 1,family=RG)
-  lines(x,pRG(x,fit$mu.coefficients,fit$sigma.coefficients),col=mypalette[1],lwd=2)
+  lines(x,pRG(x,fit$mu.coefficients,exp(fit$sigma.coefficients)),col=mypalette[1],lwd=2)
   }
 
   AIC<-data.frame(c("Gaus","Gum","Lapl","Logis","RGum"),c(AIC.Gaus,AIC.Gum,AIC.Lapl,AIC.Logis,AIC.RGum))
