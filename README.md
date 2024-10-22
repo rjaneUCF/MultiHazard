@@ -8,6 +8,8 @@ The `MultiHazard` package provides tools for stationary multivariate statistical
 <br>
 
 ### Applications of package: 
+>Maduwantha, P., Wahl, T., Santamaria-Aguilar, S., Jane, R., Booth, J. F., Kim, H., Villarini, G., (2024). A multivariate statistical framework for mixed populations in compound flood analysis, EGUsphere, https://doi.org/10.5194/egusphere-2024-1122.
+
 >Kim, H., Villarini, G., Jane, R., Wahl, T., Misra, S., and Michalek, A. (2023). On the generation of high‐resolution probabilistic design events capturing the joint occurrence of rainfall and storm surge in coastal basins, Int. J. Climatol, 43(2), 761-771, https://doi.org/10.1002/joc.7825.
 
 >Kim, T., Villarini, G., Kim, H., Jane, R., and Wahl, T. (2023). On the compounding of nitrate loads and discharge, J. Environ. Qual., 52, 706–717. https://doi.org/10.1002/jeq2.20458.
