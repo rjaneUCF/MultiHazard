@@ -1217,9 +1217,6 @@ Design_Event_2D_Multi_Pop<-function(Data, Data_Con1, Data_Con2, Data_Con3, Data_
     #Select the maximum of the AEPs from the two samples at each grid point
     AEP = apply(AEP,1,function(x) max(x, na.rm = TRUE))
 
-    print("TC sample")
-    print(summary(AEP))
-
     #Convert data to matrix to match dimensions of PGrid
     AEP.pop.1 = matrix(AEP,nrow=length(var1))
 
@@ -1407,8 +1404,7 @@ Design_Event_2D_Multi_Pop<-function(Data, Data_Con1, Data_Con2, Data_Con3, Data_
 
     #Select the maximum of the AEPs from the two samples at each grid point
     AEP = apply(AEP,1,function(x) max(x, na.rm = TRUE))
-    print("Non-TC sample")
-    print(summary(AEP))
+
     #Convert data to matrix to match dimensions of PGrid
     AEP.pop.2 = matrix(AEP,nrow=length(var1))
 
@@ -1480,11 +1476,9 @@ Design_Event_2D_Multi_Pop<-function(Data, Data_Con1, Data_Con2, Data_Con3, Data_
   points(FullDependence[[k]][,1],FullDependence[[k]][,2],pch=17,cex=1.75)
   text(FullDependence[[k]][,1],FullDependence[[k]][,2],paste(RP[k]),col="White",cex=0.5)
   }
- print(RP_Grid)
+
  RPs = as.numeric(RP_Grid)
- #z = which(RPs>95 & RPs<105)
- #points(Pgrid[z,],col="Green")
- print(summary(RPs))
+
  #Create a list of outputs.
  res<-list("FullDependence" = FullDependence, "MostLikelyEvent" = MostLikelyEvent, "Ensemble"=Ensemble, "Isoline" = Isoline, "Contour"= Contour, "Quantile_Isoline_1" = Quantile_Isoline_1, "Quantile_Isoline_2" = Quantile_Isoline_2, "Threshold_1" = Thres1, "Threshold_2"=Thres2)
  return(res)
