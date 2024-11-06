@@ -89,20 +89,20 @@ Design_Event_2D_Grid<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Th
   names(MostLikelyEvent)<-RP
   FullDependence<-vector(mode = "list", length = length(RP))
   names(FullDependence)<-RP
-
+  print("HERE0.5")
   #Remove 1st column of Data if it is a Date or factor object.
   if(class(Data[,1])=="Date" | class(Data[,1])=="factor" | class(Data[,1])[1]=="POSIXct"){
     Data<-Data[,-1]
   }
-
+  print("HEre1")
   #Define the grid over which to calculate Annual Excedence Probabilities
-  Grid_x_min = ifelse(is.na(Grid_x_min)==T,min(Data[,1],na.rm=T),Grid_x_min)
-  Grid_x_max = 2*ifelse(is.na(Grid_x_max)==T,max(Data[,1],na.rm=T),Grid_x_max)
-  Grid_y_min = ifelse(is.na(Grid_y_min)==T,min(Data[,2],na.rm=T),Grid_y_min)
-  Grid_y_max = 2*ifelse(is.na(Grid_y_max)==T,max(Data[,2],na.rm=T),Grid_y_max)
-  Grid_x_interval = ifelse(is.na(Grid_x_interval)==T,2,Grid_x_interval)
-  Grid_y_interval = ifelse(is.na(Grid_y_interval)==T,0.1,Grid_y_interval)
-
+  Grid_x_min = ifelse(is.na(Grid_x_min),min(Data[,1],na.rm=T),Grid_x_min)
+  Grid_x_max = ifelse(is.na(Grid_x_max),2*max(Data[,1],na.rm=T),Grid_x_max)
+  Grid_y_min = ifelse(is.na(Grid_y_min),min(Data[,2],na.rm=T),Grid_y_min)
+  Grid_y_max = ifelse(is.na(Grid_y_max),2*max(Data[,2],na.rm=T),Grid_y_max)
+  Grid_x_interval = ifelse(is.na(Grid_x_interval),2,Grid_x_interval)
+  Grid_y_interval = ifelse(is.na(Grid_y_interval),0.1,Grid_y_interval)
+  Print("HEre2")
   # Creating a grid over the event space
   var1<- seq(Grid_x_min,Grid_x_max,Grid_x_interval)
   var2<- seq(Grid_y_min,Grid_y_max,Grid_y_interval)
@@ -118,14 +118,14 @@ Design_Event_2D_Grid<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Th
   if(is.na(GPD1[[1]][1])==T & is.na(Thres1)==T & is.na(Tab1[[1]][1])==T){
     Thres1<-quantile(na.omit(Data[,con1]),u1)
   }
-
+  print("Hre4")
   if(is.na(GPD1[[1]][1])==T & GPD_Bayes==T & is.na(Tab1[[1]][1])==T){
     GPD_con1<-evm(Data_Con1[,con1], th = Thres1,penalty = "gaussian",priorParameters = list(c(0, 0), matrix(c(100^2, 0, 0, 0.25), nrow = 2)))
   }
   if(is.na(GPD1[[1]][1])==T & GPD_Bayes==F & is.na(Tab1[[1]][1])==T){
     GPD_con1<-evm(Data_Con1[,con1], th = Thres1)
   }
-
+  print("HEre5")
   #Find the occurrence rates of the two conditional samples
 
   #Calculate the time period spanned by the original dataset
