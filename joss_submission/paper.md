@@ -12,15 +12,15 @@ output:
   html_document:
     df_print: paged
 authors:
-- name: "Adrian M. Price-Whelan"
-  orcid: "0000-0000-0000-0000"
+- name: "Robert A. Jane"
+  orcid: "0000-0003-4194-852X"
+  corresponding: true
   equal-contrib: true
   affiliation: 1, 2
 - name: Author Without ORCID
   equal-contrib: true
   affiliation: 2
 - name: Author with no affiliation
-  corresponding: true
   affiliation: 3
 - given-names: Ludwig
   dropping-particle: van
@@ -30,7 +30,7 @@ bibliography: paper.bib
 aas-doi: "10.3847/xxxxx <- update this with the DOI from AAS once you know it."
 aas-journal: "Astrophysical Journal <- The name of the AAS journal."
 affiliations:
-- name: Lyman Spitzer, Jr. Fellow, Princeton University, USA
+- name: University of Central Florida, USA
   index: 1
   ror: 00hx57361
 - name: Institution Name, Country
