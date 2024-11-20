@@ -1,11 +1,11 @@
 ---
 title: '`MultiHazard`: Copula-based Joint Probability Analysis in R'
 tags:
-- Python
-- astronomy
-- dynamics
-- galactic dynamics
-- milky way
+- R
+- copula
+- isolines
+- flood risk analysis
+- multivariate statistics
 date: "1 December 2024"
 output:
   pdf_document: default
@@ -16,12 +16,24 @@ authors:
   orcid: "0000-0003-4194-852X"
   corresponding: true
   equal-contrib: true
-  affiliation: 1, 2
-- name: Author Without ORCID
+  affiliation: 1
+- name: Thomas Wahl
+  orcid: "0000-0003-3643-5463"
+  equal-contrib: true
+  affiliation: 1
+- name: Luis Cadavid
   equal-contrib: true
   affiliation: 2
-- name: Author with no affiliation
+- name: Jayantha Obeysekera
+  orcid: "0000-0002-6203-1190"
+  equal-contrib: true
   affiliation: 3
+- name: Javed Ali
+  orcid: "0000-0002-6203-1190"
+  equal-contrib: true
+  affiliation: 1
+- name: Author with no affiliation
+  affiliation: 2
 - given-names: Ludwig
   dropping-particle: van
   surname: Beethoven
@@ -33,9 +45,9 @@ affiliations:
 - name: University of Central Florida, USA
   index: 1
   ror: 00hx57361
-- name: Institution Name, Country
+- name: South Florida Water Management District, USA
   index: 2
-- name: Independent Researcher, Country
+- name: Florida International University, USA
   index: 3
 ---
 
@@ -60,7 +72,7 @@ MultiHazard is a designed as a comprehensive user-friendly tool for copula-based
 
 # Related packages
 
-Several packages employ copula-based approaches to derive isolines. The MATLAB toolbox MvCAT (Multivariate Copula Analysis Toolbox) utilizing up to 26 copula families to model the dependence structure between a pair of random variables. MvCAT fewer copula families than MultiHazard and does not explicitly implement the two-sided conditional sampling -copula theory methodology. On the other hand, MvCAT adopts multiple criteria to select among the candidate copula families and a Bayesian framework to account for the uncertainty range for the copula parameters. ReturnCurves is a recently released R package that generates bivariate isolines based on the angular dependence function. the bootstrap procedure in the ReturnCurve to assess the sampling uncertainty of the estimated isolines is implemented in MultiHazard. 
+Several packages employ copula-based approaches to derive isolines. The MATLAB toolbox `MvCAT` (Multivariate Copula Analysis Toolbox) utilizing up to 26 copula families to model the dependence structure between a pair of random variables. `MvCAT` has fewer copula families than MultiHazard and does not explicitly implement the two-sided conditional sampling -copula theory methodology. On the other hand, `MvCAT` adopts multiple criteria to select among the candidate copula families and a Bayesian framework to account for the uncertainty range for the copula parameters. `ReturnCurves` is a recently released R package that generates bivariate isolines based on the angular dependence function. The bootstrap procedure in the `ReturnCurve`package used to assess the sampling uncertainty of the estimated isolines is implemented in `MultiHazard`. 
 
 # Acknowledgements
 
