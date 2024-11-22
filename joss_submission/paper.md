@@ -53,7 +53,7 @@ affiliations:
 
 # Summary
 
-Compound events occur when combinations of drivers and/or hazards contribute to a societal/environmental impact []. Even if none of the individual drivers or hazards are extreme, their combination can produce extreme effects. Robust estimates of the potential for compound events are critical for effective risk management and mitigation planning. To determine the probability of compound events, statistical models are applied to time series data of the drivers or hazards, typically as the first step in the risk-analysis modeling chain. 
+Compound events occur when combinations of drivers and/or hazards contribute to a societal/environmental impact [@Zscheischler:2020]. Even if none of the individual drivers or hazards are extreme, their combination can produce extreme effects. Robust estimates of the potential for compound events are critical for effective risk management and mitigation planning. To determine the probability of compound events, statistical models are applied to time series data of the drivers or hazards, typically as the first step in the risk-analysis modeling chain. 
 
 The `MultiHazard` R package is designed to enable practitioners to estimate the likelihood of compound events. Although the methods in the package are well-established in scientific literature, they are not widely adopted by the engineering community despite guidelines increasingly mandating the estimation of compound event likelihoods. Functions within the package are designed to allow practitioners to apply their best judgement in making subjective choices. Inputs are time series representing the drivers/hazards, they may be historic or numerically generated. Outputs are: 
 
