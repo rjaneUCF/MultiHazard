@@ -33,8 +33,13 @@ authors:
   orcid: "0000-0002-6203-1190"
   equal-contrib: true
   affiliation: 1
-- name: Author with no affiliation
-  affiliation: 2
+- name: Pravin Maduwantha
+  orcid: "0000-0002-9819-5170"
+  equal-contrib: true
+  affiliation: 1
+- name: Huazhi Li
+  orchid: "0000-0001-9589-2918"
+  affiliation: 4
 - given-names: Ludwig
   dropping-particle: van
   surname: Beethoven
@@ -50,6 +55,8 @@ affiliations:
   index: 2
 - name: Florida International University, USA
   index: 3
+- name: Vrije Universiteit Amsterdam, NL
+  index: 4
 ---
 
 # Summary
