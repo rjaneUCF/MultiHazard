@@ -762,6 +762,8 @@ Design_Event_2D_Grid<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Th
     #Compute isoline
     iso = contourLines(var1,var2,z,levels= 1/(RP[k]))
     Isoline[[k]] = data.frame(as.numeric(unlist(iso[[1]][2])),as.numeric(unlist(iso[[1]][3])))
+    colnames(Isoline[[k]]) <- c(names(Data)[1],names(Data)[2])
+
     Iso = Isoline[[k]]
 
     #Remove very extreme values that can exert significant leverage on contours
