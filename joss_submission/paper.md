@@ -29,6 +29,9 @@ authors:
   orcid: "0000-0002-6203-1190"
   equal-contrib: true
   affiliation: 3
+- given-names: Callum Murphy-Barltrop
+  orchid: "0000-0002-3479-2902"
+  affiliation: 4
 - name: Javed Ali
   orcid: "0000-0002-6203-1190"
   equal-contrib: true
@@ -39,11 +42,7 @@ authors:
   affiliation: 1
 - name: Huazhi Li
   orchid: "0000-0001-9589-2918"
-  affiliation: 4
-- given-names: Ludwig
-  dropping-particle: van
-  surname: Beethoven
-  affiliation: 3
+  affiliation: 5
 affiliations:
 - name: University of Central Florida, USA
   index: 1
@@ -52,8 +51,10 @@ affiliations:
   index: 2
 - name: Florida International University, USA
   index: 3
-- name: Vrije Universiteit Amsterdam, NL
+- name: TU Dresden, DE
   index: 4
+- name: Vrije Universiteit Amsterdam, NL
+  index: 5
 bibliography: paper.bib
 aas-doi: "10.3847/xxxxx <- update this with the DOI from AAS once you know it."
 aas-journal: "Journal of Open Source Software"
