@@ -10,7 +10,7 @@ The `MultiHazard` package provides tools for stationary multivariate statistical
 ### Applications of package: 
 >Maduwantha, P., Wahl, T., Santamaria-Aguilar, S., Jane, R., Booth, J. F., Kim, H., and Villarini, G. (2024). A multivariate statistical framework for mixed storm types in compound flood analysis, Nat. Hazards Earth Syst. Sci., 24, 4091–4107, https://doi.org/10.5194/nhess-24-4091-2024.
 
->Nasr, A. A., Wahl, T., Rashid, M. M., Jane, R., Camus, P. and Haigh, I. D. (2023). Temporal changes in dependence between compound coastal and inland flooding drivers around the contiguous United States coastline, Weather and Climate Extremes, 41, 100594, https://doi.org/10.1016/j.wace.2023.100594.
+>Nasr, A. A., Wahl, T., Rashid, M. M., Jane, R., Camus, P. and Haigh, I. D. (2023). Temporal changes in dependence between compound coastal and inland flooding drivers around the contiguous United States coastline, Weather Clim. Extrem., 41, 100594, https://doi.org/10.1016/j.wace.2023.100594.
 
 >Kim, H., Villarini, G., Jane, R., Wahl, T., Misra, S., and Michalek, A. (2023). On the generation of high‐resolution probabilistic design events capturing the joint occurrence of rainfall and storm surge in coastal basins, Int. J. Climatol, 43(2), 761-771, https://doi.org/10.1002/joc.7825.
 
