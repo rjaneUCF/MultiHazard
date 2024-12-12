@@ -23,7 +23,7 @@
 #' @param mu Numeric vector of length one specifying the (average) occurrence frequency of events in \code{Data}. Default is \code{365.25}, daily data.
 #' @param GPD_Bayes Logical; indicating whether to use a Bayesian approach to estimate GPD parameters. This involves applying a penalty to the likelihood to aid in the stability of the optimization procedure. Default is \code{FALSE}.
 #' @param RP Numeric vector specifying the return periods of interest.
-#' @param Decimal_Palace Numeric vector specifying the number of decimal places to which to specifiy the isoline. Defulat is \code{2}.
+#' @param Decimal_Palace Numeric vector specifying the number of decimal places to which to specify the isoline. Default is \code{2}.
 #' @param Interval Numeric vector specifying the number of equally spaced points comprising the combined isoline.
 #' @param x_lab Character vector specifying the x-axis label.
 #' @param y_lab Character vector specifying the y-axis label.
@@ -520,17 +520,21 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
 
     #Calculate the inter-arrival time of extremes (in terms of mu) in Data_Con1.
     EL_Con1<-mu/Rate_Con1
+
     #Define a function which evaluates the return period at a given point (x,y).
     f<-function(x,y){EL_Con1/(1-x-y+u.cop[which(u[,1]==x & u[,2]==y)]) }
     #Evaluate the return period at each point on the grid 'u' (the 'outer' function creates the grid internally using the points on the boundary i.e. the x and y we defined earlier).
     z<- outer(x,y,f)
     #The contourLines function in the grDevices package extracts the isoline with the specified return period - 'RP' in our case.
     xy160<-contourLines(x,y,z,levels= mu*RP[k])
+
     #Transform the points on the contour to the original scale using the inverse cumulative distribution a.k.a. quantile functions (inverse probability integral transform)
     #Transform the conditioned variable in Data_Con1, Con1 to the original scale using the inverse CDF of the GPD contained in the u2gpd function
+
     if(is.na(GPD1[[1]][1])==T & is.na(Tab1[[1]][1])==T){
       con1.x<-u2gpd(as.numeric(unlist(xy160[[1]][2])), p = 1, th=Thres1 , sigma=exp(GPD_con1$coefficients[1]),xi= GPD_con1$coefficients[2] )
     }
+
     if(is.na(GPD1[[1]][1])==F){
       con1.x<-u2gpd(as.numeric(unlist(xy160[[1]][2])), p = (GPD1$Rate)/Rate_Con1, th = GPD1$Threshold, sigma = GPD1$sigma, xi = GPD1$xi)
     }
@@ -637,6 +641,7 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
     if(is.na(GPD2[[1]][1])==T & is.na(Tab2[[1]][1])==T){
      con2.y<-u2gpd(as.numeric(unlist(xy160[[1]][3])), p = 1, th=Thres2 , sigma=exp(GPD_con2$coefficients[1]),xi= GPD_con2$coefficients[2] )
     }
+
     if(is.na(GPD2[[1]][1])==F){
      con2.y<-u2gpd(as.numeric(unlist(xy160[[1]][3])), p = (GPD2$Rate)/Rate_Con2, th = GPD2$Threshold, sigma = GPD2$sigma, xi = GPD2$xi)
     }
@@ -813,7 +818,7 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
 
       #Put the points composing the isoline into a data frame to form part of the function's output.
       Isoline[[k]] <- data.frame(x=Iso[,1],y=Iso[,2])
-      #colnames(Isoline) <- c(names(Data)[1],names(Data)[2])
+      colnames(Isoline[[k]]) <- c(names(Data)[1],names(Data)[2])
 
       ###Estimate the (relative) probabilty of events along the isoline
       #Estimate the (relative) probability of events along the isoline by applying a KDE to 'cop.sample'
@@ -944,7 +949,7 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
 
       #Put the points composing the isoline into a data frame to form part of the function's output.
       Isoline[[k]] <- data.frame(x=Iso[,1],y=Iso[,2])
-      #colnames(Isoline) <- c(names(Data)[1],names(Data)[2])
+      colnames(Isoline[[k]]) <- c(names(Data)[1],names(Data)[2])
 
       ###Estimate the (relative) probabilty of events along the isoline
       #Estimate the (relative) probability of events along the isoline by applying a KDE to 'cop.sample'
@@ -1078,7 +1083,7 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
       colnames(Iso)<-c(names(Data)[1],names(Data)[2])
       #Put the points composing the isoline into a data frame to form part of the function's output.
       Isoline[[k]] <- data.frame(x=Iso[,1],y=Iso[,2])
-      #colnames(Isoline) <- c(names(Data)[1],names(Data)[2])
+      colnames(Isoline[[k]]) <- c(names(Data)[1],names(Data)[2])
 
       ###Estimate the (relative) probabilty of events along the isoline
       #Estimate the (relative) probability of events along the isoline by applying a KDE to 'cop.sample'
