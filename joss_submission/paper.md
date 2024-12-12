@@ -44,9 +44,6 @@ authors:
   dropping-particle: van
   surname: Beethoven
   affiliation: 3
-bibliography: paper.bib
-aas-doi: "10.3847/xxxxx <- update this with the DOI from AAS once you know it."
-aas-journal: "Journal of Open Source Software"
 affiliations:
 - name: University of Central Florida, USA
   index: 1
@@ -57,6 +54,10 @@ affiliations:
   index: 3
 - name: Vrije Universiteit Amsterdam, NL
   index: 4
+bibliography: paper.bib
+aas-doi: "10.3847/xxxxx <- update this with the DOI from AAS once you know it."
+aas-journal: "Journal of Open Source Software"
+
 ---
 
 # Summary
