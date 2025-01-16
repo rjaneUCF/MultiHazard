@@ -8,9 +8,9 @@ tags:
 - multivariate statistics
 date: "1 December 2024"
 output:
-  pdf_document: default
   html_document:
     df_print: paged
+  pdf_document: default
 authors:
 - name: Robert A. Jane
   orcid: "0000-0003-4194-852X"
@@ -85,7 +85,7 @@ Compound events are of increasing concern for entities responsible for managing 
 
 # Related packages
 
-Several packages employ copula-based approaches to derive isolines. The MATLAB toolbox `MvCAT` (Multivariate Copula Analysis Toolbox) [@Sadegh:2017] utilizing up to 26 copula families to model the dependence structure between a pair of random variables. `MvCAT` includes fewer copula families than MultiHazard and does not consider the two-sided conditional sampling - copula theory methodology but rather uses a one-sided sampling approach. On the other hand, `MvCAT` adopts multiple criteria to select among the candidate copula families and a Bayesian framework to account for the uncertainty range for the copula parameters. The parts of the recently released `ReturnCurves` [@Andre:2024] R package that implement the methods outlined in @Barltrop:2023 have been subsummed into the `MultiHazard` package with permision from the authors.  
+Several packages employ copula-based approaches to derive isolines. The MATLAB toolbox `MvCAT` (Multivariate Copula Analysis Toolbox) [@Sadegh:2017] utilizing up to 26 copula families to model the dependence structure between a pair of random variables. `MvCAT` includes fewer copula families than MultiHazard and does not consider the two-sided conditional sampling - copula theory methodology but rather uses a one-sided sampling approach. On the other hand, `MvCAT` adopts multiple criteria to select among the candidate copula families and a Bayesian framework to account for the uncertainty range for the copula parameters. The parts of the recently released `ReturnCurves` [@Andre:2024] R package that implement the methods outlined in @Barltrop:2024 have been subsummed into the `MultiHazard` package with permision from the authors.  
 
 # Acknowledgements
 
