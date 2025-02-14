@@ -123,7 +123,7 @@ for(j in 1:n_boot){
  #Fit GPDs
  thresh_x = quantile(boot_df[,2],q,na.rm=T)
  gpd_x = evm(data_x[,1],th = thresh_x)
- gpd_x$rate = length(data_x[,1][data_x[,1]>thresh_x])/(length(na.omit(data_x[,1]))/mu))
+ gpd_x$rate = length(data_x[,1][data_x[,1]>thresh_x])/(length(na.omit(data_x[,1]))/mu)
 
  thresh_y = quantile(boot_df[,3],q,na.rm=T)
  gpd_y = evm(data_y[,2],th = thresh_y)
