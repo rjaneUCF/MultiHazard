@@ -26,7 +26,10 @@ EmpFun <- function(x, r, mod) {
   Para <- 1-(1-F(th)) * pgpd(r,u=th,sigma=exp(mod$coefficients[1]),xi=mod$coefficients[2],lower.tail = FALSE)
   
   #Pareto distribution above threshold and emprical distribution below
-  res <- ifelse(Femp <= th, Femp, Para)
+  #res <- ifelse(Femp <= th, Femp, Para)
+  #Pareto distribution above threshold and emprical distribution below
+  res <- Femp
+  res[r>th] <- Para[r>th]
   
   #Ensuring results are in the order of x
   res <- as.numeric(res)
