@@ -138,6 +138,9 @@ for(j in 1:n_boot){
  data_unif_x = cbind(EmpFun(x = boot_df[,2],r = data_x[,1],mod = gpd_x),EmpFun(x = boot_df[,3], r = data_x[,2], mod = gpd_y))
  data_unif_y = cbind(EmpFun(x = boot_df[,2],r = data_y[,1],mod = gpd_x),EmpFun(x = boot_df[,3], r = data_y[,2], mod = gpd_y))
 
+ print(summary(data_unif_x))
+ print(summary(data_unif_y))
+ 
  data_exp_x = apply(data_unif_x, 2, qexp)
  data_exp_y = apply(data_unif_y, 2, qexp)
 
