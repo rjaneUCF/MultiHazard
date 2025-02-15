@@ -33,7 +33,7 @@ heff_tawn_curve_exp = function(data_exp_x,data_exp_y,prob,q,nsim){ #function for
   Yopt <- try(optim(par=c(.01, .01), fn=Qpos,
                     control=list(maxit=100000),
                     yex = dataY[,2], ydep = dataY[,1], constrain=TRUE, v=10, aLow=-1 + 10^(-10)), silent=TRUE)
-  print(Yopt)
+
   for( i in 2:nOptim ){
     Yopt <- try(optim(par=Yopt$par, fn=Qpos,
                       control=list(maxit=100000),
