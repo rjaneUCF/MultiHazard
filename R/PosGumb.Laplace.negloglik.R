@@ -2,10 +2,6 @@
 PosGumb.Laplace.negloglik <- function(yex, ydep, a, b, m, s, constrain, v, aLow) {
   BigNumber <- 10^40
   WeeNumber <- 10^(-10)
-  print(a)
-  print(aLow[1])
-  print(s)
-  print(m)
   if(a < aLow[1] | s < WeeNumber | a > 1-WeeNumber  | b > 1-WeeNumber) {
     res <- BigNumber
   } else {
