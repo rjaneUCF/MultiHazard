@@ -43,6 +43,9 @@ authors:
 - name: Huazhi Li
   orchid: "0000-0001-9589-2918"
   affiliation: 6
+- name: Victor Malagon Santos
+  orchid: "0000-0002-4458-0890"
+  affiliation: 7
 affiliations:
 - name: University of Central Florida, USA
   index: 1
@@ -57,6 +60,8 @@ affiliations:
   index: 5
 - name: Vrije Universiteit Amsterdam, NL
   index: 6
+- name: Royal Netherlands Institute for Sea Research, NL
+  index: 7
 bibliography: paper.bib
 aas-doi: "10.3847/xxxxx <- update this with the DOI from AAS once you know it."
 aas-journal: "Journal of Open Source Software"
