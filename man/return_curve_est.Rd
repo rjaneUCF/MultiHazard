@@ -26,7 +26,7 @@ return_curve_est(
   sep_crit_y = NA,
   alpha = 0.1,
   most_likely = F,
-  interval = 1000,
+  n_interp = 1000,
   n = 10^6,
   n_ensemble = 0,
   x_lab = colnames(data)[2],
@@ -81,7 +81,7 @@ return_curve_est(
 
 \item{most_likely}{Character vector of length one specifying whether to estimate the relative likelihood of events along the curves. For the ht04 curve probabilites are estimated by simulating from the ht04 model while for the wt13 curve a two-sided conditional sampling (using q as the threshold for both samples) copula theory is adopted. Default is \code{FALSE}.}
 
-\item{interval}{Numeric vector of length one specifying the resolution of the interpolation of the curves Default is \code{1000} thus the curve will be composed of \code{1000} points. The interpolation is only carried out if \code{most-likely = T}.}
+\item{n_interp}{Numeric vector of length one specifying the resolution of the interpolation of the curves Default is \code{1000} thus the curve will be composed of \code{1000} points. The interpolation is only carried out if \code{most-likely = T}.}
 
 \item{n}{Numeric vector of length one specifying the size of the sample from the fitted joint distributions used to estimate the density along an return curves. Default is \code{10^6}}
 
