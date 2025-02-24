@@ -22,6 +22,10 @@
 #' @param sep_crit_x Numeric vector of length one specifying the separation criterion to apply during the declustering of the first variable if \code{decl_method_x = "runs"}. Default is \code{NA}.
 #' @param sep_crit_y Numeric vector of length one specifying the separation criterion to apply during the declustering of the second variable if \code{decl_method_y = "runs"}. Default is \code{NA}.
 #' @param alpha Numeric vector of length one specifying the \code{100(1-alpha)\%} confidence interval. Default is \code{0.1}.
+#' @param most_likely Character vector of length one specifying whether to estimate the relative likelihood of events along the curves. For the ht04 curve probabilites are estimated by simulating from the ht04 model while for the wt13 curve a two-sided conditional sampling (using q as the threshold for both samples) copula theory is adopted. Default is \code{FALSE}.
+#' @param interval Numeric vector of length one specifying the resolution of the interpolation of the curves Default is \code{1000} thus the curve will be composed of \code{1000} points. The interpolation is only carried out if \code{most-likely = T}.
+#' @param n Numeric vector of length one specifying the size of the sample from the fitted joint distributions used to estimate the density along an return curves. Default is \code{10^6}
+#' @param n_ensemble Numeric vector of length one specifying the number of possible design events sampled along the two curves. Default is \code{0}
 #' @param x_lab Character vector specifying the x-axis label. Default is \code{colnames(data)[2]}.
 #' @param y_lab Character vector specifying the y-axis label. Default is \code{colnames(data)[3]}.
 #' @param x_lim_min Numeric vector of length one specifying x-axis minimum. Default is \code{min(data[,2],na.rm=T)}.
@@ -31,7 +35,7 @@
 #' @param plot Logical; whether to plot return curves. Default is \code{"TRUE"}.
 #' @section Details:
 #' The HT04 model is fit to two conditional samples. One sample comprises the declustered time series of the first variable paired with concurrent values of the other variable. The second sample is obtained in the same way but with the variables reversed.
-#' @return List comprising the median curve based on the HT04 model \code{median_ht04}, and the upper \code{ub_ht04} and lower \code{lb_ht04} bound of its \code{100(1-alpha)\%} confidence interval. Analogous results for the curve based on the WT13 method \code{median_wt13}, \code{ub_wt13} and \code{lb_wt13}. Plots of the median return level curve and associated \code{100(1-alpha)\%} confidence interval for both extremal dependence models.
+#' @return List comprising the median curve based on the HT04 model \code{median_ht04}, and the upper \code{ub_ht04} and lower \code{lb_ht04} bound of its \code{100(1-alpha)\%} confidence interval. Analogous results for the curve based on the WT13 method \code{median_wt13}, \code{ub_wt13} and \code{lb_wt13}. Plots of the median return level curve and associated \code{100(1-alpha)\%} confidence interval for both extremal dependence models. If \code{most-likely=T}, the relative probability of events on the two curves is also returned along with the "most-likely"design event \code{} and an ensemble of possible "design events"sampled along the curve according to the relative probabilities.
 #' @export
 #' @examples
 #' #Data starts on first day of 1948
@@ -54,7 +58,7 @@
 #'                  u_x=0.95, u_y=0.95,
 #'                  sep_crit_x=36, sep_crit_y=36,
 #'                  alpha=0.1, x_lab=NA, y_lab=NA)
-return_curve_est = function(data,q,rp,mu,n_sim,n_grad,n_boot,boot_method, boot_replace, block_length, boot_prop, decl_method_x, decl_method_y, window_length_x, window_length_y, u_x=NA, u_y=NA, sep_crit_x=NA, sep_crit_y=NA, alpha=0.1, x_lab=colnames(data)[2], y_lab=colnames(data)[2],x_lim_min=min(data[,2],na.rm=T),x_lim_max=max(data[,2],na.rm=T)+0.3*diff(range(data[,2],na.rm=T)),y_lim_min=min(data[,3],na.rm=T),y_lim_max=max(data[,3],na.rm=T)+0.3*diff(range(data[,3],na.rm=T)),plot=T){
+return_curve_est = function(data,q,rp,mu,n_sim,n_grad,n_boot,boot_method, boot_replace, block_length, boot_prop, decl_method_x, decl_method_y, window_length_x, window_length_y, u_x=NA, u_y=NA, sep_crit_x=NA, sep_crit_y=NA, alpha=0.1, most_likely=F, interval=1000, n=10^6, n_ensemble=0, x_lab=colnames(data)[2], y_lab=colnames(data)[2],x_lim_min=min(data[,2],na.rm=T),x_lim_max=max(data[,2],na.rm=T)+0.3*diff(range(data[,2],na.rm=T)),y_lim_min=min(data[,3],na.rm=T),y_lim_max=max(data[,3],na.rm=T)+0.3*diff(range(data[,3],na.rm=T)),plot=T){
 
  #Convert return period (rp) to probability
  prob = (1/mu) / rp
@@ -62,6 +66,12 @@ return_curve_est = function(data,q,rp,mu,n_sim,n_grad,n_boot,boot_method, boot_r
  #List to output the bootstrapped curves
  boot_curves = list()
  boot_curves2 = list()
+
+ #Result vector for most-likely event
+ most_likely_ht04 = NA
+ most_likely_wt13 = NA
+ ensemble_ht04 = NA
+ ensemble_wt13 = NA
 
 for(j in 1:n_boot){
 
@@ -230,6 +240,149 @@ for(i in 1:n_grad){
   upper_bound2[i,] = angles_est_points2[i,,order(angles_est_points2[i,2,1:n_boot])[n_boot*(1-alpha/2)]]
 }
 
+#(relative) Probabilities implied by the data for the points composing the isoline. Probabilities are scaled to [0,1].
+if(most_likely==T){
+  print("Here 0.5")
+  #Interpolating the isolines
+  x_u = (median[,1] - min(median[,1]))/(max(median[,1])-min(median[,1]))
+  y_u = (median[,2] - min(median[,2]))/(max(median[,2])-min(median[,2]))
+  x.diff<-c(0,diff(x_u))
+  y.diff<-c(0,diff(y_u))
+  d<-sqrt(x.diff^2 + y.diff^2)
+  #Linearly interpolate the x values with respect to their cumulative distance along the isoline.
+  median_approx_x<-approx(x=cumsum(d),y=x_u,xout=seq(0,sum(d),length.out=interval))$y * (max(median[,1])-min(median[,1])) + min(median[,1])
+  #Linearly interpolate the y values with respect to their cumulative distance along the isoline.
+  median_approx_y<-approx(x=cumsum(d),y=y_u,xout=seq(0,sum(d),length.out=interval))$y  * (max(median[,2])-min(median[,2])) + min(median[,2])
+  median = data.frame(median_approx_x,median_approx_y)
+  print("Here0.75")
+  x_u = (median2[,1] - min(median2[,1]))/(max(median2[,1])-min(median2[,1]))
+  y_u = (median2[,2] - min(median2[,2]))/(max(median2[,2])-min(median2[,2]))
+  x.diff<-c(0,diff(x_u))
+  y.diff<-c(0,diff(y_u))
+  d<-sqrt(x.diff^2 + y.diff^2)
+  #Linearly interpolate the x values with respect to their cumulative distance along the isoline.
+  median2_approx_x<-approx(x=cumsum(d),y=x_u,xout=seq(0,sum(d),length.out=interval))$y * (max(median2[,1])-min(median2[,1])) + min(median2[,1])
+  #Linearly interpolate the y values with respect to their cumulative distance along the isoline.
+  median2_approx_y<-approx(x=cumsum(d),y=y_u,xout=seq(0,sum(d),length.out=interval))$y  * (max(median2[,2])-min(median2[,2])) + min(median2[,2])
+  median2 = data.frame(median2_approx_x,median2_approx_y)
+
+  colnames(median) <- c(names(data)[2],names(data)[3])
+  colnames(median2) <- c(names(data)[2],names(data)[3])
+
+  #Decluster time series
+  print("Here0.8")
+  #Variable 1
+  if(decl_method_x == "window"){
+    decl = Decluster_SW(Data=data[,1:2], Window_Width = window_length_x)
+    x_dec_df = data.frame(as.Date(data[,1]),decl$Declustered)
+  }
+
+  if(decl_method_x == "runs"){
+    decl = Decluster(Data=data[,2], u=u_x, SepCrit = sep_crit_x, mu = mu)
+    x_dec_df = data.frame(as.Date(data[,1]),decl$Declustered)
+  }
+
+  colnames(x_dec_df) = colnames(data[,1:2])
+  x_dec_df$Date = as.Date(x_dec_df$Date)
+
+  #Variable 2
+  if(decl_method_y == "window"){
+    decl = Decluster_SW(Data=data[,c(1,3)], Window_Width = window_length_y)
+    y_dec_df = data.frame(as.Date(data[,1]),decl$Declustered)
+  }
+
+  if(decl_method_y == "runs"){
+    decl = Decluster(Data=data[,3], u = u_y, SepCrit = sep_crit_y, mu = mu)
+    y_dec_df = data.frame(as.Date(data[,1]),decl$Declustered)
+  }
+
+  colnames(y_dec_df) = colnames(data[,c(1,3)])
+  y_dec_df$Date = as.Date(y_dec_df$Date)
+  print("Here0.9")
+  #Dataframes
+  df = data.frame("Date"=seq.Date(as.Date(min(data$Date,data$Date)),as.Date(max(data$Date,data$Date)),by="day"))
+  df_1 = left_join(df,x_dec_df,by="Date")
+  decl_df = left_join(df_1,y_dec_df,by="Date")
+  colnames(decl_df) = colnames(data)
+  print("Here0.99")
+  #Simulating from ht04 model for ht04 curve
+  gpds = Migpd_Fit(Data = decl_df[,2:3],
+                   Data_Full =  data[,2:3],
+                   mqu = q)
+
+  ht04.sim= HT04(data_Detrend_Dependence_df = data[,2:3],
+                 data_Detrend_Declustered_df = decl_df[,2:3],
+                 u_Dependence = q,
+                 Migpd =gpds,
+                 mu=mu,
+                 N=n,
+                 Margins="laplace",
+                 V=10,
+                 Maxit=10000)$x.sim
+
+  #copula approach for wt13 method
+  print("Here1")
+  #Dataframes for marginal dist.
+  data_x = data.frame(decl_df[,2],data[,3])
+  data_y = data.frame(data[,2],decl_df[,3])
+  print("Here2")
+  colnames(data_x) = colnames(data[,2:3])
+  colnames(data_y) = colnames(data[,2:3])
+  print("Here3")
+  print("Here4")
+  #Fit GPDs
+  thresh_x = quantile(data[,2],q,na.rm=T)
+  gpd_x = evm(data_x[,1],th = thresh_x)
+  gpd_x$rate = length(data_x[,1][data_x[,1]>thresh_x])/(length(na.omit(data_x[,1]))/mu)
+  thresh_y = quantile(data[,3],q,na.rm=T)
+  gpd_y = evm(data_y[,2],th = thresh_y)
+  gpd_y$rate = length(data_y[,2][data_y[,2]>thresh_y])/(length(na.omit(data_y[,2]))/mu)
+  print("Here5")
+  #Fit copula
+  cop.con.x = BiCopSelect(pobs(data_x[which(data_x[,1]>thresh_x),1]),pobs(data_x[which(data_x[,1]>thresh_x),2]))
+  cop.con.y = BiCopSelect(pobs(data_y[which(data_y[,2]>thresh_y),1]),pobs(data_y[which(data_y[,2]>thresh_y),2]))
+
+  #Simulate from copula
+  cop.sim.x.u = BiCopSim(round(n*nrow(data_x[which(data_x[,1]>thresh_x),])/(nrow(data_x[which(data_x[,1]>thresh_x),])+nrow(data_y[which(data_y[,2]>thresh_y),])),0),cop.con.x)
+  cop.sim.y.u = BiCopSim(round(n*nrow(data_y[which(data_y[,2]>thresh_y),])/(nrow(data_x[which(data_x[,1]>thresh_x),])+nrow(data_y[which(data_y[,2]>thresh_y),])),0),cop.con.y)
+  print("Here06")
+  #Transform to original scale
+  cop.sim.x = data.frame(qgpd(cop.sim.x.u[,1],u=thresh_x,exp(coefficients(gpd_x)[1]),coefficients(gpd_x)[2]),
+                         revTransform(x=cop.sim.x.u[,2],data = na.omit(data[,3]),qu=q,th=thresh_y,exp(coefficients(gpd_y)[1]),coefficients(gpd_y)[2]))
+
+  cop.sim.y = data.frame(revTransform(x=cop.sim.y.u[,1],data = na.omit(data[,2]),qu=q,th=thresh_x,exp(coefficients(gpd_x)[1]),coefficients(gpd_x)[2]),
+                         qgpd(cop.sim.y.u[,2],u=thresh_y,exp(coefficients(gpd_y)[1]),coefficients(gpd_y)[2]))
+  print("Here7")
+  colnames(cop.sim.x) = colnames(data[,2:3])
+  colnames(cop.sim.y) = colnames(data[,2:3])
+  cop.sim = rbind(cop.sim.x,cop.sim.y)
+  print("Here8")
+  #Kernel density estimates at points on curve
+  prediction_ht04<-kde(x=ht04.sim, eval.points=median)$estimate
+  prediction_wt13<-kde(x=cop.sim, eval.points=median2)$estimate
+
+  #Convert probabilities on curve to relative probabilities
+  contour_ht04 <- (prediction_ht04-min(prediction_ht04))/(max(prediction_ht04)-min(prediction_ht04))
+  contour_wt13 <- (prediction_wt13-min(prediction_wt13))/(max(prediction_wt13)-min(prediction_wt13))
+
+  #Find "most-likely" event
+  most_likely_ht04<-data.frame(as.numeric(median[which(prediction_ht04==max(prediction_ht04,na.rm=T)),1]),as.numeric(median[which(prediction_ht04==max(prediction_ht04,na.rm=T)),2]))
+  most_likely_wt13<-data.frame(as.numeric(median2[which(prediction_wt13==max(prediction_wt13,na.rm=T)),1]),as.numeric(median2[which(prediction_wt13==max(prediction_wt13,na.rm=T)),2]))
+
+  colnames(most_likely_ht04) <- c(names(data)[2],names(data)[3])
+  colnames(most_likely_wt13) <- c(names(data)[2],names(data)[3])
+
+  #Generate an ensemble of "design events"
+  if(n_ensemble > 0){
+   ensemble_ht04<-median[sample(1:length(prediction_ht04[prediction_ht04>0]),size = n_ensemble, replace = TRUE, prob=prediction_ht04[prediction_ht04>0]),]
+   ensemble_wt13<-median2[sample(1:length(prediction_wt13[prediction_wt13>0]),size = n_ensemble, replace = TRUE, prob=prediction_wt13[prediction_wt13>0]),]
+
+   colnames(ensemble_ht04) <- c(names(data)[2],names(data)[3])
+   colnames(ensemble_wt13) <- c(names(data)[2],names(data)[3])
+  }
+}
+
+
 if(plot==T){
 par(mfrow=c(2,1))
 par(mar=c(4.2,4.5,0.1,0.1))
@@ -237,15 +390,29 @@ par(mar=c(4.2,4.5,0.1,0.1))
 #plotting results
 plot(data[,c(2,3)],pch=16,col="Grey",xlab=x_lab,ylab=y_lab,cex.lab=1.2, cex.axis=1.2,cex.main=1.5,xlim=c(x_lim_min,x_lim_max),ylim=c(y_lim_min,y_lim_max),main="")
 lines(median,col="Red3",lwd=2)
+if(most_likely==T){
+  points(median,col=rev(heat.colors(150))[20:120][1+100*contour_ht04],lwd=2,pch=16,cex=1.75)
+  points(most_likely_ht04,pch=18,cex=1.75,col="dark green")
+}
+if(n_ensemble==T){
+  points(ensemble_ht04,pch=16,cex=1)
+}
 lines(upper_bound,lty=2,lwd=2)
 lines(lower_bound,lty=2,lwd=2)
 
 plot(data[,c(2,3)],pch=16,col="Grey",xlab=x_lab,ylab=y_lab,cex.lab=1.2, cex.axis=1.2,cex.main=1.5,xlim=c(x_lim_min,x_lim_max),ylim=c(y_lim_min,y_lim_max),main="")
 lines(median2,col="green3",lwd=2)
+if(most_likely==T){
+  points(median2,col=rev(heat.colors(150))[20:120][1+100*contour_wt13],lwd=2,pch=16,cex=1.75)
+  points(most_likely_wt13,pch=18,cex=1.75,col="dark green")
+}
+if(n_ensemble==T){
+  points(ensemble_wt13,pch=16,cex=1)
+}
 lines(upper_bound2,lty=2,lwd=2)
 lines(lower_bound2,lty=2,lwd=2)
 }
 
-res = list("median_ht04" = median, "ub_ht04" = upper_bound, "lb_ht04" = lower_bound, "median_wt13" = median2, "ub_wt13"= upper_bound2, "lb_wt13" = lower_bound2)
+res = list("median_ht04" = median, "ub_ht04" = upper_bound, "lb_ht04" = lower_bound, "contour_ht04" = contour_ht04, "most_likely_ht04" = most_likely_ht04, "ensemble_ht04" = ensemble_ht04, "median_wt13" = median2, "ub_wt13"= upper_bound2, "lb_wt13" = lower_bound2, "contour_wt13" = contour_wt13, "most_likely_wt13" = most_likely_wt13, "ensemble_wt13" = ensemble_wt13)
 return(res)
 }
