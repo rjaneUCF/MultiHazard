@@ -23,7 +23,7 @@
 #' @param sep_crit_y Numeric vector of length one specifying the separation criterion to apply during the declustering of the second variable if \code{decl_method_y = "runs"}. Default is \code{NA}.
 #' @param alpha Numeric vector of length one specifying the \code{100(1-alpha)\%} confidence interval. Default is \code{0.1}.
 #' @param most_likely Character vector of length one specifying whether to estimate the relative likelihood of events along the curves. For the ht04 curve probabilites are estimated by simulating from the ht04 model while for the wt13 curve a two-sided conditional sampling (using q as the threshold for both samples) copula theory is adopted. Default is \code{FALSE}.
-#' @param interval Numeric vector of length one specifying the resolution of the interpolation of the curves Default is \code{1000} thus the curve will be composed of \code{1000} points. The interpolation is only carried out if \code{most-likely = T}.
+#' @param n_interp Numeric vector of length one specifying the resolution of the interpolation of the curves Default is \code{1000} thus the curve will be composed of \code{1000} points. The interpolation is only carried out if \code{most-likely = T}.
 #' @param n Numeric vector of length one specifying the size of the sample from the fitted joint distributions used to estimate the density along an return curves. Default is \code{10^6}
 #' @param n_ensemble Numeric vector of length one specifying the number of possible design events sampled along the two curves. Default is \code{0}
 #' @param x_lab Character vector specifying the x-axis label. Default is \code{colnames(data)[2]}.
@@ -58,7 +58,7 @@
 #'                  u_x=0.95, u_y=0.95,
 #'                  sep_crit_x=36, sep_crit_y=36,
 #'                  alpha=0.1, x_lab=NA, y_lab=NA)
-return_curve_est = function(data,q,rp,mu,n_sim,n_grad,n_boot,boot_method, boot_replace, block_length, boot_prop, decl_method_x, decl_method_y, window_length_x, window_length_y, u_x=NA, u_y=NA, sep_crit_x=NA, sep_crit_y=NA, alpha=0.1, most_likely=F, interval=1000, n=10^6, n_ensemble=0, x_lab=colnames(data)[2], y_lab=colnames(data)[2],x_lim_min=min(data[,2],na.rm=T),x_lim_max=max(data[,2],na.rm=T)+0.3*diff(range(data[,2],na.rm=T)),y_lim_min=min(data[,3],na.rm=T),y_lim_max=max(data[,3],na.rm=T)+0.3*diff(range(data[,3],na.rm=T)),plot=T){
+return_curve_est = function(data,q,rp,mu,n_sim,n_grad,n_boot,boot_method, boot_replace, block_length, boot_prop, decl_method_x, decl_method_y, window_length_x, window_length_y, u_x=NA, u_y=NA, sep_crit_x=NA, sep_crit_y=NA, alpha=0.1, most_likely=F, n_interp=1000, n=10^6, n_ensemble=0, x_lab=colnames(data)[2], y_lab=colnames(data)[2],x_lim_min=min(data[,2],na.rm=T),x_lim_max=max(data[,2],na.rm=T)+0.3*diff(range(data[,2],na.rm=T)),y_lim_min=min(data[,3],na.rm=T),y_lim_max=max(data[,3],na.rm=T)+0.3*diff(range(data[,3],na.rm=T)),plot=T){
 
  #Convert return period (rp) to probability
  prob = (1/mu) / rp
@@ -250,9 +250,9 @@ if(most_likely==T){
   y.diff<-c(0,diff(y_u))
   d<-sqrt(x.diff^2 + y.diff^2)
   #Linearly interpolate the x values with respect to their cumulative distance along the isoline.
-  median_approx_x<-approx(x=cumsum(d),y=x_u,xout=seq(0,sum(d),length.out=interval))$y * (max(median[,1])-min(median[,1])) + min(median[,1])
+  median_approx_x<-approx(x=cumsum(d),y=x_u,xout=seq(0,sum(d),length.out=n_interp))$y * (max(median[,1])-min(median[,1])) + min(median[,1])
   #Linearly interpolate the y values with respect to their cumulative distance along the isoline.
-  median_approx_y<-approx(x=cumsum(d),y=y_u,xout=seq(0,sum(d),length.out=interval))$y  * (max(median[,2])-min(median[,2])) + min(median[,2])
+  median_approx_y<-approx(x=cumsum(d),y=y_u,xout=seq(0,sum(d),length.out=n_interp))$y  * (max(median[,2])-min(median[,2])) + min(median[,2])
   median = data.frame(median_approx_x,median_approx_y)
   print("Here0.75")
   x_u = (median2[,1] - min(median2[,1]))/(max(median2[,1])-min(median2[,1]))
@@ -261,9 +261,9 @@ if(most_likely==T){
   y.diff<-c(0,diff(y_u))
   d<-sqrt(x.diff^2 + y.diff^2)
   #Linearly interpolate the x values with respect to their cumulative distance along the isoline.
-  median2_approx_x<-approx(x=cumsum(d),y=x_u,xout=seq(0,sum(d),length.out=interval))$y * (max(median2[,1])-min(median2[,1])) + min(median2[,1])
+  median2_approx_x<-approx(x=cumsum(d),y=x_u,xout=seq(0,sum(d),length.out=n_interp))$y * (max(median2[,1])-min(median2[,1])) + min(median2[,1])
   #Linearly interpolate the y values with respect to their cumulative distance along the isoline.
-  median2_approx_y<-approx(x=cumsum(d),y=y_u,xout=seq(0,sum(d),length.out=interval))$y  * (max(median2[,2])-min(median2[,2])) + min(median2[,2])
+  median2_approx_y<-approx(x=cumsum(d),y=y_u,xout=seq(0,sum(d),length.out=n_interp))$y  * (max(median2[,2])-min(median2[,2])) + min(median2[,2])
   median2 = data.frame(median2_approx_x,median2_approx_y)
 
   colnames(median) <- c(names(data)[2],names(data)[3])
@@ -394,7 +394,7 @@ if(most_likely==T){
   points(median,col=rev(heat.colors(150))[20:120][1+100*contour_ht04],lwd=2,pch=16,cex=1.75)
   points(most_likely_ht04,pch=18,cex=1.75,col="dark green")
 }
-if(n_ensemble>0){
+if(n_ensemble==T){
   points(ensemble_ht04,pch=16,cex=1)
 }
 lines(upper_bound,lty=2,lwd=2)
@@ -406,7 +406,7 @@ if(most_likely==T){
   points(median2,col=rev(heat.colors(150))[20:120][1+100*contour_wt13],lwd=2,pch=16,cex=1.75)
   points(most_likely_wt13,pch=18,cex=1.75,col="dark green")
 }
-if(n_ensemble>0){
+if(n_ensemble==T){
   points(ensemble_wt13,pch=16,cex=1)
 }
 lines(upper_bound2,lty=2,lwd=2)
