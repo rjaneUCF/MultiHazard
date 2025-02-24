@@ -242,7 +242,7 @@ for(i in 1:n_grad){
 
 #(relative) Probabilities implied by the data for the points composing the isoline. Probabilities are scaled to [0,1].
 if(most_likely==T){
-  print("Here 0.5")
+
   #Interpolating the isolines
   x_u = (median[,1] - min(median[,1]))/(max(median[,1])-min(median[,1]))
   y_u = (median[,2] - min(median[,2]))/(max(median[,2])-min(median[,2]))
@@ -254,7 +254,7 @@ if(most_likely==T){
   #Linearly interpolate the y values with respect to their cumulative distance along the isoline.
   median_approx_y<-approx(x=cumsum(d),y=y_u,xout=seq(0,sum(d),length.out=n_interp))$y  * (max(median[,2])-min(median[,2])) + min(median[,2])
   median = data.frame(median_approx_x,median_approx_y)
-  print("Here0.75")
+
   x_u = (median2[,1] - min(median2[,1]))/(max(median2[,1])-min(median2[,1]))
   y_u = (median2[,2] - min(median2[,2]))/(max(median2[,2])-min(median2[,2]))
   x.diff<-c(0,diff(x_u))
@@ -270,7 +270,7 @@ if(most_likely==T){
   colnames(median2) <- c(names(data)[2],names(data)[3])
 
   #Decluster time series
-  print("Here0.8")
+
   #Variable 1
   if(decl_method_x == "window"){
     decl = Decluster_SW(Data=data[,1:2], Window_Width = window_length_x)
@@ -298,13 +298,13 @@ if(most_likely==T){
 
   colnames(y_dec_df) = colnames(data[,c(1,3)])
   y_dec_df$Date = as.Date(y_dec_df$Date)
-  print("Here0.9")
+
   #Dataframes
   df = data.frame("Date"=seq.Date(as.Date(min(data$Date,data$Date)),as.Date(max(data$Date,data$Date)),by="day"))
   df_1 = left_join(df,x_dec_df,by="Date")
   decl_df = left_join(df_1,y_dec_df,by="Date")
   colnames(decl_df) = colnames(data)
-  print("Here0.99")
+
   #Simulating from ht04 model for ht04 curve
   gpds = Migpd_Fit(Data = decl_df[,2:3],
                    Data_Full =  data[,2:3],
@@ -321,15 +321,14 @@ if(most_likely==T){
                  Maxit=10000)$x.sim
 
   #copula approach for wt13 method
-  print("Here1")
   #Dataframes for marginal dist.
   data_x = data.frame(decl_df[,2],data[,3])
   data_y = data.frame(data[,2],decl_df[,3])
-  print("Here2")
+
   colnames(data_x) = colnames(data[,2:3])
   colnames(data_y) = colnames(data[,2:3])
-  print("Here3")
-  print("Here4")
+
+
   #Fit GPDs
   thresh_x = quantile(data[,2],q,na.rm=T)
   gpd_x = evm(data_x[,1],th = thresh_x)
@@ -337,7 +336,7 @@ if(most_likely==T){
   thresh_y = quantile(data[,3],q,na.rm=T)
   gpd_y = evm(data_y[,2],th = thresh_y)
   gpd_y$rate = length(data_y[,2][data_y[,2]>thresh_y])/(length(na.omit(data_y[,2]))/mu)
-  print("Here5")
+
   #Fit copula
   cop.con.x = BiCopSelect(pobs(data_x[which(data_x[,1]>thresh_x),1]),pobs(data_x[which(data_x[,1]>thresh_x),2]))
   cop.con.y = BiCopSelect(pobs(data_y[which(data_y[,2]>thresh_y),1]),pobs(data_y[which(data_y[,2]>thresh_y),2]))
@@ -345,18 +344,18 @@ if(most_likely==T){
   #Simulate from copula
   cop.sim.x.u = BiCopSim(round(n*nrow(data_x[which(data_x[,1]>thresh_x),])/(nrow(data_x[which(data_x[,1]>thresh_x),])+nrow(data_y[which(data_y[,2]>thresh_y),])),0),cop.con.x)
   cop.sim.y.u = BiCopSim(round(n*nrow(data_y[which(data_y[,2]>thresh_y),])/(nrow(data_x[which(data_x[,1]>thresh_x),])+nrow(data_y[which(data_y[,2]>thresh_y),])),0),cop.con.y)
-  print("Here06")
+
   #Transform to original scale
   cop.sim.x = data.frame(qgpd(cop.sim.x.u[,1],u=thresh_x,exp(coefficients(gpd_x)[1]),coefficients(gpd_x)[2]),
                          revTransform(x=cop.sim.x.u[,2],data = na.omit(data[,3]),qu=q,th=thresh_y,exp(coefficients(gpd_y)[1]),coefficients(gpd_y)[2]))
 
   cop.sim.y = data.frame(revTransform(x=cop.sim.y.u[,1],data = na.omit(data[,2]),qu=q,th=thresh_x,exp(coefficients(gpd_x)[1]),coefficients(gpd_x)[2]),
                          qgpd(cop.sim.y.u[,2],u=thresh_y,exp(coefficients(gpd_y)[1]),coefficients(gpd_y)[2]))
-  print("Here7")
+
   colnames(cop.sim.x) = colnames(data[,2:3])
   colnames(cop.sim.y) = colnames(data[,2:3])
   cop.sim = rbind(cop.sim.x,cop.sim.y)
-  print("Here8")
+
   #Kernel density estimates at points on curve
   prediction_ht04<-kde(x=ht04.sim, eval.points=median)$estimate
   prediction_wt13<-kde(x=cop.sim, eval.points=median2)$estimate
@@ -394,7 +393,7 @@ if(most_likely==T){
   points(median,col=rev(heat.colors(150))[20:120][1+100*contour_ht04],lwd=2,pch=16,cex=1.75)
   points(most_likely_ht04,pch=18,cex=1.75,col="dark green")
 }
-if(n_ensemble==T){
+if(n_ensemble>0){
   points(ensemble_ht04,pch=16,cex=1)
 }
 lines(upper_bound,lty=2,lwd=2)
@@ -406,7 +405,7 @@ if(most_likely==T){
   points(median2,col=rev(heat.colors(150))[20:120][1+100*contour_wt13],lwd=2,pch=16,cex=1.75)
   points(most_likely_wt13,pch=18,cex=1.75,col="dark green")
 }
-if(n_ensemble==T){
+if(n_ensemble>0){
   points(ensemble_wt13,pch=16,cex=1)
 }
 lines(upper_bound2,lty=2,lwd=2)
