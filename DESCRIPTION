@@ -1,13 +1,74 @@
 Package: MultiHazard
 Title: Tools for modeling compound events
 Version: 1.13
-Author: Robert Jane <rjane@ucf.edu>
-Maintainer: Robert Jane <rjane@ucf.edu>
-Description: This package provides tools for stationary multivariate statistical modeling.  For instance to model the joint distribution of co-occurring hazards. The package contains functions for pre-processing data including imputing missing values, detrending and declustering time series as well as analyzing pairwise correlations over a range of lags. Functionality is also built in to conditionally sample a bivariate dataset (given one of the variables is above a predetermined threshold) and select the best fitting amongst an array of parametric (extreme and non-extreme, truncated and non-truncated) marginal distributions or copulas. Estimation of joint probability contours using the method of overlaying (conditional) contours given in Bender et al. (2016) and subsequently for a given return period extracting design events assuming full dependence, as well as the "most likely" or an ensemble of possible design events once accounting for dependence is possible. The package also provides the capability of fitting and simulating synthetic records from three higher dimensional approaches - standard (elliptic/Archimedean) copulas, Pair Copula Constructions (PCCs) and the conditional threshold exceedance approach of Heffernan and Tawn (2004). The package provides the code and data used in Jane et al. (2020), consequently applications in this vignette center around assessing the potential for compound flooding in South Florida. 
-License: GPL (>= 3)
+Authors@R: c(
+    person("Robert", "Jane", , "r.jane@ucf.edu", role = c("cre", "aut"),
+           comment = c(ORCID = "0000-0003-4194-852X")),
+    person("Thomas", "Wahl", , "t.wahl@ucf.edu", role = "ctb",
+           comment = c(ORCID = "0000-0003-3643-5463")),
+    person("Francisco", "Pena", , "fpena@sfwmd.gov", role = "ctb",
+           comment = c(ORCID = "0000-0002-1779-9926")),
+    person("Jayantha", "Obeysekera", , "jobeysek@fiu.edu", role = "ctb",
+           comment = c(ORCID = "0000-0002-6203-1190")),
+    person("Callum", "Murphy-Barltrop", , "callum.murphy-barltrop@tu-dresden.de", role = "ctb",
+           comment = c(ORCID = "0000-0002-3479-2902")),
+    person("Javed", "Ali", , "javed.ali@ucf.edu", role = "ctb",
+           comment = c(ORCID = "0000-0002-6203-1190")),
+    person("Pravin", "Maduwantha", , "pravin@ucf.edu", role = "ctb",
+           comment = c(ORCID = "0000-0002-9819-5170")),
+    person("Huazhi", "Li", , "huazhi.li@vu.nl", role = "ctb",
+           comment = c(ORCID = "0000-0001-9589-2918")),
+    person("Victor", "Malagon Santos", , "victor.malagon.santos@nioz.nlu", role = "ctb",
+           comment = c(ORCID = "0000-0002-4458-0890"))
+  )
+Description: The `MultiHazard` package provides tools for stationary
+    multivariate statistical modeling, for example, to estimate the joint
+    distribution of MULTIple co-occurring HAZARDs. The package contains
+    functions for pre-processing data including imputing missing values,
+    detrending and declustering time series as well as analyzing pairwise
+    correlations over a range of lags. Functionality is also built in to
+    impliment the conditional sampling - copula theory approach in Jane et
+    al. (2020) including the automated threshold selection approach in
+    Solari et al. (2017). Tools are provided for selecting the best
+    fitting amongst an array of (non-extreme, truncated and non-truncated)
+    parametric marginal distributions, and, copulas to model the
+    dependence structure. The package contains a function that calculates
+    joint probability contours using the method of overlaying
+    (conditional) contours given in Bender et al. (2016), and extracting
+    design events such as the 'most likely' event or an ensemble of
+    possible design events. The package also provides the capability of
+    fitting and simulating synthetic records from three higher dimensional
+    approaches - standard (elliptic/Archimedean) copulas, Pair Copula
+    Constructions (PCCs) and the conditional threshold exceedance approach
+    of Heffernan and Tawn (2004). Finally, a function that calculates the
+    time for a user-specified height of sea level rise to occur under
+    various scenarios is supplied.
+License: MIT + file LICENSE
+URL: https://rdrr.io/github/rjaneUCF/MultiHazard-R-Package/
 Encoding: UTF-8
-LazyData: true
-Imports: texmex, fitdistrplus, tweedie, MASS, VGAM, copula, GeneralizedHyperbolic, RColorBrewer, ReturnCurves, VineCopula, ks, truncnorm, dplyr, actuar, statmod, lubridate, rmatio, gamlss, gamlss.mx, scales
-Suggests: knitr, rmarkdown
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
+Imports: 
+    copula,
+    dplyr,
+    fitdistrplus,
+    GeneralizedHyperbolic,
+    ks,
+    lubridate,
+    MASS,
+    RColorBrewer,
+    ReturnCurves,
+    rmatio,
+    statmod,
+    texmex,
+    truncnorm,
+    tweedie,
+    VGAM,
+    VineCopula
+Suggests: 
+    knitr,
+    rmarkdown
 VignetteBuilder: knitr
-RoxygenNote: 6.1.1
+Depends: 
+    R (>= 3.5)
+LazyData: true
