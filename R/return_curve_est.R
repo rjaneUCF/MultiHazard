@@ -394,7 +394,7 @@ if(most_likely==T){
   points(median,col=rev(heat.colors(150))[20:120][1+100*contour_ht04],lwd=2,pch=16,cex=1.75)
   points(most_likely_ht04,pch=18,cex=1.75,col="dark green")
 }
-if(n_ensemble==T){
+if(n_ensemble>0){
   points(ensemble_ht04,pch=16,cex=1)
 }
 lines(upper_bound,lty=2,lwd=2)
@@ -406,7 +406,7 @@ if(most_likely==T){
   points(median2,col=rev(heat.colors(150))[20:120][1+100*contour_wt13],lwd=2,pch=16,cex=1.75)
   points(most_likely_wt13,pch=18,cex=1.75,col="dark green")
 }
-if(n_ensemble==T){
+if(n_ensemble>0){
   points(ensemble_wt13,pch=16,cex=1)
 }
 lines(upper_bound2,lty=2,lwd=2)
