@@ -25,6 +25,10 @@ return_curve_est(
   sep_crit_x = NA,
   sep_crit_y = NA,
   alpha = 0.1,
+  most_likely = F,
+  interval = 1000,
+  n = 10^6,
+  n_ensemble = 0,
   x_lab = colnames(data)[2],
   y_lab = colnames(data)[2],
   x_lim_min = min(data[, 2], na.rm = T),
@@ -75,6 +79,14 @@ return_curve_est(
 
 \item{alpha}{Numeric vector of length one specifying the \code{100(1-alpha)\%} confidence interval. Default is \code{0.1}.}
 
+\item{most_likely}{Character vector of length one specifying whether to estimate the relative likelihood of events along the curves. For the ht04 curve probabilites are estimated by simulating from the ht04 model while for the wt13 curve a two-sided conditional sampling (using q as the threshold for both samples) copula theory is adopted. Default is \code{FALSE}.}
+
+\item{interval}{Numeric vector of length one specifying the resolution of the interpolation of the curves Default is \code{1000} thus the curve will be composed of \code{1000} points. The interpolation is only carried out if \code{most-likely = T}.}
+
+\item{n}{Numeric vector of length one specifying the size of the sample from the fitted joint distributions used to estimate the density along an return curves. Default is \code{10^6}}
+
+\item{n_ensemble}{Numeric vector of length one specifying the number of possible design events sampled along the two curves. Default is \code{0}}
+
 \item{x_lab}{Character vector specifying the x-axis label. Default is \code{colnames(data)[2]}.}
 
 \item{y_lab}{Character vector specifying the y-axis label. Default is \code{colnames(data)[3]}.}
@@ -90,7 +102,7 @@ return_curve_est(
 \item{plot}{Logical; whether to plot return curves. Default is \code{"TRUE"}.}
 }
 \value{
-List comprising the median curve based on the HT04 model \code{median_ht04}, and the upper \code{ub_ht04} and lower \code{lb_ht04} bound of its \code{100(1-alpha)\%} confidence interval. Analogous results for the curve based on the WT13 method \code{median_wt13}, \code{ub_wt13} and \code{lb_wt13}. Plots of the median return level curve and associated \code{100(1-alpha)\%} confidence interval for both extremal dependence models.
+List comprising the median curve based on the HT04 model \code{median_ht04}, and the upper \code{ub_ht04} and lower \code{lb_ht04} bound of its \code{100(1-alpha)\%} confidence interval. Analogous results for the curve based on the WT13 method \code{median_wt13}, \code{ub_wt13} and \code{lb_wt13}. Plots of the median return level curve and associated \code{100(1-alpha)\%} confidence interval for both extremal dependence models. If \code{most-likely=T}, the relative probability of events on the two curves is also returned along with the "most-likely"design event \code{} and an ensemble of possible "design events"sampled along the curve according to the relative probabilities.
 }
 \description{
 Calculates return level curves using two extremal dependence models: (1) Heffernan and Tawn (2004) (hereon in HT04) and (2) Wadsworth and Tawn (2013) (hereon in WT13) as outlined in Murphy-Barltrop et al. (2023).
