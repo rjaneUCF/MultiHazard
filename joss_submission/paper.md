@@ -1,5 +1,5 @@
 ---
-title: '`MultiHazard`: Copula-based Joint Probability Analysis in R'
+title: 'MultiHazard: Copula-based Joint Probability Analysis in R'
 tags:
 - R
 - copula
