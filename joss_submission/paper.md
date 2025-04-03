@@ -15,11 +15,9 @@ authors:
 - name: Robert A. Jane
   orcid: "0000-0003-4194-852X"
   corresponding: true
-  equal-contrib: true
   affiliation: 1
 - name: Thomas Wahl
   orcid: "0000-0003-3643-5463"
-  equal-contrib: true
   affiliation: 1
 - name: Francisco Pena
   orcid: "0000-0002-1779-9926"
@@ -27,18 +25,15 @@ authors:
   affiliation: 2
 - name: Jayantha Obeysekera
   orcid: "0000-0002-6203-1190"
-  equal-contrib: true
   affiliation: 3
 - given-names: Callum Murphy-Barltrop
   orchid: "0000-0002-3479-2902"
   affiliation: "4, 5"
 - name: Javed Ali
   orcid: "0000-0002-6203-1190"
-  equal-contrib: true
   affiliation: 1
 - name: Pravin Maduwantha
   orcid: "0000-0002-9819-5170"
-  equal-contrib: true
   affiliation: 1
 - name: Huazhi Li
   orchid: "0000-0001-9589-2918"
