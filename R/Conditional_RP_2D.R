@@ -146,7 +146,7 @@ Conditional_RP_2D<-function (Data, Data_Con1, Data_Con2, u1, u2,
     marginal_non_con1 <- fitdistr(Data_Con1[, con2], "exponential")
   }
   if (Marginal_Dist1 == "Gam(2)") {
-    marginal_non_con1 <- fitdistr(Data_Con1[, con2], "gamma2")
+    marginal_non_con1 <- fitdistr(Data_Con1[, con2], "gamma")
   }
   if(Marginal_Dist1 == "Gam(3)"){
     data.gamlss<-data.frame(X=Data_Con1[,con2])
