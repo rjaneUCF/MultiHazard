@@ -31,7 +31,7 @@ authors:
   affiliation: 3
 - given-names: Callum Murphy-Barltrop
   orchid: "0000-0002-3479-2902"
-  affiliation: 4,5
+  affiliation: "4, 5"
 - name: Javed Ali
   orcid: "0000-0002-6203-1190"
   equal-contrib: true
