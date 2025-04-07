@@ -1076,7 +1076,7 @@ SLR_Scenarios(SeaLevelRise=Diff,Unit="m")
     ## $Low
     ## [1] 2051
 
-Scenarios from theInteragency Sea Level Rise Scenario Tool (2022) for Miami Beach and Naples can be utilized by changing the `Scenario` and `Location` arguments. Alternatively, a user can input other sea level rise scenarios into the function. For example, below we use the scenarios from the same tool but for Fort Myers.
+Scenarios from the Interagency Sea Level Rise Scenario Tool (2022) for Miami Beach and Naples can be utilized by changing the `Scenario` and `Location` arguments. Alternatively, a user can input other sea level rise scenarios into the function. For example, below we use the scenarios from the same tool but for Fort Myers.
 
 ``` r
 SeaLevelRise.2022<-read.csv("C://Users//Documents//sl_taskforce_scenarios_psmsl_id_1106_Fort_Myers.csv")
