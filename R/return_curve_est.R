@@ -152,8 +152,6 @@ for(j in 1:n_boot){
  data_exp_x = apply(data_unif_x, 2, qexp)
  data_exp_y = apply(data_unif_y, 2, qexp)
 
- print(summary(data_exp_x))
- print(summary(data_exp_y))
  #estimated curves exponential margins with HT model
  curve = heff_tawn_curve_exp(data_exp_x = data_exp_x, data_exp_y = data_exp_y, prob = prob, q=q, nsim=n_sim)
 
