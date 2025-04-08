@@ -68,6 +68,8 @@ return_curve_est = function(data,q,rp,mu,n_sim,n_grad,n_boot,boot_method, boot_r
  boot_curves2 = list()
 
  #Result vector for most-likely event
+ contour_ht04 = NA
+ contour_wt13 = NA
  most_likely_ht04 = NA
  most_likely_wt13 = NA
  ensemble_ht04 = NA
@@ -150,6 +152,8 @@ for(j in 1:n_boot){
  data_exp_x = apply(data_unif_x, 2, qexp)
  data_exp_y = apply(data_unif_y, 2, qexp)
 
+ print(summary(data_exp_x))
+ print(summary(data_exp_y))
  #estimated curves exponential margins with HT model
  curve = heff_tawn_curve_exp(data_exp_x = data_exp_x, data_exp_y = data_exp_y, prob = prob, q=q, nsim=n_sim)
 
