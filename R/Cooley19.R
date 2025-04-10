@@ -39,20 +39,13 @@ Cooley19<-function(Data,Migpd,p.base=0.01,p.proj=0.001,u=0.95,PLOT=FALSE,x_lim_m
   colnames(I.base)<-c("x","y")
 
   #Transform observations and contour to frechet (_F) scale
-  #print(EmpFun(x=Data[,1],r=Data[,1], mod=Migpd$models[[1]]))
-
   x_F<- -1/(log(EmpFun(x=Data[,1],r=Data[,1], mod=Migpd$models[[1]])))
   y_F <- -1/(log(EmpFun(x=Data[,2],r=Data[,2], mod=Migpd$models[[2]])))
-  #print(which(x_F==-Inf | y_F==-Inf))
-  #z<-which(x_F==-Inf | y_F==-Inf)
-  #x_F<-x_F[-z]
-  #y_F<-y_F[-z]
   I.base.x_F <- -1/(log(EmpFun(x=Data[,1], r=I.base$x, mod=Migpd$models[[1]])))
   I.base.y_F<-  -1/(log(EmpFun(x=Data[,2], r=I.base$y, mod=Migpd$models[[2]])))
   I.base_F <- data.frame(I.base.x_F,I.base.y_F)
   colnames(I.base_F)<-c("x","y")
-  #print(summary(x_F))
-  #print(summary(y_F))
+
   #Projected isoline
   if(CHI>0){
     I.proj.x_F <- (p.base/p.proj)*I.base.x_F
