@@ -25,12 +25,6 @@
 #' @param boot_replace_all Character vector of length one specifying whether bootstrapping of original dataset (without any declustering) when estimating the distribution of empirical (survival) probabilities is carried out with \code{"T"} or without \code{"F"} replacement. Only required if \code{boot_method_all = "basic"}. Default is \code{NA}.
 #' @param block_length_all Numeric vector of length one specifying block length. Only required if \code{boot_method_all = "block"}. Default is \code{14}.
 #' @param alpha Numeric vector of length one specifying the \code{100(1-alpha)\%} confidence interval. Default is \code{0.1}.
-#' @param x_lab Character vector specifying the x-axis label.
-#' @param y_lab Character vector specifying the y-axis label.
-#' @param x_lim_min Numeric vector of length one specifying x-axis minimum. Default is \code{NA}.
-#' @param x_lim_max Numeric vector of length one specifying x-axis maximum. Default is \code{NA}.
-#' @param y_lim_min Numeric vector of length one specifying y-axis minimum. Default is \code{NA}.
-#' @param y_lim_max Numeric vector of length one specifying y-axis maximum. Default is \code{NA}.
 #' @section Details:
 #' The HT04 model is fit to two conditional samples. One sample comprises the declustered time series of the first variable paired with concurrent values of the other variable. The second sample is obtained in the same way but with the variables reversed. The empirical probabilities are calculated using these two conditional samples and the original dataset (without any declustering).
 #' The return period should be chosen to ensure there is sufficient data for estimating empirical probabilities, yet the curve is sufficiently 'extreme'. An example could be to consider the fit using the 1 year return period curve rather than the 100 year return period curve.
@@ -63,7 +57,7 @@
 #'                   window_length_x=NA,window_length_y=NA,
 #'                   u_x=0.95, u_y=0.95,
 #'                   sep_crit_x=36, sep_crit_y=36,
-#'                   alpha=0.1, x_lab=NA, y_lab=NA,
+#'                   alpha=0.1,
 #'                   boot_method_all="block", boot_replace_all=NA,
 #'                   block_length_all=14)
 return_curve_diag = function(data,q,rp,mu,n_sim,n_grad,n_boot,boot_method, boot_replace, block_length, boot_prop, decl_method_x, decl_method_y, window_length_x, window_length_y, u_x=NA, u_y=NA, sep_crit_x=NA, sep_crit_y=NA, boot_method_all="block", boot_replace_all=NA, block_length_all=14, boot_prop_all=0.8,alpha=0.1, x_lab=NA, y_lab=NA,x_lim_min=min(data_df[,2],na.rm=T),x_lim_max=max(data_df[,2],na.rm=T)+0.3*diff(range(data[,2],na.rm=T)),y_lim_min=min(data[,3],na.rm=T),y_lim_max=max(data[,3],na.rm=T)+0.3*diff(range(data[,2],na.rm=T))){
