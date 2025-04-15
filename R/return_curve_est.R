@@ -58,7 +58,7 @@
 #'                  u_x=0.95, u_y=0.95,
 #'                  sep_crit_x=36, sep_crit_y=36,
 #'                  alpha=0.1, x_lab=NA, y_lab=NA)
-return_curve_est = function(data,q,rp,mu,n_sim,n_grad,n_boot,boot_method, boot_replace, block_length, boot_prop, decl_method_x, decl_method_y, window_length_x, window_length_y, u_x=NA, u_y=NA, sep_crit_x=NA, sep_crit_y=NA, alpha=0.1, most_likely=F, n_interp=1000, n=10^6, n_ensemble=0, x_lab=colnames(data)[2], y_lab=colnames(data)[2],x_lim_min=min(data[,2],na.rm=T),x_lim_max=max(data[,2],na.rm=T)+0.3*diff(range(data[,2],na.rm=T)),y_lim_min=min(data[,3],na.rm=T),y_lim_max=max(data[,3],na.rm=T)+0.3*diff(range(data[,3],na.rm=T)),plot=T){
+return_curve_est = function(data,q,rp,mu,n_sim,n_grad,n_boot,boot_method, boot_replace, block_length, boot_prop, decl_method_x, decl_method_y, window_length_x, window_length_y, u_x=NA, u_y=NA, sep_crit_x=NA, sep_crit_y=NA, alpha=0.1, most_likely=F, n_interp=1000, n=10^6, n_ensemble=0, x_lab=colnames(data)[2], y_lab=colnames(data)[3],x_lim_min=min(data[,2],na.rm=T),x_lim_max=max(data[,2],na.rm=T)+0.3*diff(range(data[,2],na.rm=T)),y_lim_min=min(data[,3],na.rm=T),y_lim_max=max(data[,3],na.rm=T)+0.3*diff(range(data[,3],na.rm=T)),plot=T){
 
  #Convert return period (rp) to probability
  prob = (1/mu) / rp
