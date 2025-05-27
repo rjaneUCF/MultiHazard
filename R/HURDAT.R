@@ -12,7 +12,7 @@ HURDAT <- function(Data,lat.loc,lon.loc,rad){
 
   #Reading in HURDAT2 database
   #HURDAT2 = read.table('HURDAT2.txt', sep="\t")
-  print(head(HURDAT2))
+
   #Identify rows which describe event
   n.char = apply(HURDAT2,1,nchar)
 
@@ -27,9 +27,9 @@ HURDAT <- function(Data,lat.loc,lon.loc,rad){
   #Vector to append HURDAT2 dataset with the names of the storms
   storm.names = rep(storm.name, storm.duration)
 
-  #Combining name vecor with HURDAT2 data
+  #CombinIng name vecor with HURDAT2 data
   HURDAT2 = data.frame(storm.names, HURDAT2[-which(n.char==37),])
-  print(head(HURDAT2))
+
   #Functions to extract (1) latitude and (2) longitude of storm
   lat.cal = function(x) as.numeric(trimws(substring(x[[2]],24,27)))
   lon.cal = function(x) as.numeric(trimws(substring(x[[2]],30,35)))
@@ -61,7 +61,7 @@ HURDAT <- function(Data,lat.loc,lon.loc,rad){
   #Convert to standard date format
   storm.dates = as.Date(storm.dates, tryFormats ="%Y%m%d")
 
-  #TC dates at S20_F
+  #TC dates
   storm.dates.df = data.frame(storm.dates,trimws(storm.names[which(d<rad)]))
   colnames(storm.dates.df) = c("Date","Name")
 
@@ -74,7 +74,7 @@ HURDAT <- function(Data,lat.loc,lon.loc,rad){
     date_time  = Data[,1]
     Data[,1]<-as.Date(Data[,1])
     names(Data)[1] = "Date"
-    Data.HURDAT = left_join(Data,storm.dates.df,by="Date",multiple="all")
+    Data.HURDAT = left_join(Data,storm.dates.df,by="Date",multiple="first")
     Data.HURDAT[,1] = date_time
   } else{
     Data.HURDAT = left_join(Data,storm.dates.df,by="Date",multiple="first")
