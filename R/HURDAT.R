@@ -11,7 +11,7 @@
 HURDAT <- function(Data,lat.loc,lon.loc,rad){
 
   #Reading in HURDAT2 database
-  HURDAT2 = read.table('HURDAT2.txt', sep="\t")
+  #HURDAT2 = read.table('HURDAT2.txt', sep="\t")
   print(head(HURDAT2))
   #Identify rows which describe event
   n.char = apply(HURDAT2,1,nchar)
