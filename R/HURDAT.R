@@ -29,7 +29,7 @@ HURDAT <- function(Data,lat.loc,lon.loc,rad){
 
   #Combining name vecor with HURDAT2 data
   HURDAT2 = data.frame(storm.names, HURDAT2[-which(n.char==37),])
-  print(summary(HURDAT2))
+  print(head(HURDAT2))
   #Functions to extract (1) latitude and (2) longitude of storm
   lat.cal = function(x) as.numeric(trimws(substring(x[[2]],24,27)))
   lon.cal = function(x) as.numeric(trimws(substring(x[[2]],30,35)))
