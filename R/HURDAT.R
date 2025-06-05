@@ -63,7 +63,8 @@ HURDAT <- function(Data,lat.loc,lon.loc,rad){
 
   #TC dates
   storm.dates.df = data.frame(storm.dates,trimws(storm.names[which(d<rad)]))
-  colnames(storm.dates.df) = c("Date","Name")
+  data_col_name = colname(Data)[1]
+  colnames(storm.dates.df) = c(data_col_name,"Name")
 
   #Removing duplicated rows
   storm.dates.df = storm.dates.df[!duplicated(storm.dates.df),]
@@ -73,11 +74,11 @@ HURDAT <- function(Data,lat.loc,lon.loc,rad){
   if(class(Data[,1])[1]=="POSIXct"){
     date_time  = Data[,1]
     Data[,1]<-as.Date(Data[,1])
-    names(Data)[1] = "Date"
-    Data.HURDAT = left_join(Data,storm.dates.df,by="Date",multiple="first")
+    names(Data)[1] = data_col_name
+    Data.HURDAT = left_join(Data,storm.dates.df,by=data_col_name,multiple="first")
     Data.HURDAT[,1] = date_time
   } else{
-    Data.HURDAT = left_join(Data,storm.dates.df,by="Date",multiple="first")
+    Data.HURDAT = left_join(Data,storm.dates.df,by=data_col_name,multiple="first")
   }
 
 
