@@ -63,7 +63,7 @@ HURDAT <- function(Data,lat.loc,lon.loc,rad){
 
   #TC dates
   storm.dates.df = data.frame(storm.dates,trimws(storm.names[which(d<rad)]))
-  data_col_name = colname(Data)[1]
+  data_col_name = colnames(Data)[1]
   colnames(storm.dates.df) = c(data_col_name,"Name")
 
   #Removing duplicated rows
