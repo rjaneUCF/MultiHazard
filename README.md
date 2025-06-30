@@ -568,7 +568,7 @@ The Diag\_Non\_Con() function is designed to aid in the selection of the appropr
 S20.Rainfall<-Con_Sampling_2D(Data_Detrend=S20.Detrend.df[,-c(1,4)],
 Data_Declust=S20.Detrend.Declustered.df[,-c(1,4)],
 Con_Variable="Rainfall",u = Rainfall.Thres.Quantile)
-Diag_Non_Con(Data=S20.Rainfall$Data$OsWL,x_lab="O-sWL (ft NGVD)",y_lim_min=0,y_lim_max=1.5)
+Diag_Non_Con(Data=S20.Rainfall$Data$OsWL,Omit=c("Gum","RGum"),x_lab="O-sWL (ft NGVD)",y_lim_min=0,y_lim_max=1.5)
 ```
 
 <img src="README_files/figure-markdown_github/unnamed-chunk-34-1.png" style="display: block; margin: auto;" />
