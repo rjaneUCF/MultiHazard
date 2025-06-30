@@ -585,7 +585,7 @@ Diag_Non_Con(Data=S20.Rainfall$Data$OsWL,x_lab="O-sWL (ft NGVD)",y_lim_min=0,y_l
 The Diag\_Non\_Con\_Sel() function, is similar to the Diag\_Non\_Con() command, but only plots the probability density function and cumulative distribution function of a (single) selected univariate distribution in order to more clearly demonstrate the goodness of fit of a particular distribution. The options are the Gaussian (`Gaus`) and logistic (`Logis`) distributions.
 
 ``` r
-Diag_Non_Con_Sel(Data=S20.Rainfall$Data$OsWL,x_lab="O-sWL (ft NGVD)",
+Diag_Non_Con_Sel(Data=S20.Rainfall$Data$OsWL,Omit=c("Gum","RGum"),x_lab="O-sWL (ft NGVD)",
 y_lim_min=0,y_lim_max=1.5,Selected="Logis")
 ```
 
