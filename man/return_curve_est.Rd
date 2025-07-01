@@ -30,7 +30,7 @@ return_curve_est(
   n = 10^6,
   n_ensemble = 0,
   x_lab = colnames(data)[2],
-  y_lab = colnames(data)[2],
+  y_lab = colnames(data)[3],
   x_lim_min = min(data[, 2], na.rm = T),
   x_lim_max = max(data[, 2], na.rm = T) + 0.3 * diff(range(data[, 2], na.rm = T)),
   y_lim_min = min(data[, 3], na.rm = T),

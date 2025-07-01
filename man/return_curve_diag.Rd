@@ -83,18 +83,6 @@ return_curve_diag(
 \item{block_length_all}{Numeric vector of length one specifying block length. Only required if \code{boot_method_all = "block"}. Default is \code{14}.}
 
 \item{alpha}{Numeric vector of length one specifying the \code{100(1-alpha)\%} confidence interval. Default is \code{0.1}.}
-
-\item{x_lab}{Character vector specifying the x-axis label.}
-
-\item{y_lab}{Character vector specifying the y-axis label.}
-
-\item{x_lim_min}{Numeric vector of length one specifying x-axis minimum. Default is \code{NA}.}
-
-\item{x_lim_max}{Numeric vector of length one specifying x-axis maximum. Default is \code{NA}.}
-
-\item{y_lim_min}{Numeric vector of length one specifying y-axis minimum. Default is \code{NA}.}
-
-\item{y_lim_max}{Numeric vector of length one specifying y-axis maximum. Default is \code{NA}.}
 }
 \value{
 List comprising the angles \code{"ang_ind"} associated with the points on the curve for which the empirical probability estimates were calculated.
@@ -135,7 +123,7 @@ return_curve_diag(data=S22.Detrend.df.extended[,1:3],
                   window_length_x=NA,window_length_y=NA,
                   u_x=0.95, u_y=0.95,
                   sep_crit_x=36, sep_crit_y=36,
-                  alpha=0.1, x_lab=NA, y_lab=NA,
+                  alpha=0.1,
                   boot_method_all="block", boot_replace_all=NA,
                   block_length_all=14)
 }
