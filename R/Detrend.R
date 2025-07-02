@@ -21,6 +21,11 @@
 #'         End_Length = 1826, PLOT=FALSE,x_lab="Data",y_lab="Data")
 Detrend<-function(Data, Method = "window",Window_Width= 89, End_Length = 1826, PLOT=FALSE,x_lab="Date",y_lab="Data"){
   data_Detrend<-Data[,2]
+
+  if (!Method %in% c("window", "linear")) {
+    stop("Method must be either 'window' or 'linear', got: '", Method, "'")
+  }
+
   if(Method=="window"){
     for(i in 1:(Window_Width/2)){
       data_Detrend[i]<- Data[i,2] - mean(Data[i:(i+(Window_Width/2)),2])
