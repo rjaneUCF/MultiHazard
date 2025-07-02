@@ -62,7 +62,7 @@ test_that("Decluster function with different mu values", {
   result2 <- Decluster(test_data[,2], mu = 1)
 
   expect_true(result1$Rate != result2$Rate)
-  expect_true(result2$Rate > result1$Rate) # Should be higher rate with mu=1
+  expect_true(result1$Rate > result2$Rate) # (annual rate > daily rate)
 })
 
 test_that("Threshold calculation is correct", {
