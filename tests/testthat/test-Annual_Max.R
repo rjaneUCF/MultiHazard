@@ -2,7 +2,7 @@
 
 test_that("Annual maximum functions basic functionality", {
 
-  test_data = S20_T_MAX_Daily_Completed_Detrend_Declustered[,c(1,4)]
+  test_data = data.frame(S20_T_MAX_Daily_Completed_Detrend_Declustered$Date,S20_T_MAX_Daily_Completed_Detrend_Declustered$Detrend)
   test_data[,1] = as.Date(test_data[,1], format = "%m/%d/%Y")
 
   result <- Annual_Max(Data_Detrend = test_data)
@@ -19,8 +19,8 @@ test_that("Annual maximum functions basic functionality", {
 
   # Check length of outputs
   expect_equal(length(result$Event), length(result$AM))
-  expect_less_than(length(result$Event), nrow(S20_T_MAX_Daily_Completed_Detrend_Declustered[,c(2,5)])/365.25 +10)
-  expect_greater_than(length(result$Event), nrow(S20_T_MAX_Daily_Completed_Detrend_Declustered[,c(2,5)])/365.25 -10)
+  expect_lt(length(result$Event), nrow(S20_T_MAX_Daily_Completed_Detrend_Declustered[,c(2,5)])/365.25 +10)
+  expect_gt(length(result$Event), nrow(S20_T_MAX_Daily_Completed_Detrend_Declustered[,c(2,5)])/365.25 -10)
 
 })
 
@@ -28,7 +28,7 @@ test_that("Annual maximum functions basic functionality", {
 #Test function with different percent complete values
 test_that("Annual maximum function with different Complete_Prop values", {
 
-  test_data = S20_T_MAX_Daily_Completed_Detrend_Declustered[,c(1,4)]
+  test_data = data.frame(S20_T_MAX_Daily_Completed_Detrend_Declustered$Date,S20_T_MAX_Daily_Completed_Detrend_Declustered$Detrend)
   test_data[,1] = as.Date(test_data[,1], format = "%m/%d/%Y")
 
   result1 <- Annual_Max(Data_Detrend = test_data, Complete_Prop = 0.9)
@@ -42,7 +42,7 @@ test_that("Annual maximum function with different Complete_Prop values", {
 # Test that invalid inputs gives errors
 test_that("Invalid inputs produce errors", {
 
-  test_data = S20_T_MAX_Daily_Completed_Detrend_Declustered[,c(1,4)]
+  test_data = data.frame(S20_T_MAX_Daily_Completed_Detrend_Declustered$Date,S20_T_MAX_Daily_Completed_Detrend_Declustered$Detrend)
   test_data[,1] = as.Date(test_data[,1], format = "%m/%d/%Y")
 
   expect_error(Annual_Max(Data_Detrend = test_data, Complete_Prop = -1))
@@ -55,7 +55,7 @@ test_that("Invalid inputs produce errors", {
 
 test_that("Function is deterministic", {
 
-  test_data = S20_T_MAX_Daily_Completed_Detrend_Declustered[,c(1,4)]
+  test_data = data.frame(S20_T_MAX_Daily_Completed_Detrend_Declustered$Date,S20_T_MAX_Daily_Completed_Detrend_Declustered$Detrend)
   test_data[,1] = as.Date(test_data[,1], format = "%m/%d/%Y")
 
   #Find annual max
