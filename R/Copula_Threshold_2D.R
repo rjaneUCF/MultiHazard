@@ -31,7 +31,7 @@
 #' when the dataset is conditioned on the variable in column 1.
 #' Analogous vectors \code{Kendalls_Tau2},\code{p_value_Var2}, \code{N_Var2} and \code{Copula_Family_Var2} for the specified thresholds when the data set is conditioned on the variable in column 2.
 #' If \code{PLOT=TRUE} then a plot of the Kendall's tau correlation coefficient versus quantile threshold is also returned.
-#' Filled circles denote statistically significant correlation at a \code{5%} significance level. Numbers inside the circles correspond to the sample size while the best fitting copula family is printed above.
+#' Filled circles denote statistically significant correlation at a \code{5\%} significance level. Numbers inside the circles correspond to the sample size while the best fitting copula family is printed above.
 #' Numbers below x-axis are the values of the corresponding quantiles on the original (data) scale.
 #' @seealso \code{\link{Dataframe_Combine}}
 #' @export
@@ -41,6 +41,32 @@
 #'                     y_lim_min=-0.075, y_lim_max =0.25,
 #'                     Upper=c(6,8), Lower=c(6,8),GAP=0.1)
 Copula_Threshold_2D<-function(Data_Detrend,Data_Declust,u1=seq(0.9,0.99,0.01),u2=seq(0.9,0.99,0.01),PLOT=TRUE,x_lim_min=NA,x_lim_max=NA,y_lim_min=-1,y_lim_max=1,Upper=NA,Lower=NA,GAP=0.05,Legend=TRUE,Cex_Legend=1,Cex_Axis=1,Cex_Axis_Original=1){
+
+  # Input validation
+  if (!is.data.frame(Data_Detrend) && !is.matrix(Data_Detrend)) {
+    stop("Data_Detrend must be a data frame or matrix")
+  }
+
+  if (!is.data.frame(Data_Declust) && !is.matrix(Data_Declust)) {
+    stop("Data_Declust must be a data frame or matrix")
+  }
+
+  if (ncol(Data_Detrend) != 2) {
+    stop("Data_Detrend must comprise two columns, got: ", ncol(Data_Detrend))
+  }
+
+  if (ncol(Data_Declust) != 2) {
+    stop("Data_Declust must comprise two columns, got: ", ncol(Data_Declust))
+  }
+
+
+  if (any(u1 > 1) || any(u1 < 0)) {
+    stop("u1 must be between 0 and 1, got values in range: ", min(u1), "to", max(u1))
+  }
+
+  if (any(u2 > 1) || any(u2 < 0)) {
+    stop("u2 must be between 0 and 1, got values in range: ", min(u2), "to", max(u2))
+  }
 
   #Axes limits for plots
   x_lim_min<-ifelse(is.na(x_lim_min)==T,min(u1,u2,na.rm=T),x_lim_min)
