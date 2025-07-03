@@ -68,6 +68,10 @@ Copula_Threshold_2D<-function(Data_Detrend,Data_Declust,u1=seq(0.9,0.99,0.01),u2
     stop("u2 must be between 0 and 1, got values in range: ", min(u2), "to", max(u2))
   }
 
+  if (y_lim_min >= y_lim_max) {
+    stop("y_lim_min must be less than y_lim_max, given: y_lim_min = ", y_lim_min, ", y_lim_max = ", y_lim_max)
+  }
+
   #Axes limits for plots
   x_lim_min<-ifelse(is.na(x_lim_min)==T,min(u1,u2,na.rm=T),x_lim_min)
   x_lim_max<-ifelse(is.na(x_lim_max)==T,max(u1,u2,na.rm=T),x_lim_max)
