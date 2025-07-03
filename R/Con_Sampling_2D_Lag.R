@@ -16,7 +16,7 @@
 #'                                   Data_Declust=S20.Detrend.Declustered.df[,-c(1,4)],
 #'                                   Con_Variable="Rainfall",u=0.97)
 Con_Sampling_2D_Lag<-
-  function (Data_Detrend, Data_Declust, Con_Variable, u = 0.97, Thres, Lag_Backward = 3, Lag_Forward = 3)
+  function (Data_Detrend, Data_Declust, Con_Variable, u = 0.97, Thres=NA, Lag_Backward = 3, Lag_Forward = 3)
   {
 
     # Input validation
