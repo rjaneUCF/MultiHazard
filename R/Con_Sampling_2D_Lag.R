@@ -82,11 +82,18 @@ Con_Sampling_2D_Lag<-
     Sample_df <- matrix(c(0), nrow = length(x.con), ncol = 2)
     for (i in 1:length(x.con)) {
       Sample_df[i, con] <- Data_Declust[x.con[i], con]
-      Sample_df[i, noncon] <- max(Data_Detrend[c(max((x.con[i]-Lag_Backward),1):(min((x.con[i]+Lag_Forward),nrow(Data_Declust)))), noncon],na.rm=T)[1]
-      position<- which(Data_Detrend[c(max((x.con[i]-Lag_Backward),1):(min((x.con[i]+Lag_Forward),nrow(Data_Declust)))), noncon] ==
-                         max(Data_Detrend[c(max((x.con[i]-Lag_Backward),1):(min((x.con[i]+Lag_Forward),nrow(Data_Declust)))), noncon],na.rm=T))
-      position<-ifelse(length(position)<2,position,ifelse(position==2,2,sample(position,1)))
-      x.noncon[i] <- x.con[i] + ((-Lag_Backward):Lag_Forward)[position]
+      lag_values <- Data_Detrend[c(max((x.con[i]-Lag_Backward),1):(min((x.con[i]+Lag_Forward),nrow(Data_Declust)))), noncon]
+
+      if(all(is.na(lag_values))) {
+        Sample_df[i, noncon] <- NA
+        x.noncon[i] <- NA
+      } else {
+        max_val <- max(lag_values, na.rm = TRUE)
+        Sample_df[i, noncon] <- max_val
+        position <- which(lag_values == max_val)
+        position <- ifelse(length(position) < 2, position, ifelse(position == 2, 2, sample(position, 1)))
+        x.noncon[i] <- x.con[i] + ((-Lag_Backward):Lag_Forward)[position]
+      }
     }
     if(length(which(Sample_df[,1]==-Inf | Sample_df[,2]==-Inf))>0){
       z<-unique(which(Sample_df[,1]==-Inf | Sample_df[,2]==-Inf))
