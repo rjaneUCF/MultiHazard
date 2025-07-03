@@ -4,8 +4,9 @@ test_that("Annual maximum functions basic functionality", {
 
   test_data = data.frame(S20_T_MAX_Daily_Completed_Detrend_Declustered$Date,S20_T_MAX_Daily_Completed_Detrend_Declustered$Detrend)
   print(summary(S20_T_MAX_Daily_Completed_Detrend_Declustered$Date))
-  test_data[,1] <- as.Date(as.character(test_data[,1]), format = "%m/%d/%Y")
+  test_data[,1] <- as.Date(test_data[,1], format = "%Y/%m/%d")
   print(summary(test_data))
+  print(class(test_data[,1]))
 
   result <- Annual_Max(Data_Detrend = test_data)
 
