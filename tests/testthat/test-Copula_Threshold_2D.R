@@ -5,16 +5,16 @@ test_that("Copula_Threshold_2D method works", {
                                 Data_Declust=S20.Detrend.Declustered.df[,-c(1,4)],
                                 y_lim_min=-0.075, y_lim_max =0.25,
                                 Upper=c(6,8), Lower=c(6,8),GAP=0.1, PLOT=FALSE)
-  
+
   # Check return type
-  expect_type(result, list)
-  
+  expect_type(result, "list")
+
   #Check names of output
-  expect_named(result, c("Kendalls_Tau1", "Kendalls_Tau2", 
-                         "p_value_Var1", "p_value_Var2", 
+  expect_named(result, c("Kendalls_Tau1", "Kendalls_Tau2",
+                         "p_value_Var1", "p_value_Var2",
                          "N_Var1", "N_Var2",
                          "Copula_Family_Var1","Copula_Family_Var2"))
-  
+
   # Check length of outputs
   expect_equal(length(result$Kendalls_Tau1), length(seq(0.9,0.99,0.01)))
   expect_equal(length(result$Kendalls_Tau2), length(seq(0.9,0.99,0.01)))
@@ -29,7 +29,7 @@ test_that("Copula_Threshold_2D method works", {
 
 #Test reproducibility
 test_that("Function is deterministic", {
-  
+
   result1 <- Copula_Threshold_2D(Data_Detrend=S20.Detrend.df[,-c(1,4)],
                                 Data_Declust=S20.Detrend.Declustered.df[,-c(1,4)],
                                 y_lim_min=-0.075, y_lim_max =0.25,
@@ -39,7 +39,7 @@ test_that("Function is deterministic", {
                                 y_lim_min=-0.075, y_lim_max =0.25,
                                 Upper=c(6,8), Lower=c(6,8),GAP=0.1, PLOT=FALSE)
   expect_identical(result1, result2)
-  
+
 })
 
 
@@ -52,13 +52,13 @@ test_that("Invalid inputs produce errors", {
                                    y_lim_min=-0.075, y_lim_max =0.25,
                                    u1= seq(-1,1,0.1),u2=seq(0.5,0.99,0.01),
                                    Upper=c(6,8), Lower=c(6,8),GAP=0.1, PLOT=FALSE))
-  
+
   expect_error(Copula_Threshold_2D(Data_Detrend=S20.Detrend.df[,-c(1,4)],
                                    Data_Declust=S20.Detrend.Declustered.df[,-c(1,4)],
                                    y_lim_min=-0.075, y_lim_max =0.25,
                                    u1= seq(0.5,0.99,0.01),u2="Invalid",
                                    Upper=c(6,8), Lower=c(6,8),GAP=0.1, PLOT=FALSE))
-  
+
   expect_error(Copula_Threshold_2D(Data_Detrend=S20.Detrend.df[,-c(1,4)],
                                    Data_Declust=S20.Detrend.Declustered.df[,4],
                                    y_lim_min=-0.075, y_lim_max =0.25,
@@ -66,4 +66,3 @@ test_that("Invalid inputs produce errors", {
                                    Upper=c(6,8), Lower=c(6,8),GAP=0.1, PLOT=FALSE))
 })
 
-  
