@@ -10,10 +10,8 @@ test_that("Copula_Threshold_2D method works", {
   expect_type(result, "list")
 
   #Check names of output
-  expect_named(result, c("Kendalls_Tau1", "Kendalls_Tau2",
-                         "p_value_Var1", "p_value_Var2",
-                         "N_Var1", "N_Var2",
-                         "Copula_Family_Var1","Copula_Family_Var2"))
+  expect_named(result, c("Kendalls_Tau1", "p_value_Var1", "N_Var1", "Copula_Family_Var1",
+                         "Kendalls_Tau2", "p_value_Var2", "N_Var2", "Copula_Family_Var2"))
 
   # Check length of outputs
   expect_equal(length(result$Kendalls_Tau1), length(seq(0.9,0.99,0.01)))
