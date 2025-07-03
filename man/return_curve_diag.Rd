@@ -114,7 +114,7 @@ tail(S22.Detrend.df)
 final.month = data.frame(seq(as.Date("2019-02-04"),as.Date("2019-02-28"),by="day"),NA,NA,NA)
 colnames(final.month) = c("Date","Rainfall","OsWL","Groundwater")
 S22.Detrend.df.extended = rbind(S22.Detrend.df,final.month)
-#Derive return curves
+#Diagnostic plots for the return curves
 return_curve_diag(data=S22.Detrend.df.extended[,1:3],
                   q=0.985,rp=1,mu=365.25,n_sim=100,
                   n_grad=50,n_boot=100,boot_method="monthly",

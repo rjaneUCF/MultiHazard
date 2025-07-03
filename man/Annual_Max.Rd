@@ -7,12 +7,12 @@
 Annual_Max(Data_Detrend, Complete_Prop = 0.8)
 }
 \arguments{
-\item{Complete_Prop}{Minimum proportion of non-missing values in an annual record for the annual maximum to be extracted. Default is \code{0.8}.}
-
-\item{Data}{Data frame containing two columns. In column: \itemize{
+\item{Data_Detrend}{Data frame containing two columns. In column: \itemize{
 \item \code{1} A \code{"Date"} object of equally spaced discrete time steps.
 \item \code{2} Numeric vector containing corresponding time series values.
 }}
+
+\item{Complete_Prop}{Minimum proportion of non-missing values in an annual record for the annual maximum to be extracted. Default is \code{0.8}.}
 }
 \value{
 List comprising the index of the annual maximum \code{Event} and the annual maximum values \code{AM}.
@@ -21,5 +21,5 @@ List comprising the index of the annual maximum \code{Event} and the annual maxi
 Extract annual maximum in years with over a user-defined proportion of non-missing values.
 }
 \examples{
-Annual_Max(Data=S20_T_MAX_Daily_Completed_Detrend$Detrend)
+Annual_Max(Data_Detrend=S20_T_MAX_Daily_Completed_Detrend$Detrend)
 }
