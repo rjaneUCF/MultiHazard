@@ -114,9 +114,9 @@ Copula_Threshold_2D<-function(Data_Detrend,Data_Declust,u1=seq(0.9,0.99,0.01),u2
       correlation_Var1_Value[j]<-cor(pobs(Var1_df[,1]), pobs(Var1_df[,2]),method="kendall")
       correlation_Var1_Test[j]<-cor.test(pobs(Var1_df[,1]), pobs(Var1_df[,2]),method="kendall")$p.value
       correlation_Var1_N[j]<-nrow(Var1_df)
-      copula_Var1_Family[j]<-BiCopSelect(pobs(Var1_df[,1]), pobs(Var1_df[,2]), familyset = NA, selectioncrit = "AIC",
-                                         indeptest = FALSE, level = 0.05, weights = NA, rotations = TRUE,
-                                         se = FALSE, presel = TRUE, method = "mle")$family
+      copula_Var1_Family[j]<-suppressWarnings(BiCopSelect(pobs(Var1_df[,1]), pobs(Var1_df[,2]), familyset = NA, selectioncrit = "AIC",
+                                                          indeptest = FALSE, level = 0.05, weights = NA, rotations = TRUE,
+                                                          se = FALSE, presel = TRUE, method = "mle")$family)
       copula_Var1_Family_Name[j]<-as.character(copula_table$Family[which(copula_table$Number==copula_Var1_Family[j])])
     }
   }
@@ -146,9 +146,9 @@ Copula_Threshold_2D<-function(Data_Detrend,Data_Declust,u1=seq(0.9,0.99,0.01),u2
       correlation_Var2_Value[k]<-cor(pobs(Var2_df[,1]), pobs(Var2_df[,2]),method="kendall")
       correlation_Var2_Test[k]<-cor.test(pobs(Var2_df[,1]), pobs(Var2_df[,2]),method="kendall")$p.value
       correlation_Var2_N[k]<-nrow(Var2_df)
-      copula_Var2_Family[k]<-BiCopSelect(pobs(Var2_df[,1]), pobs(Var2_df[,2]), familyset = NA, selectioncrit = "AIC",
-                                         indeptest = FALSE, level = 0.05, weights = NA, rotations = TRUE,
-                                         se = FALSE, presel = TRUE, method = "mle")$family
+      copula_Var2_Family[k]<-suppressWarnings(BiCopSelect(pobs(Var2_df[,1]), pobs(Var2_df[,2]), familyset = NA, selectioncrit = "AIC",
+                                                          indeptest = FALSE, level = 0.05, weights = NA, rotations = TRUE,
+                                                          se = FALSE, presel = TRUE, method = "mle")$family)
       copula_Var2_Family_Name[k]<-as.character(copula_table$Family[which(copula_table$Number==copula_Var2_Family[k])])
     }
   }
