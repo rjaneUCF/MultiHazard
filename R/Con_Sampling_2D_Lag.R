@@ -12,12 +12,54 @@
 #' @return List comprising the specified \code{Threshold} as the quantile of the conditioning variable above which declustered excesses are paired with co-occurences of the other variable, the resulting two-dimensional sample \code{data} and \code{Con_Variable} the name of the conditioning variable. The index of the input dataset that correspond to the events of the conditioning variable \code{x.con} and the non-conditioning variable \code{x.noncon} in the conditonal sample are also provided.
 #' @export
 #' @examples
-#' S20.Rainfall<-Con_Sampling_2D(Data_Detrend=S20.Detrend.df[,-c(1,4)],
-#'                               Data_Declust=S20.Detrend.Declustered.df[,-c(1,4)],
-#'                               Con_Variable="Rainfall",u=0.97)
+#' S20.Rainfall<-Con_Sampling_2D_Lag(Data_Detrend=S20.Detrend.df[,-c(1,4)],
+#'                                   Data_Declust=S20.Detrend.Declustered.df[,-c(1,4)],
+#'                                   Con_Variable="Rainfall",u=0.97)
 Con_Sampling_2D_Lag<-
   function (Data_Detrend, Data_Declust, Con_Variable, u = 0.97, Thres, Lag_Backward = 3, Lag_Forward = 3)
   {
+
+    # Input validation
+    if (!is.data.frame(Data_Detrend) && !is.matrix(Data_Detrend)) {
+      stop("Data_Detrend must be a data frame or matrix")
+    }
+
+    if (!is.data.frame(Data_Declust) && !is.matrix(Data_Declust)) {
+      stop("Data_Declust must be a data frame or matrix")
+    }
+
+    if (ncol(Data_Detrend) != 2) {
+      stop("Data_Detrend must comprise two columns, got: ", ncol(Data_Detrend))
+    }
+
+    if (ncol(Data_Declust) != 2) {
+      stop("Data_Declust must comprise two columns, got: ", ncol(Data_Declust))
+    }
+
+    if (!is.numeric(u) || length(u) != 1) {
+      stop("u must be a single numeric value, got: ", class(u))
+    }
+
+    if (!Con_Variable %in% colnames(Data_Detrend)) {
+      stop("Con_Variable must the name of a column in Data_Detrend")
+    }
+
+    if (!Con_Variable %in% colnames(Data_Declust)) {
+      stop("Con_Variable must be the name of a column in Data_Declust")
+    }
+
+    if (u > 1 || u < 0) {
+      stop("u must be between 0 and 1, got: ", u)
+    }
+
+    if (!is.numeric(Lag_Backward)) {
+      stop("Lag_Backward must be a single numeric value, got: ", class(Lag_Backward))
+    }
+
+    if (!is.numeric(Lag_Forward)) {
+      stop("Lag_Forward must be a single numeric value, got: ", class(Lag_Forward))
+    }
+
     if (class(Data_Detrend[, 1])[1] == "Date" | class(Data_Detrend[,1])[1] == "factor" | class(Data_Detrend[,1])[1]=="POSIXct" | class(Data_Detrend[,1])[1] == "character") {
       Data_Detrend <- Data_Detrend[, -1]
     }

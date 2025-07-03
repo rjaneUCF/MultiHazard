@@ -14,6 +14,40 @@
 #'                               Data_Declust=S20.Detrend.Declustered.df[,-c(1,4)],
 #'                               Con_Variable="Rainfall",u=0.97)
 Con_Sampling_2D<-function(Data_Detrend,Data_Declust,Con_Variable,u=0.97,Thres=NA){
+
+  # Input validation
+  if (!is.data.frame(Data_Detrend) && !is.matrix(Data_Detrend)) {
+    stop("Data_Detrend must be a data frame or matrix")
+  }
+
+  if (!is.data.frame(Data_Declust) && !is.matrix(Data_Declust)) {
+    stop("Data_Declust must be a data frame or matrix")
+  }
+
+  if (ncol(Data_Detrend) != 2) {
+    stop("Data_Detrend must comprise two columns, got: ", ncol(Data_Detrend))
+  }
+
+  if (ncol(Data_Declust) != 2) {
+    stop("Data_Declust must comprise two columns, got: ", ncol(Data_Declust))
+  }
+
+  if (!is.numeric(u) || length(u) != 1) {
+    stop("u must be a single numeric value, got: ", class(u))
+  }
+
+  if (!Con_Variable %in% colnames(Data_Detrend)) {
+    stop("Con_Variable must the name of a column in Data_Detrend")
+  }
+
+  if (!Con_Variable %in% colnames(Data_Declust)) {
+    stop("Con_Variable must be the name of a column in Data_Declust")
+  }
+
+  if (u > 1 || u < 0) {
+    stop("u must be between 0 and 1, got: ", u)
+  }
+
   if(class(Data_Detrend[,1])[1]=="Date" | class(Data_Detrend[,1])[1]=="factor" | class(Data_Detrend[,1])[1]=="POSIXct" | class(Data_Detrend[,1])[1]=="character"){
     Data_Detrend<-Data_Detrend[,-1]
   }
