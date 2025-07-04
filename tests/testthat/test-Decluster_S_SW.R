@@ -1,9 +1,9 @@
 
 #Test that functions work as intended
-print(summary(S13_Rainfall))
+
 test_that("Decluster_SW functions basic functionality", {
  
-  result <- Decluster_S_SW(Data = S13_Rainfall, Window_Width_Sum_24=24, Window_Width = 7*24)
+  result <- Decluster_S_SW(Data = S13_Rainfall, Window_Width_Sum=24, Window_Width = 7*24)
   
   # Check return type
   expect_type(result, "list")
@@ -20,10 +20,8 @@ test_that("Decluster_SW functions basic functionality", {
 
 # Test declustering logic
 test_that("Declustering actually works", {
-  test_data =S13_Rainfall
-  #test_data[,1] <- as.Date(test_data[,1], format = "%Y-%m-%d")
-  
-  result <- Decluster_S_SW(Data = test_data, Window_Width_Sum_24=24, Window_Width = 7*24)
+
+  result <- Decluster_S_SW(Data = S13_Rainfall, Window_Width_Sum=24, Window_Width = 7*24)
   
   # Should have more NAs in declustered than original
   original_nas <- sum(is.na(test_data[,2]))
@@ -52,14 +50,10 @@ test_that("Declustering actually works", {
 
 # Test parameter calculation is valid
 test_that("Decluster function parameter validation", {
-  test_data =S13_Rainfall
-  # Test 8: Parameter validation
-  #test_data = data.frame(S20_T_MAX_Daily_Completed_Detrend_Declustered$Date,S20_T_MAX_Daily_Completed_Detrend_Declustered$Detrend)
-  #test_data[,1] <- as.Date(test_data[,1], format = "%Y-%m-%d")
-  
+
   # Test with different Window_Width values
-  result1 <- Decluster_S_SW(test_data, Window_Width_Sum_24=24, Window_Width = 3*24)
-  result2 <- Decluster_S_SW(test_data, Window_Width_Sum_24=24, Window_Width = 7*24)
+  result1 <- Decluster_S_SW(S13_Rainfall, Window_Width_Sum=24, Window_Width = 3*24)
+  result2 <- Decluster_S_SW(S13_Rainfall, Window_Width_Sum=24, Window_Width = 7*24)
   
   expect_true(length(result1$EventID) >= length(result2$EventID))
 })
@@ -68,51 +62,44 @@ test_that("Decluster function parameter validation", {
 #Test reproducibility
 
 test_that("Function is deterministic", {
-  #test_data = data.frame(S20_T_MAX_Daily_Completed_Detrend_Declustered$Date,S20_T_MAX_Daily_Completed_Detrend_Declustered$Detrend)
-  #test_data[,1] <- as.Date(test_data[,1], format = "%Y-%m-%d")
-  test_data =S13_Rainfall
-  
-  result1 <- Decluster_S_SW(Data = test_data, Window_Width_Sum_24=24, Window_Width = 7*24)
-  result2 <- Decluster_S_SW(Data = test_data, Window_Width_Sum_24=24, Window_Width = 7*24)
+
+  result1 <- Decluster_S_SW(Data = S13_Rainfall, Window_Width_Sum=24, Window_Width = 7*24)
+  result2 <- Decluster_S_SW(Data = S13_Rainfall, Window_Width_Sum=24, Window_Width = 7*24)
   expect_identical(result1, result2)
 })
 
 
 # Test NA handling
 test_that("Handles NA values", {
-  test_data_with_na = data.frame(S20_T_MAX_Daily_Completed_Detrend_Declustered$Date,S20_T_MAX_Daily_Completed_Detrend_Declustered$Detrend)
-  test_data_with_na[,1] <- as.Date(test_data_with_na[,1], format = "%Y-%m-%d")
-  result <- Decluster_S_SW(test_data_with_na, Window_Width_Sum_24=24, Window_Width = 7*24)
+  test_data_with_na = S13_Rainfall
+  result <- Decluster_S_SW(test_data_with_na, Window_Width_Sum=24, Window_Width = 7*24)
   expect_type(result, "list")
   expect_true(any(is.na(result$Detrend)) || any(is.na(result$Declustered)))
 })
 
 # Test that invalid inputs gives errors
 test_that("Invalid inputs produce errors", {
-  #test_data = data.frame(S20_T_MAX_Daily_Completed_Detrend_Declustered$Date,S20_T_MAX_Daily_Completed_Detrend_Declustered$Detrend)
-  #test_data[,1] <- as.Date(test_data[,1], format = "%Y-%m-%d")
-  
-  test_data =S13_Rainfall
-  expect_error(Decluster_S_SW(Data = test_data[,1],Window_Width_Sum_24=24, Window_Width = 7*24),
+
+  expect_error(Decluster_S_SW(Data = S13_Rainfall[,1],Window_Width_Sum=24, Window_Width = 7*24),
                "Data must be a data frame")
   
   expect_error(Decluster_S_SW(), "Data parameter is required")
   
-  expect_error(Decluster_S_SW(Data = test_data), "Window_Width parameter is required")
+  expect_error(Decluster_S_SW(Data = S13_Rainfall), "Window_Width parameter is required")
   
-  expect_error(Decluster_S_SW(Data = "not_a_df", Window_Width_Sum_24=24, Window_Width = 7*24), "Data must be a data frame")
+  expect_error(Decluster_S_SW(Data = "not_a_df", Window_Width_Sum=24, Window_Width = 7*24), "Data must be a data frame")
   
-  expect_error(Decluster_S_SW(Data = test_data, Window_Width_Sum_24=24, Window_Width = "Invalid"),
+  expect_error(Decluster_S_SW(Data = S13_Rainfall, Window_Width_Sum=24, Window_Width = "Invalid"),
                "Window_Width must be numeric")
   
-  expect_error(Decluster_S_SW(Data = test_data, Window_Width_Sum_24=24, Window_Width = 35.5),
+  expect_error(Decluster_S_SW(Data = S13_Rainfall, Window_Width_Sum=24, Window_Width = 35.5),
                "Window_Width must be a single integer value")
   
-  expect_error(Decluster_S_SW(Data = test_data, Window_Width_Sum_24=24, Window_Width= -2),
+  expect_error(Decluster_S_SW(Data = S13_Rainfall, Window_Width_Sum=24, Window_Width= -2),
                "Window_Width must be positive")
   
-  test_data[,2] <- rep("2",nrow(test_data))                       
-  expect_error(Decluster_S_SW(Data = test_data, Window_Width_Sum_24=24, Window_Width = 7*24),
+  S13_Rainfall_modified[,2] <- rep("2",nrow(S13_Rainfall))                       
+  expect_error(Decluster_S_SW(Data = S13_Rainfall_modified, Window_Width_Sum=24, Window_Width = 7*24),
                "Second column of Data must be numeric")
 })
 
