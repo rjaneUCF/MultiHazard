@@ -2,7 +2,8 @@
 #Test that functions work as intended
 
 test_that("Decluster_SW functions basic functionality", {
-  test_data <-S20_T_MAX_Daily_Completed_Detrend_Declustered[,c(2,5)]
+  test_data = data.frame(S20_T_MAX_Daily_Completed_Detrend_Declustered$Date,S20_T_MAX_Daily_Completed_Detrend_Declustered$Detrend)
+  test_data[,1] <- as.Date(test_data[,1], format = "%Y-%m-%d")
   
   result <- Decluster_SW(Data = test_data, Window_Width = 3)
   
@@ -20,7 +21,8 @@ test_that("Decluster_SW functions basic functionality", {
 
 # Test declustering logic
 test_that("Declustering actually works", {
-  test_data <- S20_T_MAX_Daily_Completed_Detrend_Declustered[,c(2,5)]
+  test_data = data.frame(S20_T_MAX_Daily_Completed_Detrend_Declustered$Date,S20_T_MAX_Daily_Completed_Detrend_Declustered$Detrend)
+  test_data[,1] <- as.Date(test_data[,1], format = "%Y-%m-%d")
   
   result <- Decluster_SW(Data = test_data, Window_Width = 3)
   
@@ -53,7 +55,8 @@ test_that("Declustering actually works", {
 test_that("Decluster function parameter validation", {
   
   # Test 8: Parameter validation
-  test_data <- S20_T_MAX_Daily_Completed_Detrend_Declustered[,c(2,5)]
+  test_data = data.frame(S20_T_MAX_Daily_Completed_Detrend_Declustered$Date,S20_T_MAX_Daily_Completed_Detrend_Declustered$Detrend)
+  test_data[,1] <- as.Date(test_data[,1], format = "%Y-%m-%d")
   
   # Test with different Window_Width values
   result1 <- Decluster_SW(test_data, Window_Width = 3)
@@ -66,7 +69,8 @@ test_that("Decluster function parameter validation", {
 #Test reproducibility
 
 test_that("Function is deterministic", {
-  test_data <- S20_T_MAX_Daily_Completed_Detrend_Declustered[,c(2,5)]
+  test_data = data.frame(S20_T_MAX_Daily_Completed_Detrend_Declustered$Date,S20_T_MAX_Daily_Completed_Detrend_Declustered$Detrend)
+  test_data[,1] <- as.Date(test_data[,1], format = "%Y-%m-%d")
   
   result1 <- Decluster_SW(Data = test_data, Window_Width = 3)
   result2 <- Decluster_SW(Data = test_data, Window_Width = 3)
@@ -76,7 +80,8 @@ test_that("Function is deterministic", {
 
 # Test NA handling
 test_that("Handles NA values", {
-  test_data_with_na <- S20_T_MAX_Daily_Completed_Detrend_Declustered[,c(2,3)]
+  test_data_with_na = data.frame(S20_T_MAX_Daily_Completed_Detrend_Declustered$Date,S20_T_MAX_Daily_Completed_Detrend_Declustered$Detrend)
+  test_data_with_na[,1] <- as.Date(test_data[,1], format = "%Y-%m-%d")
   result <- Decluster_SW(test_data_with_na, Window_Width = 3)
   expect_type(result, "list")
   expect_true(any(is.na(result$Detrend)) || any(is.na(result$Declustered)))
@@ -84,7 +89,8 @@ test_that("Handles NA values", {
 
 # Test that invalid inputs gives errors
 test_that("Invalid inputs produce errors", {
-  test_data <- S20_T_MAX_Daily_Completed_Detrend_Declustered[,c(2,5)]
+  test_data = data.frame(S20_T_MAX_Daily_Completed_Detrend_Declustered$Date,S20_T_MAX_Daily_Completed_Detrend_Declustered$Detrend)
+  test_data[,1] <- as.Date(test_data[,1], format = "%Y-%m-%d")
   
   expect_error(Decluster_SW(Data = test_data[,1], Window_Width = 3),
                "Data must have exactly 2 columns (Date and numeric values)")
