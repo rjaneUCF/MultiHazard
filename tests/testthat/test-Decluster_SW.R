@@ -81,7 +81,7 @@ test_that("Function is deterministic", {
 # Test NA handling
 test_that("Handles NA values", {
   test_data_with_na = data.frame(S20_T_MAX_Daily_Completed_Detrend_Declustered$Date,S20_T_MAX_Daily_Completed_Detrend_Declustered$Detrend)
-  test_data_with_na[,1] <- as.Date(test_data[,1], format = "%Y-%m-%d")
+  test_data_with_na[,1] <- as.Date(test_data_with_na[,1], format = "%Y-%m-%d")
   result <- Decluster_SW(test_data_with_na, Window_Width = 3)
   expect_type(result, "list")
   expect_true(any(is.na(result$Detrend)) || any(is.na(result$Declustered)))
@@ -93,7 +93,7 @@ test_that("Invalid inputs produce errors", {
   test_data[,1] <- as.Date(test_data[,1], format = "%Y-%m-%d")
   
   expect_error(Decluster_SW(Data = test_data[,1], Window_Width = 3),
-               "Data must have exactly 2 columns (Date and numeric values)")
+               "Data must be a data frame")
   
   expect_error(Decluster_SW(), "Data parameter is required")
   
