@@ -1,0 +1,111 @@
+
+#Test that functions work as intended
+
+test_that("Decluster_SW functions basic functionality", {
+  test_data <-S20_T_MAX_Daily_Completed_Detrend_Declustered[,c(2,5)]
+  
+  result <- Decluster_SW(Data = test_data, Window_Width = 3)
+  
+  # Check return type
+  expect_type(result, "list")
+  
+  #Check names of output
+  expect_named(result, c("Detrend", "Declustered", "EventID"))
+  
+  # Check length of outputs
+  expect_equal(length(result$Detrend), nrow(test_data))
+  expect_equal(length(result$Declustered),  nrow(test_data))
+
+})
+
+# Test declustering logic
+test_that("Declustering actually works", {
+  test_data <- S20_T_MAX_Daily_Completed_Detrend_Declustered[,c(2,5)]
+  
+  result <- Decluster_SW(Data = test_data, Window_Width = 3)
+  
+  # Should have more NAs in declustered than original
+  original_nas <- sum(is.na(test_data[,2]))
+  declustered_nas <- sum(is.na(result$Declustered))
+  expect_true(declustered_nas >= original_nas)
+  
+  # Filter out boundary events that can't be tested
+  testable_events <- result$EventID[result$EventID > 1 & result$EventID < nrow(test_data)]
+  
+  if (length(testable_events) > 0) {
+    # Test that events are >= neighbors (allows for equal values)
+    left_neighbors <- test_data[testable_events - 1, 2]
+    right_neighbors <- test_data[testable_events + 1, 2]
+    event_values <- test_data[testable_events, 2]
+    
+    # Remove any comparisons involving NA values
+    valid_comparisons <- !is.na(event_values) & !is.na(left_neighbors) & !is.na(right_neighbors)
+    
+    if (sum(valid_comparisons) > 0) {
+      expect_true(all(event_values[valid_comparisons] >= left_neighbors[valid_comparisons]))
+      expect_true(all(event_values[valid_comparisons] >= right_neighbors[valid_comparisons]))
+    }
+  }
+})
+
+
+# Test parameter calculation is valid
+test_that("Decluster function parameter validation", {
+  
+  # Test 8: Parameter validation
+  test_data <- S20_T_MAX_Daily_Completed_Detrend_Declustered[,c(2,5)]
+  
+  # Test with different Window_Width values
+  result1 <- Decluster_SW(test_data, Window_Width = 3)
+  result2 <- Decluster_SW(test_data, Window_Width = 7)
+  
+  expect_true(length(result1$EventID) >= length(result2$EventID))
+  })
+
+
+#Test reproducibility
+
+test_that("Function is deterministic", {
+  test_data <- S20_T_MAX_Daily_Completed_Detrend_Declustered[,c(2,5)]
+  
+  result1 <- Decluster_SW(Data = test_data, Window_Width = 3)
+  result2 <- Decluster_SW(Data = test_data, Window_Width = 3)
+  expect_identical(result1, result2)
+})
+
+
+# Test NA handling
+test_that("Handles NA values", {
+  test_data_with_na <- S20_T_MAX_Daily_Completed_Detrend_Declustered[,c(2,3)]
+  result <- Decluster_SW(test_data_with_na, Window_Width = 3)
+  expect_type(result, "list")
+  expect_true(any(is.na(result$Detrend)) || any(is.na(result$Declustered)))
+})
+
+# Test that invalid inputs gives errors
+test_that("Invalid inputs produce errors", {
+  test_data <- S20_T_MAX_Daily_Completed_Detrend_Declustered[,c(2,5)]
+  
+  expect_error(Decluster_SW(Data = test_data[,1], Window_Width = 3),
+               "Data must have exactly 2 columns (Date and numeric values)")
+  
+  expect_error(Decluster_SW(), "Data parameter is required")
+  
+  expect_error(Decluster_SW(Data = test_data), "Window_Width parameter is required")
+  
+  expect_error(Decluster_SW(Data = "not_a_df", Window_Width = 3), "Data must be a data frame")
+  
+  expect_error(Decluster_SW(Data = test_data, Window_Width = "Invalid"),
+              "Window_Width must be numeric")
+  
+  expect_error(Decluster_SW(Data = test_data, Window_Width = 2.5),
+               "Window_Width must be a single integer value")
+  
+  expect_error(Decluster_SW(Data = test_data, Window_Width = -2),
+               "Window_Width must be positive")
+  
+  test_data[,2] <- rep("2",nrow(test_data))                       
+  expect_error(Decluster_SW(Data = test_data, Window_Width = 3),
+               "Second column of Data must be numeric")
+})
+
