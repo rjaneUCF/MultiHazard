@@ -67,7 +67,7 @@ test_that("Invalid inputs produce errors", {
                                    Upper=c(6,8), Lower=c(6,8),GAP=0.1, PLOT=FALSE))
 
   expect_error(Copula_Threshold_2D_Lag(Data_Detrend=S20.Detrend.df[,-c(1,4)],
-                                       Data_Declust=S20.Detrend.Declustered.df[,4],
+                                       Data_Declust=S20.Detrend.Declustered.df[,-c(1,4)],
                                        y_lim_min=-0.075, y_lim_max =-0.25,
                                        u1= seq(0.5,0.99,0.01),u2=seq(0.5,0.99,0.01),
                                        Upper=c(6,8), Lower=c(6,8),
