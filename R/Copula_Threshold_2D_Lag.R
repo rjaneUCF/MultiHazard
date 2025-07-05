@@ -127,7 +127,18 @@ Copula_Threshold_2D_Lag<-function(Data_Detrend,Data_Declust,u1=seq(0.9,0.99,0.01
       Var1_df<-array(0,dim=c(length(Var1_Var1_x),2))
       for(i in 1:length(Var1_Var1_x)){
         Var1_df[i,1]<-Data_Declust[Var1_Var1_x[i],1]
-        Var1_df[i,2]<-max(Data_Detrend[c(max((Var1_Var1_x[i]-Lag_Backward_Var1),1):(min((Var1_Var1_x[i]+Lag_Forward_Var1),nrow(Data_Declust)))),2],na.rm=T)[1]
+        start_idx <- max((Var1_Var1_x[i]-Lag_Backward_Var1), 1)
+        end_idx <- min((Var1_Var1_x[i]+Lag_Forward_Var1), nrow(Data_Declust))
+        if (start_idx <= end_idx) {
+          values <- Data_Detrend[start_idx:end_idx, 2]
+          if (any(!is.na(values))) {
+            Var1_df[i,2] <- max(values, na.rm=T)
+          } else {
+            Var1_df[i,2] <- NA
+          }
+        } else {
+          Var1_df[i,2] <- NA
+        }
       }
       colnames(Var1_df)<-c(names(Data_Detrend))
       if(length(which(Var1_df[,1]==-Inf | Var1_df[,2]==-Inf))>0){
@@ -163,7 +174,18 @@ Copula_Threshold_2D_Lag<-function(Data_Detrend,Data_Declust,u1=seq(0.9,0.99,0.01
       Var2_df<-array(0,dim=c(length(Var2_Var2_x),2))
       for(i in 1:length(Var2_Var2_x)){
         Var2_df[i,2]<-Data_Declust[Var2_Var2_x[i],2]
-        Var2_df[i,1]<-max(Data_Detrend[c(max((Var2_Var2_x[i]-Lag_Backward_Var2),1):(min((Var2_Var2_x[i]+Lag_Forward_Var2),nrow(Data_Declust)))),1],na.rm=T)[1]
+        start_idx <- max((Var2_Var2_x[i]-Lag_Backward_Var2), 1)
+        end_idx <- min((Var2_Var2_x[i]+Lag_Forward_Var2), nrow(Data_Declust))
+        if (start_idx <= end_idx) {
+          values <- Data_Detrend[start_idx:end_idx, 1]
+          if (any(!is.na(values))) {
+            Var2_df[i,1] <- max(values, na.rm=T)
+          } else {
+            Var2_df[i,1] <- NA
+          }
+        } else {
+          Var2_df[i,1] <- NA
+        }
       }
       Var2_df<-data.frame(Var2_df)
       colnames(Var2_df)<-c(names(Data_Detrend))
