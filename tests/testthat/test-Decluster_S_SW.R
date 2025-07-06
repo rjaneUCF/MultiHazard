@@ -9,7 +9,7 @@ test_that("Decluster_SW functions basic functionality", {
   expect_type(result, "list")
   
   #Check names of output
-  expect_named(result, c("Detrend", "Totals", "Declustered", "EventID", "Event_start", "Event_end"))
+  expect_named(result, c("Detrend", "Totals", "Declustered", "EventID", "Event_Start", "Event_End"))
   
   # Check length of outputs
   expect_equal(length(result$Detrend), nrow(S13_Rainfall))
@@ -29,20 +29,25 @@ test_that("Declustering actually works", {
   expect_true(declustered_nas >= original_nas)
   
   # Filter out boundary events that can't be tested
-  testable_events <- result$EventID[result$EventID > 1 & result$EventID < nrow(S13_Rainfall)]
+  testable_events <- result$EventID[result$EventID > 1 & result$EventID < length(result$Totals)]
   
   if (length(testable_events) > 0) {
-    # Test that events are >= neighbors (allows for equal values)
-    left_neighbors <- S13_Rainfall[testable_events - 1, 2]
-    right_neighbors <- S13_Rainfall[testable_events + 1, 2]
-    event_values <- S13_Rainfall[testable_events, 2]
+    # Get the summed data (this is what was used for event detection)
+    summed_data <- result$Totals
+    
+    # Get neighbors and event values as VECTORS (not arrays)
+    left_neighbors <- summed_data[testable_events - 1]
+    right_neighbors <- summed_data[testable_events + 1] 
+    event_values <- summed_data[testable_events]
     
     # Remove any comparisons involving NA values
     valid_comparisons <- !is.na(event_values) & !is.na(left_neighbors) & !is.na(right_neighbors)
     
     if (sum(valid_comparisons) > 0) {
-      expect_true(all(event_values[valid_comparisons] >= left_neighbors[valid_comparisons]))
-      expect_true(all(event_values[valid_comparisons] >= right_neighbors[valid_comparisons]))
+      expect_true(all(event_values[valid_comparisons] >= left_neighbors[valid_comparisons]),
+                  info = "Events should be >= left neighbors")
+      expect_true(all(event_values[valid_comparisons] >= right_neighbors[valid_comparisons]),
+                  info = "Events should be >= right neighbors")
     }
   }
 })
@@ -98,7 +103,7 @@ test_that("Invalid inputs produce errors", {
   expect_error(Decluster_S_SW(Data = S13_Rainfall, Window_Width_Sum=24, Window_Width= -2),
                "Window_Width must be positive")
   
-  S13_Rainfall = S13_Rainfall
+  S13_Rainfall_modified = S13_Rainfall
   S13_Rainfall_modified[,2] <- rep("2",nrow(S13_Rainfall))                       
   expect_error(Decluster_S_SW(Data = S13_Rainfall_modified, Window_Width_Sum=24, Window_Width = 7*24),
                "Second column of Data must be numeric")
