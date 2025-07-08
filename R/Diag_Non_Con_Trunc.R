@@ -14,9 +14,91 @@
 #' S20.OsWL<-Con_Sampling_2D(Data_Detrend=S20.Detrend.df[,-c(1,4)],
 #'                          Data_Declust=S20.Detrend.Declustered.df[,-c(1,4)],
 #'                          Con_Variable="OsWL",Thres=0.97)
+#' S20.OsWL$Data$Rainfall <- S20.OsWL$Data$Rainfall + runif(length(S20.OsWL$Data$Rainfall),0.001,0.01)
 #' Diag_Non_Con_Trunc(Data=S20.OsWL$Data$Rainfall,x_lab="Rainfall (Inches)",
 #'                    y_lim_min=0,y_lim_max=2)
 Diag_Non_Con_Trunc<-function(Data,Omit=NA,x_lab="Data",y_lim_min=0,y_lim_max=1){
+
+  # Check if Data is provided
+  if (missing(Data)) {
+    stop("Data parameter is required")
+  }
+
+  # Check if Data is numeric
+  if (!is.numeric(Data)) {
+    stop("Data must be numeric, got: ", class(Data)[1])
+  }
+
+  # Check if Data is vector or can be converted to vector
+  if (is.matrix(Data) || is.data.frame(Data)) {
+    if (ncol(Data) > 1) {
+      warning("Data has multiple columns. Using first column only.")
+      Data <- Data[, 1]
+    } else {
+      Data <- as.vector(Data)
+    }
+  }
+
+  # Check for empty data
+  if (length(Data) == 0) {
+    stop("Data is empty")
+  }
+
+  # Check for all NA values
+  if (all(is.na(Data))) {
+    stop("Data contains only NA values")
+  }
+
+  # Check minimum sample size
+  if (length(na.omit(Data)) < 10) {
+    stop("Data must have at least 10 non-missing observations, got: ", length(na.omit(Data)))
+  }
+
+  # Remove NA values and warn if any exist
+  original_length <- length(Data)
+  Data <- na.omit(Data)
+  if (length(Data) < original_length) {
+    warning("Removed ", original_length - length(Data), " NA values from Data")
+  }
+
+  # Check for infinite values
+  if (any(is.infinite(Data))) {
+    inf_count <- sum(is.infinite(Data))
+    warning("Data contains ", inf_count, " infinite values. Removing them.")
+    Data <- Data[is.finite(Data)]
+  }
+
+  # Check if we still have enough data after cleaning
+  if (length(Data) < 10) {
+    stop("After removing NA/infinite values, data has fewer than 10 observations: ", length(Data))
+  }
+
+  # Check for constant data
+  if (length(unique(Data)) == 1) {
+    stop("Data is constant (all values are the same). Cannot fit distributions.")
+  }
+
+  # Check for very low variance
+  if (var(Data) < 1e-10) {
+    warning("Data has very low variance (", var(Data), "). Distribution fitting may be unreliable.")
+  }
+
+  # Validate Omit parameter
+  valid_distributions <- c("BS", "Exp", "Gam(2)", "Gam(3)", "GamMix(2)", "GamMix(3)", "LNorm", "TNorm", "Twe", "Weib")
+  if (!is.na(Omit[1])) {
+    if (!all(Omit %in% valid_distributions)) {
+      invalid_omit <- Omit[!Omit %in% valid_distributions]
+      stop("Invalid distribution names in Omit: ", paste(invalid_omit, collapse=", "),
+           ". Valid options are: ", paste(valid_distributions, collapse=", "))
+    }
+    if (length(Omit) >= length(valid_distributions)) {
+      stop("Cannot omit all distributions. At least one distribution must be tested.")
+    }
+  }
+
+  if (y_lim_min >= y_lim_max) {
+    stop("y_lim_min must be less than y_lim_max, got: y_lim_min = ", y_lim_min, ", y_lim_max = ", y_lim_max)
+  }
 
   #Colors for plots
   mypalette<-c("Black",brewer.pal(9,"Set1"))
@@ -244,7 +326,7 @@ Diag_Non_Con_Trunc<-function(Data,Omit=NA,x_lab="Data",y_lim_min=0,y_lim_max=1){
     lines(x,pweibull(x,fit.Weib$estimate[1],fit.Weib$estimate[2]),col=mypalette[10],lwd=2)
   }
 
-  AIC<-data.frame(c("BS","Exp","Gam2","Gam3","GamMix2","GamMix3","LogN","TNorm","Twe","Weib")[Test],c(AIC.BS,AIC.Exp,AIC.Gam2,AIC.Gam3,AIC.GamMix2,AIC.GamMix3,AIC.logNormal,AIC.TNormal,AIC.Tweedie,AIC.Weib)[Test])
+  AIC<-data.frame(c("BS","Exp","Gam(2)","Gam(3)","GamMix(2)","GamMix(3)","LNorm","TNorm","Twe","Weib")[Test],c(AIC.BS,AIC.Exp,AIC.Gam2,AIC.Gam3,AIC.GamMix2,AIC.GamMix3,AIC.logNormal,AIC.TNormal,AIC.Tweedie,AIC.Weib)[Test])
   colnames(AIC)<-c("Distribution","AIC")
   Best_fit<-AIC$Distribution[which(AIC$AIC==min(AIC$AIC))]
   res<-list("AIC"=AIC, "Best_fit"=Best_fit)

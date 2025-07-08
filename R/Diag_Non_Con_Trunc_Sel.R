@@ -20,6 +20,106 @@
 #' Diag_Non_Con_Sel_Trunc(Data=S20.OsWL$Data$Rainfall,x_lab="Rainfall (Inches)",
 #'                        y_lim_min=0,y_lim_max=2,Selected="Twe")
 Diag_Non_Con_Trunc_Sel<-function(Data,Selected,Omit=NA,x_lab="Data",y_lim_min=0,y_lim_max=1){
+
+  # Check if Data is provided
+  if (missing(Data)) {
+    stop("Data parameter is required")
+  }
+
+  # Check if Data is numeric
+  if (!is.numeric(Data)) {
+    stop("Data must be numeric, got: ", class(Data)[1])
+  }
+
+  # Check if Data is vector or can be converted to vector
+  if (is.matrix(Data) || is.data.frame(Data)) {
+    if (ncol(Data) > 1) {
+      warning("Data has multiple columns. Using first column only.")
+      Data <- Data[, 1]
+    } else {
+      Data <- as.vector(Data)
+    }
+  }
+
+  # Check for empty data
+  if (length(Data) == 0) {
+    stop("Data is empty")
+  }
+
+  # Check for all NA values
+  if (all(is.na(Data))) {
+    stop("Data contains only NA values")
+  }
+
+  # Check minimum sample size
+  if (length(na.omit(Data)) < 10) {
+    stop("Data must have at least 10 non-missing observations, got: ", length(na.omit(Data)))
+  }
+
+  # Remove NA values and warn if any exist
+  original_length <- length(Data)
+  Data <- na.omit(Data)
+  if (length(Data) < original_length) {
+    warning("Removed ", original_length - length(Data), " NA values from Data")
+  }
+
+  # Check for infinite values
+  if (any(is.infinite(Data))) {
+    inf_count <- sum(is.infinite(Data))
+    warning("Data contains ", inf_count, " infinite values. Removing them.")
+    Data <- Data[is.finite(Data)]
+  }
+
+  # Check if we still have enough data after cleaning
+  if (length(Data) < 10) {
+    stop("After removing NA/infinite values, data has fewer than 10 observations: ", length(Data))
+  }
+
+  # Check for constant data
+  if (length(unique(Data)) == 1) {
+    stop("Data is constant (all values are the same). Cannot fit distributions.")
+  }
+
+  # Check for very low variance
+  if (var(Data) < 1e-10) {
+    warning("Data has very low variance (", var(Data), "). Distribution fitting may be unreliable.")
+  }
+
+  # Check Selected parameter is specified
+  if (missing(Selected)) {
+    stop("argument \"Selected\" is missing, with no default")
+  }
+
+  # Validate Omit parameter
+  valid_distributions <- c("BS","Exp","Gam(2)","Gam(3)","GamMix(2)","GamMix(3)","LNorm","TNorm","Twe","Weib")
+  if (!is.na(Omit[1])) {
+    if (!all(Omit %in% valid_distributions)) {
+      invalid_omit <- Omit[!Omit %in% valid_distributions]
+      stop("Invalid distribution names in Omit: ", paste(invalid_omit, collapse=", "),
+           ". Valid options are: ", paste(valid_distributions, collapse=", "))
+    }
+    if (length(Omit) >= length(valid_distributions)) {
+      stop("Cannot omit all distributions. At least one distribution must be tested.")
+    }
+  }
+
+  # Validate Selected parameter
+  valid_distributions <- c("BS","Exp","Gam(2)","Gam(3)","GamMix(2)","GamMix(3)","LNorm","TNorm","Twe","Weib")
+  if (!is.na(Selected[1])) {
+    if (!all(Selected %in% valid_distributions)) {
+      invalid_Selected <- Selected[!Selected %in% valid_distributions]
+      stop("Invalid distribution names in Selected: ", paste(invalid_Selected, collapse=", "),
+           ". Valid options are: ", paste(valid_distributions, collapse=", "))
+    }
+    if (length(Selected) >  1){
+      stop("Cannot select more than one distribution.")
+    }
+  }
+
+  if (y_lim_min >= y_lim_max) {
+    stop("y_lim_min must be less than y_lim_max, got: y_lim_min = ", y_lim_min, ", y_lim_max = ", y_lim_max)
+  }
+
   #Colors for plots
   mypalette<-c("Black",brewer.pal(9,"Set1"))
 
