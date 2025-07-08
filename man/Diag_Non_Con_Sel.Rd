@@ -4,22 +4,30 @@
 \alias{Diag_Non_Con_Sel}
 \title{Demonstrate the goodness of fit of the selected non-extreme marginal distribution}
 \usage{
-Diag_Non_Con_Sel(Data, x_lab = "Data", y_lim_min = 0, y_lim_max = 1,
-  Selected)
+Diag_Non_Con_Sel(
+  Data,
+  Omit = NA,
+  x_lab = "Data",
+  y_lim_min = 0,
+  y_lim_max = 1,
+  Selected
+)
 }
 \arguments{
 \item{Data}{Numeric vector containing realizations of the variable of interest.}
 
-\item{x_lab}{Numeric vector of length one specifyingLabel on the x-axis of histogram and cummulative distribution plot.}
+\item{Omit}{Character vector specifying any distributions that are not to be tested. Default \code{"NA"}, all distributions are fit.}
+
+\item{x_lab}{Numeric vector of length one specifying. Label on the x-axis of histogram and cumulative distribution plot.}
 
 \item{y_lim_min}{Numeric vector of length one specifying the lower y-axis limit of the histogram.}
 
 \item{y_lim_max}{Numeric vector of length one specifying the upper y-axis limit of the histogram.}
 
-\item{Selected}{Charactor vector of length one specifying the chosen distribution, options are the Gaussian \code{"Gaus"} and logistic \code{"Logis"}.}
+\item{Selected}{Character vector of length one specifying the chosen distribution. Options are: Gaussian \code{"Gaus"}, Gumbel \code{"Gum"}, Laplace \code{"Lapl"}, logistic \code{"Logis"}, and reverse Gumbel \code{"RGum"}.}
 }
 \value{
-Panel consisting of three plots. Upper plot: Plots depicting the AIC of the two fitted distributions. Middle plot: Probabilty Density Functions (PDFs) of the \code{selected} distribtions superimposed on a histgram of the data. Lower plot: Cummulative distribution function (CDFs) of the \code{selected} distribution overlaid on a plot of the empirical CDF.
+Panel consisting of three plots. Upper plot: Plots depicting the AIC of the two fitted distributions. Middle plot: Probability Density Functions (PDFs) of the \code{selected} distributions superimposed on a histogram of the data. Lower plot: Cumulative distribution function (CDFs) of the \code{selected} distribution overlaid on a plot of the empirical CDF.
 }
 \description{
 Plots demonstrating the goodness of fit of a selected (not truncated) non-extreme marginal distribution to a dataset.
@@ -31,7 +39,7 @@ S20.Rainfall<-Con_Sampling_2D(Data_Detrend=S20.Detrend.df[,-c(1,4)],
 Diag_Non_Con(Data=S20.Rainfall$Data$OsWL,x_lab="O-sWL (ft NGVD 29)",
              y_lim_min=0,y_lim_max=1.5)
 Diag_Non_Con_Sel(Data=S20.Rainfall$Data$OsWL,x_lab="O-sWL (ft NGVD 29)",
-                 y_lim_min=0,y_lim_max=1.5,Selected="Twe")
+                 y_lim_min=0,y_lim_max=1.5,Selected="Logis")
 }
 \seealso{
 \code{\link{Diag_Non_Con}}

@@ -9,7 +9,7 @@ Con_Sampling_2D_Lag(
   Data_Declust,
   Con_Variable,
   u = 0.97,
-  Thres,
+  Thres = NA,
   Lag_Backward = 3,
   Lag_Forward = 3
 )
@@ -36,7 +36,7 @@ List comprising the specified \code{Threshold} as the quantile of the conditioni
 Creates a data frame where the declustered excesses of a (conditioning) variable are paired with the maximum value of a second variable over a specified time-lag.
 }
 \examples{
-S20.Rainfall<-Con_Sampling_2D(Data_Detrend=S20.Detrend.df[,-c(1,4)],
-                              Data_Declust=S20.Detrend.Declustered.df[,-c(1,4)],
-                              Con_Variable="Rainfall",u=0.97)
+S20.Rainfall<-Con_Sampling_2D_Lag(Data_Detrend=S20.Detrend.df[,-c(1,4)],
+                                  Data_Declust=S20.Detrend.Declustered.df[,-c(1,4)],
+                                  Con_Variable="Rainfall",u=0.97)
 }
