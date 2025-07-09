@@ -120,6 +120,13 @@ Diag_Non_Con_Sel<-function(Data, Omit=NA, x_lab = "Data",y_lim_min = 0,y_lim_max
     stop("y_lim_min must be less than y_lim_max, got: y_lim_min = ", y_lim_min, ", y_lim_max = ", y_lim_max)
   }
 
+  #Load Gamlss package
+  if (!requireNamespace("gamlss.dist", quietly = TRUE)) {
+    stop("The 'gamlss.dist' package is required but not installed.")
+  }
+  GU <- get("GU", envir = asNamespace("gamlss.dist"))
+  RG <- get("RG", envir = asNamespace("gamlss.dist"))
+
   #Distributions to test
   Dist<-c("Gaus","Gum","Lapl","Logis","RGum")
   Dist.2 <- Dist
