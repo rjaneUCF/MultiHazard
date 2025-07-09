@@ -1,7 +1,7 @@
 
 
 test_that("Basic function works correctly", {
-    result <- Standard_Copula_Sel(Data=S20.Detrend.df)
+    result <- suppressWarnings(Standard_Copula_Sel(Data=S20.Detrend.df))
 
     # Check return type
     expect_type(result, "list")
