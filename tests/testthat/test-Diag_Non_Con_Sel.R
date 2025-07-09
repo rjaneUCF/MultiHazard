@@ -46,7 +46,8 @@ test_that("Handles NA values", {
   
   expect_warning(Diag_Non_Con_Sel(Data = data_with_na,x_lab="O-sWL (ft NGVD 29)",
                               y_lim_min=0,y_lim_max=1.5, Omit = c("Gum","RGum"), Selected="Logis"),
-                 "Removed 3 NA values from Data")
+                 "Removed 3 NA values from Data",
+                 all = FALSE)
   
   
   # Test all NA data - should error
@@ -75,7 +76,8 @@ test_that("Invalid inputs produce errors", {
   
   data_with_inf <- c(S20.Rainfall$Data$OsWL, Inf, -Inf)
   expect_warning(Diag_Non_Con_Sel(Data = data_with_inf, x_lab = "O-sWL (ft NGVD 29)", Selected= "Logis"),
-                 "Data contains 2 infinite values. Removing them.")
+                 "Data contains 2 infinite values. Removing them.",
+                 all = FALSE)
   
   expect_error(Diag_Non_Con_Sel(Data=S20.Rainfall$Data$OsWL,x_lab="O-sWL (ft NGVD 29)",
                                 Selected= c("Gaus", "Logis"), y_lim_min=0,y_lim_max=1.5),
