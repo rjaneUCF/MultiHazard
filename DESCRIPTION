@@ -52,6 +52,8 @@ Imports:
     copula,
     dplyr,
     fitdistrplus,
+    gamlss,
+    gamlss.mx,
     GeneralizedHyperbolic,
     ks,
     lubridate,
@@ -67,8 +69,10 @@ Imports:
     VineCopula
 Suggests: 
     knitr,
-    rmarkdown
+    rmarkdown,
+    testthat (>= 3.0.0)
 VignetteBuilder: knitr
+Config/testthat/edition: 3
 Depends: 
     R (>= 3.5)
 LazyData: true
