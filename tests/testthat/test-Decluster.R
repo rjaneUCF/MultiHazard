@@ -49,13 +49,12 @@ test_that("Decluster function parameter validation", {
   result3 <- Decluster(test_data[,2], SepCrit = 1)
   result4 <- Decluster(test_data[,2], SepCrit = 5)
 
-  expect_is(result3, "list")
-  expect_is(result4, "list")
+  expect_type(result3, "list")
+  expect_type(result4, "list")
 })
 
 test_that("Decluster function with different mu values", {
 
-  # Test 9: Different mu values (annual rate calculation)
   test_data <- S20_T_MAX_Daily_Completed_Detrend_Declustered[,c(2,5)]
 
   result1 <- Decluster(test_data[,2], mu = 365.25)
