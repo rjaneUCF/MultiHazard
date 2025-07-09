@@ -57,9 +57,9 @@ test_that("Frank copula works", {
 test_that("Invalid inputs produce errors", {
 
   expect_error(Standard_Copula_Fit(Data=S20.Detrend.df[1:5,], Copula_Type="Gumbel"),
-               "Error: Insufficient non-missing data (need at least 10 complete observations)")
+               "Error: Data must have at least 10 rows")
 
-  expect_error(Standard_Copula_Fit(Data=S20.Detrend.df[1:5,], Copula_Type="Not a Copula"),
+  expect_error(Standard_Copula_Fit(Data=S20.Detrend.df, Copula_Type="Not a Copula"),
                "Error: Copula_Type must be one of: Gaussian, tcopula, Gumbel, Clayton, Frank")
 
   expect_error(Standard_Copula_Fit(Data=6, Copula_Type = "Gaussian"),
