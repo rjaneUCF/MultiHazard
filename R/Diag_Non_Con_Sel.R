@@ -142,31 +142,31 @@ Diag_Non_Con_Sel<-function(Data, Omit=NA, x_lab = "Data",y_lim_min = 0,y_lim_max
   AIC.Logis <- NA
   AIC.RGum <- NA
 
-  #
-  #
-  if(fit == "error") {
+  if(any(Test==2)){
+    fit <- tryCatch(gamlss(Data  ~ 1, family=GU),
+                    error = function(e) "error")
+   if(fit == "error") {
     Omit.2[1] = "Gum"
-  } else {
+   } else {
     Omit.2[1] = ifelse(exp(fit$sigma.coefficients) < 0, "Gum", NA)
+   }
   }
-}
 
-if(any(Test==3)){
-  fit <- tryCatch(fitdistr(Data, dlaplace, start=list(location=mean(Data),scale=sd(Data)/sqrt(2))),
-                  error = function(e) "error")
-  Omit.2[2] = ifelse(fit=="error","Lapl",NA)
-}
+  if(any(Test==3)){
+   fit <- tryCatch(fitdistr(Data, dlaplace, start=list(location=mean(Data),scale=sd(Data)/sqrt(2))),
+                   error = function(e) "error")
+   Omit.2[2] = ifelse(fit=="error","Lapl",NA)
+  }
 
-if(any(Test==5)){
-  fit <- tryCatch(gamlss(Data ~ 1,family=RG),
+  if(any(Test==5)){
+   fit <- tryCatch(gamlss(Data ~ 1,family=RG),
                   error = function(e) "error")
-  # Fixed: Use proper conditional logic to avoid evaluating fit$sigma.coefficients when fit is "error"
-  if(fit == "error") {
+   if(fit == "error") {
     Omit.2[3] = "RGum"
-  } else {
+   } else {
     Omit.2[3] = ifelse(exp(fit$sigma.coefficients) < 0, "RGum", NA)
+   }
   }
-}
 
   #Distributions to test
   if(any(!is.na(Omit.2))){
