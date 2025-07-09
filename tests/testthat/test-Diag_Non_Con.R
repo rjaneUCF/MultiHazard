@@ -92,8 +92,7 @@ test_that("Invalid inputs produce errors", {
                  Omit = c("Gaus", "Gum", "Lapl", "Logis", "RGum")),
     "Cannot omit all distributions")
 })
-          
+
 test_that("Test the plots work", {
-  expect_silent(Diag_Non_Con(Data = S20.Rainfall$Data$OsWL, x_lab = "Test", 
-                             Omit = c("Gaus", "Gum", "Lapl", "Logis", "RGum")))
+  expect_silent(Diag_Non_Con(Data = S20.Rainfall$Data$OsWL, x_lab = "Test"))
 })
