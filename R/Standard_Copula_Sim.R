@@ -12,21 +12,40 @@
 #' @export
 #' @examples
 #' #Fitting multiple independent GPDs to the data
-#' #(required to transform realisation back to origional scale)
+#' #(required to transform realisation back to original scale)
 #' S20.Migpd<-Migpd_Fit(Data=S20.Detrend.Declustered.df[,-1],mqu=c(0.975,0.975,0.9676))
 #' #Fitting Gaussian copula
+#' S20.Gaussian<-Standard_Copula_Fit(Data=S20.Detrend.df,Copula_Type="Gaussian")
+#' #Simulating from fitted (joint probability) model
 #' Standard_Copula_Sim(Data=S20.Detrend.df,Marginals=S20.Migpd,Copula=S20.Gaussian,
 #'                     mu=365.25,N=10000)
 Standard_Copula_Sim<-function(Data,Marginals,Copula,mu=365.25,N=10000){
-  
+
+  # Essential input checks
+  if (missing(Data) || !is.data.frame(Data)) {
+    stop("Data must be a data frame")
+  }
+  if (missing(Marginals) || !is.list(Marginals)) {
+    stop("Marginals must be a list")
+  }
+  if (missing(Copula)) {
+    stop("Copula argument is required")
+  }
+  if (mu <= 0 || N <= 0) {
+    stop("mu and N must be positive")
+  }
+  if (!"models" %in% names(Marginals) || !"mqu" %in% names(Marginals)) {
+    stop("Marginals must contain 'models' and 'mqu' components")
+  }
+
   #Number of extreme events
-  No.events<-mu*N
-  
+  No.events<-round(mu*N,0)
+
   if(class(Data[,1])=="Date" | class(Data[,1])=="factor"){
     #Simulating from copula on the transformed scale
     u<-rCopula(round(No.events,0), Copula)
     colnames(u)<-names(Data[2:(ncol(Data))])
-    
+
     x<-matrix(0,nrow=nrow(u),ncol=ncol(u))
     for(i in 1:(ncol(Data)-1)){
       x[,i]<-as.numeric(quantile(na.omit(Data[,(i+1)]),u[,i]))
@@ -38,7 +57,7 @@ Standard_Copula_Sim<-function(Data,Marginals,Copula,mu=365.25,N=10000){
     #Simulating from copula on the transformed scale
     u<-rCopula(round(No.events,0), Copula)
     colnames(u)<-names(Data[1:ncol(Data)])
-    
+
     x<-matrix(0,nrow=nrow(u),ncol=ncol(u))
     for(i in 1:(ncol(Data))){
       x[,i]<-as.numeric(quantile(na.omit(Data[,i]),u[,i]))
