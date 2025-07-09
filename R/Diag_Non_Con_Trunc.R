@@ -141,7 +141,7 @@ Diag_Non_Con_Trunc<-function(Data,Omit=NA,x_lab="Data",y_lim_min=0,y_lim_max=1){
   if(any(Test==4)){
     ### 3-parameter gamma dist.
     for(i in 1:100){
-      fit.Gamma3 <- tryCatch(gamlss(X~1, data=data.gamlss, family=GG),
+      fit.Gamma3 <- tryCatch(gamlss(X~1, data=data.gamlss, family=GG, trace=FALSE),
                              error = function(e) "error")
       if( is.character(fit.Gamma3) ) next
       if( !is.character(fit.Gamma3) ) break
@@ -156,7 +156,7 @@ Diag_Non_Con_Trunc<-function(Data,Omit=NA,x_lab="Data",y_lim_min=0,y_lim_max=1){
   if(any(Test==5)){
     ### 2 mixture-gamma dist.
     for(i in 1:100){
-      fit.GamMIX2_GA <- tryCatch(gamlssMX(X~1, data=data.gamlss, family=GA, K=2),
+      fit.GamMIX2_GA <- tryCatch(gamlssMX(X~1, data=data.gamlss, family=GA, K=2, trace=FALSE),
                                  error = function(e) "error")
       if( is.character(fit.GamMIX2_GA) ) next
       if( !is.character(fit.GamMIX2_GA) ) break
@@ -171,7 +171,7 @@ Diag_Non_Con_Trunc<-function(Data,Omit=NA,x_lab="Data",y_lim_min=0,y_lim_max=1){
   if(any(Test==6)){
     ### 3 mixture-gamma dist.
     for(i in 1:100){
-      fit.GamMIX3_GA <- tryCatch(gamlssMX(X~1, data=data.gamlss, family=GA, K=3),
+      fit.GamMIX3_GA <- tryCatch(gamlssMX(X~1, data=data.gamlss, family=GA, K=3, trace=FALSE),
                                  error = function(e) "error")
       if( is.character(fit.GamMIX3_GA) ) next
       if( !is.character(fit.GamMIX3_GA) ) break
@@ -194,8 +194,11 @@ Diag_Non_Con_Trunc<-function(Data,Omit=NA,x_lab="Data",y_lim_min=0,y_lim_max=1){
     AIC.TNormal <- 2 * length(fit.TNorm$estimate) - 2 * fit.TNorm$loglik
   }
   if(any(Test==9)){
-    fit.Twe <- tweedie.profile(Data ~ 1,
-                               p.vec=seq(1.5, 2.5, by=0.2), do.plot=FALSE)
+    capture.output(
+     fit.Twe <- tweedie.profile(Data ~ 1,
+                                p.vec=seq(1.5, 2.5, by=0.2), do.plot=FALSE),
+     type = "output"
+    )
     AIC.Tweedie<-2*3-2*fit.Twe$L.max
   }
   if(any(Test==10)){

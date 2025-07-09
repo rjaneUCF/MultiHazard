@@ -1,4 +1,4 @@
-#' Godness of fit of the selected non-extreme marginal distribution
+#' Goodness of fit of the selected non-extreme marginal distribution
 #'
 #' Plots demonstrating the goodness of fit of a selected (truncated) non-extreme marginal distribution to a dataset.
 #'
@@ -7,7 +7,7 @@
 #' @param Omit Character vector specifying any distributions that are not to be tested. Default \code{"NA"}, all distributions are fit.
 #' @param x_lab Character vector of length one specifying the label on the x-axis of histogram and cummulative distribution plot.
 #' @param y_lim_min Numeric vector of length one specifying the lower y-axis limit of the histogram. Default is \code{0}.
-#' @param y_lim_max Numericr vector of length one specifying the upper y-axis limit of the histogram. Default is \code{1}.
+#' @param y_lim_max Numeric vector of length one specifying the upper y-axis limit of the histogram. Default is \code{1}.
 #' @return Panel consisting of three plots. Upper plot: Plot depicting the AIC of the eight fitted distributions. Middle plot: Probability Density Functions (PDFs) of the fitted distributions superimposed on a histogram of the data. Lower plot: Cumulative Distribution Functions (CDFs) of the fitted distributions overlaid on a plot of the empirical CDF.
 #' @seealso \code{\link{Diag_Non_Con_Trunc}}
 #' @export
@@ -164,7 +164,7 @@ Diag_Non_Con_Trunc_Sel<-function(Data,Selected,Omit=NA,x_lab="Data",y_lim_min=0,
   if(any(Test==4)){
     ### 3-parameter gamma dist.
     for(i in 1:100){
-      fit.Gamma3 <- tryCatch(gamlss(X~1, data=data.gamlss, family=GG),
+      fit.Gamma3 <- tryCatch(gamlss(X~1, data=data.gamlss, family=GG, trace=FALSE),
                              error = function(e) "error")
       if( is.character(fit.Gamma3) ) next
       if( !is.character(fit.Gamma3) ) break
@@ -180,7 +180,7 @@ Diag_Non_Con_Trunc_Sel<-function(Data,Selected,Omit=NA,x_lab="Data",y_lim_min=0,
   if(any(Test==5)){
     ### 2 mixture-gamma dist.
     for(i in 1:100){
-      fit.GamMIX2_GA <- tryCatch(gamlssMX(X~1, data=data.gamlss, family=GA, K=2),
+      fit.GamMIX2_GA <- tryCatch(gamlssMX(X~1, data=data.gamlss, family=GA, K=2, trace=FALSE),
                                  error = function(e) "error")
       if( is.character(fit.GamMIX2_GA) ) next
       if( !is.character(fit.GamMIX2_GA) ) break
@@ -196,7 +196,7 @@ Diag_Non_Con_Trunc_Sel<-function(Data,Selected,Omit=NA,x_lab="Data",y_lim_min=0,
   if(any(Test==6)){
     ### 3 mixture-gamma dist.
     for(i in 1:100){
-      fit.GamMIX3_GA <- tryCatch(gamlssMX(X~1, data=data.gamlss, family=GA, K=3),
+      fit.GamMIX3_GA <- tryCatch(gamlssMX(X~1, data=data.gamlss, family=GA, K=3, trace=FALSE),
                                  error = function(e) "error")
       if( is.character(fit.GamMIX3_GA) ) next
       if( !is.character(fit.GamMIX3_GA) ) break
@@ -218,8 +218,11 @@ Diag_Non_Con_Trunc_Sel<-function(Data,Selected,Omit=NA,x_lab="Data",y_lim_min=0,
     AIC.TNormal <- 2 * length(fit$estimate) - 2 * fit$loglik
   }
   if(any(Test==9)){
-    fit <- tweedie.profile(Data ~ 1,p.vec=seq(1.5, 2.5, by=0.2), do.plot=FALSE)
-    AIC.Tweedie<-2*3-2*fit$L.max
+   capture.output(
+    fit <- tweedie.profile(Data ~ 1,p.vec=seq(1.5, 2.5, by=0.2), do.plot=FALSE),
+    type = "output"
+   )
+   AIC.Tweedie<-2*3-2*fit$L.max
   }
   if(any(Test==10)){
     fit<-fitdistr(Data,"weibull")
