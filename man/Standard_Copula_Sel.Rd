@@ -17,7 +17,7 @@ Parameters are estimated using the \code{fitCopula()} function in \code{copula} 
 Fits five n-dimensional standard copula to a dataset and returns their corresponding AIC values.
 }
 \examples{
-Standard_Copula_Sel(Data_Detrend=S20.Detrend.df)
+Standard_Copula_Sel(Data=S20.Detrend.df)
 }
 \seealso{
 \code{\link{Dataframe_Combine}} \code{\link{Standard_Copula_Fit}}
