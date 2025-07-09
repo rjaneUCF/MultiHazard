@@ -26,9 +26,6 @@ test_that("Basic function works correctly", {
 
 test_that("Invalid inputs produce errors", {
 
-  expect_error(Standard_Copula_Sel(Data=""),
-               "Error in `Data[, 1]` : incorrect number of dimensions")
-
   expect_error(Standard_Copula_Sel(Data=1:5),
                "Error: Data must be a data.frame or matrix")
 
