@@ -150,9 +150,9 @@ Diag_Non_Con_Sel<-function(Data, Omit=NA, x_lab = "Data",y_lim_min = 0,y_lim_max
   AIC.RGum <- NA
 
   if(any(Test==2)){
-    fit <- tryCatch(gamlss(Data  ~ 1, family=GU),
+    fit <- tryCatch(gamlss(Data  ~ 1, family=GU, trace=FALSE),
                     error = function(e) "error")
-   if(fit == "error") {
+   if(fit[1] == "error") {
     Omit.2[1] = "Gum"
    } else {
     Omit.2[1] = ifelse(exp(fit$sigma.coefficients) < 0, "Gum", NA)
@@ -162,13 +162,13 @@ Diag_Non_Con_Sel<-function(Data, Omit=NA, x_lab = "Data",y_lim_min = 0,y_lim_max
   if(any(Test==3)){
    fit <- tryCatch(fitdistr(Data, dlaplace, start=list(location=mean(Data),scale=sd(Data)/sqrt(2))),
                    error = function(e) "error")
-   Omit.2[2] = ifelse(fit=="error","Lapl",NA)
+   Omit.2[2] = ifelse(fit[1]=="error","Lapl",NA)
   }
 
   if(any(Test==5)){
-   fit <- tryCatch(gamlss(Data ~ 1,family=RG),
+   fit <- tryCatch(gamlss(Data ~ 1,family=RG, trace=FALSE),
                   error = function(e) "error")
-   if(fit == "error") {
+   if(fit[1] == "error") {
     Omit.2[3] = "RGum"
    } else {
     Omit.2[3] = ifelse(exp(fit$sigma.coefficients) < 0, "RGum", NA)
@@ -187,7 +187,7 @@ Diag_Non_Con_Sel<-function(Data, Omit=NA, x_lab = "Data",y_lim_min = 0,y_lim_max
   }
 
   if(any(Test==2)){
-    fit <- gamlss(Data  ~ 1, family= GU)
+    fit <- gamlss(Data  ~ 1, family= GU, trace =FALSE)
     AIC.Gum <-fit$aic
   }
 
@@ -203,7 +203,7 @@ Diag_Non_Con_Sel<-function(Data, Omit=NA, x_lab = "Data",y_lim_min = 0,y_lim_max
   }
 
   if(any(Test==5)){
-    fit <- gamlss(Data ~ 1,family=RG)
+    fit <- gamlss(Data ~ 1,family=RG, trace=FALSE)
     AIC.RGum<-fit$aic
   }
 
@@ -229,7 +229,7 @@ Diag_Non_Con_Sel<-function(Data, Omit=NA, x_lab = "Data",y_lim_min = 0,y_lim_max
   }
 
   if(Selected=="Gum"){
-    fit <- gamlss(Data  ~ 1, family=GU)
+    fit <- gamlss(Data  ~ 1, family=GU, trace=FALSE)
     lines(x,dGU(x,fit$mu.coefficients,exp(fit$sigma.coefficients)),col=mypalette[2],lwd=2)
   }
 
@@ -244,7 +244,7 @@ Diag_Non_Con_Sel<-function(Data, Omit=NA, x_lab = "Data",y_lim_min = 0,y_lim_max
   }
 
   if(Selected=="RGum"){
-    fit <- gamlss(Data ~ 1,family=RG)
+    fit <- gamlss(Data ~ 1,family=RG, trace=FALSE)
     lines(x,dRG(x,fit$mu.coefficients,exp(fit$sigma.coefficients)),col=mypalette[1],lwd=2)
   }
 
@@ -261,7 +261,7 @@ Diag_Non_Con_Sel<-function(Data, Omit=NA, x_lab = "Data",y_lim_min = 0,y_lim_max
   }
 
   if(Selected=="Gum"){
-    fit <- gamlss(Data  ~ 1, family=GU)
+    fit <- gamlss(Data  ~ 1, family=GU, trace=FALSE)
     lines(x,pGU(x,fit$mu.coefficients,exp(fit$sigma.coefficients)),col=mypalette[2],lwd=2)
   }
 
@@ -276,7 +276,7 @@ Diag_Non_Con_Sel<-function(Data, Omit=NA, x_lab = "Data",y_lim_min = 0,y_lim_max
   }
 
   if(Selected=="RGum"){
-    fit <- gamlss(Data ~ 1,family=RG)
+    fit <- gamlss(Data ~ 1,family=RG, trace=FALSE)
     lines(x,pRG(x,fit$mu.coefficients,exp(fit$sigma.coefficients)),col=mypalette[1],lwd=2)
   }
 }
