@@ -107,6 +107,12 @@ Diag_Non_Con_Trunc<-function(Data,Omit=NA,x_lab="Data",y_lim_min=0,y_lim_max=1){
   GU <- get("GU", envir = asNamespace("gamlss.dist"))
   RG <- get("RG", envir = asNamespace("gamlss.dist"))
 
+  # Load density and cumulative functions safely
+  dRG <- get("dRG", envir = asNamespace("gamlss.dist"))
+  pRG <- get("pRG", envir = asNamespace("gamlss.dist"))
+  dGU <- get("dGU", envir = asNamespace("gamlss.dist"))
+  pGU <- get("pGU", envir = asNamespace("gamlss.dist"))
+
   #Colors for plots
   mypalette<-c("Black",brewer.pal(9,"Set1"))
 
