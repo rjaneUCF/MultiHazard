@@ -120,6 +120,13 @@ Diag_Non_Con_Trunc_Sel<-function(Data,Selected,Omit=NA,x_lab="Data",y_lim_min=0,
     stop("y_lim_min must be less than y_lim_max, got: y_lim_min = ", y_lim_min, ", y_lim_max = ", y_lim_max)
   }
 
+  #Check gamlss packages are installed
+  if (!requireNamespace("gamlss.dist", quietly = TRUE)) {
+    stop("The 'gamlss.dist' package is required but not installed.")
+  }
+  GU <- get("GU", envir = asNamespace("gamlss.dist"))
+  RG <- get("RG", envir = asNamespace("gamlss.dist"))
+
   #Colors for plots
   mypalette<-c("Black",brewer.pal(9,"Set1"))
 
