@@ -10,33 +10,34 @@ S20.Rainfall<-Con_Sampling_2D(Data_Detrend=S20.Detrend.df[,-c(1,4)],
 test_that("Basic functionality works for all distributions", {
 
   # Test Gaussian
-  expect_no_error(Diag_Non_Con_Sel(Data = S20.Rainfall$Data$OsWL,
-                                 x_lab = "O-sWL (ft NGVD 29)",
-                                 y_lim_min = 0, y_lim_max = 1.5,
-                                 Selected = "Gaus"))
+  expect_no_error(suppressWarnings(Diag_Non_Con_Sel(Data = S20.Rainfall$Data$OsWL,
+                                                    x_lab = "O-sWL (ft NGVD 29)",
+                                                    y_lim_min = 0, y_lim_max = 1.5,
+                                                    Selected = "Gaus")))
 
   # Test Gumbel
-  expect_no_error(Diag_Non_Con_Sel(Data = S20.Rainfall$Data$OsWL,
-                                 x_lab = "O-sWL (ft NGVD 29)",
-                                 y_lim_min = 0, y_lim_max = 1.5,
-                                 Selected = "Gum"))
+  expect_no_error(suppressWarnings(Diag_Non_Con_Sel(Data = S20.Rainfall$Data$OsWL,
+                                                    x_lab = "O-sWL (ft NGVD 29)",
+                                                    y_lim_min = 0, y_lim_max = 1.5,
+                                                    Selected = "Gum")))
 
   # Test Laplace
-  expect_no_error(Diag_Non_Con_Sel(Data = S20.Rainfall$Data$OsWL,
-                                 x_lab = "O-sWL (ft NGVD 29)",
-                                 y_lim_min = 0, y_lim_max = 1.5,
-                                 Selected = "Lapl"))
-  # Test Logistic
-  expect_no_error(Diag_Non_Con_Sel(Data = S20.Rainfall$Data$OsWL,
-                                 x_lab = "O-sWL (ft NGVD 29)",
-                                 y_lim_min = 0, y_lim_max = 1.5,
-                                 Selected = "Logis"))
+  expect_no_error(suppressWarnings(Diag_Non_Con_Sel(Data = S20.Rainfall$Data$OsWL,
+                                                    x_lab = "O-sWL (ft NGVD 29)",
+                                                    y_lim_min = 0, y_lim_max = 1.5,
+                                                    Selected = "Lapl")))
 
-  # Test Revere Gumbel
-  expect_no_error(Diag_Non_Con_Sel(Data = S20.Rainfall$Data$OsWL,
-                                 x_lab = "O-sWL (ft NGVD 29)",
-                                 y_lim_min = 0, y_lim_max = 1.5,
-                                 Selected = "RGum"))
+  # Test Logistic
+  expect_no_error(suppressWarnings(Diag_Non_Con_Sel(Data = S20.Rainfall$Data$OsWL,
+                                                    x_lab = "O-sWL (ft NGVD 29)",
+                                                    y_lim_min = 0, y_lim_max = 1.5,
+                                                    Selected = "Logis")))
+
+  # Test Reverse Gumbel
+  expect_no_error(suppressWarnings(Diag_Non_Con_Sel(Data = S20.Rainfall$Data$OsWL,
+                                                    x_lab = "O-sWL (ft NGVD 29)",
+                                                    y_lim_min = 0, y_lim_max = 1.5,
+                                                    Selected = "RGum")))
 })
 
 # Test NA handling
