@@ -82,7 +82,7 @@ test_that("Invalid inputs produce errors", {
 
   expect_error(Diag_Non_Con(Data=S20.Rainfall$Data$OsWL,x_lab="O-sWL (ft NGVD 29)",
                             Omit= "Exponential", y_lim_min=0,y_lim_max=1.5),
-               "Invalid distribution names in Omit: Exponential")
+               "Invalid distribution names in Omit: Exponential. Valid options are: Gaus, Gum, Lapl, Logis, RGum")
 
   data_with_inf <- c(S20.Rainfall$Data$OsWL, Inf, -Inf)
   expect_warning(Diag_Non_Con(Data = data_with_inf, x_lab = "Test"),
