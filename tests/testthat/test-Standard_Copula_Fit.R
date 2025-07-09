@@ -57,7 +57,7 @@ test_that("Frank copula works", {
 test_that("Invalid inputs produce errors", {
 
   expect_error(Standard_Copula_Fit(Data = "", Copula_Type="Gumbel"),
-               "Error in Data[, 1] : incorrect number of dimensions")
+               "Error in `Data[, 1]`: incorrect number of dimensions")
 
   expect_error(Standard_Copula_Fit(Data=S20.Detrend.df[1:5,], Copula_Type="Gumbel"),
                "Error: Insufficient non-missing data (need at least 10 complete observations)")
