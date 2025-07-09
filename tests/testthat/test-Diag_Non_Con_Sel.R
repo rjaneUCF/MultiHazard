@@ -45,7 +45,7 @@ test_that("Handles NA values", {
   data_with_na <- c(S20.Rainfall$Data$OsWL, NA, NA, NA)
   
   expect_warning(Diag_Non_Con_Sel(Data = data_with_na,x_lab="O-sWL (ft NGVD 29)",
-                              y_lim_min=0,y_lim_max=1.5, Selected="Logis"),
+                              y_lim_min=0,y_lim_max=1.5, Omit = c("Gum","RGum"), Selected="Logis"),
                  "Removed 3 NA values from Data")
   
   
@@ -75,7 +75,7 @@ test_that("Invalid inputs produce errors", {
   
   data_with_inf <- c(S20.Rainfall$Data$OsWL, Inf, -Inf)
   expect_warning(Diag_Non_Con_Sel(Data = data_with_inf, x_lab = "O-sWL (ft NGVD 29)", Selected= "Logis"),
-                 "Data contains 2 infinite values")
+                 "Data contains 2 infinite values. Removing them.")
   
   expect_error(Diag_Non_Con_Sel(Data=S20.Rainfall$Data$OsWL,x_lab="O-sWL (ft NGVD 29)",
                                 Selected= c("Gaus", "Logis"), y_lim_min=0,y_lim_max=1.5),
@@ -85,16 +85,16 @@ test_that("Invalid inputs produce errors", {
                                   x_lab = "O-sWL (ft NGVD 29)"),
                  "argument \"Selected\" is missing")
 
-    expect_error(Diag_Non_Con(Data=S20.Rainfall$Data$OsWL,x_lab="O-sWL (ft NGVD 29)",
+    expect_error(Diag_Non_Con_Sel(Data=S20.Rainfall$Data$OsWL,x_lab="O-sWL (ft NGVD 29)",
                               Omit= "Exponential", y_lim_min=0,y_lim_max=1.5, Selected="Logis"),
                  "Invalid distribution names in Omit: Exponential")
     
-    expect_error(Diag_Non_Con(Data = S20.Rainfall$Data$OsWL, x_lab = "O-sWL (ft NGVD 29)", 
+    expect_error(Diag_Non_Con_Sel(Data = S20.Rainfall$Data$OsWL, x_lab = "O-sWL (ft NGVD 29)", 
                               Omit = c("Gaus", "Gum", "Lapl", "Logis", "RGum"), Selected="Logis"),
                  "Cannot omit all distributions")
 })
 
 test_that("Test the plots work", {
   expect_silent(Diag_Non_Con_Sel(Data = S20.Rainfall$Data$OsWL, x_lab = "O-sWL (ft NGVD 29)", 
-                                 y_lim_min=0,y_lim_max=1.5, Selected="Logis"))
+                                 y_lim_min=0,y_lim_max=1.5, Omit = c("Gum", "Lapl",  "RGum"), Selected="Logis"))
 })
