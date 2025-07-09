@@ -10,30 +10,30 @@ S20.Rainfall<-Con_Sampling_2D(Data_Detrend=S20.Detrend.df[,-c(1,4)],
 test_that("Basic functionality works for all distributions", {
 
   # Test Gaussian
-  expect_silent(Diag_Non_Con_Sel(Data = S20.Rainfall$Data$OsWL,
+  expect_no_error(Diag_Non_Con_Sel(Data = S20.Rainfall$Data$OsWL,
                                  x_lab = "O-sWL (ft NGVD 29)",
                                  y_lim_min = 0, y_lim_max = 1.5,
                                  Selected = "Gaus"))
 
   # Test Gumbel
-  expect_silent(Diag_Non_Con_Sel(Data = S20.Rainfall$Data$OsWL,
+  expect_no_error(Diag_Non_Con_Sel(Data = S20.Rainfall$Data$OsWL,
                                  x_lab = "O-sWL (ft NGVD 29)",
                                  y_lim_min = 0, y_lim_max = 1.5,
                                  Selected = "Gum"))
 
   # Test Laplace
-  expect_silent(Diag_Non_Con_Sel(Data = S20.Rainfall$Data$OsWL,
+  expect_no_error(Diag_Non_Con_Sel(Data = S20.Rainfall$Data$OsWL,
                                  x_lab = "O-sWL (ft NGVD 29)",
                                  y_lim_min = 0, y_lim_max = 1.5,
                                  Selected = "Lapl"))
   # Test Logistic
-  expect_silent(Diag_Non_Con_Sel(Data = S20.Rainfall$Data$OsWL,
+  expect_no_error(Diag_Non_Con_Sel(Data = S20.Rainfall$Data$OsWL,
                                  x_lab = "O-sWL (ft NGVD 29)",
                                  y_lim_min = 0, y_lim_max = 1.5,
                                  Selected = "Logis"))
 
   # Test Revere Gumbel
-  expect_silent(Diag_Non_Con_Sel(Data = S20.Rainfall$Data$OsWL,
+  expect_no_error(Diag_Non_Con_Sel(Data = S20.Rainfall$Data$OsWL,
                                  x_lab = "O-sWL (ft NGVD 29)",
                                  y_lim_min = 0, y_lim_max = 1.5,
                                  Selected = "RGum"))
@@ -51,8 +51,8 @@ test_that("Handles NA values", {
 
 
   # Test all NA data - should error
-  expect_error(Diag_Non_Con_Sel(Data = rep(NA, 20), x_lab = "O-sWL (ft NGVD 29)"),
-               "Data contains only NA values")
+  expect_error(Diag_Non_Con_Sel(Data = rep(NA, 20), x_lab = "O-sWL (ft NGVD 29)", Selected = "Logis"),
+               "Data must be numeric, got: logical")
 })
 
 # Test that invalid inputs gives errors
@@ -72,7 +72,7 @@ test_that("Invalid inputs produce errors", {
 
   expect_error(Diag_Non_Con_Sel(Data=S20.Rainfall$Data$OsWL,x_lab="O-sWL (ft NGVD 29)",
                                 y_lim_min=0,y_lim_max=1.5, Selected= "Exponential"),
-               "Invalid distribution names in Selected: Exponential")
+               "Invalid distribution names in Selected: Exponential. Valid options are: Gaus, Gum, Lapl, Logis, RGum")
 
   #data_with_inf <- c(S20.Rainfall$Data$OsWL, Inf, -Inf)
   #expect_warning(Diag_Non_Con_Sel(Data = data_with_inf, x_lab = "O-sWL (ft NGVD 29)", Selected= "Logis"),
@@ -90,11 +90,11 @@ test_that("Invalid inputs produce errors", {
 
     expect_error(Diag_Non_Con_Sel(Data=S20.Rainfall$Data$OsWL,x_lab="O-sWL (ft NGVD 29)",
                               Omit= "Exponential", y_lim_min=0,y_lim_max=1.5, Selected="Logis"),
-                 "Invalid distribution names in Omit: Exponential")
+                 "Invalid distribution names in Omit: Exponential. Valid options are: Gaus, Gum, Lapl, Logis, RGum")
 
     expect_error(Diag_Non_Con_Sel(Data = S20.Rainfall$Data$OsWL, x_lab = "O-sWL (ft NGVD 29)",
                               Omit = c("Gaus", "Gum", "Lapl", "Logis", "RGum"), Selected="Logis"),
-                 "Cannot omit all distributions")
+                 "Cannot omit all distributions. At least one distribution must be tested.")
 })
 
 
