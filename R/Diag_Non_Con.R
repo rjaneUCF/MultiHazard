@@ -142,7 +142,7 @@ Diag_Non_Con<-function(Data,Omit=NA,x_lab,y_lim_min=0,y_lim_max=1){
   if(any(Test==2)){
     fit <- tryCatch(gamlss(Data  ~ 1, family=GU, trace=FALSE),
                     error = function(e) "error")
-   if(fit == "error") {
+   if(fit[1] == "error") {
     Omit.2[1] = "Gum"
    } else {
     Omit.2[1] = ifelse(exp(fit$sigma.coefficients) < 0, "Gum", NA)
@@ -152,13 +152,13 @@ Diag_Non_Con<-function(Data,Omit=NA,x_lab,y_lim_min=0,y_lim_max=1){
   if(any(Test==3)){
    fit <- tryCatch(fitdistr(Data, dlaplace, start=list(location=mean(Data),scale=sd(Data)/sqrt(2))),
                    error = function(e) "error")
-   Omit.2[2] = ifelse(fit=="error","Lapl",NA)
+   Omit.2[2] = ifelse(fit[1]=="error","Lapl",NA)
   }
 
   if(any(Test==5)){
    fit <- tryCatch(gamlss(Data ~ 1,family=RG, trace=FALSE),
                    error = function(e) "error")
-   if(fit == "error") {
+   if(fit[1] == "error") {
     Omit.2[3] = "RGum"
    } else {
     Omit.2[3] = ifelse(exp(fit$sigma.coefficients) < 0, "RGum", NA)
