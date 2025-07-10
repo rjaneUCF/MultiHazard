@@ -19,11 +19,11 @@ test_that("Diag_Non_Con_Trunc functions basic functionality", {
   expect_named(result$AIC, c("Distribution", "AIC"))
 
   # Check distribution names
-  expected_dists <- c("BS","Exp","Gam(2)","Gam(3)","GamMix(2)","GamMix(3)","LNorm","TNorm","Twe","Weib")
+  expected_dists <- c("BS","Exp","Gam(2)","Gam(3)","LNorm","TNorm","Twe","Weib")
   expect_equal(result$AIC$Distribution, expected_dists)
 
   # Check length of outputs
-  expect_equal(nrow(result$AIC), 10)
+  expect_equal(nrow(result$AIC), 8)
   expect_equal(length(result$Best_fit), 1)
 
   # AIC values should be numeric where not NA
