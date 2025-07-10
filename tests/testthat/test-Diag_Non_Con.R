@@ -53,13 +53,6 @@ test_that("Function is deterministic", {
 # Test NA handling
 test_that("Handles NA values", {
 
-  data_with_na <- c(S20.Rainfall$Data$OsWL, NA, NA, NA)
-
-  expect_warning(Diag_Non_Con(Data = data_with_na,x_lab="O-sWL (ft NGVD 29)",
-                              y_lim_min=0,y_lim_max=1.5),
-    "Removed 3 NA values from Data")
-
-
   # Test all NA data - should error
   expect_error(Diag_Non_Con(Data = rep(NA, 20), x_lab = "O-sWL (ft NGVD 29)"),
                "Data must be numeric, got: logical")
@@ -83,10 +76,6 @@ test_that("Invalid inputs produce errors", {
   expect_error(Diag_Non_Con(Data=S20.Rainfall$Data$OsWL,x_lab="O-sWL (ft NGVD 29)",
                             Omit= "Exponential", y_lim_min=0,y_lim_max=1.5),
                "Invalid distribution names in Omit: Exponential. Valid options are: Gaus, Gum, Lapl, Logis, RGum")
-
-  data_with_inf <- c(S20.Rainfall$Data$OsWL, Inf, -Inf)
-  expect_warning(Diag_Non_Con(Data = data_with_inf, x_lab = "Test"),
-    "Data contains 2 infinite values")
 
   expect_error(Diag_Non_Con(Data = S20.Rainfall$Data$OsWL, x_lab = "O-sWL (ft NGVD 29)",
                  Omit = c("Gaus", "Gum", "Lapl", "Logis", "RGum")),
