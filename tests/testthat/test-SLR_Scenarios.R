@@ -3,7 +3,7 @@ test_that("SLR_Scenarios works", {
 
 
   result <-  SLR_Scenarios(SeaLevelRise=0.8, Scenario="Compact", Unit = "m", Year=2022,
-                           Location="Key West", New_Scenario=SeaLevelRise.2022_input)
+                           Location="Key West")
 
   # Checking type of output
   expect_type(result, 'list')
@@ -24,7 +24,7 @@ test_that("Invalid inputs", {
   expect_error(SLR_Scenarios(SeaLevelRise = 0.5, Unit = "m", Year= 1950),
                "Error: Invalid Year input")
 
-  expect_error(SLR_Scenarios(SeaLevelRise = 0.5, Unit = "m", Location = 2020),
+  expect_error(SLR_Scenarios(SeaLevelRise = 0.5, Unit = "m", Location = 2030),
                "Error: Location name invalid")
 
 })
@@ -33,10 +33,10 @@ test_that("Invalid inputs", {
 test_that("Function is deterministic", {
 
  result1 <-  SLR_Scenarios(SeaLevelRise=0.8, Scenario="Compact", Unit = "m", Year=2022,
-                           Location="Key West", New_Scenario=SeaLevelRise.2022_input)
+                           Location="Key West")
 
  result2 <-  SLR_Scenarios(SeaLevelRise=0.8, Scenario="Compact", Unit = "m", Year=2022,
-                           Location="Key West", New_Scenario=SeaLevelRise.2022_input)
+                           Location="Key West")
 
 expect_equal(result1, result2)
 
