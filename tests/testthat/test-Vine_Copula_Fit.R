@@ -24,7 +24,7 @@ test_that("Vine_Copula_Fit works", {
 
 test_that("Invalid input", {
 
-  expect_error(Vine_Copula_Fit(),
+  expect_error(Vine_Copula_Fit(Data = 5),
                "Error: Data must be a data frame or matrix.")
 
   expect_error(Vine_Copula_Fit(S20.Detrend.df[,2]),
