@@ -41,9 +41,9 @@ test_that("Diag_Non_Con functions basic functionality", {
 
 test_that("Function is deterministic", {
 
-  result1 <- suppressWarningsDiag_Non_Con(Data=S20.Rainfall$Data$OsWL,x_lab="O-sWL (ft NGVD 29)",
+  result1 <- suppressWarnings(Diag_Non_Con(Data=S20.Rainfall$Data$OsWL,x_lab="O-sWL (ft NGVD 29)",
                           y_lim_min=0,y_lim_max=1.5))
-  result2 <- suppressWarningsDiag_Non_Con(Data=S20.Rainfall$Data$OsWL,x_lab="O-sWL (ft NGVD 29)",
+  result2 <- suppressWarnings(Diag_Non_Con(Data=S20.Rainfall$Data$OsWL,x_lab="O-sWL (ft NGVD 29)",
                           y_lim_min=0,y_lim_max=1.5))
   expect_identical(result1$AIC, result2$AIC)
   expect_identical(result1$Best_fit, result2$Best_fit)
