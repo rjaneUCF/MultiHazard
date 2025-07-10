@@ -32,11 +32,11 @@ test_that("Check inputs are valid", {
                                Marginals=S20.Migpd,N=10),
                "Error: Data must be a data frame or matrix.")
 
-  expect_error(Vine_Copula_Sim(Data=S20.Detrend.df[1:5,],Vine_Model=S20.Vine,
+  expect_error(Vine_Copula_Sim(Data=S20.Detrend.df[1:4,],Vine_Model=S20.Vine,
                                Marginals=S20.Migpd,N=10),
                "Error: Data must contain at least 5 rows.")
 
-  invalid.model <- S20.Vine
+  invalid_model <- S20.Vine
   invalid_model$Par2 <- NULL
   expect_error(Vine_Copula_Sim(Data=S20.Detrend.df, Vine_Model=invalid_model, Marginals=S20.Migpd, N=10),
                "Vine_Model must be a list with names 'Structure', 'Family', 'Par', and 'Par2'"
