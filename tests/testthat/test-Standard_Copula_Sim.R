@@ -1,5 +1,5 @@
 #Test that functions work as intended
-S20.Migpd<-Migpd_Fit(Data=S20.Detrend.Declustered.df[,-1],mqu=c(0.975,0.975,0.9676))
+S20.Migpd<-Migpd_Fit(Data=S20.Detrend.Declustered.df,Data_Full=S20.Detrend.df,mqu=c(0.975,0.975,0.9676))
 S20.Gaussian<-Standard_Copula_Fit(Data=S20.Detrend.df,Copula_Type="Gaussian")
 
 test_that("Standard_Copula_Sim works", {
@@ -29,6 +29,9 @@ test_that("Standard_Copula_Sim invalid inputs", {
 
   expect_error(Standard_Copula_Sim(Data=S20.Detrend.df,Marginals=12,Copula=S20.Gaussian,
                                    mu=365.25,N=100),
-               "Marginals must be a list"
-  )
+               "Marginals must be a list")
+
+  expect_error(Standard_Copula_Sim(Data=S20.Detrend.df,Marginals=S20.Migpd,Copula=S20.Gaussian,
+                                   mu=-5,N=100),
+               "mu and N must be positive")
 })
