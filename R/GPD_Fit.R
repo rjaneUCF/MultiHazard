@@ -23,10 +23,42 @@
 #' Decluster(Data=S20_T_MAX_Daily_Completed_Detrend$Detrend)
 GPD_Fit<-function(Data,Data_Full,u=0.95,Thres=NA,mu=365.25,GPD_Bayes=TRUE,Method="Standard",min.RI=1,max.RI=100,PLOT=FALSE,xlab_hist="Data",y_lab="Data"){
 
-  Data_Full<-na.omit(Data_Full)
-  if(is.na(Thres)==T){
-    Thres<-ifelse(is.na(u)==T,Thres,quantile(Data_Full,u))
+  #Checking inputs are valid
+
+  #Data
+  if (missing(Data) || !is.numeric(Data)) stop("Data must be a numeric vector.")
+
+  #Data_Full
+  if (missing(Data_Full) || !is.numeric(Data_Full)) stop("Data_Full must be a numeric vector.")
+
+  #Quantile threshold
+  if (!is.na(u) && (!is.numeric(u) || u <= 0 || u >= 1)) {
+    stop("u must be a numeric value strictly between 0 and 1.")
   }
+
+  #Threshold on original scale
+  Data_Full<-na.omit(Data_Full)
+  if (is.na(Thres)) {
+    Thres <- ifelse(is.na(u), Thres, quantile(Data_Full, u))
+  }
+  if (is.na(Thres) || !is.numeric(Thres)) stop("Thres must be numeric or computable from u.")
+  if (all(Data < Thres)) stop("No values in Data exceed the threshold. Cannot fit GPD.")
+
+  #mu
+  if (!is.numeric(mu) || mu <= 0) stop("mu must be a positive number.")
+
+  #Method
+  if (!Method %in% c("Standard", "Solari")) stop("Method must be Standard or Solari.")
+  if (!is.logical(GPD_Bayes) || length(GPD_Bayes) != 1) stop("GPD_Bayes must be TRUE or FALSE.")
+
+  #Plot?
+  if (!is.logical(PLOT) || length(PLOT) != 1) stop("'PLOT' must be TRUE or FALSE.")
+
+  #Plot and estimation limits
+  if (!is.numeric(min.RI) || !is.numeric(max.RI) || min.RI <= 0 || max.RI <= 0) stop("min.RI and max.RI must be positive.")
+  if (min.RI >= max.RI) stop("min.RI must be less than max.RI.")
+  if (!is.character(xlab_hist) || !is.character(y_lab)) stop("xlab_hist and y_lab must be character strings.")
+
   Data<-na.omit(Data)
 
   if(Method=="Standard"){
