@@ -88,8 +88,7 @@ Diag_Non_Con_Trunc<-function(Data,Omit=NA,x_lab="Data",y_lim_min=0,y_lim_max=1){
   if (!is.na(Omit[1])) {
     if (!all(Omit %in% valid_distributions)) {
       invalid_omit <- Omit[!Omit %in% valid_distributions]
-      stop("Invalid distribution names in Omit: ", paste(invalid_omit, collapse=", "),
-           ". Valid options are: ", paste(valid_distributions, collapse=", "))
+      stop("Invalid distribution names in Omit.")
     }
     if (length(Omit) >= length(valid_distributions)) {
       stop("Cannot omit all distributions. At least one distribution must be tested.")
