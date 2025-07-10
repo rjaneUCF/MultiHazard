@@ -9,13 +9,46 @@
 #' @examples
 #' S20.Vine<-Vine_Copula_Fit(Data=S20.Detrend.df)
 Vine_Copula_Fit<-function(Data){
-  if(class(Data[,1])[1]=="Date" | class(Data[,1])[1]=="factor" | class(Data[,1])[1]=="POSIXct" | class(Data[,1])[1] == "character"){
+
+  # Check: Input is a data frame or matrix
+  if (!is.data.frame(Data) && !is.matrix(Data)) {
+    stop("Error: Data must be a data frame or matrix.")
+  }
+
+  # Check: Must have at least two columns
+  if (ncol(Data) < 2) {
+    stop("Error: Data must have at least two columns.")
+  }
+
+  # Check: Data must have numeric columns (for pobs)
+  # If first column is non-numeric, check the rest
+  if (inherits(Data[,1], c("Date", "POSIXct", "factor", "character"))) {
+    if (!all(sapply(Data[,-1], is.numeric))) {
+      stop("Error: All columns except the first must be numeric.")
+    }
+  } else {
+    if (!all(sapply(Data, is.numeric))) {
+      stop("Error: All columns must be numeric.")
+    }
+  }
+
+  # Check: Enough rows
+  if (nrow(Data) < 5) {
+    stop("Error: Data must contain at least 5 rows.")
+  }
+
+  #Proceeds to fit copula model
+  if (inherits(Data[,1], c("Date", "factor", "POSIXct", "character"))){
     M<-RVineStructureSelect(pobs(na.omit(Data[,2:ncol(Data)])))
     Model <- RVineCopSelect(pobs(na.omit(Data[,2:ncol(Data)])),Matrix=M$Matrix)
   } else {
     M<-RVineStructureSelect(pobs(na.omit(Data[,1:ncol(Data)])))
     Model <- RVineCopSelect(pobs(na.omit(Data[,1:ncol(Data)])),Matrix=M$Matrix)
   }
+
+  #Output
   res<- list(Structure = M$Matrix, Family=Model$family, Par = Model$par, Par2 = Model$par2)
+
+  #Returns output
   return(res)
 }

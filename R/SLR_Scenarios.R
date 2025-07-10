@@ -30,17 +30,44 @@
 #' SLR_Scenarios(SeaLevelRise=0.8, Scenario="Other", Unit = "m", Year=2022,
 #'               Location="Fort Myers", New_Scenario=SeaLevelRise.2022_input)
 SLR_Scenarios<-function(SeaLevelRise, Scenario="Compact", Unit = "m", Year=2022, Location="Key West", New_Scenario=NA){
-  
+
+  #Error messages to catch invalid inputs
+  if (missing(SeaLevelRise) || !is.numeric(SeaLevelRise)) {
+    stop("Error: SeaLevelRise missing or not numeric")
+  }
+
+  if (!Scenario %in% c("Compact","NOAA2017","NOAA2022")  && !is.na(Scenario)) {
+    stop("Error: Invalid Scenario")
+  }
+
+  if (!Unit %in% c("m", "Inches")) {
+    stop("Error: Unit input must be m or Inches")
+  }
+
+  if (missing(Year) || !is.numeric(Year) || Year<2020) {
+    stop("Error: Invalid Year input")
+  }
+
+  if (!is.character(Location)) {
+    stop("Error: Location name invalid")
+  }
+
+  if (!is.na(New_Scenario)[1]) {
+    if (!is.data.frame(New_Scenario) || ncol(New_Scenario) < 2 || !all(sapply(New_Scenario, is.numeric))) {
+      stop("Error: New_Scenario invalid")
+    }
+  }
+
   #Colors
   mypalette<-brewer.pal(7,"Set1")
-  
+
   #Layout of graphical output
   layout(matrix(c(1,1,2), 3, 1, byrow = TRUE))
   par(mar=c(4.2,6,1,1))
-  
+
   #Plotting the SLR scenarios
   y_axis<-ifelse(Unit=="m",paste('Projected sea level rise at', Location, '(m)'),past('Projected sea level rise at', Location,'(ft)'))
-  
+
   if(Scenario=="Compact"){
     #Composing the AR5 scenario
     SeaLevelRise.AR5<-data.frame("Year"=1:4,"Medium"=1:4)
@@ -62,7 +89,7 @@ SLR_Scenarios<-function(SeaLevelRise, Scenario="Compact", Unit = "m", Year=2022,
     spline.low<-spline(NOAAetal2017$Year,ifelse(Unit=="m",1,0.00328084)*NOAAetal2017$Low, xout=seq(Year,2100,0.25))
     spline.low$y<-spline.low$y-spline.low$y[1]
   }
-  
+
   if(Scenario=="NOAA2022"){
     NOAAetal2022.Year<-seq(2020,2100,10)
     x<-ifelse(Location=="Miami Beach",1,2)
@@ -73,7 +100,7 @@ SLR_Scenarios<-function(SeaLevelRise, Scenario="Compact", Unit = "m", Year=2022,
     spline.low<-spline(NOAAetal2022.Year,ifelse(Unit=="m",1,0.00328084)*NOAAetal2022[c(17,2)[x],6:14]/1000, xout=seq(Year,2100,0.25))
     spline.low$y<-spline.low$y-spline.low$y[1]
   }
-  
+
   if(Scenario=="Other"){
     if((ncol(New_Scenario)-1)==5){
       mypalette<-c("Dark Red",brewer.pal(7,"Set1")[1:3],"Dark Green")
@@ -92,7 +119,7 @@ SLR_Scenarios<-function(SeaLevelRise, Scenario="Compact", Unit = "m", Year=2022,
       lines(splines[[i]]$x[1:max],splines[[i]]$y[1:max],col=mypalette[i],lwd=5)
     }
   }
-  
+
   if(Scenario=="Compact" | Scenario=="NOAA2017" | Scenario=="NOAA2022"){
     plot(0,xlab="Year",ylab=y_axis,type='n',xlim=c(Year,2100),ylim=c(0,ifelse(Unit=="m",1,3.28084)*max(spline.high$y,spline.int$y,spline.low$y)*1.5),cex.lab=1.5,cex.axis=1.5)
     legend("topleft",c("High","Intermediate","Low"),col=c(alpha(mypalette[1],0.2),alpha(mypalette[2],0.2),alpha(mypalette[3],0.2)),lty=1,cex=1.5,lwd=5)
@@ -107,28 +134,28 @@ SLR_Scenarios<-function(SeaLevelRise, Scenario="Compact", Unit = "m", Year=2022,
     max.low<-which(abs(spline.low$y-SeaLevelRise)==min(abs(spline.low$y-SeaLevelRise)))
     lines(spline.low$x[1:max.low],spline.low$y[1:max.low],col=mypalette[3],lwd=5)
   }
-  
+
   #Plotting the estimated time for the required SeaLevelRise to occur
   par(las=1)
-  
+
   if(Scenario=="Compact"){
     plot(0,xlab="Number of years",ylab="",type='n',xlim=c(Year,2100),ylim=c(0,3),cex.lab=1.5,cex.axis=1.5,yaxt="n",xaxt="n",bty="n")
     axis(1,at=seq(Year,2100,20),seq(0,2100-Year,20),cex.axis=1.5)
     mtext(c("NOAA et al. (2012)","High","USACE 2013","High","IPCC AR5","Medium"),2,-1.5,at=c(2.4,2.2,1.4,1.2,0.4,0.2),cex=0.75)
   }
-  
+
   if(Scenario=="NOAA2017"){
     plot(0,xlab="Number of years",ylab="",type='n',xlim=c(Year,2100),ylim=c(0,3),cex.lab=1.5,cex.axis=1.5,yaxt="n",xaxt="n",bty="n")
     axis(1,at=seq(Year,2100,20),seq(0,2100-Year,20),cex.axis=1.5)
     mtext(c("High","Int.","Low"),2,-1,at=c(2.25,1.25,0.25))
   }
-  
+
   if(Scenario=="NOAA2022"){
     plot(0,xlab="Number of years",ylab="",type='n',xlim=c(Year,2100),ylim=c(0,3),cex.lab=1.5,cex.axis=1.5,yaxt="n",xaxt="n",bty="n")
     axis(1,at=seq(Year,2100,20),seq(0,2100-Year,20),cex.axis=1.5)
     mtext(c("High","Int.","Low"),2,-1,at=c(2.25,1.25,0.25))
   }
-  
+
   if(Scenario=="Compact" | Scenario=="NOAA2017" | Scenario=="NOAA2022"){
     rect(Year,2,spline.int$x[1:max.high],2.5,col=mypalette[1],border=NA)
     High<-round(spline.high$x[max.high],0)
@@ -153,7 +180,7 @@ SLR_Scenarios<-function(SeaLevelRise, Scenario="Compact", Unit = "m", Year=2022,
     }
     res<-list("High" = High, "Intermediate" = Intermediate, "Low" = Low)
   }
-  
+
   if(Scenario=="Other"){
     SLR_Year<-numeric(ncol(New_Scenario)-1)
     plot(0,xlab="Number of years",ylab="",type='n',xlim=c(Year,max.Year),ylim=c(0,ncol(New_Scenario)-1),cex.lab=1.5,cex.axis=1.5,yaxt="n",xaxt="n",bty="n")
@@ -172,7 +199,7 @@ SLR_Scenarios<-function(SeaLevelRise, Scenario="Compact", Unit = "m", Year=2022,
     }
     res<-list("SLR_Year" = SLR_Year)
   }
-  
+
   return(res)
 }
 

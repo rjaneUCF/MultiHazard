@@ -48,7 +48,7 @@
 #' final.month = data.frame(seq(as.Date("2019-02-04"),as.Date("2019-02-28"),by="day"),NA,NA,NA)
 #' colnames(final.month) = c("Date","Rainfall","OsWL","Groundwater")
 #' S22.Detrend.df.extended = rbind(S22.Detrend.df,final.month)
-#' #Derive return curves
+#' #Diagnostic plots for the return curves
 #' return_curve_diag(data=S22.Detrend.df.extended[,1:3],
 #'                   q=0.985,rp=1,mu=365.25,n_sim=100,
 #'                   n_grad=50,n_boot=100,boot_method="monthly",
@@ -61,6 +61,156 @@
 #'                   boot_method_all="block", boot_replace_all=NA,
 #'                   block_length_all=14)
 return_curve_diag = function(data,q,rp,mu,n_sim,n_grad,n_boot,boot_method, boot_replace, block_length, boot_prop, decl_method_x, decl_method_y, window_length_x, window_length_y, u_x=NA, u_y=NA, sep_crit_x=NA, sep_crit_y=NA, boot_method_all="block", boot_replace_all=NA, block_length_all=14, boot_prop_all=0.8,alpha=0.1, x_lab=NA, y_lab=NA,x_lim_min=min(data_df[,2],na.rm=T),x_lim_max=max(data_df[,2],na.rm=T)+0.3*diff(range(data[,2],na.rm=T)),y_lim_min=min(data[,3],na.rm=T),y_lim_max=max(data[,3],na.rm=T)+0.3*diff(range(data[,2],na.rm=T))){
+
+  if (missing(data) || is.null(data)) {
+    stop("Error: data missing")
+  }
+
+  if (!is.data.frame(data)) {
+    stop("Error: data must be a data.frame")
+  }
+
+  #Date column validation
+  if (!inherits(data[,1], c("Date", "POSIXct", "POSIXt"))) {
+    stop("Error: First column of data must be Date/POSIXct format")
+  }
+
+
+  #Quantile paramter ust be numeric and between 0 and 1
+  if (missing(q) || !is.numeric(q) || length(q) != 1) {
+    stop("Error: q must be a single numeric value")
+  }
+
+  if (q <= 0 || q >= 1) {
+    stop("Error: q must be between 0 and 1 (exclusive)")
+  }
+
+  #Return period parameter must be a single numeric value
+  if (missing(rp) || !is.numeric(rp) || length(rp) != 1 || rp <= 1) {
+    stop("Error: rp must be a single positive numeric value")
+  }
+
+  #Rate parameter must be a single positive numeric value
+  if (missing(mu) || !is.numeric(mu) || length(mu) != 1 || mu <= 0) {
+    stop("Error: mu (rate parameter) must be a single positive numeric value")
+  }
+
+  #Simulation parameters
+  if (!is.numeric(n_sim) || length(n_sim) != 1 || n_sim <= 0) {
+    stop("Error: n_sim must be a positive integer")
+  }
+
+  if (!is.numeric(n_grad) || length(n_grad) != 1 || n_grad <= 0) {
+    stop("Error: n_grad must be a positive integer")
+  }
+
+  if (!is.numeric(n_boot) || length(n_boot) != 1 || n_boot <= 0 || n_boot %% 2 != 0) {
+    stop("Error: n_boot must be a positive even integer")
+  }
+
+
+  # Bootstrap method validation
+  valid_boot_methods <- c("basic", "block", "monthly")
+  if (!boot_method %in% valid_boot_methods) {
+    stop(paste("Error: boot_method must be one of:", paste(valid_boot_methods, collapse = ", ")))
+  }
+
+  if (boot_method == "block") {
+    if (missing(block_length) || !is.numeric(block_length) || block_length <= 0) {
+      stop("Error: block_length must be positive when using block bootstrap")
+    }
+    if (block_length >= nrow(data)) {
+      stop("Error: block_length must be less than data length")
+    }
+  }
+
+  if (boot_method == "monthly") {
+    if (missing(boot_prop) || !is.numeric(boot_prop) || boot_prop <= 0 || boot_prop > 1) {
+      stop("Error: boot_prop must be between 0 and 1 for monthly bootstrap")
+    }
+  }
+
+  # Declustering method type validation
+  valid_decl_methods <- c("window", "runs")
+  if (!decl_method_x %in% valid_decl_methods) {
+    stop(paste("Error: decl_method_x must be one of:", paste(valid_decl_methods, collapse = ", ")))
+  }
+
+  if (!decl_method_y %in% valid_decl_methods) {
+    stop(paste("Error: decl_method_y must be one of:", paste(valid_decl_methods, collapse = ", ")))
+  }
+
+  # Declustering (Window method) window length validation
+  if (decl_method_x == "window") {
+    if (missing(window_length_x) || !is.numeric(window_length_x) || window_length_x <= 0) {
+      stop("Error: window_length_x must be positive when using window declustering")
+    }
+  }
+
+  if (decl_method_y == "window") {
+    if (missing(window_length_y) || !is.numeric(window_length_y) || window_length_y <= 0) {
+      stop("Error: window_length_y must be positive when using window declustering")
+    }
+  }
+
+  # Declustering (runs method) threshold validation
+  if (decl_method_x == "runs") {
+    if (is.na(u_x) || !is.numeric(u_x)) {
+      stop("Error: u_x threshold must be numeric when using runs declustering")
+    }
+    if (is.na(sep_crit_x) || !is.numeric(sep_crit_x) || sep_crit_x <= 0) {
+      stop("Error: sep_crit_x must be positive when using runs declustering")
+    }
+  }
+
+  if (decl_method_y == "runs") {
+    if (is.na(u_y) || !is.numeric(u_y)) {
+      stop("Error: u_y threshold must be numeric when using runs declustering")
+    }
+    if (is.na(sep_crit_y) || !is.numeric(sep_crit_y) || sep_crit_y <= 0) {
+      stop("Error: sep_crit_y must be positive when using runs declustering")
+    }
+  }
+
+  #Alpha paramter validation
+  if (!is.numeric(alpha) || length(alpha) != 1 || alpha <= 0 || alpha >= 1) {
+    stop("Error: alpha must be between 0 and 1 (exclusive)")
+  }
+
+  #Additional paramter validation
+  if (!is.logical(most_likely) || length(most_likely) != 1) {
+    stop("Error: most_likely must be TRUE or FALSE")
+  }
+
+  if (!is.numeric(n_interp) || length(n_interp) != 1 || n_interp <= 0) {
+    stop("Error: n_interp must be a positive integer")
+  }
+
+  if (!is.numeric(n) || length(n) != 1 || n <= 0) {
+    stop("Error: n must be a positive integer")
+  }
+
+  if (!is.numeric(n_ensemble) || length(n_ensemble) != 1 || n_ensemble < 0) {
+    stop("Error: n_ensemble must be a non-negative integer")
+  }
+
+  #Data quality checks
+  if (any(is.infinite(data[,2]), na.rm = TRUE) || any(is.infinite(data[,3]), na.rm = TRUE)) {
+    stop("Error: data contains infinite values")
+  }
+
+  #Declustering (runs method) threshold range validation
+  if (decl_method_x == "runs" && !is.na(u_x)) {
+    if (u_x <0 || u_x >1) {
+      stop("Error: u_x threshold must be between 0 and 1")
+    }
+  }
+
+  if (decl_method_y == "runs" && !is.na(u_y)) {
+    if (u_y <0 || u_y > 1) {
+      stop("Error: u_y threshold must be between 0 and 1")
+    }
+  }
 
   #Convert return period (rp) to probability
   p = (1/mu) / rp
