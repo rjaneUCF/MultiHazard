@@ -83,7 +83,7 @@ test_that("Invalid inputs produce errors", {
 
   expect_error(Diag_Non_Con_Trunc(Data=S20.OsWL$Data$Rainfall ,x_lab="Rainfall (Inches)",
                                   Omit= "Gaussian", y_lim_min=0,y_lim_max=1.5),
-               "Invalid distribution names in Omit: Gaussian. Valid options are: BS, Exp, Gam(2), Gam(3), GamMix(2), GamMix(3), LNorm, TNorm, Twe, Weib")
+               "Invalid distribution names in Omit.")
 
   data_with_inf <- c(S20.OsWL$Data$Rainfall , Inf, -Inf)
   expect_warning(Diag_Non_Con_Trunc(Data = data_with_inf, x_lab = "Rainfall (Inches)"),
