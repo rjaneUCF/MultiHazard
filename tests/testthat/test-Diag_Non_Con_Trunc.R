@@ -42,10 +42,10 @@ test_that("Diag_Non_Con_Trunc functions basic functionality", {
 
 test_that("Function is deterministic", {
 
-  result1 <- Diag_Non_Con_Trunc(Data=S20.OsWL$Data$Rainfall ,x_lab="Rainfall (Inches)",
-                                 y_lim_min=0,y_lim_max=1.5)
-  result2 <- Diag_Non_Con_Trunc(Data=S20.OsWL$Data$Rainfall ,x_lab="Rainfall (Inches)",
-                                y_lim_min=0,y_lim_max=1.5)
+  result1 <- suppressWarnings(Diag_Non_Con_Trunc(Data=S20.OsWL$Data$Rainfall ,x_lab="Rainfall (Inches)",
+                                 y_lim_min=0,y_lim_max=1.5))
+  result2 <- suppressWarnings(Diag_Non_Con_Trunc(Data=S20.OsWL$Data$Rainfall ,x_lab="Rainfall (Inches)",
+                                y_lim_min=0,y_lim_max=1.5))
   expect_identical(result1$AIC, result2$AIC)
   expect_identical(result1$Best_fit, result2$Best_fit)
 })
