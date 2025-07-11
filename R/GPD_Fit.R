@@ -52,7 +52,7 @@ GPD_Fit<-function(Data,Data_Full,u=0.95,Thres=NA,mu=365.25,GPD_Bayes=TRUE,Method
   if (!is.logical(GPD_Bayes) || length(GPD_Bayes) != 1) stop("GPD_Bayes must be TRUE or FALSE.")
 
   #Plot?
-  if (!is.logical(PLOT) || length(PLOT) != 1) stop("'PLOT' must be TRUE or FALSE.")
+  if (!is.logical(PLOT) || length(PLOT) != 1) stop("PLOT must be TRUE or FALSE.")
 
   #Plot and estimation limits
   if (!is.numeric(min.RI) || !is.numeric(max.RI) || min.RI <= 0 || max.RI <= 0) stop("min.RI and max.RI must be positive.")

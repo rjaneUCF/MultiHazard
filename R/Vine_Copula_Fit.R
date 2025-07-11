@@ -15,11 +15,6 @@ Vine_Copula_Fit<-function(Data){
     stop("Error: Data must be a data frame or matrix.")
   }
 
-  # Check: Must have at least two columns
-  if (ncol(Data) < 2) {
-    stop("Error: Data must have at least two columns.")
-  }
-
   # Check: Data must have numeric columns (for pobs)
   # If first column is non-numeric, check the rest
   if (inherits(Data[,1], c("Date", "POSIXct", "factor", "character"))) {

@@ -7,7 +7,7 @@
 #' @param Unit Character vector of length one, specifying units of \code{SeaLevelRise}. Options are meters \code{m} and Inches \code{"Inches"}. Default is \code{"m"}.
 #' @param Year Numeric vector of length one, specifying the current year. Default is \code{2022}.
 #' @param Location Character vector of length one, specifying the location associated with the scenarios. Projections for  \code{"Key West"} (Compact), \code{"Miami Beach"} (NOAA2017 AND NOAA2022) and \code{"Naples"} (NOAA2022) are contained within the package. If a user specified scenarios are employed, set to the name of the site. Default is \code{"Key West"}.
-#' @param New_Scenario Dataframe containing sea level rise scenarios. First column must be a year and the scenarios provided in the remaining columns. For the color scale to correlate with the severity of the scenarios they should be listed from most to least severe i.e., the highest SLR scenario should appear in column 2. All entries must be numeric.
+#' @param New_Scenario Dataframe containing sea level rise scenarios. First column must be a year and the scenarios provided in the remaining columns. For the color scale to correlate with the severity of the scenarios they should be listed from most to least severe i.e., the highest SLR scenario should appear in column 2. All entries must be numeric. Default \code{NA}.
 #' @return For \code{"Compact"}, \code{"NOAA2017"} and \code{"NOAA2022"} a list length of time for \code{SeaLevelRise} of sea level rise is expected to arise under the \code{High}, \code{Intermediate} and \code{Low}. For user specified scenarios, the time for \code{SeaLevelRise} to occur under each is returned as \code{SLR_Year}. Upper panel: A plot of the scenarios. Scenarios are in bold until the time the SeaLevelRise is reached and are transparent thereafter. Lower panel: A plot showing the number of years before is expected to occur.
 #' @examples
 #' #Calculate the estimated time required for 0.45m of SLR in Key West according to the scenarios
@@ -44,7 +44,7 @@ SLR_Scenarios<-function(SeaLevelRise, Scenario="Compact", Unit = "m", Year=2022,
     stop("Error: Unit input must be m or Inches")
   }
 
-  if (missing(Year) || !is.numeric(Year) || Year<2020) {
+  if (is.null(Year) || !is.numeric(Year) || Year<2020) {
     stop("Error: Invalid Year input")
   }
 
