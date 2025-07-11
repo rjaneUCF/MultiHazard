@@ -121,7 +121,7 @@ Diag_Non_Con_Trunc_Sel<-function(Data,Selected,Omit=NA,x_lab="Data",y_lim_min=0,
   }
 
   #Check gamlss packages are installed
-  f (!requireNamespace("gamlss", quietly = TRUE)) {
+  if (!requireNamespace("gamlss", quietly = TRUE)) {
     stop("The 'gamlss' package is required but not installed.")
   }
   if (!requireNamespace("gamlss.dist", quietly = TRUE)) {
