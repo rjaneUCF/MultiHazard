@@ -24,7 +24,7 @@ test_that("Invalid inputs", {
   expect_error(SLR_Scenarios(SeaLevelRise = 0.5, Unit = "m", Year= 1950),
                "Error: Invalid Year input")
 
-  expect_error(SLR_Scenarios(SeaLevelRise = 0.5, Unit = "m", Location = 2030),
+  expect_error(SLR_Scenarios(SeaLevelRise = 0.5, Unit = "m", Location = 5),
                "Error: Location name invalid")
 
 })
