@@ -51,10 +51,52 @@
 #' }
 WL_Curve<-function(Data,Cluster_Max,Pre_Low,Fol_Low,Thres,Base_Line=mean(Data$OsWL,na.rm=T),Limit,Peak,Intensity,Length=144){
 
+  if (is.null(Data) | !is.data.frame(Data)){
+    stop("Data must be a data frame.")
+  }
+
+  if (!"OsWL" %in% names(Data)){
+    stop("Data must contain 'OsWL' column.")
+  }
+
+  if (any(Cluster_Max < 1 | Cluster_Max > length(Data$OsWL))){
+    stop("Cluster_Max contains invalid indices.")
+  }
+
+  if (any(Pre_Low < 1 | Fol_Low > length(Data$OsWL))){
+     stop("Pre_Low or Fol_Low contains out-of-bound indices.")
+  }
+
+  if (length(Peak) != length(Intensity)){
+    stop("Peak and Intensity vectors must be of equal length.")
+  }
+
+  # Validate Base_Line parameter
+  if (length(Base_Line) != 1) {
+    stop("Base_Line must be a single value")
+  }
+
+  if ((!is.character(Base_Line) && !is.numeric(Base_Line)) | (is.character(Base_Line) && Base_Line != "Mean")) {
+    stop("Base_Line must be either 'Mean' or a numeric value")
+  }
+
+  # Remove Cluster_Max values that would cause out-of-bounds issues
+  valid_indices <- which((Cluster_Max - max(Length, 5) >= 1) &
+                           (Cluster_Max + max(Length, 5) <= length(Data$OsWL)))
+
+  if (length(valid_indices) == 0) {
+    stop("No Cluster_Max values are within valid bounds given the specified Length.")
+  }
+
+  # Filter all relevant vectors to match only valid indices
+  Cluster_Max <- Cluster_Max[valid_indices]
+  Pre_Low     <- Pre_Low[valid_indices]
+  Fol_Low     <- Fol_Low[valid_indices]
+
   #Vectors for storing the results
   intensity.scaled = numeric(length(Cluster_Max))
   intensity.event = Intensity
-  series = matrix("NA",nrow=length(Intensity),ncol=(2*Length+1))
+  series = matrix(NA_real_,nrow=length(Intensity),ncol=(2*Length+1))
   e = numeric(length(Peak))
 
   #Repeat this loop for every simulated peak
@@ -73,7 +115,9 @@ WL_Curve<-function(Data,Cluster_Max,Pre_Low,Fol_Low,Thres,Base_Line=mean(Data$Os
       #intensity.scaled[20] = 1000
 
       #Sample an intensity less than the specified limit
-      ce = sample(which(intensity.scaled<Limit),1)
+      valid_ce <- which(intensity.scaled < Limit)
+      if (length(valid_ce) == 0) stop("No events found with intensity below 'Limit'.")
+      ce <- sample(valid_ce, 1)
 
       #Rescale the sampled event
       new = (Peak[k]-Data$OsWL[Cluster_Max[ce]])+Data$OsWL[(Cluster_Max[ce]-Length):(Cluster_Max[ce]+Length)]
@@ -113,8 +157,12 @@ WL_Curve<-function(Data,Cluster_Max,Pre_Low,Fol_Low,Thres,Base_Line=mean(Data$Os
       #d.oswl[20] =1000
 
       #Select the re-scaled curve with the largest "intensity" that's smaller than the simulated "intensity"
-      ce = ifelse(length(which(d.oswl == max(d.oswl[d.oswl<0])))==0,
-                  which(d.oswl == min(d.oswl)),which(d.oswl == max(d.oswl[d.oswl<0])))
+      if (all(d.oswl >= 0)) {
+        ce <- which.min(d.oswl)
+      } else {
+        ce <- which.max(d.oswl[d.oswl < 0])
+        ce <- which(d.oswl == d.oswl[ce])[1]
+      }
 
       #Decrease from peak expressed as a proportion of peak O-sWL
       prop = - (Data$OsWL[Pre_Low[ce]:Fol_Low[ce]]-Data$OsWL[Cluster_Max[ce]])/
@@ -124,7 +172,8 @@ WL_Curve<-function(Data,Cluster_Max,Pre_Low,Fol_Low,Thres,Base_Line=mean(Data$Os
       prop[(Cluster_Max[ce]-Pre_Low[ce]+1-4):(Cluster_Max[ce]-Pre_Low[ce]+1+4)] = 0
 
       #Decreases sum to 1
-      prop.stan = prop/sum(prop)
+      if (sum(prop) == 0) stop("Cannot normalize zero-sum proportions.")
+      prop.stan = prop / sum(prop)
 
       #Difference in intensity between closest (re-scaled) observed event and simulated event
       OsWL.diff = Intensity[k]-intensity.scaled[ce]

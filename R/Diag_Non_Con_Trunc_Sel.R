@@ -120,6 +120,7 @@ Diag_Non_Con_Trunc_Sel<-function(Data,Selected,Omit=NA,x_lab="Data",y_lim_min=0,
     stop("y_lim_min must be less than y_lim_max, got: y_lim_min = ", y_lim_min, ", y_lim_max = ", y_lim_max)
   }
 
+
   #Check gamlss packages are installed
   if (!requireNamespace("gamlss", quietly = TRUE)) {
     stop("The 'gamlss' package is required but not installed.")
@@ -128,14 +129,9 @@ Diag_Non_Con_Trunc_Sel<-function(Data,Selected,Omit=NA,x_lab="Data",y_lim_min=0,
     stop("The 'gamlss.dist' package is required but not installed.")
   }
 
-  # Load the gamlss function
-  gamlss <- get("gamlss", envir = asNamespace("gamlss"))
-  gamlssMX <- get("gamlssMX", envir = asNamespace("gamlss"))
-
-
   # Load density and cumulative functions safely
   GU <- get("GG", envir = asNamespace("gamlss.dist"))
-  RG <- get("GA", envir = asNamespace("gamlss.dist"))
+  GA <- get("GA", envir = asNamespace("gamlss.dist"))
   dGG <- get("dGG", envir = asNamespace("gamlss.dist"))
   pGG <- get("pGG", envir = asNamespace("gamlss.dist"))
   dGA <- get("dGA", envir = asNamespace("gamlss.dist"))

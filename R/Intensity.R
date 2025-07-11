@@ -30,9 +30,52 @@
 #'      round(intensity$Intensity,0),cex=0.5)
 Intensity<-function(Data,Cluster_Max,Base_Line="Mean"){
 
-  if(class(Data[,1])[1]=="Date" | class(Data[,1])[1]=="factor" | class(Data[,1])[1]=="POSIXct" | class(Data[,1])[1]=="character"){
-    Data<-Data[,-1]
+  # Check if Data is provided
+  if (is.null(Data) | !is.data.frame(Data)) {
+    stop("Data must be a data frame")
   }
+
+  # Check if Data has rows and columns
+  if (nrow(Data) == 0 | ncol(Data) == 0) {
+    stop("Data must have at least one row and one column")
+  }
+
+  # Check if Cluster_Max is numeric
+  if (is.null(Cluster_Max) | !is.numeric(Cluster_Max) | any(is.na(Cluster_Max)) | length(Cluster_Max) == 0 | any(Cluster_Max <= 0) | any(Cluster_Max > nrow(Data)) | any(Cluster_Max != round(Cluster_Max))) {
+    stop("Cluster_Max must only contain positive integer values that do not exceed ength of time series")
+  }
+
+
+  if(any(class(Data[,1]) %in% c("Date", "factor", "POSIXct", "character"))){
+    Data <- Data[,-1]
+  }
+
+  # If multiple columns, use first one and warn
+  if (ncol(Data) > 1) {
+    warning("Data has multiple columns. Using first column only.")
+    Data <- Data[, 1]
+  } else {
+    Data <- Data[, 1]  # Convert to vector
+  }
+
+  # Validate Base_Line parameter
+  if (length(Base_Line) != 1) {
+    stop("Base_Line must be a single value")
+  }
+
+  if ((!is.character(Base_Line) && !is.numeric(Base_Line)) | (is.character(Base_Line) && Base_Line != "Mean")) {
+    stop("Base_Line must be either 'Mean' or a numeric value")
+  }
+
+  # Check if local_maximum and local_minimum functions exist
+  if (!exists("local_maximum")) {
+    stop("Function 'local_maximum' not found. Please ensure it is loaded or defined.")
+  }
+
+  if (!exists("local_minimum")) {
+    stop("Function 'local_minimum' not found. Please ensure it is loaded or defined.")
+  }
+
 
  #Calculating Base Line from which intensity is calculated
  Base_Line = ifelse(Base_Line == "Mean", mean(Data,na.rm=T),Base_Line)
@@ -48,26 +91,51 @@ Intensity<-function(Data,Cluster_Max,Base_Line="Mean"){
  pre.high = numeric(length(Cluster_Max))
  fol.high = numeric(length(Cluster_Max))
  intensity = numeric(length(Cluster_Max))
- vol = numeric(length(Cluster_Max))
 
  #Loop repeated for each of the cluster maximum
  for(i in 1:length(Cluster_Max)){
 
   #Preceding high water level
-  pre.high[i] = max(x.max[x.max<Cluster_Max[i]],na.rm=T)
+  pre_high = max(x.max[x.max<Cluster_Max[i]],na.rm=T)
+  if (length(pre_high) == 0 | is.infinite(pre_high)) {
+    stop("No precedding high water level found for event ", i)
+  }
+  pre.high[i] = max(pre_high, na.rm=T)
 
   #Following high water level
-  fol.high[i] = min(x.max[x.max>Cluster_Max[i]],na.rm=T)
+  fol_high = min(x.max[x.max>Cluster_Max[i]],na.rm=T)
+  if (length(fol_high) == 0 | is.infinite(fol_high)) {
+    stop("No following high water level found for event ", i)
+  }
+  fol.high[i] = min(fol_high, na.rm=T)
 
   #Preceding low water level
-  pre.low[i] = max(x.min[x.min<pre.high[i]],na.rm=T)
+  pre_low = max(x.min[x.min<pre.high[i]],na.rm=T)
+  if (length(pre_low) == 0 | is.infinite(pre_low)) {
+    stop("No preceeding low water level found for event ", i)
+  }
+  pre.low[i] = max(pre_low, na.rm=T)
 
   #Following low water level
-  fol.low[i] = min(x.min[x.min>fol.high[i]],na.rm=T)
+  fol_low = min(x.min[x.min>fol.high[i]],na.rm=T)
+  if (length(fol_low) == 0 | is.infinite(fol_low)) {
+    stop("No following low water level found for event ", i)
+  }
+  fol.low[i] = min(fol_low, na.rm=T)
+
+
+  #Identify which values are above Base_Line
+  event = Data[(pre.low[i]):(fol.low[i])]
+  above_baseline = which(event>Base_Line)
 
   #Calculate surge "intensity"
-  intensity[i] = sum(Data[(pre.low[i]):(fol.low[i])][
-    which(Data[(pre.low[i]):(fol.low[i])]>Base_Line)]- Base_Line)
+  if (!any(above_baseline)) {
+    warning("No data above baseline for event ", i, ". Intensity will be 0.")
+    intensity[i] = 0
+  } else {
+    intensity[i] = sum(event[above_baseline] - Base_Line)
+  }
+
  }
 
  #Put results in a data frame
