@@ -121,13 +121,21 @@ Diag_Non_Con_Trunc_Sel<-function(Data,Selected,Omit=NA,x_lab="Data",y_lim_min=0,
   }
 
   #Check gamlss packages are installed
+  f (!requireNamespace("gamlss", quietly = TRUE)) {
+    stop("The 'gamlss' package is required but not installed.")
+  }
   if (!requireNamespace("gamlss.dist", quietly = TRUE)) {
     stop("The 'gamlss.dist' package is required but not installed.")
   }
-  GU <- get("GG", envir = asNamespace("gamlss.dist"))
-  RG <- get("GA", envir = asNamespace("gamlss.dist"))
+
+  # Load the gamlss function
+  gamlss <- get("gamlss", envir = asNamespace("gamlss"))
+  gamlssMX <- get("gamlssMX", envir = asNamespace("gamlss"))
+
 
   # Load density and cumulative functions safely
+  GU <- get("GG", envir = asNamespace("gamlss.dist"))
+  RG <- get("GA", envir = asNamespace("gamlss.dist"))
   dGG <- get("dGG", envir = asNamespace("gamlss.dist"))
   pGG <- get("pGG", envir = asNamespace("gamlss.dist"))
   dGA <- get("dGA", envir = asNamespace("gamlss.dist"))
