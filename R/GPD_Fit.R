@@ -93,6 +93,11 @@ GPD_Fit<-function(Data,Data_Full,u=0.95,Thres=NA,mu=365.25,GPD_Bayes=TRUE,Method
                   xlab.hist=xlab_hist,
                   y.lab=y_lab)
   }
-  res<-list("Threshold"=Thres,"Rate"=gpd$rate,"sigma" = exp(gpd$par[1]), "xi" = gpd$par[2],"sigma.SE" = gpd$se[1],"xi.SE" = gpd$se[2])
+  res<-list("Threshold"=as.numeric(Thres),
+            "Rate"=as.numeric(gpd$rate),
+            "sigma" = as.numeric(exp(gpd$par[1])),
+            "xi" = as.numeric(gpd$par[2]),
+            "sigma.SE" = as.numeric(gpd$se[1]),
+            "xi.SE" = as.numeric(gpd$se[2]))
   return(res)
 }
