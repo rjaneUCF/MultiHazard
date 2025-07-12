@@ -7,12 +7,12 @@ test_that("GPD_Fit basic functionality works", {
   expect_type(result, 'list')
   expect_named(result,  c("Threshold","Rate","sigma","xi","sigma.SE","xi.SE"))
 
-  expect_type(result$Threshold,  'numeric')
-  expect_type(result$Rate,  'numeric')
-  expect_type(result$sigma,  'numeric')
-  expect_type(result$xi,  'numeric')
-  expect_type(result$sigma.SE,  'numeric')
-  expect_type(result$xi.SE,  'numeric')
+  expect_true(is.numeric(result$Threshold))
+  expect_true(is.numeric(result$Rate))
+  expect_true(is.numeric(result$sigma))
+  expect_true(is.numeric(result$xi))
+  expect_true(is.numeric(result$sigma.SE))
+  expect_true(is.numeric(result$xi.SE))
 
   expect_gte(result$Rate,  0)
 })
