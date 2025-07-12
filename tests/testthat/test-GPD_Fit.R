@@ -11,8 +11,8 @@ test_that("GPD_Fit basic functionality works", {
   expect_type(result$Rate,  'numeric')
   expect_type(result$sigma,  'numeric')
   expect_type(result$xi,  'numeric')
-  expect_type(result$sigma.se,  'numeric')
-  expect_type(result$xi.se,  'numeric')
+  expect_type(result$sigma.SE,  'numeric')
+  expect_type(result$xi.SE,  'numeric')
 
   expect_gte(result$Rate,  0)
 })
