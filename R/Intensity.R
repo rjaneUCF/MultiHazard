@@ -101,29 +101,29 @@ Intensity<-function(Data,Cluster_Max,Base_Line="Mean"){
 
   #Preceding high water level
   pre_high = x.max[x.max<Cluster_Max[i]]
-  if (length(pre_high) == 0 | is.infinite(pre_high)) {
-    stop("No preceding high water level found for event ", i)
+  if (length(pre_high) == 0 || any(is.infinite(pre_high))) {
+   stop("No preceding non-infinite high water level found for event ", i)
   }
   pre.high[i] = max(pre_high, na.rm=T)
 
   #Following high water level
   fol_high = x.max[x.max>Cluster_Max[i]]
-  if (length(fol_high) == 0 | is.infinite(fol_high)) {
-    stop("No following high water level found for event ", i)
+  if (length(fol_high) == 0 || any(is.infinite(fol_high))) {
+    stop("No following non-infinite high water level found for event ", i)
   }
   fol.high[i] = min(fol_high, na.rm=T)
 
   #Preceding low water level
   pre_low = x.min[x.min<pre.high[i]]
-  if (length(pre_low) == 0 | is.infinite(pre_low)) {
-    stop("No preceding low water level found for event ", i)
+  if (length(pre_low) == 0 || any(is.infinite(pre_low))) {
+    stop("No preceding non-infinite low water level found for event ", i)
   }
   pre.low[i] = max(pre_low, na.rm=T)
 
   #Following low water level
   fol_low = x.min[x.min>fol.high[i]]
-  if (length(fol_low) == 0 | is.infinite(fol_low)) {
-    stop("No following low water level found for event ", i)
+  if (length(fol_low) == 0 || any(is.infinite(fol_low))) {
+    stop("No following non-infinite low water level found for event ", i)
   }
   fol.low[i] = min(fol_low, na.rm=T)
 
