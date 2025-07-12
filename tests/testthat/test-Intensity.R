@@ -4,7 +4,7 @@ S13.OsWL.Declust = Decluster(Data=S13.Detrend.df$OsWL,
 
 test_that("Intensity function works", {
 
-  result <- Intensity(Data=S13.Detrend.df,Cluster_Max=S13.OsWL.Declust$EventsMax)
+  result <- Intensity(Data=S13.Detrend.df[,c(1,3)],Cluster_Max=S13.OsWL.Declust$EventsMax)
 
   # Checking type of output
   expect_type(result, 'data.frame')
@@ -29,12 +29,13 @@ test_that("Intensity function works", {
 
 test_that("Intensity invalid inputs", {
 
-  expect_error(Intensity(Data=S13.Detrend.df,Cluster_Max=S13.OsWL.Declust$EventsMax),
+  expect_error(Intensity(Data=5,Cluster_Max=S13.OsWL.Declust$EventsMax),
                "Data must have at least one row and one column")
 
-  expect_error(Intensity(Data=S13.Detrend.df,Cluster_Max=S13.OsWL.Declust$EventsMax),
+  S13.OsWL.Declust_EventsMax = c(S13.OsWL.Declust$EventsMax[-1],nrow(S13.Detrend.df)+1)
+  expect_error(Intensity(Data=S13.Detrend.df[,c(1,3)],Cluster_Max=S13.OsWL.Declust_EventsMax,
                "Cluster_Max must only contain positive integer values that do not exceed length of time series")
 
-  expect_error(Intensity(Data=S13.Detrend.df,Cluster_Max=S13.OsWL.Declust$EventsMax),
+  expect_error(Intensity(Data=S13.Detrend.df[,c(1,3)],Cluster_Max=S13.OsWL.Declust$EventsMax,Base_Line=1:5),
                "Base_Line must be a single value")
 })

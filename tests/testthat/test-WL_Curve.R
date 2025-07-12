@@ -40,7 +40,7 @@ test_that("WL_Curve function works", {
 test_that("Intensity invalid inputs", {
   
   S13.Detrend.df.new.name = S13.Detrend.df
-  colnames(S13.Detrend.df.new.name) = c("Date","Rainfall", "Water_level","Groundwater")
+  colnames(S13.Detrend.df.new.name) = c("Date","Rainfall", "Water_level")
   expect_error(WL_Curve(Data = S13.Detrend.df.new.name,
                         Cluster_Max = S13.OsWL.Declust$EventsMax,
                         Pre_Low = intensity$Pre.Low,
