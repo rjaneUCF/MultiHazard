@@ -17,11 +17,11 @@ test_that("Intensity function works", {
   expect_equal(length(result$Fol.Low),length(S13.OsWL.Declust$EventsMax))
 
   #Checking value of outputs
-  expect_gte(result$Pre.High, 0)
-  expect_gte(result$Fol.High, 0)
-  expect_gte(result$Pre.Low, 0)
-  expect_gte(result$Fol.Low, 0)
-  expect_gte(result$Intensity, 0)
+  expect_true(all(result$Pre.High >= 0))
+  expect_true(all(result$Fol.High >= 0))
+  expect_true(all(result$Pre.Low >= 0))
+  expect_true(all(result$Fol.Low >= 0))
+  expect_true(all(result$Intensity >= 0))
 })
 
 
