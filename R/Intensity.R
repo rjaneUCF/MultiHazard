@@ -42,7 +42,7 @@ Intensity<-function(Data,Cluster_Max,Base_Line="Mean"){
 
   # Check if Cluster_Max is numeric
   if (is.null(Cluster_Max) | !is.numeric(Cluster_Max) | any(is.na(Cluster_Max)) | length(Cluster_Max) == 0 | any(Cluster_Max <= 0) | any(Cluster_Max > nrow(Data)) | any(Cluster_Max != round(Cluster_Max))) {
-    stop("Cluster_Max must only contain positive integer values that do not exceed ength of time series")
+    stop("Cluster_Max must only contain positive integer values that do not exceed length of time series")
   }
 
 
@@ -50,12 +50,16 @@ Intensity<-function(Data,Cluster_Max,Base_Line="Mean"){
     Data <- Data[,-1]
   }
 
-  # If multiple columns, use first one and warn
-  if (ncol(Data) > 1) {
+  if (is.data.frame(Data) || is.matrix(Data)) {
+   # If multiple columns, use first one and warn
+   if (ncol(Data) > 1) {
     warning("Data has multiple columns. Using first column only.")
     Data <- Data[, 1]
-  } else {
+   } else {
     Data <- Data[, 1]  # Convert to vector
+   }
+  } else {
+    Data <- as.vector(Data)
   }
 
   # Validate Base_Line parameter
@@ -96,28 +100,28 @@ Intensity<-function(Data,Cluster_Max,Base_Line="Mean"){
  for(i in 1:length(Cluster_Max)){
 
   #Preceding high water level
-  pre_high = max(x.max[x.max<Cluster_Max[i]],na.rm=T)
+  pre_high = x.max[x.max<Cluster_Max[i]]
   if (length(pre_high) == 0 | is.infinite(pre_high)) {
-    stop("No precedding high water level found for event ", i)
+    stop("No preceding high water level found for event ", i)
   }
   pre.high[i] = max(pre_high, na.rm=T)
 
   #Following high water level
-  fol_high = min(x.max[x.max>Cluster_Max[i]],na.rm=T)
+  fol_high = x.max[x.max>Cluster_Max[i]]
   if (length(fol_high) == 0 | is.infinite(fol_high)) {
     stop("No following high water level found for event ", i)
   }
   fol.high[i] = min(fol_high, na.rm=T)
 
   #Preceding low water level
-  pre_low = max(x.min[x.min<pre.high[i]],na.rm=T)
+  pre_low = x.min[x.min<pre.high[i]]
   if (length(pre_low) == 0 | is.infinite(pre_low)) {
-    stop("No preceeding low water level found for event ", i)
+    stop("No preceding low water level found for event ", i)
   }
   pre.low[i] = max(pre_low, na.rm=T)
 
   #Following low water level
-  fol_low = min(x.min[x.min>fol.high[i]],na.rm=T)
+  fol_low = x.min[x.min>fol.high[i]]
   if (length(fol_low) == 0 | is.infinite(fol_low)) {
     stop("No following low water level found for event ", i)
   }
