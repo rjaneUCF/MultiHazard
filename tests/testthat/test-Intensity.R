@@ -33,7 +33,7 @@ test_that("Intensity invalid inputs", {
                "Data must have at least one row and one column")
 
   S13.OsWL.Declust_EventsMax = c(S13.OsWL.Declust$EventsMax[-1],nrow(S13.Detrend.df)+1)
-  expect_error(Intensity(Data=S13.Detrend.df[,c(1,3)],Cluster_Max=S13.OsWL.Declust_EventsMax,
+  expect_error(Intensity(Data=S13.Detrend.df[,c(1,3)],Cluster_Max=S13.OsWL.Declust_EventsMax),
                "Cluster_Max must only contain positive integer values that do not exceed length of time series")
 
   expect_error(Intensity(Data=S13.Detrend.df[,c(1,3)],Cluster_Max=S13.OsWL.Declust$EventsMax,Base_Line=1:5),
