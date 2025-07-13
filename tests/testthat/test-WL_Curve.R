@@ -31,7 +31,7 @@ test_that("WL_Curve function works", {
   
   #Checking column names of outputs
   expect_true(all(result$Event > 0 & result$Event < length(S13.OsWL.Declust$EventsMax)))
-  expect_gte(all(result$Intensity), 0)
+  expect_gte(all(as.numeric(result$Intensity)), 0)
 })
 
 
