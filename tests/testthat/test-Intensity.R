@@ -7,7 +7,7 @@ test_that("Intensity function works", {
   result <- Intensity(Data=S13.Detrend.df[,c(1,3)],Cluster_Max=S13.OsWL.Declust$EventsMax)
 
   # Checking type of output
-  expect_type(result, 'data.frame')
+  expect_true(is.data.frame(result))
   expect_named(result, c("Pre.High","Fol.High","Pre.Low","Fol.Low","Intensity"))
 
   #Checking length of outputs
@@ -30,7 +30,7 @@ test_that("Intensity function works", {
 test_that("Intensity invalid inputs", {
 
   expect_error(Intensity(Data=5,Cluster_Max=S13.OsWL.Declust$EventsMax),
-               "Data must have at least one row and one column")
+               "Data must be a data frame")
 
   S13.OsWL.Declust_EventsMax = c(S13.OsWL.Declust$EventsMax[-1],nrow(S13.Detrend.df)+1)
   expect_error(Intensity(Data=S13.Detrend.df[,c(1,3)],Cluster_Max=S13.OsWL.Declust_EventsMax),
