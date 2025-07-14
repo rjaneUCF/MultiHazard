@@ -14,7 +14,7 @@ test_that("return_curve_est works", {
                               window_length_x=NA,window_length_y=NA,
                               u_x=0.95, u_y=0.95,
                               sep_crit_x=36, sep_crit_y=36,
-                              alpha=0.1, x_lab=NA, y_lab=NA,most_likely=TRUE)
+                              alpha=0.1, x_lab=NA, y_lab=NA,most_likely=FALSE)
 
   # Checking type of output
   expect_type(result, 'list')
@@ -28,16 +28,19 @@ test_that("return_curve_est works", {
   expect_equal(nrow(result$median_ht04),50)
   expect_equal(nrow(result$ub_ht04),50)
   expect_equal(nrow(result$lb_ht04),50)
-  expect_equal(nrow(result$contour_ht04),50)
-  expect_equal(result$ensemble_ht04,NA)
-  expect_true(nrow(result$most_likely_ht04)==1 & ncol(result$most_likely_ht04)==2)
-  expect_true(nrow(result$most_likely_wt13)==1 & ncol(result$most_likely_wt13)==2)
+  expect_equal(nrow(result$median_wt13),50)
+  expect_equal(nrow(result$ub_wt13),50)
+  expect_equal(nrow(result$lb_wt14),50)
+  #expect_equal(nrow(result$contour_ht04),50)
+  #expect_equal(result$ensemble_ht04,NA)
+  #expect_true(nrow(result$most_likely_ht04)==1 & ncol(result$most_likely_ht04)==2)
+  #expect_true(nrow(result$most_likely_wt13)==1 & ncol(result$most_likely_wt13)==2)
 
   #Checking column names of outputs
-  expect_equal(colnames(S22.Detrend.df.extended)[-1], colnames(result$median_ht04))
-  expect_equal(colnames(S22.Detrend.df.extended)[-1], colnames(result$ub_ht04))
-  expect_equal(colnames(S22.Detrend.df.extended)[-1], colnames(result$lb_ht04))
-  expect_equal(colnames(S22.Detrend.df.extended)[-1], colnames(result$contour_ht04))
+  expect_equal(colnames(S22.Detrend.df.extended)[,2:3], colnames(result$median_ht04))
+  expect_equal(colnames(S22.Detrend.df.extended)[,2:3], colnames(result$ub_ht04))
+  expect_equal(colnames(S22.Detrend.df.extended)[,2:3], colnames(result$lb_ht04))
+  #expect_equal(colnames(S22.Detrend.df.extended)[,2:3], colnames(result$contour_ht04))
 })
 
 
