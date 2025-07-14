@@ -392,6 +392,14 @@ for(i in 1:n_grad){
   upper_bound2[i,] = angles_est_points2[i,,order(angles_est_points2[i,2,1:n_boot])[n_boot*(1-alpha/2)]]
 }
 
+colnames(median) <- c(names(data)[2],names(data)[3])
+colnames(median2) <- c(names(data)[2],names(data)[3])
+colnames(upper_bound) <- c(names(data)[2],names(data)[3])
+colnames(lower_bound2) <- c(names(data)[2],names(data)[3])
+colnames(upper_bound) <- c(names(data)[2],names(data)[3])
+colnames(upper_bound2) <- c(names(data)[2],names(data)[3])
+
+
 #(relative) Probabilities implied by the data for the points composing the isoline. Probabilities are scaled to [0,1].
 if(most_likely==T){
 
