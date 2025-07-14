@@ -54,20 +54,96 @@
 #' GPD_Threshold_Solari(Event=Rainfall_Declust_SW$Declustered,
 #'                      Data=22.Detrend.df[,2])
 GPD_Threshold_Solari<-function(Event,Data,RPs=c(10,50,100,500,1000),RPs_PLOT=c(2,3,4),Min_Quantile=0.95,Alpha=0.1,mu=365.25,N_Sim=10){
-  
+
+    # Check for missing required parameters
+    if (is.null(Event)) {
+      stop("Data is missing.")
+    }
+
+    # Check data types
+    if (!is.numeric(Event) || length(Event) == 0) {
+      stop("Event must be a numeric vector.")
+    }
+
+    if (!is.numeric(Data) || length(Data) == 0) {
+      stop("Data must be a numeric vector.")
+    }
+
+    if (!is.numeric(RPs) || length(RPs) == 0) {
+      stop("RPs must be a numeric vector.")
+    }
+
+    if (!is.numeric(RPs_PLOT)) {
+      stop("RPs_PLOT must be a numeric vector.")
+    }
+
+    # Check for all NA values before na.omit
+    if (all(is.na(Event))) {
+      stop("Event contains only NA values.")
+    }
+
+    if (all(is.na(Data))) {
+      stop("Data contains only NA values.")
+    }
+
+    # Check for infinite values
+    if (any(is.infinite(Event))) {
+      warning("Event contains infinite values which will be removed.")
+      Event <- Event[!is.infinite(Event)]
+    }
+
+    if (any(is.infinite(Data))) {
+      warning("Data contains infinite values which will be removed.")
+      Data <- Data[!is.infinite(Data)]
+    }
+
+    # Check Min_Quantile parameter
+    if (!is.numeric(Min_Quantile) || length(Min_Quantile) != 1 || Min_Quantile <= 0 || Min_Quantile >= 1) {
+      stop("Min_Quantile must be a single numeric value must be between 0 and 1 (exclusive).")
+    }
+
+    if (!is.numeric(Alpha) || length(Alpha) != 1 || Alpha <= 0 || Alpha >= 1) {
+      stop("Alpha must be between 0 and 1 (exclusive).")
+    }
+
+    # Check mu parameter
+    if (!is.numeric(mu) || length(mu) != 1 || mu <= 0) {
+      stop("mu must be a single positive (greater than 0) numeric value.")
+    }
+
+    # Check N_Sim parameter
+    if (!is.numeric(N_Sim) || length(N_Sim) != 1 || N_Sim != round(N_Sim) || N_Sim <= 0) {
+      stop("N_Sim must be a single positive (integer) numeric value.")
+    }
+
+    # Check RPs parameter
+    if (any(RPs <= 0)) {
+      stop("All values in RPs must be positive.")
+    }
+
+    # Check RPs_PLOT parameter
+    if (any(RPs_PLOT <= 0) || any(RPs_PLOT != round(RPs_PLOT))) {
+      stop("All values in RPs_PLOT must be positive integers.")
+    }
+
+    if (any(RPs_PLOT > length(RPs))) {
+      stop("RPs_PLOT indices cannot exceed the length of 'RPs'.")
+    }
+
+  # Check for required exter
   # Loads the p-values matrix
   p_val <- array(c(PVAL_AU2_LMOM_1$PVAL,PVAL_AU2_LMOM_2$PVAL,PVAL_AU2_LMOM_3$PVAL,PVAL_AU2_LMOM_4$PVAL),dim=c(24,6,100001))
-  
+
   # Removing NAs in Data
   Data = na.omit(Data)
-  
+
   # Auxiliary variables
   N_Years = length(Data)/mu
-  
+
   # POT with L-moments and with bootstrapping confidence intervals
   Event = na.omit(Event)
   Event = sort(Event[Event>quantile(Data,Min_Quantile)])
-  
+
   # initialize variables
   u_Candidate         = sort(Event)
   u_Candidate         = u_Candidate[1:(length(u_Candidate)-30)]
@@ -79,11 +155,11 @@ GPD_Threshold_Solari<-function(Event,Data,RPs=c(10,50,100,500,1000),RPs_PLOT=c(2
   CI.Lower      = array(0,dim=c(N_u_Candidate,6+length(RPs)))
   AR2           = rep(NA,N_u_Candidate)
   AR2.pValue    = rep(NA,N_u_Candidate)
-  
+
   # Analysis
   for(i in 1:N_u_Candidate){
     GPD.MLE[i,] = unlist(GPD_Eval_MLE(Event[Event>u_Candidate[i]],RPs,N_Years))
-    
+
     # Bootstraping
     BOOT = array(0,dim=c(N_Sim,length(GPD.MLE[i,])))
     for(J in 1:N_Sim){
@@ -93,10 +169,10 @@ GPD_Threshold_Solari<-function(Event,Data,RPs=c(10,50,100,500,1000),RPs_PLOT=c(2
         }, silent = TRUE)
       }
     }
-    
+
     CI.Upper[i,] =  apply(BOOT, 2,  quantile, 1-Alpha/2)
     CI.Lower[i,] =  apply(BOOT, 2,  quantile, Alpha/2)
-    
+
     # Anderson-Darling Upper without confidence intervals for L-Moments
     AR2[i] = AR2(GPD.MLE[i,1:3],Event[Event>u_Candidate[i]])
     x_AR2 <- c(10,12,14,16,18,20,22,24,26,28,30,35,40,45,50,60,70,80,90,100,200,300,400,500)
@@ -116,7 +192,7 @@ GPD_Threshold_Solari<-function(Event,Data,RPs=c(10,50,100,500,1000),RPs_PLOT=c(2
     AR2.pValue[i] <- ((y-y.min)/(y.max-y.min)) *  f.x.ymax + ((y.max-y)/(y.max-y.min)) * f.x.ymin
   }
   colnames(GPD.MLE)<-c("xi","sigma","u","MRLP","mod_sigma","rate",paste(RPs))
-  
+
   RPs<-as.character(RPs)
   z<-which(GPD.MLE[,1]>-0.5 & GPD.MLE[,1]<0.5 & GPD.MLE[,6]<(length(na.omit(Data)/365.25)))
   par(mfrow=c(3,3))
@@ -154,7 +230,7 @@ GPD_Threshold_Solari<-function(Event,Data,RPs=c(10,50,100,500,1000),RPs_PLOT=c(2
   par(mfrow=c(1,1))
   ecdf_fun <- function(x,perc) ecdf(x)(perc)
   u_Candidate_Quantile<-ecdf_fun(Data,Event)
-  
+
   Candidate_Thres<-u_Candidate[z][which(AR2.pValue[z]==min(AR2.pValue[z]))]
   res<-list("Thres_Candidate"=u_Candidate,"Thres_Candidate_Quantile"=u_Candidate_Quantile,"GPD_MLE"=GPD.MLE,"CI_Upper"=CI.Upper,"CI_Lower"=CI.Lower,"AR2"=AR2,"AR2_pValue"=AR2.pValue,"Candidate_Thres"=Candidate_Thres)
   return(res)

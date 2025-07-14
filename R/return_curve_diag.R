@@ -86,7 +86,7 @@ return_curve_diag = function(data,q,rp,mu,n_sim,n_grad,n_boot,boot_method, boot_
   }
 
   #Return period parameter must be a single numeric value
-  if (missing(rp) || !is.numeric(rp) || length(rp) != 1 || rp <= 1) {
+  if (missing(rp) || !is.numeric(rp) || length(rp) != 1 || rp < 1) {
     stop("Error: rp must be a single positive numeric value")
   }
 
