@@ -30,16 +30,16 @@ test_that("return_curve_est works", {
   expect_equal(nrow(result$lb_ht04),50)
   expect_equal(nrow(result$median_wt13),50)
   expect_equal(nrow(result$ub_wt13),50)
-  expect_equal(nrow(result$lb_wt14),50)
+  expect_equal(nrow(result$lb_wt13),50)
   #expect_equal(nrow(result$contour_ht04),50)
   #expect_equal(result$ensemble_ht04,NA)
   #expect_true(nrow(result$most_likely_ht04)==1 & ncol(result$most_likely_ht04)==2)
   #expect_true(nrow(result$most_likely_wt13)==1 & ncol(result$most_likely_wt13)==2)
 
   #Checking column names of outputs
-  expect_equal(colnames(S22.Detrend.df.extended)[,2:3], colnames(result$median_ht04))
-  expect_equal(colnames(S22.Detrend.df.extended)[,2:3], colnames(result$ub_ht04))
-  expect_equal(colnames(S22.Detrend.df.extended)[,2:3], colnames(result$lb_ht04))
+  expect_equal(colnames(S22.Detrend.df.extended[,2:3]), colnames(result$median_ht04))
+  expect_equal(colnames(S22.Detrend.df.extended[,2:3]), colnames(result$ub_ht04))
+  expect_equal(colnames(S22.Detrend.df.extended[,2:3]), colnames(result$lb_ht04))
   #expect_equal(colnames(S22.Detrend.df.extended)[,2:3], colnames(result$contour_ht04))
 })
 

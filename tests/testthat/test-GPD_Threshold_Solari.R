@@ -1,5 +1,5 @@
 
-Rainfall_Declust_SW<-Decluster_SW(Data=S22.Detrend.df[,c(1:2)],Window_Width=7)
+Rainfall_Declust_SW<-suppressWarnings(Decluster_SW(Data=S22.Detrend.df[,c(1:2)],Window_Width=7))
 
 
 test_that("GPD_Threshold_Solari works", {
@@ -27,7 +27,7 @@ test_that("GPD_Threshold_Solari works", {
   expect_length(result$Candidate_Thres,1)
 
   #Checking column names of outputs
-  expect_equal(colnames(S22.Detrend.df.extended)[-1], c("xi","sigma","u","MRLP","mod_sigma","rate","10","50","100"))
+  expect_equal(colnames(result$GPD_MLE), c("xi","sigma","u","MRLP","mod_sigma","rate","10","50","100"))
 
   #Checking values of outputs
   expect_true(result$Thres_Candidate>min(Rainfall_Declust_SW$Declustered,na.rm=T))
@@ -40,7 +40,7 @@ test_that("Invalid inputs", {
 
   expect_error(GPD_Threshold_Solari(Event=Rainfall_Declust_SW$Declustered,
                                     Data=rep("Not numeric",5)),
-              "Event must be a numeric vector.")
+              "Data must be a numeric vector.")
 
 
   expect_error(GPD_Threshold_Solari(Event=Rainfall_Declust_SW$Declustered,
