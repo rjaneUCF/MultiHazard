@@ -9,8 +9,7 @@ test_that("HT04 works", {
 
   # Checking type of output
   expect_type(result, 'list')
-  expect_named(result, c("Model", "Prop", "z", "u.sim",
-                         "x.sim"))
+  expect_named(result, c("Model", "Prop", "z", "u.sim","x.sim"))
 
 
   #Checking length of outputs
