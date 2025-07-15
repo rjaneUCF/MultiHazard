@@ -61,15 +61,15 @@ GPD_Threshold_Solari<-function(Event,Data,RPs=c(10,50,100,500,1000),RPs_PLOT=c(2
     }
 
     # Check data types
-    if (!is.numeric(Event) || length(Event) == 0) {
+    if (!is.numeric(Event)) {
       stop("Event must be a numeric vector.")
     }
 
-    if (!is.numeric(Data) || length(Data) == 0) {
+    if (!is.numeric(Data)) {
       stop("Data must be a numeric vector.")
     }
 
-    if (!is.numeric(RPs) || length(RPs) == 0) {
+    if (!is.numeric(RPs)) {
       stop("RPs must be a numeric vector.")
     }
 
@@ -98,21 +98,37 @@ GPD_Threshold_Solari<-function(Event,Data,RPs=c(10,50,100,500,1000),RPs_PLOT=c(2
     }
 
     # Check Min_Quantile parameter
-    if (!is.numeric(Min_Quantile) || length(Min_Quantile) != 1 || Min_Quantile <= 0 || Min_Quantile >= 1) {
-      stop("Min_Quantile must be a single numeric value must be between 0 and 1 (exclusive).")
+    if (!is.numeric(Min_Quantile)) {
+      stop("Min_Quantile must be a single numeric value.")
     }
 
-    if (!is.numeric(Alpha) || length(Alpha) != 1 || Alpha <= 0 || Alpha >= 1) {
-      stop("Alpha must be between 0 and 1 (exclusive).")
+    if (length(Min_Quantile) != 1 || Min_Quantile <= 0 || Min_Quantile >= 1){
+      stop("Min_Quantile must be between 0 and 1 (exclusive).")
+    }
+
+    if (!is.numeric(Alpha)) {
+      stop("Alpha must be numeric value.")
+    }
+
+    if (length(Alpha) != 1 || Alpha <= 0 || Alpha >= 1){
+     stop("Alpha must be between 0 and 1 (exclusive).")
     }
 
     # Check mu parameter
-    if (!is.numeric(mu) || length(mu) != 1 || mu <= 0) {
+    if (!is.numeric(mu)) {
+      stop("mu must be a numeric value.")
+    }
+
+    if (length(mu) != 1 || mu <= 0){
       stop("mu must be a single positive (greater than 0) numeric value.")
     }
 
     # Check N_Sim parameter
-    if (!is.numeric(N_Sim) || length(N_Sim) != 1 || N_Sim != round(N_Sim) || N_Sim <= 0) {
+    if (!is.numeric(N_Sim)) {
+      stop("N_Sim must be a numeric value.")
+    }
+
+    if (length(N_Sim) != 1 || N_Sim != round(N_Sim) || N_Sim <= 0){
       stop("N_Sim must be a single positive (integer) numeric value.")
     }
 

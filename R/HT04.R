@@ -87,19 +87,35 @@ HT04<-function(data_Detrend_Dependence_df,data_Detrend_Declustered_df,u_Dependen
   }
 
   # Validate numeric parameters
-  if(!is.numeric(mu) || length(mu) != 1 || mu <= 0){
-    stop("mu must be a positive numeric value.")
+  if(!is.numeric(mu)){
+    stop("mu must be numeric.")
   }
 
-  if(!is.numeric(N) || length(N) != 1 || N <= 0 || N != round(N)){
-    stop("N must be a positive integer.")
+  if(length(mu) != 1 || mu <= 0){
+     stop("mu must be a positive numeric value.")
   }
 
-  if(!is.numeric(V) || length(V) != 1 || V <= 0 || V != round(V)){
+  if(!is.numeric(N)){
+    stop("N must be a numeric.")
+  }
+
+  if(length(N) != 1 || N <= 0 || N != round(N)){
+     stop("mu must be a positive numeric value.")
+  }
+
+  if(!is.numeric(V)){
+    stop("V must be a numeric.")
+  }
+
+  if(length(V) != 1 || V <= 0 || V != round(V)){
     stop("V must be a positive integer.")
   }
 
-  if(!is.numeric(Maxit) || length(Maxit) != 1 || Maxit <= 0 || Maxit != round(Maxit)){
+  if(!is.numeric(Maxit)){
+    stop("Maxit must be a numeric value.")
+  }
+
+  if(length(Maxit) != 1 || Maxit <= 0 || Maxit != round(Maxit)){
     stop("Maxit must be a positive integer.")
   }
 
