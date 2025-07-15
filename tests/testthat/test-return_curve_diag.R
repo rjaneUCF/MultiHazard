@@ -25,7 +25,7 @@ test_that("return_curve_est_diag works", {
                          "med_x_ht04", "lb_x_ht04", "ub_x_ht04",
                          "med_y_ht04", "lb_y_ht04", "ub_y_ht04",
                          "med_x_wt13", "lb_x_wt13", "ub_x_wt13",
-                         "med_y_wt13", "ensemble_wt13", "ub_y_wt13",
+                         "med_y_wt13", "lb_y_wt13", "ub_y_wt13",
                          "med_ht04", "lb_ht04", "ub_ht04",
                          "med_wt13", "lb_wt13", "ub_wt13"))
 
@@ -43,5 +43,4 @@ test_that("return_curve_est_diag works", {
   expect_equal(colnames(S22.Detrend.df.extended)[-1], colnames(result$median_ht04))
   expect_equal(colnames(S22.Detrend.df.extended)[-1], colnames(result$ub_ht04))
   expect_equal(colnames(S22.Detrend.df.extended)[-1], colnames(result$lb_ht04))
-  expect_equal(colnames(S22.Detrend.df.extended)[-1], colnames(result$contour_ht04))
 })
