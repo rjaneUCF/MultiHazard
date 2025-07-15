@@ -423,29 +423,29 @@ lines(ang_ind, lb_2, lty = 'dashed', col = 'blue',lwd=2)
 lines(ang_ind,rep(p,length(ang_ind)),type="l",lwd=3,col=2)
 legend("topleft",legend = c("True Probability","Median Estimate","95% Confidence Intervals"),lty=c('solid','solid','dashed'),col=c(2,1,"blue"),cex=1.2,lwd=2,bg="white")
 
-colnames(med_x_1) = names(Data)[,2:3]
-colnames(lb_x_1) = names(Data)[,2:3]
-colnames(ub_x_1) = names(Data)[,2:3]
+colnames(med_x_1) = names(data[,2:3])
+colnames(lb_x_1) = names(data[,2:3])
+colnames(ub_x_1) = names(data[,2:3])
 
-colnames(med_y_1) = names(Data)[,2:3]
-colnames(lb_y_1) = names(Data)[,2:3]
-colnames(ub_y_1) = names(Data)[,2:3]
+colnames(med_y_1) = names(data[,2:3])
+colnames(lb_y_1) = names(data[,2:3])
+colnames(ub_y_1) = names(data[,2:3])
 
-colnames(med_x_2) = names(Data)[,2:3]
-colnames(lb_x_2) = names(Data)[,2:3]
-colnames(ub_x_2) = names(Data)[,2:3]
+colnames(med_x_2) = names(data[,2:3])
+colnames(lb_x_2) = names(data[,2:3])
+colnames(ub_x_2) = names(data[,2:3])
 
-colnames(med_y_2) = names(Data)[,2:3]
-colnames(lb_y_2) = names(Data)[,2:3]
-colnames(ub_y_2) = names(Data)[,2:3]
+colnames(med_y_2) = names(data[,2:3])
+colnames(lb_y_2) = names(data[,2:3])
+colnames(ub_y_2) = names(data[,2:3])
 
-colnames(med_1) = names(Data)[,2:3]
-colnames(lb_1) = names(Data)[,2:3]
-colnames(ub_1) = names(Data)[,2:3]
+colnames(med_1) = names(data[,2:3])
+colnames(lb_1) = names(data[,2:3])
+colnames(ub_1) = names(data[,2:3])
 
-colnames(med_2) = names(Data)[,2:3]
-colnames(lb_2) = names(Data)[,2:3]
-colnames(ub_2) = names(Data)[,2:3]
+colnames(med_2) = names(data[,2:3])
+colnames(lb_2) = names(data[,2:3])
+colnames(ub_2) = names(data[,2:3])
 
 res = list("ang_ind" = ang_ind,
            "med_x_ht04" = med_x_1, "lb_x_ht04" = lb_x_1, "ub_x_ht04" = ub_x_1,
