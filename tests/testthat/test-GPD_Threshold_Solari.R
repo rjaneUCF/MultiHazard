@@ -27,13 +27,13 @@ test_that("GPD_Threshold_Solari works", {
   expect_length(result$Candidate_Thres,1)
 
   #Checking column names of outputs
-  expect_equal(colnames(result$GPD_MLE), c("xi","sigma","u","MRLP","mod_sigma","rate","10","50","100"))
+  expect_equal(colnames(result$GPD_MLE), c("xi","sigma","u","MRLP","mod_sigma","rate","10","50","100","500","1000"))
 
   #Checking values of outputs
-  expect_true(result$Thres_Candidate>min(Rainfall_Declust_SW$Declustered,na.rm=T))
-  expect_true(all(result$Thres_Candidate_Quantile>0 & result$Thres_Candidate_Quantile<1))
-  expect_true(all(result$GPD_MLE$rate>0))
-  expect_true(all(result$GPD_MLE$`100`>result$GPD_MLE$`50`))
+  expect_true(all(result$Thres_Candidate>min(Rainfall_Declust_SW$Declustered,na.rm=T)))
+  expect_true(all(result$Thres_Candidate_Quantile>0 & result$Thres_Candidate_Quantile<=1))
+  expect_true(all(result$GPD_MLE[,6]>0))
+  expect_true(all(result$GPD_MLE[,8]>result$GPD_MLE[,7]))
 })
 
 test_that("Invalid inputs", {

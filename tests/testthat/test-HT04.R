@@ -20,9 +20,9 @@ test_that("HT04 works", {
   expect_equal(nrow(result$x.sim),round((1-0.995)*365.25*1000,0))
 
   #Checking column names of outputs
-  expect_equal(colnames(S20.Detrend.df[,2:3]), colnames(result$u.sim))
-  expect_equal(colnames(S20.Detrend.df[,2:3]), colnames(result$x.sim))
-  expect_equal(colnames(S20.Detrend.df[,2:3]), colnames(result$z))
+  expect_equal(paste(colnames(S20.Detrend.df[,2:4]),".trans",sep=""), colnames(result$u.sim))
+  expect_equal(colnames(S20.Detrend.df[,2:4]), colnames(result$x.sim))
+  expect_equal(colnames(S20.Detrend.df[,2:4]), colnames(result$z))
 })
 
 test_that("Invalid inputs", {
