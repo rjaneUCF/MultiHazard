@@ -178,10 +178,6 @@ return_curve_diag = function(data,q,rp,mu,n_sim,n_grad,n_boot,boot_method, boot_
   }
 
   #Additional paramter validation
-  if (!is.logical(most_likely) || length(most_likely) != 1) {
-    stop("Error: most_likely must be TRUE or FALSE")
-  }
-
   if (!is.numeric(n_interp) || length(n_interp) != 1 || n_interp <= 0) {
     stop("Error: n_interp must be a positive integer")
   }
