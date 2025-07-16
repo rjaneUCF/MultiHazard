@@ -9,7 +9,7 @@
 #' @param n_sim Numeric vector of length one specifying the number of simulations for HT model. Default is \code{50}.
 #' @param n_grad Numeric vector of length one specifying number of number of rays along which to compute points on the curve. Default is \code{50}.
 #' @param boot_method Character vector of length one specifying the bootstrap method. Options are \code{"basic"} (default), \code{"block"} or \code{"monthly"}.
-#' @param boot_replace Character vector of length one specifying whether simple bootstrapping is carried out with \code{"T"} or without \code{"F"} replacement. Only required if \code{boot_method = "basic"}. Default is \code{NA}.
+#' @param boot_replace Logical vector of length one specifying whether simple bootstrapping is carried out with \code{T} or without \code{F} replacement. Only required if \code{boot_method = "basic"}. Default is \code{NA}.
 #' @param block_length Numeric vector of length one specifying block length. Only required if \code{boot_method = "block"}. Default is \code{NA}.
 #' @param boot_prop Numeric vector of length one specifying the minimum proportion of non-missing values of at least of the variables for a month to be included in the bootstrap. Only required if \code{boot_method = "monthly"}. Default is \code{0.8}.
 #' @param n_boot Numeric vector of length one specifying number of bootstrap samples. Default is \code{100}.
@@ -60,7 +60,7 @@
 #'                   alpha=0.1,
 #'                   boot_method_all="block", boot_replace_all=NA,
 #'                   block_length_all=14)
-return_curve_diag = function(data,q,rp,mu,n_sim,n_grad,n_boot,boot_method, boot_replace, block_length, boot_prop, decl_method_x, decl_method_y, window_length_x, window_length_y, u_x=NA, u_y=NA, sep_crit_x=NA, sep_crit_y=NA, boot_method_all="block", boot_replace_all=NA, block_length_all=14, boot_prop_all=0.8,alpha=0.1, x_lab=NA, y_lab=NA,x_lim_min=min(data_df[,2],na.rm=T),x_lim_max=max(data_df[,2],na.rm=T)+0.3*diff(range(data[,2],na.rm=T)),y_lim_min=min(data[,3],na.rm=T),y_lim_max=max(data[,3],na.rm=T)+0.3*diff(range(data[,2],na.rm=T))){
+return_curve_diag = function(data,q,rp,mu,n_sim,n_grad,n_boot,boot_method, boot_replace, block_length, boot_prop, decl_method_x, decl_method_y, window_length_x, window_length_y, u_x=NA, u_y=NA, sep_crit_x=NA, sep_crit_y=NA, boot_method_all="block", boot_replace_all=NA, block_length_all=14, boot_prop_all=0.8,alpha=0.1, x_lab=NA, y_lab=NA,x_lim_min=min(data[,2],na.rm=T),x_lim_max=max(data[,2],na.rm=T)+0.3*diff(range(data[,2],na.rm=T)),y_lim_min=min(data[,3],na.rm=T),y_lim_max=max(data[,3],na.rm=T)+0.3*diff(range(data[,2],na.rm=T))){
 
   if (missing(data) || is.null(data)) {
     stop("data is missing.")
@@ -260,15 +260,6 @@ return_curve_diag = function(data,q,rp,mu,n_sim,n_grad,n_boot,boot_method, boot_
     stop("alpha must be between 0 and 1 (exclusive).")
   }
 
-  #Additional parameter validation
-  if (!is.numeric(n_ensemble)) {
-    stop("n_ensemble must be a numeric value.")
-  }
-
-  if (length(n_ensemble) != 1 || n_ensemble < 0) {
-    stop("n_ensemble must be a non-negative integer.")
-  }
-
   #Data quality checks
   if (any(is.infinite(data[,2]), na.rm = TRUE) || any(is.infinite(data[,3]), na.rm = TRUE)) {
     stop("data contains infinite values.")
@@ -292,7 +283,7 @@ return_curve_diag = function(data,q,rp,mu,n_sim,n_grad,n_boot,boot_method, boot_
 
   curve = return_curve_est(data=data,q=q,rp=rp,mu=mu,n_sim=n_sim,
                           n_grad=n_grad,n_boot=n_boot,boot_method=boot_method,
-                          boot_replace=boot_replace, block_length=boot_length, boot_prop=boot_prop,
+                          boot_replace=boot_replace, block_length=block_length, boot_prop=boot_prop,
                           decl_method_x=decl_method_x, decl_method_y=decl_method_y,
                           window_length_x=window_length_x,window_length_y=window_length_y,
                           u_x=u_x, u_y=u_y,
@@ -357,7 +348,7 @@ for(j in 1:n_boot){
   boot_y_dec_df$Date = as.Date(boot_y_dec_df$Date)
 
   #Dataframes
-  df = data.frame("Date"=seq.Date(as.Date(min(data$Date,data$Date)),as.Date(max(data$Date,data$Date)),by="day"))
+  df = data.frame("Date"=seq.Date(as.Date(min(data$Date)),as.Date(max(data$Date)),by="day"))
   df_1 = left_join(df,boot_x_dec_df,by="Date")
   boot_decl_df = left_join(df_1,boot_y_dec_df,by="Date")
   colnames(boot_decl_df) = colnames(data)
@@ -447,7 +438,6 @@ for(j in 1:n_boot){
 
   boot_data = data[!(is.na(data[,2]) | is.na(data[,3])),c(2,3)]
 
-  if(j > 1){
    if(boot_method_all=="basic"){
      index = sample(1:nrow(data),replace=boot_replace_all)
      boot_data = data[index,]
@@ -458,8 +448,6 @@ for(j in 1:n_boot){
    if(boot_method_all=="monthly"){
     boot_data = bootstrap_month(boot_data,boot_prop_all)
    }
-  }
-
 
   for(i in 1:n_grad){
     emp_prob_1[[i]][j] <- mean(boot_data[, 1] > median_diag[i, 1] & boot_data[, 2] > median_diag[i, 2])
@@ -478,7 +466,8 @@ lb_2 <- sapply(1:n_grad, function(i) quantile(emp_prob_2[[i]], alpha/2))
 ub_2 <- sapply(1:n_grad, function(i) quantile(emp_prob_2[[i]], 1 - alpha/2))
 med_2 <- sapply(1:n_grad, function(i) quantile(emp_prob_2[[i]], 0.5))
 
-par(mfrow=c(1,2),mgp=c(2.2,1,0),mar=c(5,4,4,2)+0.1)
+#par(mfrow=c(1,2),mgp=c(2.2,1,0),mar=c(5,4,4,2)+0.1)
+par(mfrow=c(2,2),mgp=c(2.2,1,0),mar=c(5,4,4,2)+0.1)
 
 ang_ind = 1:n_grad
 
@@ -498,29 +487,29 @@ lines(ang_ind, lb_2, lty = 'dashed', col = 'blue',lwd=2)
 lines(ang_ind,rep(p,length(ang_ind)),type="l",lwd=3,col=2)
 legend("topleft",legend = c("True Probability","Median Estimate","95% Confidence Intervals"),lty=c('solid','solid','dashed'),col=c(2,1,"blue"),cex=1.2,lwd=2,bg="white")
 
-colnames(med_x_1) = names(data[,2:3])
-colnames(lb_x_1) = names(data[,2:3])
-colnames(ub_x_1) = names(data[,2:3])
+names(med_x_1) = names(data[,2:3])
+names(lb_x_1) = names(data[,2:3])
+names(ub_x_1) = names(data[,2:3])
 
-colnames(med_y_1) = names(data[,2:3])
-colnames(lb_y_1) = names(data[,2:3])
-colnames(ub_y_1) = names(data[,2:3])
+names(med_y_1) = names(data[,2:3])
+names(lb_y_1) = names(data[,2:3])
+names(ub_y_1) = names(data[,2:3])
 
-colnames(med_x_2) = names(data[,2:3])
-colnames(lb_x_2) = names(data[,2:3])
-colnames(ub_x_2) = names(data[,2:3])
+names(med_x_2) = names(data[,2:3])
+names(lb_x_2) = names(data[,2:3])
+names(ub_x_2) = names(data[,2:3])
 
-colnames(med_y_2) = names(data[,2:3])
-colnames(lb_y_2) = names(data[,2:3])
-colnames(ub_y_2) = names(data[,2:3])
+names(med_y_2) = names(data[,2:3])
+names(lb_y_2) = names(data[,2:3])
+names(ub_y_2) = names(data[,2:3])
 
-colnames(med_1) = names(data[,2:3])
-colnames(lb_1) = names(data[,2:3])
-colnames(ub_1) = names(data[,2:3])
+names(med_1) = names(data[,2:3])
+names(lb_1) = names(data[,2:3])
+names(ub_1) = names(data[,2:3])
 
-colnames(med_2) = names(data[,2:3])
-colnames(lb_2) = names(data[,2:3])
-colnames(ub_2) = names(data[,2:3])
+names(med_2) = names(data[,2:3])
+names(lb_2) = names(data[,2:3])
+names(ub_2) = names(data[,2:3])
 
 res = list("ang_ind" = ang_ind,
            "med_x_ht04" = med_x_1, "lb_x_ht04" = lb_x_1, "ub_x_ht04" = ub_x_1,

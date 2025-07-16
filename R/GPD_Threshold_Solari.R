@@ -41,7 +41,7 @@
 #' \item \code{AR2}
 #' Value of the right-tail weighted Anderson Darling statistic \eqn{A_R^2}, the test statistic used in the Solari et al. (2017) method for each \code{Thres_Candidate}.
 #' \item \code{AR2_pValue}
-#' p-value asssociated with \eqn{A_R^2}.
+#' p-value associated with \eqn{A_R^2}.
 #' }
 #' To interpret the graphical output. Top row: The GPD exhibits certain threshold stability properties. The guiding principle for threshold choice is to find the lowest value of the threshold such that the parameter estimates stabilize to a constant value which is sustained at all higher thresholds, once the sample uncertainty has been accounted for (typically assessed by pointwise uncertainty intervals). Mean residual life plot (left). If the GPD is a valid model for excesses above a threshold then the mean of these excesses will be a linear function of the threshold. We therefore select the lowest threshold where there is a linear trend in the mean residual life plot. Parameter stability plots for the shape (center) and scale (right) parameters. If the GPD is a suitable model for a threshold then for all higher thresholds it will also be suitable, with the shape and scale parameters being constant. The lowest threshold - to reduce the associated uncertainty - at which the parameter estimates are stable for all higher thresholds should be selected.
 #' Middle row: Return levels estimated from the GPD fitted at various thresholds.
