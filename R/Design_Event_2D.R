@@ -102,7 +102,7 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
   }
 
   # Marginal distribution validation
-  valid_dists <- c("Norm", "Logis", "Gumbel", "Exp", "Gamma", "Lnorm", "Weibull", "Twe", "GPD")
+  valid_dists <- c("BS","Exp", "Gam(2)", "Gam(3)", "GamMix(2)", "GamMix(3)", "Gaus", "InvG", "Logis", "LNorm", "TNorm","Twe", "Weib")
   if (!Marginal_Dist1 %in% valid_dists) {
     stop("Invalid Marginal_Dist1. Must be one of: ", paste(valid_dists, collapse = ", "), ".")
   }
@@ -327,9 +327,9 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
       marginal_non_con1<-Marginal_Dist1_Par
     }
   }
-  if(Marginal_Dist1 == "LogN"){
+  if(Marginal_Dist1 == "LNorm"){
     if(is.na(Marginal_Dist1_Par)==T){
-      marginal_non_con1<-fitdistr(Data_Con1[,con2],"lognormal")
+      marginal_non_con1<-fitdistr(Data_Con1[,con2],"LNormormal")
     }else{
       marginal_non_con1<-Marginal_Dist1_Par
     }
@@ -440,9 +440,9 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
       marginal_non_con2<-Marginal_Dist2_Par
     }
   }
-  if(Marginal_Dist2 == "LogN"){
+  if(Marginal_Dist2 == "LNorm"){
     if(is.na(Marginal_Dist2_Par)==T){
-      marginal_non_con2<-fitdistr(Data_Con2[,con1],"lognormal")
+      marginal_non_con2<-fitdistr(Data_Con2[,con1],"LNormormal")
     }else{
       marginal_non_con2<-Marginal_Dist2_Par
     }
@@ -529,7 +529,7 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
   if(Marginal_Dist1=="Logis"){
     cop.sample1.non.con<-qlogis(sample[,con2], location = as.numeric(marginal_non_con1$estimate[1]), scale = as.numeric(marginal_non_con1$estimate[2]))
   }
-  if(Marginal_Dist1=="LogN"){
+  if(Marginal_Dist1=="LNorm"){
     cop.sample1.non.con<-qlnorm(sample[,con2], meanlog = as.numeric(marginal_non_con1$estimate[1]), sdlog = as.numeric(marginal_non_con1$estimate[2]))
   }
   if(Marginal_Dist1=="TNorm"){
@@ -601,7 +601,7 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
   if(Marginal_Dist2=="InvG"){
     cop.sample2.non.con<-qinvgauss(sample[,con1], mean = as.numeric(marginal_non_con2$estimate[1]), shape=as.numeric(marginal_non_con2$estimate[2]))
   }
-  if(Marginal_Dist2=="LogN"){
+  if(Marginal_Dist2=="LNorm"){
     cop.sample2.non.con<-qlnorm(sample[,con1], meanlog = as.numeric(marginal_non_con2$estimate[1]), sdlog = as.numeric(marginal_non_con2$estimate[2]))
   }
   if(Marginal_Dist2=="Logis"){
@@ -718,7 +718,7 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
     if(Marginal_Dist1=="Logis"){
       con1.y<-qlogis(as.numeric(unlist(xy160[[1]][3])),as.numeric(marginal_non_con1$estimate[1]),as.numeric(marginal_non_con1$estimate[2]))
     }
-    if(Marginal_Dist1=="LogN"){
+    if(Marginal_Dist1=="LNorm"){
       con1.y<-qlnorm(as.numeric(unlist(xy160[[1]][3])),meanlog = as.numeric(marginal_non_con1$estimate[1]), sdlog = as.numeric(marginal_non_con1$estimate[2]))
     }
     if(Marginal_Dist1=="TNorm"){
@@ -825,7 +825,7 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
     if(Marginal_Dist2=="Logis"){
       con2.x<-qlogis(as.numeric(unlist(xy160[[1]][2])),as.numeric(marginal_non_con2$estimate[1]),as.numeric(marginal_non_con2$estimate[2]))
     }
-    if(Marginal_Dist2=="LogN"){
+    if(Marginal_Dist2=="LNorm"){
       con2.x<-qlnorm(as.numeric(unlist(xy160[[1]][2])), meanlog = as.numeric(marginal_non_con2$estimate[1]), sdlog = as.numeric(marginal_non_con2$estimate[2]))
     }
     if(Marginal_Dist2=="TNorm"){
