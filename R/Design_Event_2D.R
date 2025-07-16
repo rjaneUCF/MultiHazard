@@ -14,12 +14,12 @@
 #' @param Marginal_Dist2 Character vector of length one specifying (non-extreme) distribution used to model the marginal distribution of the non-conditioned variable in \code{Data_Con2}.
 #' @param Con1 Character vector of length one specifying the name of variable in the first column of \code{Data}.
 #' @param Con2 Character vector of length one specifying the name of variable in the second column of \code{Data}.
-#' @param GPD1 Output of \code{GPD_Fit} applied to variable \code{con1} i.e., GPD fit \code{con1}. Default \code{NA}. Only one of \code{u1}, \code{Thres1}, \code{GPD1} and \code{Tab1} is required.
-#' @param GPD2 Output of \code{GPD_Fit} applied to variable \code{con2} i.e., GPD fit \code{con2}. Default \code{NA}. Only one of \code{u2}, \code{Thres2}, \code{GPD2} and \code{Tab2} is required.
+#' @param GPD1 Output of \code{GPD_Fit} applied to variable \code{con1} i.e., GPD fit \code{con1}. Default \code{NULL}. Only one of \code{u1}, \code{Thres1}, \code{GPD1} and \code{Tab1} is required.
+#' @param GPD2 Output of \code{GPD_Fit} applied to variable \code{con2} i.e., GPD fit \code{con2}. Default \code{NULL}. Only one of \code{u2}, \code{Thres2}, \code{GPD2} and \code{Tab2} is required.
 #' @param Rate_Con1 Numeric vector of length one specifying the occurrence rate of observations in \code{Data_Con1}. Default is \code{NA}.
 #' @param Rate_Con2 Numeric vector of length one specifying the occurrence rate of observations in \code{Data_Con2}. Default is \code{NA}.
-#' @param Tab1 Data frame specifying the return periods of variable \code{con1}, when conditioning on \code{con1}. First column specifies the return period and the second column gives the corresponding levels. First row must contain the return level of \code{con1} for the inter-arrival time (1/rate) of the sample.
-#' @param Tab2 Data frame specifying the return periods of variable \code{con2}, when conditioning on \code{con2}. First column specifies the return period and the second column gives the corresponding levels. First row must contain the return level of \code{con2} for the inter-arrival time (1/rate) of the sample.
+#' @param Tab1 Data frame specifying the return periods of variable \code{con1}, when conditioning on \code{con1}. First column specifies the return period and the second column gives the corresponding levels. First row must contain the return level of \code{con1} for the inter-arrival time (1/rate) of the sample. Default is \code{NULL}.
+#' @param Tab2 Data frame specifying the return periods of variable \code{con2}, when conditioning on \code{con2}. First column specifies the return period and the second column gives the corresponding levels. First row must contain the return level of \code{con2} for the inter-arrival time (1/rate) of the sample. Default is \code{NULL}.
 #' @param mu Numeric vector of length one specifying the (average) occurrence frequency of events in \code{Data}. Default is \code{365.25}, daily data.
 #' @param GPD_Bayes Logical; indicating whether to use a Bayesian approach to estimate GPD parameters. This involves applying a penalty to the likelihood to aid in the stability of the optimization procedure. Default is \code{FALSE}.
 #' @param RP Numeric vector specifying the return periods of interest.
@@ -63,7 +63,7 @@
 #'                              Plot_Quantile_Isoline=FALSE)
 #'#Extracting the 100-year isoline from the output
 #'Design.Event$`100`$Isoline
-Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=NA, Copula_Family1, Copula_Family2, Marginal_Dist1, Marginal_Dist2, Marginal_Dist1_Par=NA, Marginal_Dist2_Par=NA, Con1="Rainfall",Con2="OsWL", GPD1=NA, GPD2=NA, Rate_Con1=NA, Rate_Con2=NA, Tab1= NA, Tab2 = NA, mu=365.25, GPD_Bayes=FALSE, Decimal_Place=2, RP, Interval=10000, End=F, Resolution="Low", x_lab="Rainfall (mm)",y_lab="O-sWL (mNGVD 29)",x_lim_min = NA,x_lim_max = NA,y_lim_min = NA,y_lim_max = NA,Isoline_Probs="Sample", N=10^6,N_Ensemble=0,Sim_Max=10,Plot_Quantile_Isoline=FALSE,Isoline_Type="Combined"){
+Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=NA, Copula_Family1, Copula_Family2, Marginal_Dist1, Marginal_Dist2, Marginal_Dist1_Par=NA, Marginal_Dist2_Par=NA, Con1="Rainfall",Con2="OsWL", GPD1=NULL, GPD2=NULL, Rate_Con1=NA, Rate_Con2=NA, Tab1= NULL, Tab2 = NULL, mu=365.25, GPD_Bayes=FALSE, Decimal_Place=2, RP, Interval=10000, End=F, Resolution="Low", x_lab="Rainfall (mm)",y_lab="O-sWL (mNGVD 29)",x_lim_min = NA,x_lim_max = NA,y_lim_min = NA,y_lim_max = NA,Isoline_Probs="Sample", N=10^6,N_Ensemble=0,Sim_Max=10,Plot_Quantile_Isoline=FALSE,Isoline_Type="Combined"){
 
   #Validation of inputs
   if (!is.data.frame(Data) || ncol(Data) != 2) {
