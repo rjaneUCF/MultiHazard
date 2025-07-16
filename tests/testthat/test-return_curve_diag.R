@@ -31,18 +31,18 @@ test_that("return_curve_est_diag works", {
 
 
   #Checking length of outputs
-  expect_equal(nrow(result$ang_ind),50)
-  expect_equal(nrow(result$med_x_ht04),50)
-  expect_equal(nrow(result$lb_x_ht04),50)
-  expect_equal(nrow(result$ub_x_ht04),50)
-  expect_equal(nrow(result$med_y_ht04),50)
-  expect_equal(nrow(result$lb_y_ht04),50)
-  expect_equal(nrow(result$ub_y_ht04),50)
+  expect_equal(length(result$ang_ind),50)
+  expect_equal(length(result$med_x_ht04),50)
+  expect_equal(length(result$lb_x_ht04),50)
+  expect_equal(length(result$ub_x_ht04),50)
+  expect_equal(length(result$med_y_ht04),50)
+  expect_equal(length(result$lb_y_ht04),50)
+  expect_equal(length(result$ub_y_ht04),50)
 
   #Checking column names of outputs
-  expect_equal(colnames(S22.Detrend.df.extended)[-1], colnames(result$median_ht04))
-  expect_equal(colnames(S22.Detrend.df.extended)[-1], colnames(result$ub_ht04))
-  expect_equal(colnames(S22.Detrend.df.extended)[-1], colnames(result$lb_ht04))
+  expect_equal(colnames(S22.Detrend.df.extended)[-1], names(result$median_ht04))
+  expect_equal(colnames(S22.Detrend.df.extended)[-1], names(result$ub_ht04))
+  expect_equal(colnames(S22.Detrend.df.extended)[-1], names(result$lb_ht04))
 })
 
 
