@@ -39,5 +39,5 @@ test_that("Invalid inputs", {
     HT04(data_Detrend_Dependence_df=S20.Detrend.df,
          data_Detrend_Declustered_df=S20.Detrend.Declustered.df,
          u_Dependence=0.995,Migpd=S20.Migpd.modified,mu=365.25,N=1000),
-    "Number of models in Migpd$models (2) must match number of data columns (3).")
+    "Number of models.*must match.*number of data columns")
 })
