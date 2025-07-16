@@ -56,7 +56,7 @@ test_that("Invalid inputs", {
                                    u_x=0.95, u_y=0.95,
                                    sep_crit_x=36, sep_crit_y=36,
                                    alpha=0.1, x_lab=NA, y_lab=NA,most_likely=FALSE),
-       "Error: First column of data must be Date/POSIXct format")
+       "First column of data must be Date/POSIXct format.")
 
 
   expect_error(
@@ -69,5 +69,5 @@ test_that("Invalid inputs", {
                      u_x=1.5, u_y=0.95,
                      sep_crit_x=36, sep_crit_y=36,
                      alpha=0.1, x_lab=NA, y_lab=NA,most_likely=FALSE),
-    "Error: u_x threshold must be between 0 and 1")
+    "u_x threshold must be between 0 and 1.")
 })

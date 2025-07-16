@@ -74,7 +74,7 @@ test_that("return_curve_est_diag invalid inputs", {
                       alpha=0.1,
                       boot_method_all="block", boot_replace_all=NA,
                       block_length_all=14),
-               " rp is missing.")
+               "rp is missing.")
 
 })
 
