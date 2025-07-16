@@ -23,7 +23,7 @@
 #' @param mu Numeric vector of length one specifying the (average) occurrence frequency of events in \code{Data}. Default is \code{365.25}, daily data.
 #' @param GPD_Bayes Logical; indicating whether to use a Bayesian approach to estimate GPD parameters. This involves applying a penalty to the likelihood to aid in the stability of the optimization procedure. Default is \code{FALSE}.
 #' @param RP Numeric vector specifying the return periods of interest.
-#' @param Decimal_Palace Numeric vector specifying the number of decimal places to which to specify the isoline. Default is \code{2}.
+#' @param Decimal_Place Numeric vector specifying the number of decimal places to which to specify the isoline. Default is \code{2}.
 #' @param Interval Numeric vector specifying the number of equally spaced points comprising the combined isoline.
 #' @param x_lab Character vector specifying the x-axis label.
 #' @param y_lab Character vector specifying the y-axis label.
@@ -65,6 +65,140 @@
 #'Design.Event$`100`$Isoline
 Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=NA, Copula_Family1, Copula_Family2, Marginal_Dist1, Marginal_Dist2, Marginal_Dist1_Par=NA, Marginal_Dist2_Par=NA, Con1="Rainfall",Con2="OsWL", GPD1=NA, GPD2=NA, Rate_Con1=NA, Rate_Con2=NA, Tab1= NA, Tab2 = NA, mu=365.25, GPD_Bayes=FALSE, Decimal_Place=2, RP, Interval=10000, End=F, Resolution="Low", x_lab="Rainfall (mm)",y_lab="O-sWL (mNGVD 29)",x_lim_min = NA,x_lim_max = NA,y_lim_min = NA,y_lim_max = NA,Isoline_Probs="Sample", N=10^6,N_Ensemble=0,Sim_Max=10,Plot_Quantile_Isoline=FALSE,Isoline_Type="Combined"){
 
+  #Validation of inputs
+  if (!is.data.frame(Data) || ncol(Data) != 2) {
+    stop("Data must be a data frame with exactly 2 columns.")
+  }
+
+  if (!is.data.frame(Data_Con1) || !is.data.frame(Data_Con2)) {
+    stop("Data_Con1 and Data_Con2 must be data frames.")
+  }
+
+  # Threshold validation
+  if (sum(c(!is.na(u1), !is.na(Thres1), !is.null(GPD1), !is.null(Tab1))) != 1) {
+    stop("Exactly one of u1, Thres1, GPD1, or Tab1 must be provided.")
+  }
+
+  if (sum(c(!is.na(u2), !is.na(Thres2), !is.null(GPD2), !is.null(Tab2))) != 1) {
+    stop("Exactly one of u2, Thres2, GPD2, or Tab2 must be provided.")
+  }
+
+  if (!is.na(u1) && (u1 <= 0 || u1 >= 1)) {
+    stop("Threshold u1 must be between 0 and 1 (exclusive).")
+  }
+
+  if (!is.na(u2) && (u2 <= 0 || u2 >= 1)) {
+    stop("Threshold u2 must be between 0 and 1 (exclusive).")
+  }
+
+  # Copula family validation
+  valid_copulas <- c(1:10, 13, 14, 16, 17, 18, 19, 20, 23, 24, 26, 27, 28, 29, 30, 33, 34, 36, 37, 38, 39, 40)
+  if (!Copula_Family1 %in% valid_copulas) {
+    stop("Invalid Copula_Family1.")
+  }
+
+  if (!Copula_Family2 %in% valid_copulas) {
+    stop("Invalid Copula_Family2.")
+  }
+
+  # Marginal distribution validation
+  valid_dists <- c("Norm", "Logis", "Gumbel", "Exp", "Gamma", "Lnorm", "Weibull", "Twe", "GPD")
+  if (!Marginal_Dist1 %in% valid_dists) {
+    stop("Invalid Marginal_Dist1. Must be one of: ", paste(valid_dists, collapse = ", "), ".")
+  }
+
+  if (!Marginal_Dist2 %in% valid_dists) {
+    stop("Invalid Marginal_Dist2. Must be one of: ", paste(valid_dists, collapse = ", "), ".")
+  }
+
+  # Variable name validation
+  if (is.null(Con1) || is.null(Con2)) {
+    stop("Con1 and Con2 variable names must be provided.")
+  }
+
+  if (!is.character(Con1) || !is.character(Con2)) {
+    stop("Con1 and Con2 must be character strings.")
+  }
+
+  if (Con1 == Con2) {
+    stop("Con1 and Con2 must be different variable names.")
+  }
+
+  # Return period validation
+  if (any(RP <= 0)) {
+    stop("All return periods in RP must be positive.")
+  }
+
+  # Sampling parameters validation
+  if (N <= 0 || N != round(N)) {
+    stop("N must be a positive integer.")
+  }
+
+  if (N_Ensemble <= 0 || N_Ensemble != round(N_Ensemble)) {
+    stop("N_Ensemble must be a positive integer.")
+  }
+
+  # Simulation constraints
+  if (Sim_Max <= 1) {
+    stop("Sim_Max must be greater than 1.")
+  }
+
+  # Plot parameters validation
+  if (Interval <= 0 || Interval != round(Interval)) {
+    stop("Interval must be a positive integer.")
+  }
+
+  if (Decimal_Palace < 0 || Decimal_Palace != round(Decimal_Palace)) {
+    stop("Decimal_Palace must be a non-negative integer.")
+  }
+
+  # Rate validation
+  if (!is.na(Rate_Con1) && Rate_Con1 <= 0) {
+    stop("Rate_Con1 must be positive.")
+  }
+
+  if (!is.na(Rate_Con2) && Rate_Con2 <= 0) {
+    stop("Rate_Con2 must be positive.")
+  }
+
+  # Occurrence frequency validation
+  if (mu <= 0) {
+    stop("mu (occurrence frequency) must be positive.")
+  }
+
+  # Axis limits validation
+  if (!is.na(x_lim_min) && !is.na(x_lim_max) && x_lim_min >= x_lim_max) {
+    stop("x_lim_min must be less than x_lim_max.")
+  }
+
+  if (!is.na(y_lim_min) && !is.na(y_lim_max) && y_lim_min >= y_lim_max) {
+    stop("y_lim_min must be less than y_lim_max.")
+  }
+
+  # Isoline type validation
+  valid_isoline_types <- c("Combined", "Con1", "Con2")
+  if (!Isoline_Type %in% valid_isoline_types) {
+    stop("Isoline_Type must be one of: ", paste(valid_isoline_types, collapse = ", "), ".")
+  }
+
+  # GPD and Tab validation
+  if (!is.null(Tab1) && (!is.data.frame(Tab1) || ncol(Tab1) != 2)) {
+    stop("Tab1 must be a data frame with exactly 2 columns.")
+  }
+
+  if (!is.null(Tab2) && (!is.data.frame(Tab2) || ncol(Tab2) != 2)) {
+    stop("Tab2 must be a data frame with exactly 2 columns.")
+  }
+
+  # Logical parameter validation
+  if (!is.logical(GPD_Bayes)) {
+    stop("GPD_Bayes must be logical (TRUE or FALSE).")
+  }
+
+  if (!is.logical(Plot_Quantile_Isoline)) {
+    stop("Plot_Quantile_Isoline must be logical (TRUE or FALSE).")
+  }
+
   ###Preliminaries
 
   #Vectors and lists for results
@@ -84,7 +218,7 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
   names(FullDependence)<-RP
 
   #Remove 1st column of Data if it is a Date or factor object.
-  if(class(Data[,1])=="Date" | class(Data[,1])=="factor" | class(Data[,1])[1]=="POSIXct"){
+  if(inherits(Data[,1],c("Date","factor","POSIXct"))){
     Data<-Data[,-1]
   }
 
@@ -1157,3 +1291,4 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
   res<-list("FullDependence" = FullDependence, "MostLikelyEvent" = MostLikelyEvent, "Ensemble"=Ensemble, "Isoline" = Isoline, "Contour"= Contour, "Quantile_Isoline_1" = Quantile_Isoline_1, "Quantile_Isoline_2" = Quantile_Isoline_2, "Threshold_1" = Thres1, "Threshold_2"=Thres2)
   return(res)
 }
+
