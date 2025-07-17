@@ -436,7 +436,7 @@ emp_prob_2 <- lapply(1:n_grad, function(i) vector())
 
 for(j in 1:n_boot){
 
-  boot_data = data[!(is.na(data[,2]) | is.na(data[,3])),c(2,3)]
+  #boot_data = data[!(is.na(data[,2]) | is.na(data[,3])),c(2,3)]
 
    if(boot_method_all=="basic"){
      index = sample(1:nrow(data),replace=boot_replace_all)
