@@ -60,11 +60,11 @@ Copula_Threshold_2D<-function(Data_Detrend,Data_Declust,u1=seq(0.9,0.99,0.01),u2
   }
 
 
-  if (any(u1 > 1) || any(u1 < 0)) {
+  if (!is.na(u1) & (any(u1 > 1) || any(u1 < 0))) {
     stop("u1 must be between 0 and 1, got values in range: ", min(u1), "to", max(u1))
   }
 
-  if (any(u2 > 1) || any(u2 < 0)) {
+  if (!is.na(u2) &  (any(u2 > 1) || any(u2 < 0))) {
     stop("u2 must be between 0 and 1, got values in range: ", min(u2), "to", max(u2))
   }
 
