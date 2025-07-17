@@ -24,6 +24,10 @@ List comprising an integer vector specifying the pair-copula families composing 
 Simulating from specified C- and D-vine copula models. Function is a repackaging of the \code{RVineMatrix} and \code{RVineMatrix} functions from the \code{VineCopula} package into a single function.
 }
 \examples{
+#Fitting GPD to independent cluster maxima
+S20.Migpd<-Migpd_Fit(Data=S20.Detrend.Declustered.df,
+                     Data_Full=S20.Detrend.df,
+                     mqu=c(0.975,0.975,0.9676))
 #Fitting vine copula
 S20.Vine<-Vine_Copula_Fit(Data=S20.Detrend.df)
 #Simulating from fitted copula

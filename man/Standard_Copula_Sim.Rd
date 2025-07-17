@@ -25,9 +25,11 @@ Simulating from a fitted Archimedean or elliptic copula model.
 }
 \examples{
 #Fitting multiple independent GPDs to the data
-#(required to transform realisation back to origional scale)
+#(required to transform realisation back to original scale)
 S20.Migpd<-Migpd_Fit(Data=S20.Detrend.Declustered.df[,-1],mqu=c(0.975,0.975,0.9676))
 #Fitting Gaussian copula
+S20.Gaussian<-Standard_Copula_Fit(Data=S20.Detrend.df,Copula_Type="Gaussian")
+#Simulating from fitted (joint probability) model
 Standard_Copula_Sim(Data=S20.Detrend.df,Marginals=S20.Migpd,Copula=S20.Gaussian,
                     mu=365.25,N=10000)
 }

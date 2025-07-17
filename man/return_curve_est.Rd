@@ -69,9 +69,9 @@ return_curve_est(
 
 \item{window_length_y}{Numeric vector of length one specifying the storm window length to apply during the declustering of the second variable if \code{decl_method_y = "window"}.}
 
-\item{u_x}{Numeric vector of length one specifying the threshold to adopt in the declustering of the first variable if \code{decl_method_x = "runs"}. Default is \code{NA}.}
+\item{u_x}{Numeric vector of length one specifying the (quantile) threshold to adopt in the declustering of the first variable if \code{decl_method_x = "runs"}. Default is \code{NA}.}
 
-\item{u_y}{Numeric vector of length one specifying the threshold to adopt in the declustering of the second variable if \code{decl_method_y = "runs"}. Default is \code{NA}.}
+\item{u_y}{Numeric vector of length one specifying the (quantile) threshold to adopt in the declustering of the second variable if \code{decl_method_y = "runs"}. Default is \code{NA}.}
 
 \item{sep_crit_x}{Numeric vector of length one specifying the separation criterion to apply during the declustering of the first variable if \code{decl_method_x = "runs"}. Default is \code{NA}.}
 

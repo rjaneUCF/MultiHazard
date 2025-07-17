@@ -24,7 +24,7 @@ SLR_Scenarios(
 
 \item{Location}{Character vector of length one, specifying the location associated with the scenarios. Projections for  \code{"Key West"} (Compact), \code{"Miami Beach"} (NOAA2017 AND NOAA2022) and \code{"Naples"} (NOAA2022) are contained within the package. If a user specified scenarios are employed, set to the name of the site. Default is \code{"Key West"}.}
 
-\item{New_Scenario}{Dataframe containing sea level rise scenarios. First column must be a year and the scenarios provided in the remaining columns. For the color scale to correlate with the severity of the scenarios they should be listed from most to least severe i.e., the highest SLR scenario should appear in column 2. All entries must be numeric.}
+\item{New_Scenario}{Dataframe containing sea level rise scenarios. First column must be a year and the scenarios provided in the remaining columns. For the color scale to correlate with the severity of the scenarios they should be listed from most to least severe i.e., the highest SLR scenario should appear in column 2. All entries must be numeric. Default \code{NA}.}
 }
 \value{
 For \code{"Compact"}, \code{"NOAA2017"} and \code{"NOAA2022"} a list length of time for \code{SeaLevelRise} of sea level rise is expected to arise under the \code{High}, \code{Intermediate} and \code{Low}. For user specified scenarios, the time for \code{SeaLevelRise} to occur under each is returned as \code{SLR_Year}. Upper panel: A plot of the scenarios. Scenarios are in bold until the time the SeaLevelRise is reached and are transparent thereafter. Lower panel: A plot showing the number of years before is expected to occur.

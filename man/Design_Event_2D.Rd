@@ -20,12 +20,12 @@ Design_Event_2D(
   Marginal_Dist2_Par = NA,
   Con1 = "Rainfall",
   Con2 = "OsWL",
-  GPD1 = NA,
-  GPD2 = NA,
+  GPD1 = NULL,
+  GPD2 = NULL,
   Rate_Con1 = NA,
-  Rate_Con_2 = NA,
-  Tab1 = NA,
-  Tab2 = NA,
+  Rate_Con2 = NA,
+  Tab1 = NULL,
+  Tab2 = NULL,
   mu = 365.25,
   GPD_Bayes = FALSE,
   Decimal_Place = 2,
@@ -74,19 +74,23 @@ Design_Event_2D(
 
 \item{Con2}{Character vector of length one specifying the name of variable in the second column of \code{Data}.}
 
-\item{GPD1}{Output of \code{GPD_Fit} applied to variable \code{con1} i.e., GPD fit \code{con1}. Default \code{NA}. Only one of \code{u1}, \code{Thres1}, \code{GPD1} and \code{Tab1} is required.}
+\item{GPD1}{Output of \code{GPD_Fit} applied to variable \code{con1} i.e., GPD fit \code{con1}. Default \code{NULL}. Only one of \code{u1}, \code{Thres1}, \code{GPD1} and \code{Tab1} is required.}
 
-\item{GPD2}{Output of \code{GPD_Fit} applied to variable \code{con2} i.e., GPD fit \code{con2}. Default \code{NA}. Only one of \code{u2}, \code{Thres2}, \code{GPD2} and \code{Tab2} is required.}
+\item{GPD2}{Output of \code{GPD_Fit} applied to variable \code{con2} i.e., GPD fit \code{con2}. Default \code{NULL}. Only one of \code{u2}, \code{Thres2}, \code{GPD2} and \code{Tab2} is required.}
 
 \item{Rate_Con1}{Numeric vector of length one specifying the occurrence rate of observations in \code{Data_Con1}. Default is \code{NA}.}
 
-\item{Tab1}{Data frame specifying the return periods of variable \code{con1}, when conditioning on \code{con1}. First column specifies the return period and the second column gives the corresponding levels. First row must contain the return level of \code{con1} for the inter-arrival time (1/rate) of the sample. Only one of \code{u1}, \code{Thres1}, \code{GPD1} and \code{Tab1} is required.}
+\item{Rate_Con2}{Numeric vector of length one specifying the occurrence rate of observations in \code{Data_Con2}. Default is \code{NA}.}
 
-\item{Tab2}{Data frame specifying the return periods of variable \code{con2}, when conditioning on \code{con2}. First column specifies the return period and the second column gives the corresponding levels. First row must contain the return level of \code{con2} for the inter-arrival time (1/rate) of the sample. Only one of \code{u2}, \code{Thres2}, \code{GPD2} and \code{Tab2} is required.}
+\item{Tab1}{Data frame specifying the return periods of variable \code{con1}, when conditioning on \code{con1}. First column specifies the return period and the second column gives the corresponding levels. First row must contain the return level of \code{con1} for the inter-arrival time (1/rate) of the sample. Default is \code{NULL}.}
+
+\item{Tab2}{Data frame specifying the return periods of variable \code{con2}, when conditioning on \code{con2}. First column specifies the return period and the second column gives the corresponding levels. First row must contain the return level of \code{con2} for the inter-arrival time (1/rate) of the sample. Default is \code{NULL}.}
 
 \item{mu}{Numeric vector of length one specifying the (average) occurrence frequency of events in \code{Data}. Default is \code{365.25}, daily data.}
 
 \item{GPD_Bayes}{Logical; indicating whether to use a Bayesian approach to estimate GPD parameters. This involves applying a penalty to the likelihood to aid in the stability of the optimization procedure. Default is \code{FALSE}.}
+
+\item{Decimal_Place}{Numeric vector specifying the number of decimal places to which to specify the isoline. Default is \code{2}.}
 
 \item{RP}{Numeric vector specifying the return periods of interest.}
 
@@ -113,10 +117,6 @@ Design_Event_2D(
 \item{Plot_Quantile_Isoline}{Logical; indicating whether to first plot the quantile isoline. Default is \code{FALSE}.}
 
 \item{Isoline_Type}{Character vector of length one specifying the type of isoline. For isolines obtained using the overlaying method in Bender et al. (2016) use \code{"Combined"} (default). For quantile isoline from the sample conditioned on variable \code{Con1}|(\code{Con2}) use \code{"Con1"}(\code{"Con2"}).}
-
-\item{Rate_Con2}{Numeric vector of length one specifying the occurrence rate of observations in \code{Data_Con2}. Default is \code{NA}.}
-
-\item{Decimal_Palace}{Numeric vector specifying the number of decimal places to which to specifiy the isoline. Defulat is \code{2}.}
 }
 \value{
 Plot of all the observations (grey circles) as well as the declustered excesses above Thres1 (blue circles) or Thres2 (blue circles), observations may belong to both conditional samples. Also shown is the isoline associated with \code{RP} contoured according to their relative probability of occurrence on the basis of the sample from the two joint distributions, the "most likely" design event (black diamond), and design event under the assumption of full dependence (black triangle) are also shown in the plot. The function also returns a list comprising the design events assuming full dependence \code{"FullDependence"}, as well as once the dependence between the variables is accounted for the "Most likley" \code{"MostLikelyEvent"} as well as an \code{"Ensemble"} of possible design events and relative probabilities of events on the isoline \code{Contour}. The quantile isolines with \code{Quantile_Isoline_1} and \code{Quantile_Isoline_2}, and GPD thresholds with \code{Threshold_1} and \code{Threshold_2}.
