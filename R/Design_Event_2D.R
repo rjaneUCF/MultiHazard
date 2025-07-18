@@ -148,8 +148,8 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
     stop("Interval must be a positive integer.")
   }
 
-  if (Decimal_Palace < 0 || Decimal_Palace != round(Decimal_Palace)) {
-    stop("Decimal_Palace must be a non-negative integer.")
+  if (Decimal_Place < 0 || Decimal_Place != round(Decimal_Place)) {
+    stop("Decimal_Place must be a non-negative integer.")
   }
 
   # Rate validation
