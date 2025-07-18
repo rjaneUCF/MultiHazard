@@ -92,7 +92,7 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
   }
 
   # Copula family validation
-  valid_copulas <- c(1:10, 13, 14, 16, 17, 18, 19, 20, 23, 24, 26, 27, 28, 29, 30, 33, 34, 36, 37, 38, 39, 40)
+  valid_copulas <- c(seq(0,40,1)[-(c(11,12,15,21,22,25,31,32,35)+1)],104,114,124,134,204,214,224,234)
   if (!Copula_Family1 %in% valid_copulas) {
     stop("Invalid Copula_Family1.")
   }
