@@ -102,7 +102,7 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
   }
 
   # Marginal distribution validation
-  valid_dists <- c("BS","Exp", "Gam(2)", "Gam(3)", "GamMix(2)", "GamMix(3)", "Gaus", "InvG", "Logis", "LNorm", "TNorm","Twe", "Weib")
+  valid_dists <- c("BS","Exp", "Gam(2)", "Gam(3)", "GamMix(2)", "GamMix(3)", "Gaus", "Gum", "InvG", "Lapl", "Logis", "LNorm", "RGum", "TNorm","Twe", "Weib")
   if (!Marginal_Dist1 %in% valid_dists) {
     stop("Invalid Marginal_Dist1. Must be one of: ", paste(valid_dists, collapse = ", "), ".")
   }
@@ -229,14 +229,14 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
   ###Fit the 4 marginal distributions (2 GPD and 2 parametric non-extreme value distributions).
 
   #Fit the GPD to the conditioned variable con1 in Data_Con1.
-  if(is.na(GPD1[[1]][1])==T & is.na(Thres1)==T & is.na(Tab1[[1]][1])==T){
+  if(is.na(GPD1[[1]][1])==T & is.na(Thres1)==T & is.null(Tab1)==T){
     Thres1<-quantile(na.omit(Data[,con1]),u1)
   }
 
-  if(is.na(GPD1[[1]][1])==T & GPD_Bayes==T & is.na(Tab1[[1]][1])==T){
+  if(is.na(GPD1[[1]][1])==T & GPD_Bayes==T & is.null(Tab1)==T){
     GPD_con1<-evm(Data_Con1[,con1], th = Thres1,penalty = "gaussian",priorParameters = list(c(0, 0), matrix(c(100^2, 0, 0, 0.25), nrow = 2)))
   }
-  if(is.na(GPD1[[1]][1])==T & GPD_Bayes==F & is.na(Tab1[[1]][1])==T){
+  if(is.na(GPD1[[1]][1])==T & GPD_Bayes==F & is.null(Tab1)==T){
     GPD_con1<-evm(Data_Con1[,con1], th = Thres1)
   }
 
@@ -357,14 +357,14 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
   }
 
   #Fit the GPD to the conditioned variable con2 in Data_Con2.
-  if(is.na(GPD2[[1]][1])==T & is.na(Thres2)==T & is.na(Tab2[[1]][1])==T){
+  if(is.na(GPD2[[1]][1])==T & is.na(Thres2)==T & is.null(Tab2)==T){
     Thres2<-quantile(na.omit(Data[,con2]),u2)
   }
 
-  if(is.na(GPD2[[1]][1])==T & GPD_Bayes==T & is.na(Tab2[[1]][1])==T){
+  if(is.na(GPD2[[1]][1])==T & GPD_Bayes==T & is.null(Tab2)==T){
     GPD_con2<-evm(Data_Con2[,con2], th=Thres2 ,penalty = "gaussian",priorParameters = list(c(0, 0), matrix(c(100^2, 0, 0, 0.25), nrow = 2)))
   }
-  if(is.na(GPD2[[1]][1])==T & GPD_Bayes==F & is.na(Tab2[[1]][1])==T){
+  if(is.na(GPD2[[1]][1])==T & GPD_Bayes==F & is.null(Tab2)==T){
     GPD_con2<-evm(Data_Con2[,con2], th= Thres2)
   }
 
@@ -478,13 +478,13 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
   #Simulate a sample from the fitted copula. Out of the sample size 'N' the proportion of the sample from the copula associated with Data_Con1 is proportional to the size of Data_Con1 relative to Data_Con2.
   sample<-BiCopSim(round(N*nrow(Data_Con1)/(nrow(Data_Con1)+nrow(Data_Con2)),0),obj1)
   #Transform the realizations of the conditioned variable con1 to the original scale using inverse cumulative distribution a.k.a. quantile functions (inverse probability integral transform) of the GPD contained in the u2gpd function.
-  if(is.na(GPD1[[1]][1])==T & is.na(Tab1[[1]][1])==T){
+  if(is.na(GPD1[[1]][1])==T & is.null(Tab1)==T){
    cop.sample1.con<-u2gpd(sample[,con1], p = 1, th=Thres1 , sigma=exp(GPD_con1$coefficients[1]),xi= GPD_con1$coefficients[2])
   }
   if(is.na(GPD1[[1]][1])==F){
    cop.sample1.con<-u2gpd(sample[,con1], p = 1, th = GPD1$Threshold, sigma = GPD1$sigma, xi= GPD1$xi)
   }
-  if(is.na(Tab1[[1]][1])==F){
+  if(!is.null(Tab1)){
     cop.sample1.con = approx(1-1/Tab1[,1],Tab1[,2],xout=u1+sample[,con1]*(1-u1))$y
   }
 
@@ -553,13 +553,13 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
   sample<-BiCopSim(round(N*nrow(Data_Con2)/(nrow(Data_Con1)+nrow(Data_Con2)),0),obj2)
 
   #Transform the realizations of the conditioned variable con2 to the original scale using the inverse CDF (quantile function) of the GPD contained in the u2gpd function.
-  if(is.na(GPD2[[1]][1])==T & is.na(Tab2[[1]][1])==T){
+  if(is.na(GPD2[[1]][1])==T & is.null(Tab2)==T){
    cop.sample2.con<-u2gpd(sample[,con2], p = 1, th=Thres2, sigma=exp(GPD_con2$coefficients[1]),xi= GPD_con2$coefficients[2])
   }
   if(is.na(GPD2[[1]][1])==F){
    cop.sample2.con<-u2gpd(sample[,con2], p = 1, th = GPD2$Threshold, sigma = GPD2$sigma, xi= GPD2$xi)
   }
-  if(is.na(Tab2[[1]][1])==F){
+  if(!is.null(Tab2)){
     cop.sample2.con = approx(1-1/Tab2[,1],Tab2[,2],xout=u2+sample[,con2]*(1-u2))$y
   }
 
@@ -665,14 +665,14 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
     #Transform the points on the contour to the original scale using the inverse cumulative distribution a.k.a. quantile functions (inverse probability integral transform)
     #Transform the conditioned variable in Data_Con1, Con1 to the original scale using the inverse CDF of the GPD contained in the u2gpd function
 
-    if(is.na(GPD1[[1]][1])==T & is.na(Tab1[[1]][1])==T){
+    if(is.na(GPD1[[1]][1])==T & is.null(Tab1)==T){
       con1.x<-u2gpd(as.numeric(unlist(xy160[[1]][2])), p = 1, th=Thres1 , sigma=exp(GPD_con1$coefficients[1]),xi= GPD_con1$coefficients[2] )
     }
 
     if(is.na(GPD1[[1]][1])==F){
       con1.x<-u2gpd(as.numeric(unlist(xy160[[1]][2])), p = (GPD1$Rate)/Rate_Con1, th = GPD1$Threshold, sigma = GPD1$sigma, xi = GPD1$xi)
     }
-    if(is.na(Tab1[[1]][1])==F){
+    if(is.null(Tab1)==F){
       con1.x = approx(1-1/Tab1[,1],Tab1[,2],xout=u1+as.numeric(unlist(xy160[[1]][2]))*(((1-1/(mu*RP[k]))-u1)/max(as.numeric(unlist(xy160[[1]][2])))))$y
     }
 
@@ -772,14 +772,14 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
 
     #Transform the points on the contour to the original scale using the inverse cumulative distributions a.k.a. quantile functions (i.e. using the inverse probability integral transform).
     #Transforming the conditioned variable in Data_Con2, Con2 to the original scale using the inverse CDF of the GPD contained in the u2gpd function.
-    if(is.na(GPD2[[1]][1])==T & is.na(Tab2[[1]][1])==T){
+    if(is.na(GPD2[[1]][1])==T & is.null(Tab2)==T){
      con2.y<-u2gpd(as.numeric(unlist(xy160[[1]][3])), p = 1, th=Thres2 , sigma=exp(GPD_con2$coefficients[1]),xi= GPD_con2$coefficients[2] )
     }
 
     if(is.na(GPD2[[1]][1])==F){
      con2.y<-u2gpd(as.numeric(unlist(xy160[[1]][3])), p = (GPD2$Rate)/Rate_Con2, th = GPD2$Threshold, sigma = GPD2$sigma, xi = GPD2$xi)
     }
-    if(is.na(Tab2[[1]][1])==F){
+    if(is.null(Tab2)==F){
      con2.y = approx(1-1/Tab2[,1],Tab2[,2],xout=u2+as.numeric(unlist(xy160[[1]][3]))*(((1-1/(mu*RP[k]))-u2)/max(as.numeric(unlist(xy160[[1]][3])))))$y
     }
 
