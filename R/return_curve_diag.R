@@ -436,17 +436,15 @@ emp_prob_2 <- lapply(1:n_grad, function(i) vector())
 
 for(j in 1:n_boot){
 
-  #boot_data = data[!(is.na(data[,2]) | is.na(data[,3])),c(2,3)]
-
    if(boot_method_all=="basic"){
      index = sample(1:nrow(data),replace=boot_replace_all)
      boot_data = data[index,]
    }
    if(boot_method_all=="block"){
-    boot_data = bootstrap_block(boot_data,k=block_length_all)
+    boot_data = bootstrap_block(data,k=block_length_all)
    }
    if(boot_method_all=="monthly"){
-    boot_data = bootstrap_month(boot_data,boot_prop_all)
+    boot_data = bootstrap_month(data,boot_prop_all)
    }
 
   for(i in 1:n_grad){
