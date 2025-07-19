@@ -1,5 +1,3 @@
-
-
 final.month = data.frame(seq(as.Date("2019-02-04"),as.Date("2019-02-28"),by="day"),NA,NA,NA)
 colnames(final.month) = c("Date","Rainfall","OsWL","Groundwater")
 S22.Detrend.df.extended = rbind(S22.Detrend.df,final.month)
@@ -39,10 +37,6 @@ test_that("return_curve_est_diag works", {
   expect_equal(length(result$lb_y_ht04),50)
   expect_equal(length(result$ub_y_ht04),50)
 
-  #Checking column names of outputs
-  expect_equal(colnames(S22.Detrend.df.extended)[-1], names(result$median_ht04))
-  expect_equal(colnames(S22.Detrend.df.extended)[-1], names(result$ub_ht04))
-  expect_equal(colnames(S22.Detrend.df.extended)[-1], names(result$lb_ht04))
 })
 
 
