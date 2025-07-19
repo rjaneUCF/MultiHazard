@@ -65,32 +65,32 @@ U_Sample<-function(Data,Cluster_Max,D,Start,End,Xp){
 
   # Input validation
   if (any(is.na(Data))) {
-    warning("Data contains NA values")
+    warning("Data contains NA values.")
   }
 
   if (any(is.na(c(Cluster_Max, D, Start, End, Xp)))) {
-    stop("Input vectors cannot contain NA values")
+    stop("Input vectors cannot contain NA values.")
   }
 
   if (length(Cluster_Max) != length(D) || length(D) != length(Start) ||
       length(Start) != length(End)) {
-    stop("Cluster_Max, D, Start, and End must have the same length")
+    stop("Cluster_Max, D, Start, and End must have the same length.")
   }
 
   if (any(Start > End)) {
-    stop("Start indices must be less than or equal to End indices")
+    stop("Start indices must be less than or equal to End indices.")
   }
 
   if (any(Cluster_Max < 1) || any(Cluster_Max > length(Data))) {
-    stop("Cluster_Max indices are out of bounds for Data")
+    stop("Cluster_Max indices are out of bounds for Data.")
   }
 
   if (any(Start < 1) || any(End > length(Data))) {
-    stop("Start/End indices are out of bounds for Data")
+    stop("Start/End indices are out of bounds for Data.")
   }
 
   if (length(Xp) <= 0) {
-    stop("Xp must contain at least one value")
+    stop("Xp must contain at least one value.")
   }
 
   #Sample size
