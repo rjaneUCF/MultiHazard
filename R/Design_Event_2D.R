@@ -291,7 +291,7 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
   if(Marginal_Dist1 == "GamMix(2)"){
     if(is.na(Marginal_Dist1_Par)==T){
       data.gamlss<-data.frame(X=Data_Con1[,con2])
-      marginal_non_con1 <- tryCatch(gamlssMX(X~1, data=data.gamlss, family=GA, K=2),
+      marginal_non_con1 <- tryCatch(gamlssMX(X~1, data=data.gamlss, family=GA, K=2, trace=FALSE),
                                     error = function(e) "error")
     }else{
       marginal_non_con1<-Marginal_Dist1_Par
@@ -300,7 +300,7 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
   if(Marginal_Dist1 == "GamMix(3)"){
     if(is.na(Marginal_Dist1_Par)==T){
       data.gamlss<-data.frame(X=Data_Con1[,con2])
-      marginal_non_con1 <- tryCatch(gamlssMX(X~1, data=data.gamlss, family=GA, K=3),
+      marginal_non_con1 <- tryCatch(gamlssMX(X~1, data=data.gamlss, family=GA, K=3, trace=FALSE),
                                     error = function(e) "error")
     }else{
       marginal_non_con1<-Marginal_Dist1_Par
@@ -313,9 +313,23 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
       marginal_non_con1<-Marginal_Dist1_Par
     }
   }
+  if(Marginal_Dist1 == "Gum"){
+    if(is.na(Marginal_Dist1_Par)==T){
+      marginal_non_con1 <- gamlss(Data_Con1[,con2]  ~ 1, family= GU, trace=FALSE)
+    }else{
+      marginal_non_con1<-Marginal_Dist1_Par
+    }
+  }
   if(Marginal_Dist1 == "InvG"){
     if(is.na(Marginal_Dist1_Par)==T){
       marginal_non_con1<-fitdist(Data_Con1[,con2], "invgauss", start = list(mean = 5, shape = 1))
+    }else{
+      marginal_non_con1<-Marginal_Dist1_Par
+    }
+  }
+  if(any(Marginal_Dist1=="Lapl")){
+    if(is.na(Marginal_Dist1_Par)==T){
+      marginal_non_con1 <- fitdistr(Data_Con1[,con2], dlaplace, start=list(location=mean(Data_Con1[,con2]), scale=sd(Data_Con1[,con2])/sqrt(2)))
     }else{
       marginal_non_con1<-Marginal_Dist1_Par
     }
@@ -329,11 +343,20 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
   }
   if(Marginal_Dist1 == "LNorm"){
     if(is.na(Marginal_Dist1_Par)==T){
-      marginal_non_con1<-fitdistr(Data_Con1[,con2],"LNormormal")
+      marginal_non_con1<-fitdistr(Data_Con1[,con2],"lognormal")
     }else{
       marginal_non_con1<-Marginal_Dist1_Par
     }
   }
+
+  if(Marginal_Dist1 == "RGum"){
+    if(is.na(Marginal_Dist1_Par)==T){
+      marginal_non_con1 <- gamlss(Data_Con1[,con2] ~ 1,family=RG, trace=FALSE)
+    }else{
+      marginal_non_con1<-Marginal_Dist1_Par
+    }
+  }
+
   if(Marginal_Dist1 == "TNorm"){
     if(is.na(Marginal_Dist1_Par)==T){
       marginal_non_con1<-fitdistr(Data_Con1[,con2],"normal")
@@ -343,7 +366,10 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
   }
   if(Marginal_Dist1 == "Twe"){
     if(is.na(Marginal_Dist1_Par)==T){
-      marginal_non_con1<-tweedie.profile(Data_Con1[,con2] ~ 1,p.vec=seq(1.5, 2.5, by=0.2), do.plot=FALSE)
+      capture.output(
+      marginal_non_con1<-tweedie.profile(Data_Con1[,con2] ~ 1,p.vec=seq(1.5, 2.5, by=0.2), do.plot=FALSE),
+      type = "output"
+      )
     }else{
       marginal_non_con1<-Marginal_Dist1_Par
     }
@@ -404,7 +430,7 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
   if(Marginal_Dist2 == "GamMix(2)"){
     if(is.na(Marginal_Dist2_Par)==T){
       data.gamlss<-data.frame(X=Data_Con2[,con1])
-      marginal_non_con2 <- tryCatch(gamlssMX(X~1, data=data.gamlss, family=GA, K=2),
+      marginal_non_con2 <- tryCatch(gamlssMX(X~1, data=data.gamlss, family=GA, K=2, trace=FALSE),
                                     error = function(e) "error")
     }else{
       marginal_non_con2<-Marginal_Dist2_Par
@@ -413,7 +439,7 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
   if(Marginal_Dist2 == "GamMix(3)"){
     if(is.na(Marginal_Dist2_Par)==T){
       data.gamlss<-data.frame(X=Data_Con2[,con1])
-      marginal_non_con2 <- tryCatch(gamlssMX(X~1, data=data.gamlss, family=GA, K=3),
+      marginal_non_con2 <- tryCatch(gamlssMX(X~1, data=data.gamlss, family=GA, K=3, trace=FALSE),
                                     error = function(e) "error")
     }else{
       marginal_non_con2<-Marginal_Dist2_Par
@@ -426,12 +452,26 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
       marginal_non_con2<-Marginal_Dist2_Par
     }
   }
+  if(Marginal_Dist2 == "Gum"){
+    if(is.na(Marginal_Dist2_Par)==T){
+      marginal_non_con2 <- gamlss(Data_Con2[,con1]  ~ 1, family= GU, trace=FALSE)
+    }else{
+      marginal_non_con2 <- Marginal_Dist2_Par
+    }
+  }
   if(Marginal_Dist2 == "InvG"){
     if(is.na(Marginal_Dist2_Par)==T){
       marginal_non_con2<-fitdist(Data_Con2[,con1], "invgauss", start = list(mean = 5, shape = 1))
     }else{
       marginal_non_con2<-Marginal_Dist2_Par
     }
+  }
+  if(any(Marginal_Dist2=="Lapl")){
+   if(is.na(Marginal_Dist2_Par)==T){
+    marginal_non_con2 <- fitdistr(Data_Con2[,con1], dlaplace, start=list(location=mean(Data), scale=sd(Data)/sqrt(2)))
+   }else{
+    marginal_non_con2<-Marginal_Dist2_Par
+   }
   }
   if(Marginal_Dist2 == "Logis"){
     if(is.na(Marginal_Dist2_Par)==T){
@@ -442,11 +482,20 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
   }
   if(Marginal_Dist2 == "LNorm"){
     if(is.na(Marginal_Dist2_Par)==T){
-      marginal_non_con2<-fitdistr(Data_Con2[,con1],"LNormormal")
+      marginal_non_con2<-fitdistr(Data_Con2[,con1],"lognormal")
     }else{
       marginal_non_con2<-Marginal_Dist2_Par
     }
   }
+
+  if(Marginal_Dist2 == "RGum"){
+   if(is.na(Marginal_Dist2_Par)==T){
+    marginal_non_con2 <- gamlss(Data_Con2[,con1] ~ 1,family=RG, trace=FALSE)
+   }else{
+    marginal_non_con2<-Marginal_Dist2_Par
+   }
+  }
+
   if(Marginal_Dist2 == "TNorm"){
     if(is.na(Marginal_Dist2_Par)==T){
       marginal_non_con2<-fitdistr(Data_Con2[,con1],"normal")
@@ -456,7 +505,10 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
   }
   if(Marginal_Dist2 == "Twe"){
     if(is.na(Marginal_Dist2_Par)==T){
-      marginal_non_con2<-tweedie.profile(Data_Con2[,con1] ~ 1,p.vec=seq(1.5, 2.5, by=0.2), do.plot=FALSE)
+      capture.output(
+      marginal_non_con2<-tweedie.profile(Data_Con2[,con1] ~ 1,p.vec=seq(1.5, 2.5, by=0.2), do.plot=FALSE),
+      type = "output"
+      )
     }else{
       marginal_non_con2<-Marginal_Dist2_Par
     }
