@@ -46,6 +46,6 @@ test_that("Invalid inputs", {
   expect_error(GPD_Threshold_Solari(Event=Rainfall_Declust_SW$Declustered,
                                     Data=S22.Detrend.df[,2],
                                     Alpha=5),
-               "aaa")
+               "Alpha")
 })
 

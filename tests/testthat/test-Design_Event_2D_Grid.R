@@ -13,11 +13,12 @@ S22.Copula.OsWL<-Copula_Threshold_2D(Data_Detrend=S22.Detrend.df[,-c(1,4)],
                                      y_lim_min=-0.075, y_lim_max =0.25,
                                      Upper=c(2,9),Lower=c(2,10),GAP=0.15)$Copula_Family_Var2
 
-test_that("Design_Event_2D works", {
+test_that("Design_Event_2D_Grid works", {
 
   result <- Design_Event_2D(Data=S22.Detrend.df[,-c(1,4)],
                             Data_Con1=S22.Rainfall$Data, Data_Con2=S22.OsWL$Data,
                             u1=0.97, u2=0.97,
+                            N_Both=3,
                             Copula_Family1=S22.Copula.Rainfall, Copula_Family2=S22.Copula.OsWL,
                             Marginal_Dist1="Logis", Marginal_Dist2="Twe",
                             RP=100,Interval=10000,N=10^4,N_Ensemble=10,
@@ -70,5 +71,5 @@ test_that("Invalid inputs", {
                     Marginal_Dist1="Logis", Marginal_Dist2="Twe",
                     RP=100,Interval=10000,N=10^4,N_Ensemble=10,
                     Plot_Quantile_Isoline=FALSE),
-    "Invalid Copula_Family2.")
+    "N_Both parameter is required and cannot be missing.")
 })
