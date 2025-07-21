@@ -21,12 +21,12 @@ Design_Event_2D_Grid(
   Marginal_Dist2_Par = NA,
   Con1 = "Rainfall",
   Con2 = "OsWL",
-  GPD1 = NA,
-  GPD2 = NA,
+  GPD1 = NULL,
+  GPD2 = NULL,
   Rate_Con1 = NA,
   Rate_Con2 = NA,
-  Tab1 = NA,
-  Tab2 = NA,
+  Tab1 = NULL,
+  Tab2 = NULL,
   mu = 365.25,
   GPD_Bayes = FALSE,
   Decimal_Place = 2,
@@ -82,21 +82,23 @@ Design_Event_2D_Grid(
 
 \item{Con2}{Character vector of length one specifying the name of variable in the second column of \code{Data}.}
 
-\item{GPD1}{Output of \code{GPD_Fit} applied to variable \code{con1} i.e., GPD fit \code{con1}. Default \code{NA}. Only one of \code{u1}, \code{Thres1}, \code{GPD1} and \code{Tab1} is required.}
+\item{GPD1}{Output of \code{GPD_Fit} applied to variable \code{con1} i.e., GPD fit \code{con1}. Default \code{NULL}. Only one of \code{u1}, \code{Thres1}, \code{GPD1} and \code{Tab1} is required.}
 
-\item{GPD2}{Output of \code{GPD_Fit} applied to variable \code{con2} i.e., GPD fit \code{con2}. Default \code{NA}. Only one of \code{u2}, \code{Thres2}, \code{GPD2} and \code{Tab2} is required.}
+\item{GPD2}{Output of \code{GPD_Fit} applied to variable \code{con2} i.e., GPD fit \code{con2}. Default \code{NULL}. Only one of \code{u2}, \code{Thres2}, \code{GPD2} and \code{Tab2} is required.}
 
 \item{Rate_Con1}{Numeric vector of length one specifying the occurrence rate of observations in \code{Data_Con1}. Default is \code{NA}.}
 
 \item{Rate_Con2}{Numeric vector of length one specifying the occurrence rate of observations in \code{Data_Con2}. Default is \code{NA}.}
 
-\item{Tab1}{Data frame specifying the return periods of variable \code{con1}, when conditioning on \code{con1}. First column specifies the return period and the second column gives the corresponding levels. First row must contain the return level of \code{con1} for the inter-arrival time (1/rate) of the sample.}
+\item{Tab1}{Data frame specifying the return periods of variable \code{con1}, when conditioning on \code{con1}. First column specifies the return period and the second column gives the corresponding levels. First row must contain the return level of \code{con1} for the inter-arrival time (1/rate) of the sample. Default is \code{NULL}.}
 
-\item{Tab2}{Data frame specifying the return periods of variable \code{con2}, when conditioning on \code{con2}. First column specifies the return period and the second column gives the corresponding levels. First row must contain the return level of \code{con2} for the inter-arrival time (1/rate) of the sample.}
+\item{Tab2}{Data frame specifying the return periods of variable \code{con2}, when conditioning on \code{con2}. First column specifies the return period and the second column gives the corresponding levels. First row must contain the return level of \code{con2} for the inter-arrival time (1/rate) of the sample. Default is \code{NULL}.}
 
 \item{mu}{Numeric vector of length one specifying the (average) occurrence frequency of events in \code{Data}. Default is \code{365.25}, daily data.}
 
 \item{GPD_Bayes}{Logical; indicating whether to use a Bayesian approach to estimate GPD parameters. This involves applying a penalty to the likelihood to aid in the stability of the optimization procedure. Default is \code{FALSE}.}
+
+\item{Decimal_Place}{Numeric vector specifying the number of decimal places to which to specify the isoline. Default is \code{2}}
 
 \item{Grid_x_min}{Numeric vector of length one specifying the minimum value of the variable in second column of \code{Data} contained in the grid.}
 
@@ -130,8 +132,6 @@ Design_Event_2D_Grid(
 
 \item{Plot_Quantile_Isoline}{Logical; indicating whether to first plot the quantile isoline. Default is \code{FALSE}.}
 
-\item{Decimal_Palace}{Numeric vector specifying the number of decimal places to which to specify the isoline. Default is \code{2}}
-
 \item{Isoline_Type}{Character vector of length one specifying the type of isoline. For isolines obtained using the overlaying method in Bender et al. (2016) use \code{"Combined"} (default). For quantile isoline from the sample conditioned on variable \code{Con1}|(\code{Con2}) use \code{"Con1"}(\code{"Con2"}).}
 }
 \value{
@@ -157,7 +157,7 @@ S22.Copula.OsWL<-Copula_Threshold_2D(Data_Detrend=S22.Detrend.df[,-c(1,4)],
                                     Upper=c(2,9),Lower=c(2,10),GAP=0.15)$Copula_Family_Var2
 Design.Event<-Design_Event_2D_Grid(Data=S22.Detrend.df[,-c(1,4)],
                                   Data_Con1=S22.Rainfall$Data, Data_Con2=S22.OsWL$Data,
-                                  u1=0.97, u2=0.97,
+                                  u1=0.97, u2=0.97, N_Both=3,
                                   Copula_Family1=S22.Copula.Rainfall, Copula_Family2=S22.Copula.OsWL,
                                   Marginal_Dist1="Logis", Marginal_Dist2="Twe",
                                   RP=c(5,100),Interval=10000,N=10^6,N_Ensemble=10,

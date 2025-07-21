@@ -16,8 +16,8 @@ HURDAT(Data, lat.loc, lon.loc, rad)
 \item{rad}{Vector of length one, specifying radius (in km) about the location of interest to report storm names.}
 }
 \value{
-The dataframe \code{Data} with an additional column containing the named storms.
+The data frame \code{Data} with an additional column containing the named storms.
 }
 \description{
-Appends a dataframe with the names of any storms in the HURDAT database with a center of circulation within a specified radius of a location.
+Appends a data frame with the names of any storms in the HURDAT database with a center of circulation within a specified radius of a location.
 }

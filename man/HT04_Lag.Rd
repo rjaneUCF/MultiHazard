@@ -28,6 +28,8 @@ HT04_Lag(
 \item 2:(n+1) - Declustered and if necessary detrended values of the variables to be modelled.
 }}
 
+\item{Lags}{Matrix specifying the lags. The no lag i.e. \code{0} lag cases need to be specified. Row n denotes the lags applied to the variable in the nth column of \code{data_Detrend_Dependence_df}. Column n corresponds to the nth largest lag applied to any variable. Default is \code{matrix(c(NA,0,1,NA,0,1,NA,0,NA),nrow=3,byrow = T)}, which corresponds to a lag of 1 being applied to variables in the first and second columns of \code{data_Detrend_Dependence_df} and no lag being applied to the variable in the third column of \code{data_Detrend_Dependence_df}.}
+
 \item{u_Dependence}{Dependence quantile. Specifies the (sub-sample of) data to which the dependence model is fitted, that for which the conditioning variable exceeds the threshold associated with the prescribed quantile. Default is \code{0.7}, thus the dependence parameters are estimated using the data with the highest \code{30\%} of values of the conditioning variables.}
 
 \item{Migpd}{An \code{Migpd} object, containing the parameterized Pareto models fitted (independently) to each of the variables.}
@@ -37,8 +39,6 @@ HT04_Lag(
 \item{V}{See documentation for \code{mexDependence}.}
 
 \item{Maxit}{See documentation for \code{mexDependence}.}
-
-\item{Lag}{Matrix specifying the lags. The no lag i.e. \code{0} lag cases need to be specified. Row n denotes the lags applied to the variable in the nth column of \code{data_Detrend_Dependence_df}. Column n corresponds to the nth largest lag applied to any variable. \code{NA}. Default is \code{matrix(c(0,1,0,NA),nrow=2,byrow = T)}, which corresponds to a lag of 1 being applied to variable in the first column of \code{data_Detrend_Dependence_df} and no lag being applied to the variable in the second column of \code{data_Detrend_Dependence_df}.}
 }
 \value{
 List comprising the fitted HT04 models \code{Models}, proportion of the time each variable is most extreme, given at least one variable is extreme \code{Prop}, residuals \code{z}, as well as the simulated values on the transformed \code{u.sim} and original {x.sim} scales.
@@ -47,9 +47,10 @@ List comprising the fitted HT04 models \code{Models}, proportion of the time eac
 Implements the version of the conditional multivariate approach of Heffernan and Tawn (2004) proposed in Keef et al. (2013) which incorporates lags between the variables. Function utilizes the \code{mexDependence} and \code{predict.mex.conditioned} functions from the \code{texmex} package.
 }
 \examples{
-HT04(data_Detrend_Dependence_df = S22.Detrend.df,
-data_Detrend_Declustered_df = S22.Detrend.Declustered.df,
-Migpd = S22_GPD, u_Dependence=0.7,Margins = "gumbel")
+HT04_Lag(data_Detrend_Dependence_df = S22.Detrend.df,
+     data_Detrend_Declustered_df = S22.Detrend.Declustered.df,
+     Lags = matrix(c(NA,0,1,NA,0,1,NA,0,NA),nrow=3,byrow = T),
+     Migpd = S22_GPD, u_Dependence=0.7,Margins = "gumbel")
 }
 \seealso{
 \code{\link{Dataframe_Combine}} \code{\link{Decluster}} \code{\link{GPD_Fit}} \code{\link{Migpd_Fit}}
