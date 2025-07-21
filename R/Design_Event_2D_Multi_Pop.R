@@ -32,22 +32,22 @@
 #' @param Con2 Character vector of length one specifying the name of variable in the second column of \code{Data_Con2}.
 #' @param Con1 Character vector of length one specifying the name of variable in the first column of \code{Data_Con3}.
 #' @param Con2 Character vector of length one specifying the name of variable in the second column of \code{Data_Con4}.
-#' @param GPD1 Output of \code{GPD_Fit} applied to variable \code{con1} i.e., GPD fit \code{con1}. Default \code{NA}. Only one of \code{u1}, \code{Thres1}, \code{GPD1} and \code{Tab1} is required.
-#' @param GPD2 Output of \code{GPD_Fit} applied to variable \code{con2} i.e., GPD fit \code{con2}. Default \code{NA}. Only one of \code{u2}, \code{Thres2}, \code{GPD2} and \code{Tab2} is required.
-#' @param GPD3 Output of \code{GPD_Fit} applied to variable \code{con3} i.e., GPD fit \code{con3}. Default \code{NA}. Only one of \code{u3}, \code{Thres3}, \code{GPD3} and \code{Tab3} is required.
-#' @param GPD4 Output of \code{GPD_Fit} applied to variable \code{con4} i.e., GPD fit \code{con4}. Default \code{NA}. Only one of \code{u4}, \code{Thres4}, \code{GPD4} and \code{Tab4} is required.
+#' @param GPD1 Output of \code{GPD_Fit} applied to variable \code{con1} i.e., GPD fit \code{con1}. Default \code{NULL}. Only one of \code{u1}, \code{Thres1}, \code{GPD1} and \code{Tab1} is required.
+#' @param GPD2 Output of \code{GPD_Fit} applied to variable \code{con2} i.e., GPD fit \code{con2}. Default \code{NULL}. Only one of \code{u2}, \code{Thres2}, \code{GPD2} and \code{Tab2} is required.
+#' @param GPD3 Output of \code{GPD_Fit} applied to variable \code{con3} i.e., GPD fit \code{con3}. Default \code{NULL}. Only one of \code{u3}, \code{Thres3}, \code{GPD3} and \code{Tab3} is required.
+#' @param GPD4 Output of \code{GPD_Fit} applied to variable \code{con4} i.e., GPD fit \code{con4}. Default \code{NULL}. Only one of \code{u4}, \code{Thres4}, \code{GPD4} and \code{Tab4} is required.
 #' @param Rate_Con1 Numeric vector of length one specifying the occurrence rate of observations in \code{Data_Con1}. Default is \code{NA}.
 #' @param Rate_Con2 Numeric vector of length one specifying the occurrence rate of observations in \code{Data_Con2}. Default is \code{NA}.
 #' @param Rate_Con3 Numeric vector of length one specifying the occurrence rate of observations in \code{Data_Con3}. Default is \code{NA}.
 #' @param Rate_Con4 Numeric vector of length one specifying the occurrence rate of observations in \code{Data_Con4}. Default is \code{NA}.
-#' @param Tab1 Data frame specifying the return periods of variable \code{con1}, when conditioning on \code{con1}. First column specifies the return period and the second column gives the corresponding levels. First row must contain the return level of \code{con1} for the inter-arrival time (1/rate) of the sample.
-#' @param Tab2 Data frame specifying the return periods of variable \code{con2}, when conditioning on \code{con2}. First column specifies the return period and the second column gives the corresponding levels. First row must contain the return level of \code{con2} for the inter-arrival time (1/rate) of the sample.
-#' @param Tab3 Data frame specifying the return periods of variable \code{con3}, when conditioning on \code{con3}. First column specifies the return period and the second column gives the corresponding levels. First row must contain the return level of \code{con3} for the inter-arrival time (1/rate) of the sample.
-#' @param Tab4 Data frame specifying the return periods of variable \code{con4}, when conditioning on \code{con4}. First column specifies the return period and the second column gives the corresponding levels. First row must contain the return level of \code{con4} for the inter-arrival time (1/rate) of the sample.
+#' @param Tab1 Data frame specifying the return periods of variable \code{con1}, when conditioning on \code{con1}. First column specifies the return period and the second column gives the corresponding levels. First row must contain the return level of \code{con1} for the inter-arrival time (1/rate) of the sample. Default is \code{NULL}.
+#' @param Tab2 Data frame specifying the return periods of variable \code{con2}, when conditioning on \code{con2}. First column specifies the return period and the second column gives the corresponding levels. First row must contain the return level of \code{con2} for the inter-arrival time (1/rate) of the sample. Default is \code{NULL}.
+#' @param Tab3 Data frame specifying the return periods of variable \code{con3}, when conditioning on \code{con3}. First column specifies the return period and the second column gives the corresponding levels. First row must contain the return level of \code{con3} for the inter-arrival time (1/rate) of the sample. Default is \code{NULL}.
+#' @param Tab4 Data frame specifying the return periods of variable \code{con4}, when conditioning on \code{con4}. First column specifies the return period and the second column gives the corresponding levels. First row must contain the return level of \code{con4} for the inter-arrival time (1/rate) of the sample. Default is \code{NULL}.
 #' @param mu Numeric vector of length one specifying the (average) occurrence frequency of events in \code{Data}. Default is \code{365.25}, daily data.
 #' @param GPD_Bayes Logical; indicating whether to use a Bayesian approach to estimate GPD parameters. This involves applying a penalty to the likelihood to aid in the stability of the optimization procedure. Default is \code{FALSE}.
 #' @param RP Numeric vector specifying the return periods of interest.
-#' @param Decimal_Palace Numeric vector specifying the number of decimal places to which to specify the isoline. Default is \code{2}
+#' @param Decimal_Place Numeric vector specifying the number of decimal places to which to specify the isoline. Default is \code{2}
 #' @param Grid_x_min Numeric vector of length one specifying the minimum value of the variable in first column of \code{Data} contained in the grid.
 #' @param Grid_x_max Numeric vector of length one specifying the maximum value of the variable in first column of \code{Data} contained in the grid.
 #' @param Grid_x_min Numeric vector of length one specifying the minimum value of the variable in second column of \code{Data} contained in the grid.
@@ -65,11 +65,197 @@
 #' @param N_Ensemble Numeric vector of length one specifying the number of possible design events sampled along the isoline of interest.
 #' @param Sim_Max Numeric vector of length one specifying the maximum value, given as a multiple of the largest observation of each variable, permitted in the sample used to estimate the (relative) probabilities along the isoline.
 #' @param Plot_Quantile_Isoline Logical; indicating whether to first plot the quantile isoline. Default is \code{FALSE}.
-#' @param Isoline_Type Character vector of length one specifying the type of isoline. For isolines obtained using the overlaying method in Bender et al. (2016) use \code{"Combined"} (default). For quantile isoline from the sample conditioned on variable \code{Con1}|(\code{Con2}) use \code{"Con1"}(\code{"Con2"}).
 #' @return Plot of all the observations (grey circles) as well as the declustered excesses above Thres1 (blue circles) or Thres2 (blue circles), observations may belong to both conditional samples. Also shown is the isoline associated with \code{RP} contoured according to their relative probability of occurrence on the basis of the sample from the two joint distributions, the "most likely" design event (black diamond), and design event under the assumption of full dependence (black triangle) are also shown in the plot. The function also returns a list comprising the design events assuming full dependence \code{"FullDependence"}, as well as once the dependence between the variables is accounted for the "Most likley" \code{"MostLikelyEvent"} as well as an \code{"Ensemble"} of possible design events and relative probabilities of events on the isoline \code{Contour}. The quantile isolines with \code{Quantile_Isoline_1} and \code{Quantile_Isoline_2}, and GPD thresholds with \code{Threshold_1} and \code{Threshold_2}.
 #' @seealso \code{\link{Copula_Threshold_2D}} \code{\link{Diag_Non_Con}} \code{\link{Diag_Non_Con_Trunc}}
 #' @export
 Design_Event_2D_Multi_Pop<-function(Data, Data_Con1, Data_Con2, Data_Con3, Data_Con4, u1, u2, u3, u4, Thres1=NA, Thres2=NA, Thres3=NA, Thres4=NA, N_Both_1, N_Both_2, Copula_Family1, Copula_Family2, Copula_Family3, Copula_Family4, Marginal_Dist1, Marginal_Dist2, Marginal_Dist3, Marginal_Dist4, Marginal_Dist1_Par=NA, Marginal_Dist2_Par=NA, Marginal_Dist3_Par=NA, Marginal_Dist4_Par=NA, Con1="Rainfall",Con2="OsWL", Con3="Rainfall", Con4="OsWL", GPD1=NA, GPD2=NA, GPD3=NA, GPD4=NA, Rate_Con1=NA, Rate_Con2=NA, Rate_Con3=NA, Rate_Con4=NA, Tab1= NA, Tab2 = NA, Tab3 = NA, Tab4 = NA, mu=365.25, GPD_Bayes=FALSE, Decimal_Place=2, Grid_x_min = NA ,Grid_x_max = NA, Grid_y_min = NA, Grid_y_max = NA, Grid_x_interval=NA, Grid_y_interval=NA, RP, Interval=10000, End=F, Resolution="Low", x_lab="Rainfall (mm)",y_lab="O-sWL (mNGVD 29)",x_lim_min = NA,x_lim_max = NA,y_lim_min = NA,y_lim_max = NA,Isoline_Probs="Sample", N=10^6,N_Ensemble=0,Sim_Max=10,Plot_Quantile_Isoline=FALSE){
+
+  #Validation of inputs
+  if (!is.data.frame(Data) || ncol(Data) != 2) {
+    stop("Data must be a data frame with exactly 2 columns.")
+  }
+
+  if (!is.data.frame(Data_Con1) || !is.data.frame(Data_Con2) || !is.data.frame(Data_Con3) || !is.data.frame(Data_Con4)) {
+    stop("Data_Con1, Data_Con2, Data_Con3 and Data_Con4 must be data frames.")
+  }
+
+  # Threshold validation
+  if (sum(c(!is.na(u1), !is.na(Thres1), !is.null(GPD1), !is.null(Tab1))) != 1) {
+    stop("Exactly one of u1, Thres1, GPD1, or Tab1 must be provided.")
+  }
+
+  if (sum(c(!is.na(u2), !is.na(Thres2), !is.null(GPD2), !is.null(Tab2))) != 1) {
+    stop("Exactly one of u2, Thres2, GPD2, or Tab2 must be provided.")
+  }
+
+  if (sum(c(!is.na(u3), !is.na(Thres3), !is.null(GPD3), !is.null(Tab3))) != 1) {
+    stop("Exactly one of u3, Thres3, GPD3, or Tab3 must be provided.")
+  }
+
+  if (sum(c(!is.na(u4), !is.na(Thres4), !is.null(GPD4), !is.null(Tab4))) != 1) {
+    stop("Exactly one of u4, Thres4, GPD4, or Tab4 must be provided.")
+  }
+
+  if (!is.na(u1) && (u1 <= 0 || u1 >= 1)) {
+    stop("Threshold u1 must be between 0 and 1 (exclusive).")
+  }
+
+  if (!is.na(u2) && (u2 <= 0 || u2 >= 1)) {
+    stop("Threshold u2 must be between 0 and 1 (exclusive).")
+  }
+
+  if (!is.na(u3) && (u3 <= 0 || u3 >= 1)) {
+    stop("Threshold u3 must be between 0 and 1 (exclusive).")
+  }
+
+  if (!is.na(u4) && (u4 <= 0 || u4 >= 1)) {
+    stop("Threshold u3 must be between 0 and 1 (exclusive).")
+  }
+
+  if (missing(N_Both_1)) {
+    stop("N_Both_1 parameter is required and cannot be missing.")
+  }
+
+  if (missing(N_Both_2)) {
+    stop("N_Both_2 parameter is required and cannot be missing.")
+  }
+
+  if (!is.numeric(N_Both_1)) {
+    stop("N_Both_1 must be a numeric vector.")
+  }
+
+  if (!is.numeric(N_Both_2)) {
+    stop("N_Both_2 must be a numeric vector.")
+  }
+
+  if (N_Both_1 < 0 || N_Both_1 != round(N_Both_1)) {
+    stop("N_Both_1 must be a non-negative integer.")
+  }
+
+  if (N_Both_2 < 0 || N_Both_2 != round(N_Both_2)) {
+    stop("N_Both_2 must be a non-negative integer.")
+  }
+
+  # Copula family validation
+  valid_copulas <- c(seq(0,40,1)[-(c(11,12,15,21,22,25,31,32,35)+1)],104,114,124,134,204,214,224,234)
+  if (!Copula_Family1 %in% valid_copulas) {
+    stop("Invalid Copula_Family1.")
+  }
+
+  if (!Copula_Family2 %in% valid_copulas) {
+    stop("Invalid Copula_Family2.")
+  }
+
+  if (!Copula_Family3 %in% valid_copulas) {
+    stop("Invalid Copula_Family3.")
+  }
+
+  if (!Copula_Family4 %in% valid_copulas) {
+    stop("Invalid Copula_Family4.")
+  }
+  # Marginal distribution validation
+  valid_dists <- c("BS","Exp", "Gam(2)", "Gam(3)", "GamMix(2)", "GamMix(3)", "Gaus", "Gum", "InvG", "Lapl", "Logis", "LNorm", "RGum", "TNorm","Twe", "Weib")
+  if (!Marginal_Dist1 %in% valid_dists) {
+    stop("Invalid Marginal_Dist1. Must be one of: ", paste(valid_dists, collapse = ", "), ".")
+  }
+
+  if (!Marginal_Dist2 %in% valid_dists) {
+    stop("Invalid Marginal_Dist2. Must be one of: ", paste(valid_dists, collapse = ", "), ".")
+  }
+
+  if (!Marginal_Dist3 %in% valid_dists) {
+    stop("Invalid Marginal_Dist3. Must be one of: ", paste(valid_dists, collapse = ", "), ".")
+  }
+
+  if (!Marginal_Dist4 %in% valid_dists) {
+    stop("Invalid Marginal_Dist4. Must be one of: ", paste(valid_dists, collapse = ", "), ".")
+  }
+
+  # Variable name validation
+  if (is.null(Con1) || is.null(Con2) || is.null(Con3) || is.null(Con4)) {
+    stop("Con1, Con2, Con3 and Con4 variable names must be provided.")
+  }
+
+  if (!is.character(Con1) || !is.character(Con2) || !is.character(Con3) || !is.character(Con4)) {
+    stop("Con1, Con2, Con3 and Con4 must be character strings.")
+  }
+
+  # Return period validation
+  if (any(RP <= 0)) {
+    stop("All return periods in RP must be positive.")
+  }
+
+  # Sampling parameters validation
+  if (N <= 0 || N != round(N)) {
+    stop("N must be a positive integer.")
+  }
+
+  if (N_Ensemble <= 0 || N_Ensemble != round(N_Ensemble)) {
+    stop("N_Ensemble must be a positive integer.")
+  }
+
+  # Simulation constraints
+  if (Sim_Max <= 1) {
+    stop("Sim_Max must be greater than 1.")
+  }
+
+  # Plot parameters validation
+  if (Interval <= 0 || Interval != round(Interval)) {
+    stop("Interval must be a positive integer.")
+  }
+
+  if (Decimal_Place < 0 || Decimal_Place != round(Decimal_Place)) {
+    stop("Decimal_Place must be a non-negative integer.")
+  }
+
+  # Rate validation
+  if (!is.na(Rate_Con1) && Rate_Con1 <= 0) {
+    stop("Rate_Con1 must be positive.")
+  }
+
+  if (!is.na(Rate_Con2) && Rate_Con2 <= 0) {
+    stop("Rate_Con2 must be positive.")
+  }
+
+  if (!is.na(Rate_Con3) && Rate_Con3 <= 0) {
+    stop("Rate_Con3 must be positive.")
+  }
+
+  if (!is.na(Rate_Con4) && Rate_Con4 <= 0) {
+    stop("Rate_Con4 must be positive.")
+  }
+
+  # Occurrence frequency validation
+  if (mu <= 0) {
+    stop("mu (occurrence frequency) must be positive.")
+  }
+
+  # Axis limits validation
+  if (!is.na(x_lim_min) && !is.na(x_lim_max) && x_lim_min >= x_lim_max) {
+    stop("x_lim_min must be less than x_lim_max.")
+  }
+
+  if (!is.na(y_lim_min) && !is.na(y_lim_max) && y_lim_min >= y_lim_max) {
+    stop("y_lim_min must be less than y_lim_max.")
+  }
+
+  # GPD and Tab validation
+  if (!is.null(Tab1) && (!is.data.frame(Tab1) || ncol(Tab1) != 2)) {
+    stop("Tab1 must be a data frame with exactly 2 columns.")
+  }
+
+  if (!is.null(Tab2) && (!is.data.frame(Tab2) || ncol(Tab2) != 2)) {
+    stop("Tab2 must be a data frame with exactly 2 columns.")
+  }
+
+  # Logical parameter validation
+  if (!is.logical(GPD_Bayes)) {
+    stop("GPD_Bayes must be logical (TRUE or FALSE).")
+  }
+
+  if (!is.logical(Plot_Quantile_Isoline)) {
+    stop("Plot_Quantile_Isoline must be logical (TRUE or FALSE).")
+  }
 
   ###Preliminaries
 
@@ -143,14 +329,14 @@ Design_Event_2D_Multi_Pop<-function(Data, Data_Con1, Data_Con2, Data_Con3, Data_
   ###i.e, 8 distributions in total.
 
   #Fit the GPD to the conditioned variable con1 in Data_Con1.
-  if(is.na(GPD1[[1]][1]) & is.na(Thres1) & is.na(Tab1[[1]][1])){
+  if(is.null(GPD1) & is.na(Thres1) & is.null(Tab1)){
     Thres1<-quantile(na.omit(Data[,con1]),u1)
   }
 
-  if(is.na(GPD1[[1]][1]) & GPD_Bayes & is.na(Tab1[[1]][1])){
+  if(is.null(GPD1) & GPD_Bayes & is.null(Tab1)){
     GPD_con1<-evm(Data_Con1[,con1], th = Thres1,penalty = "gaussian",priorParameters = list(c(0, 0), matrix(c(100^2, 0, 0, 0.25), nrow = 2)))
   }
-  if(is.na(GPD1[[1]][1]) & !GPD_Bayes & is.na(Tab1[[1]][1])){
+  if(is.null(GPD1) & !GPD_Bayes & is.null(Tab1)){
     GPD_con1<-evm(Data_Con1[,con1], th = Thres1)
   }
 
@@ -241,7 +427,7 @@ Design_Event_2D_Multi_Pop<-function(Data, Data_Con1, Data_Con2, Data_Con3, Data_
       marginal_non_con1<-Marginal_Dist1_Par
     }
   }
-  if(Marginal_Dist1 == "LogN"){
+  if(Marginal_Dist1 == "LNorm"){
     if(is.na(Marginal_Dist1_Par)==T){
       marginal_non_con1<-fitdistr(Data_Con1[,con2],"lognormal")
     }else{
@@ -278,14 +464,14 @@ Design_Event_2D_Multi_Pop<-function(Data, Data_Con1, Data_Con2, Data_Con3, Data_
   }
 
   #Fit the GPD to the conditioned variable con2 in Data_Con2.
-  if(is.na(GPD2[[1]][1]) & is.na(Thres2) & is.na(Tab2[[1]][1])){
+  if(is.null(GPD2) & is.na(Thres2) & is.null(Tab2)){
     Thres2<-quantile(na.omit(Data[,con2]),u2)
   }
 
-  if(is.na(GPD2[[1]][1]) & GPD_Bayes & is.na(Tab2[[1]][1])){
+  if(is.null(GPD2) & GPD_Bayes & is.null(Tab2)){
     GPD_con2<-evm(Data_Con2[,con2], th=Thres2 ,penalty = "gaussian",priorParameters = list(c(0, 0), matrix(c(100^2, 0, 0, 0.25), nrow = 2)))
   }
-  if(is.na(GPD2[[1]][1]) & !GPD_Bayes & is.na(Tab2[[1]][1])){
+  if(is.null(GPD2) & !GPD_Bayes & is.null(Tab2)){
     GPD_con2<-evm(Data_Con2[,con2], th= Thres2)
   }
 
@@ -375,7 +561,7 @@ Design_Event_2D_Multi_Pop<-function(Data, Data_Con1, Data_Con2, Data_Con3, Data_
       marginal_non_con2<-Marginal_Dist2_Par
     }
   }
-  if(Marginal_Dist2 == "LogN"){
+  if(Marginal_Dist2 == "LNorm"){
     if(is.na(Marginal_Dist2_Par)==T){
       marginal_non_con2<-fitdistr(Data_Con2[,con1],"lognormal")
     }else{
@@ -421,13 +607,13 @@ Design_Event_2D_Multi_Pop<-function(Data, Data_Con1, Data_Con2, Data_Con3, Data_
   sample<-BiCopSim(round(N*Rate_Con1/(Rate_Con1+Rate_Con2+Rate_Con3+Rate_Con4),0),obj1)
 
   #Transform the realizations of the conditioned variable con1 to the original scale using inverse cumulative distribution a.k.a. quantile functions (inverse probability integral transform) of the GPD contained in the u2gpd function.
-  if(is.na(GPD1[[1]][1])==T & is.na(Tab1[[1]][1])==T){
+  if(is.null(GPD1)==T & is.null(Tab1)==T){
     cop.sample1.con<-u2gpd(sample[,con1], p = 1, th=Thres1 , sigma=exp(GPD_con1$coefficients[1]),xi= GPD_con1$coefficients[2])
   }
-  if(is.na(GPD1[[1]][1])==F){
+  if(is.null(GPD1)==F){
     cop.sample1.con<-u2gpd(sample[,con1], p = 1, th = GPD1$Threshold, sigma = GPD1$sigma, xi= GPD1$xi)
   }
-  if(is.na(Tab1[[1]][1])==F){
+  if(is.null(Tab1)==F){
     cop.sample1.con = approx(1-1/Tab1[,1],Tab1[,2],xout=u1+sample[,con1]*(1-u1))$y
   }
 
@@ -478,7 +664,7 @@ Design_Event_2D_Multi_Pop<-function(Data, Data_Con1, Data_Con2, Data_Con3, Data_
   if(Marginal_Dist1=="Logis"){
     cop.sample1.non.con<-qlogis(sample[,con2], location = as.numeric(marginal_non_con1$estimate[1]), scale = as.numeric(marginal_non_con1$estimate[2]))
   }
-  if(Marginal_Dist1=="LogN"){
+  if(Marginal_Dist1=="LNorm"){
     cop.sample1.non.con<-qlnorm(sample[,con2], meanlog = as.numeric(marginal_non_con1$estimate[1]), sdlog = as.numeric(marginal_non_con1$estimate[2]))
   }
   if(Marginal_Dist1=="RGum"){
@@ -505,13 +691,13 @@ Design_Event_2D_Multi_Pop<-function(Data, Data_Con1, Data_Con2, Data_Con3, Data_
   sample<-BiCopSim(round(N*Rate_Con2/(Rate_Con1+Rate_Con2+Rate_Con3+Rate_Con4),0),obj2)
 
   #Transform the realizations of the conditioned variable con2 to the original scale using the inverse CDF (quantile function) of the GPD contained in the u2gpd function.
-  if(is.na(GPD2[[1]][1]) & is.na(Tab2[[1]][1])){
+  if(is.null(GPD2) & is.null(Tab2)){
     cop.sample2.con<-u2gpd(sample[,con2], p = 1, th=Thres2, sigma=exp(GPD_con2$coefficients[1]),xi= GPD_con2$coefficients[2])
   }
-  if(!is.na(GPD2[[1]][1])){
+  if(!is.null(GPD2)){
     cop.sample2.con<-u2gpd(sample[,con2], p = 1, th = GPD2$Threshold, sigma = GPD2$sigma, xi= GPD2$xi)
   }
-  if(!is.na(Tab2[[1]][1])){
+  if(!is.null(Tab2)){
     cop.sample2.con = approx(1-1/Tab2[,1],Tab2[,2],xout=u2+sample[,con2]*(1-u2))$y
   }
 
@@ -559,7 +745,7 @@ Design_Event_2D_Multi_Pop<-function(Data, Data_Con1, Data_Con2, Data_Con3, Data_
   if(Marginal_Dist2=="Lapl"){
     cop.sample2.non.con <- qlaplace(sample[,con1],as.numeric(marginal_non_con2$estimate[1]), as.numeric(marginal_non_con2$estimate[2]))
   }
-  if(Marginal_Dist2=="LogN"){
+  if(Marginal_Dist2=="LNorm"){
     cop.sample2.non.con<-qlnorm(sample[,con1], meanlog = as.numeric(marginal_non_con2$estimate[1]), sdlog = as.numeric(marginal_non_con2$estimate[2]))
   }
   if(Marginal_Dist2=="Logis"){
@@ -587,14 +773,14 @@ Design_Event_2D_Multi_Pop<-function(Data, Data_Con1, Data_Con2, Data_Con3, Data_
   ###Samples from second population
 
   #Fit the GPD to the conditioned variable con1 in Data_Con1.
-  if(is.na(GPD3[[1]][1]) & is.na(Thres3) & is.na(Tab3[[1]][1])){
+  if(is.null(GPD3) & is.na(Thres3) & is.null(Tab3)){
     Thres3<-quantile(na.omit(Data[,con3]),u3)
   }
 
-  if(is.na(GPD3[[1]][1]) & GPD_Bayes & is.na(Tab3[[1]][1])){
+  if(is.null(GPD3) & GPD_Bayes & is.null(Tab3)){
     GPD_con3<-evm(Data_Con3[,con3], th = Thres3,penalty = "gaussian",priorParameters = list(c(0, 0), matrix(c(100^2, 0, 0, 0.25), nrow = 2)))
   }
-  if(is.na(GPD3[[1]][1]) & !GPD_Bayes & is.na(Tab3[[1]][1])){
+  if(is.null(GPD3) & !GPD_Bayes & is.null(Tab3)){
     GPD_con3<-evm(Data_Con3[,con3], th = Thres3)
   }
 
@@ -684,7 +870,7 @@ Design_Event_2D_Multi_Pop<-function(Data, Data_Con1, Data_Con2, Data_Con3, Data_
       marginal_non_con3<-Marginal_Dist3_Par
     }
   }
-  if(Marginal_Dist3 == "LogN"){
+  if(Marginal_Dist3 == "LNorm"){
     if(is.na(Marginal_Dist3_Par)==T){
       marginal_non_con3<-fitdistr(Data_Con3[,con4],"lognormal")
     }else{
@@ -721,14 +907,14 @@ Design_Event_2D_Multi_Pop<-function(Data, Data_Con1, Data_Con2, Data_Con3, Data_
   }
 
   #Fit the GPD to the conditioned variable con4 in Data_Con4.
-  if(is.na(GPD4[[1]][1]) & is.na(Thres4) & is.na(Tab4[[1]][1])){
+  if(is.null(GPD4) & is.na(Thres4) & is.null(Tab4)){
     Thres4<-quantile(na.omit(Data_4[,con4]),u4)
   }
 
-  if(is.na(GPD4[[1]][1]) & GPD_Bayes & is.na(Tab4[[1]][1])){
+  if(is.null(GPD4) & GPD_Bayes & is.null(Tab4)){
     GPD_con4<-evm(Data_Con4[,con4], th=Thres4 ,penalty = "gaussian",priorParameters = list(c(0, 0), matrix(c(100^2, 0, 0, 0.25), nrow = 2)))
   }
-  if(is.na(GPD4[[1]][1]) & !GPD_Bayes & is.na(Tab4[[1]][1])){
+  if(is.null(GPD4) & !GPD_Bayes & is.null(Tab4)){
     GPD_con4<-evm(Data_Con4[,con4], th= Thres4)
   }
 
@@ -818,7 +1004,7 @@ Design_Event_2D_Multi_Pop<-function(Data, Data_Con1, Data_Con2, Data_Con3, Data_
       marginal_non_con4<-Marginal_Dist4_Par
     }
   }
-  if(Marginal_Dist4 == "LogN"){
+  if(Marginal_Dist4 == "LNorm"){
     if(is.na(Marginal_Dist4_Par)==T){
       marginal_non_con4<-fitdistr(Data_Con4[,con3],"lognormal")
     }else{
@@ -864,13 +1050,13 @@ Design_Event_2D_Multi_Pop<-function(Data, Data_Con1, Data_Con2, Data_Con3, Data_
   sample<-BiCopSim(round(N*Rate_Con3/(Rate_Con1+Rate_Con2+Rate_Con3+Rate_Con4),0),obj3)
 
   #Transform the realizations of the conditioned variable con1 to the original scale using inverse cumulative distribution a.k.a. quantile functions (inverse probability integral transform) of the GPD contained in the u2gpd function.
-  if(is.na(GPD3[[1]][1]) & is.na(Tab3[[1]][1])){
+  if(is.null(GPD3) & is.null(Tab3)){
     cop.sample3.con<-u2gpd(sample[,con3], p = 1, th=Thres3 , sigma=exp(GPD_con3$coefficients[1]),xi= GPD_con3$coefficients[2])
   }
-  if(!is.na(GPD3[[1]][1])){
+  if(!is.null(GPD3)){
     cop.sample3.con<-u2gpd(sample[,con3], p = 1, th = GPD3$Threshold, sigma = GPD3$sigma, xi= GPD3$xi)
   }
-  if(!is.na(Tab3[[1]][1])){
+  if(!is.null(Tab3)){
     cop.sample3.con = approx(1-1/Tab3[,1],Tab3[,2],xout=u3+sample[,con3]*(1-u3))$y
   }
 
@@ -921,7 +1107,7 @@ Design_Event_2D_Multi_Pop<-function(Data, Data_Con1, Data_Con2, Data_Con3, Data_
   if(Marginal_Dist3=="Logis"){
     cop.sample3.non.con<-qlogis(sample[,con4], location = as.numeric(marginal_non_con3$estimate[1]), scale = as.numeric(marginal_non_con3$estimate[2]))
   }
-  if(Marginal_Dist3=="LogN"){
+  if(Marginal_Dist3=="LNorm"){
     cop.sample3.non.con<-qlnorm(sample[,con4], meanlog = as.numeric(marginal_non_con3$estimate[1]), sdlog = as.numeric(marginal_non_con3$estimate[2]))
   }
   if(Marginal_Dist3=="RGum"){
@@ -948,13 +1134,13 @@ Design_Event_2D_Multi_Pop<-function(Data, Data_Con1, Data_Con2, Data_Con3, Data_
   sample<-BiCopSim(round(N*Rate_Con4/(Rate_Con1+Rate_Con2+Rate_Con3+Rate_Con4),0),obj4)
 
   #Transform the realizations of the conditioned variable con2 to the original scale using the inverse CDF (quantile function) of the GPD contained in the u2gpd function.
-  if(is.na(GPD4[[1]][1]) & is.na(Tab4[[1]][1])){
+  if(is.null(GPD4) & is.null(Tab4)){
     cop.sample4.con<-u2gpd(sample[,con4], p = 1, th=Thres4, sigma=exp(GPD_con4$coefficients[1]),xi= GPD_con4$coefficients[2])
   }
-  if(!is.na(GPD4[[1]][1])){
+  if(!is.null(GPD4)){
     cop.sample4.con<-u2gpd(sample[,con4], p = 1, th = GPD4$Threshold, sigma = GPD4$sigma, xi= GPD4$xi)
   }
-  if(!is.na(Tab4[[1]][1])){
+  if(!is.null(Tab4)){
     cop.sample4.con = approx(1-1/Tab4[,1],Tab4[,2],xout=u4+sample[,con4]*(1-u4))$y
   }
 
@@ -1002,7 +1188,7 @@ Design_Event_2D_Multi_Pop<-function(Data, Data_Con1, Data_Con2, Data_Con3, Data_
   if(Marginal_Dist4=="Lapl"){
     cop.sample4.non.con <- qlaplace(sample[,con3],as.numeric(marginal_non_con4$estimate[1]), as.numeric(marginal_non_con4$estimate[2]))
   }
-  if(Marginal_Dist4=="LogN"){
+  if(Marginal_Dist4=="LNorm"){
     cop.sample4.non.con<-qlnorm(sample[,con3], meanlog = as.numeric(marginal_non_con4$estimate[1]), sdlog = as.numeric(marginal_non_con4$estimate[2]))
   }
   if(Marginal_Dist4=="Logis"){
@@ -1037,15 +1223,15 @@ Design_Event_2D_Multi_Pop<-function(Data, Data_Con1, Data_Con2, Data_Con3, Data_
     #Transform the points on the grid to the (0,1) using the fitted cumulative distribution
     #Transform the values of the conditioned variable of Data_Con1 (Con1) in the grid to the (0,1) scale using the CDF of the GPD contained in the u2gpd function
     #Population 1
-    if(is.na(GPD1[[1]][1]) & is.na(Tab1[[1]][1])){
+    if(is.null(GPD1) & is.null(Tab1)){
       con1.x.u<-pgpd(Pgrid[,1], u=Thres1 , sigma=exp(GPD_con1$coefficients[1]),xi= GPD_con1$coefficients[2] )
     }
 
-    if(!is.na(GPD1[[1]][1])){
+    if(!is.null(GPD1)){
       con1.x.u<-pgpd(Pgrid[,1], u = GPD1$Threshold, sigma = GPD1$sigma, xi = GPD1$xi)
     }
 
-    if(!is.na(Tab1[[1]][1])){
+    if(!is.null(Tab1)){
       con1.x = approx(Tab1[,2],1-1/Tab1[,1],xout=Pgrid[,1])$y
     }
 
@@ -1097,7 +1283,7 @@ Design_Event_2D_Multi_Pop<-function(Data, Data_Con1, Data_Con2, Data_Con3, Data_
     if(Marginal_Dist1=="Logis"){
       con1.y.u<-plogis(Pgrid[,2],as.numeric(marginal_non_con1$estimate[1]),as.numeric(marginal_non_con1$estimate[2]))
     }
-    if(Marginal_Dist1=="LogN"){
+    if(Marginal_Dist1=="LNorm"){
       con1.y.u<-plnorm(Pgrid[,2],meanlog = as.numeric(marginal_non_con1$estimate[1]), sdlog = as.numeric(marginal_non_con1$estimate[2]))
     }
     if(Marginal_Dist1=="RGum"){
@@ -1126,16 +1312,16 @@ Design_Event_2D_Multi_Pop<-function(Data, Data_Con1, Data_Con2, Data_Con3, Data_
     ###Converting the grid to the unit square using the fitted distributions for the sample conditioned on variable 2.
 
     #Transforming the values of the conditioning variable in Data_Con2 (Con2) in the grid to the (0,1) scale using the CDF of the GPD.
-    if(is.na(GPD2[[1]][1]) & is.na(Tab2[[1]][1])){
+    if(is.null(GPD2) & is.null(Tab2)){
       con2.y.u<-pgpd(Pgrid[,2], u=Thres2 , sigma=exp(GPD_con2$coefficients[1]),xi= GPD_con2$coefficients[2] )
     }
 
-    if(!is.na(GPD2[[1]][1])){
+    if(!is.null(GPD2)){
       con2.y.u<-pgpd(Pgrid[,2], u = GPD2$Threshold, sigma = GPD2$sigma, xi = GPD2$xi)
     }
-    #if(is.na(Tab2[[1]][1])==F){
-    #  con2.y = approx(1-1/Tab2[,1],Tab2[,2],xout=u2+as.numeric(unlist(xy160[[1]][3]))*(((1-1/(mu*RP[k]))-u2)/max(as.numeric(unlist(xy160[[1]][3])))))$y
-    #}
+    if(!is.null(Tab2)){
+      con2.y = approx(1-1/Tab2[,1],Tab2[,2],xout=Pgrid[,2])$y
+    }
 
     #Transform the values of the conditioned variable in Data_Con2 (Con1) to the (0,1) scale using the CDF function of the selected parameteric (non-extreme value) distributions.
     if(Marginal_Dist2=="BS"){
@@ -1185,7 +1371,7 @@ Design_Event_2D_Multi_Pop<-function(Data, Data_Con1, Data_Con2, Data_Con3, Data_
     if(Marginal_Dist2=="Logis"){
       con2.x.u<-plogis(Pgrid[,1],as.numeric(marginal_non_con2$estimate[1]),as.numeric(marginal_non_con2$estimate[2]))
     }
-    if(Marginal_Dist2=="LogN"){
+    if(Marginal_Dist2=="LNorm"){
       con2.x.u<-plnorm(Pgrid[,1], meanlog = as.numeric(marginal_non_con2$estimate[1]), sdlog = as.numeric(marginal_non_con2$estimate[2]))
     }
     if(Marginal_Dist2=="RGum"){
@@ -1225,15 +1411,15 @@ Design_Event_2D_Multi_Pop<-function(Data, Data_Con1, Data_Con2, Data_Con3, Data_
     #Transform the points on the grid to the (0,1) using the fitted cumulative distribution
     #Transform the values of the conditioned variable of Data_Con1 (Con1) in the grid to the (0,1) scale using the CDF of the GPD contained in the u2gpd function
 
-    if(is.na(GPD3[[1]][1]) & is.na(Tab3[[1]][1])){
+    if(is.null(GPD3) & is.null(Tab3)){
       con3.x.u<-pgpd(Pgrid[,1], u=Thres3 , sigma=exp(GPD_con3$coefficients[1]),xi= GPD_con3$coefficients[2] )
     }
 
-    if(!is.na(GPD3[[1]][1])){
+    if(!is.null(GPD3)){
       con3.x.u<-pgpd(Pgrid[,1], u = GPD3$Threshold, sigma = GPD3$sigma, xi = GPD3$xi)
     }
 
-    if(!is.na(Tab1[[1]][1])){
+    if(!is.null(Tab1)){
       con3.x.u = approx(Tab1[,2],1-1/Tab1[,1],xout=Pgrid[,1])$y
     }
 
@@ -1285,7 +1471,7 @@ Design_Event_2D_Multi_Pop<-function(Data, Data_Con1, Data_Con2, Data_Con3, Data_
     if(Marginal_Dist3=="Logis"){
       con3.y.u<-plogis(Pgrid[,2],as.numeric(marginal_non_con3$estimate[1]),as.numeric(marginal_non_con3$estimate[2]))
     }
-    if(Marginal_Dist3=="LogN"){
+    if(Marginal_Dist3=="LNorm"){
       con3.y.u<-plnorm(Pgrid[,2],meanlog = as.numeric(marginal_non_con3$estimate[1]), sdlog = as.numeric(marginal_non_con3$estimate[2]))
     }
     if(Marginal_Dist3=="RGum"){
@@ -1314,16 +1500,16 @@ Design_Event_2D_Multi_Pop<-function(Data, Data_Con1, Data_Con2, Data_Con3, Data_
     ###Converting the grid to the unit square using the fitted distributions for the sample conditioned on variable 2.
 
     #Transforming the values of the conditioning variable in Data_Con2 (Con2) in the grid to the (0,1) scale using the CDF of the GPD.
-    if(is.na(GPD4[[1]][1]) & is.na(Tab4[[1]][1])){
+    if(is.null(GPD4) & is.null(Tab4)){
       con4.y.u<-pgpd(Pgrid[,2], u=Thres4 , sigma=exp(GPD_con4$coefficients[1]),xi= GPD_con4$coefficients[2] )
     }
 
-    if(!is.na(GPD4[[1]][1])){
+    if(!is.null(GPD4)){
       con4.y.u<-pgpd(Pgrid[,2], u = GPD4$Threshold, sigma = GPD4$sigma, xi = GPD4$xi)
     }
-    #if(is.na(Tab2[[1]][1])==F){
-    #  con2.y = approx(1-1/Tab2[,1],Tab2[,2],xout=u2+as.numeric(unlist(xy160[[1]][3]))*(((1-1/(mu*RP[k]))-u2)/max(as.numeric(unlist(xy160[[1]][3])))))$y
-    #}
+    if(!is.null(Tab4)){
+      con4.y = approx(1-1/Tab4[,1],Tab4[,2],xout=Pgrid[,2])$y
+    }
 
     #Transform the values of the conditioned variable in Data_Con2 (Con1) to the (0,1) scale using the CDF function of the selected parameteric (non-extreme value) distributions.
     if(Marginal_Dist4=="BS"){
@@ -1373,7 +1559,7 @@ Design_Event_2D_Multi_Pop<-function(Data, Data_Con1, Data_Con2, Data_Con3, Data_
     if(Marginal_Dist4=="Logis"){
       con4.x.u<-plogis(Pgrid[,1],as.numeric(marginal_non_con4$estimate[1]),as.numeric(marginal_non_con4$estimate[2]))
     }
-    if(Marginal_Dist4=="LogN"){
+    if(Marginal_Dist4=="LNorm"){
       con4.x.u<-plnorm(Pgrid[,1], meanlog = as.numeric(marginal_non_con4$estimate[1]), sdlog = as.numeric(marginal_non_con4$estimate[2]))
     }
     if(Marginal_Dist4=="RGum"){

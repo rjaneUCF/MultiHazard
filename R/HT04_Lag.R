@@ -12,7 +12,7 @@
 #' }
 #' @param Migpd An \code{Migpd} object, containing the parameterized Pareto models fitted (independently) to each of the variables.
 #' @param u_Dependence Dependence quantile. Specifies the (sub-sample of) data to which the dependence model is fitted, that for which the conditioning variable exceeds the threshold associated with the prescribed quantile. Default is \code{0.7}, thus the dependence parameters are estimated using the data with the highest \code{30\%} of values of the conditioning variables.
-#' @param Lag Matrix specifying the lags. The no lag i.e. \code{0} lag cases need to be specified. Row n denotes the lags applied to the variable in the nth column of \code{data_Detrend_Dependence_df}. Column n corresponds to the nth largest lag applied to any variable. \code{NA}. Default is \code{matrix(c(0,1,0,NA),nrow=2,byrow = T)}, which corresponds to a lag of 1 being applied to variable in the first column of \code{data_Detrend_Dependence_df} and no lag being applied to the variable in the second column of \code{data_Detrend_Dependence_df}.
+#' @param Lags Matrix specifying the lags. The no lag i.e. \code{0} lag cases need to be specified. Row n denotes the lags applied to the variable in the nth column of \code{data_Detrend_Dependence_df}. Column n corresponds to the nth largest lag applied to any variable. Default is \code{matrix(c(NA,0,1,NA,0,1,NA,0,NA),nrow=3,byrow = T)}, which corresponds to a lag of 1 being applied to variables in the first and second columns of \code{data_Detrend_Dependence_df} and no lag being applied to the variable in the third column of \code{data_Detrend_Dependence_df}.
 #' @param Margins Character vector specifying the form of margins to which the data are transformed for carrying out dependence estimation. Default is \code{"gumbel"}, alternative is \code{"laplace"}. Under Gumbel margins, the estimated parameters \code{a} and \code{b} describe only positive dependence, while \code{c} and \code{d} describe negative dependence in this case. For Laplace margins, only parameters \code{a} and \code{b} are estimated as these capture both positive and negative dependence.
 #' @param V See documentation for \code{mexDependence}.
 #' @param Maxit See documentation for \code{mexDependence}.
@@ -20,16 +20,131 @@
 #' @seealso \code{\link{Dataframe_Combine}} \code{\link{Decluster}} \code{\link{GPD_Fit}} \code{\link{Migpd_Fit}}
 #' @export
 #' @examples
-#' HT04(data_Detrend_Dependence_df = S22.Detrend.df,
-#' data_Detrend_Declustered_df = S22.Detrend.Declustered.df,
-#' Migpd = S22_GPD, u_Dependence=0.7,Margins = "gumbel")
+#' HT04_Lag(data_Detrend_Dependence_df = S22.Detrend.df,
+#'      data_Detrend_Declustered_df = S22.Detrend.Declustered.df,
+#'      Lags = matrix(c(NA,0,1,NA,0,1,NA,0,NA),nrow=3,byrow = T),
+#'      Migpd = S22_GPD, u_Dependence=0.7,Margins = "gumbel")
 HT04_Lag<-function (data_Detrend_Dependence_df, data_Detrend_Declustered_df, Lags, u_Dependence, Migpd, mu = 365.25, N = 100, Margins = "gumbel",V = 10, Maxit = 10000){
 
-  if(class(data_Detrend_Dependence_df[,1])[1]=="Date" | class(data_Detrend_Dependence_df[,1])[1]=="factor" | class(data_Detrend_Dependence_df[,1])[1]=="POSIXct" | class(data_Detrend_Dependence_df[,1])[1]=="character"){
-    data_Detrend_Dependence_df<-data_Detrend_Dependence_df[,-1]
+  # Input Validation
+
+  # Check if data frames exist and are valid
+  if(missing(data_Detrend_Dependence_df) || is.null(data_Detrend_Dependence_df) || !is.data.frame(data_Detrend_Dependence_df)){
+    stop("data_Detrend_Dependence_df must be a data frame.")
   }
-  if(class(data_Detrend_Declustered_df[,1])[1]=="Date" | class(data_Detrend_Declustered_df[,1])[1]=="factor" | class(data_Detrend_Declustered_df[,1])[1]=="POSIXct" | class(data_Detrend_Declustered_df[,1])[1]=="character"){
-    data_Detrend_Declustered_df<-data_Detrend_Declustered_df[,-1]
+
+  if(missing(data_Detrend_Declustered_df) || is.null(data_Detrend_Declustered_df) || !is.data.frame(data_Detrend_Declustered_df)){
+    stop("data_Detrend_Declustered_df must be a data frame.")
+  }
+
+  # Check if data frames have matching dimensions after removing date/factor columns
+  temp_dep <- data_Detrend_Dependence_df
+  temp_declust <- data_Detrend_Declustered_df
+
+  if(class(temp_dep[,1])[1] %in% c("Date", "factor", "POSIXct", "character")){
+    temp_dep <- temp_dep[,-1]
+  }
+  if(class(temp_declust[,1])[1] %in% c("Date", "factor", "POSIXct", "character")){
+    temp_declust <- temp_declust[,-1]
+  }
+
+  if(ncol(temp_dep) != ncol(temp_declust)){
+    stop("Data frames must have the same number of numeric columns after removing date/factor columns.")
+  }
+
+  if(!all(colnames(temp_dep) == colnames(temp_declust))){
+    stop("Column names must match between data frames after removing date/factor columns.")
+  }
+
+  # Check if Lag is a matrix
+  if (!is.matrix(Lag)) {
+    stop("Lag must be a matrix.")
+  }
+
+  # Check if Lag contains only numeric values and NA
+  if (!all(is.numeric(Lag) | is.na(Lag))) {
+    stop("Lag must contain only non-negative integer values or NA.")
+  }
+
+  # Check for negative values
+  if (any(Lag < 0, na.rm = TRUE)) {
+    stop("'Lag' values must be non-negative integers or NA. Negative lag values are not permitted.")
+  }
+
+  # Check for non-integer values
+  if (any(Lag != round(Lag), na.rm = TRUE)) {
+    stop("'Lag' values must be integers or NA. Non-integer lag values are not permitted.")
+  }
+
+  # Check dimension match with data
+  if (nrow(Lag) != ncol(data_Detrend_Dependence_df)) {
+    stop("Number of rows in Lag must match number of columns in data_Detrend_Dependence_df. Row n denotes lags applied to variable in nth column of data.")
+  }
+
+  # Validate u_Dependence
+  if(missing(u_Dependence) || is.null(u_Dependence) || !is.numeric(u_Dependence) || length(u_Dependence) != 1 || u_Dependence <= 0 || u_Dependence >= 1){
+    stop("u_Dependence must be a single numeric value between 0 and 1 (exclusive).")
+  }
+
+  # Validate Migpd
+  if(missing(Migpd) || is.null(Migpd) || !is.list(Migpd)){
+    stop("Migpd must be a list object (migpd class).")
+  }
+
+  if(is.null(Migpd$models)){
+    stop("Migpd$models is NULL. Please ensure Migpd object contains fitted models.")
+  }
+
+  if(length(Migpd$models) != ncol(temp_dep)){
+    stop("Number of models in Migpd$models (", length(Migpd$models),
+         ") must match number of data columns (", ncol(temp_dep), ").")
+  }
+
+  # Validate numeric parameters
+  if(!is.numeric(mu)){
+    stop("mu must be numeric.")
+  }
+
+  if(length(mu) != 1 || mu <= 0){
+    stop("mu must be a positive numeric value.")
+  }
+
+  if(!is.numeric(N)){
+    stop("N must be a numeric.")
+  }
+
+  if(length(N) != 1 || N <= 0 || N != round(N)){
+    stop("mu must be a positive numeric value.")
+  }
+
+  if(!is.numeric(V)){
+    stop("V must be a numeric.")
+  }
+
+  if(length(V) != 1 || V <= 0 || V != round(V)){
+    stop("V must be a positive integer.")
+  }
+
+  if(!is.numeric(Maxit)){
+    stop("Maxit must be a numeric value.")
+  }
+
+  if(length(Maxit) != 1 || Maxit <= 0 || Maxit != round(Maxit)){
+    stop("Maxit must be a positive integer.")
+  }
+
+  # Validate Margins parameter
+  valid_margins <- c("gumbel", "laplace", "exponential")
+  if(!is.character(Margins) || length(Margins) != 1 || !Margins %in% valid_margins){
+    stop("Margins must be one of: ", paste(valid_margins, collapse=", "), ".")
+  }
+
+  if(inherits(data_Detrend_Dependence_df[,1], c("Date", "factor", "POSIXct", "character"))){
+    data_Detrend_Dependence_df <- data_Detrend_Dependence_df[,-1]
+  }
+
+  if(inherits(data_Detrend_Declustered_df[,1], c("Date", "factor", "POSIXct", "character"))){
+    data_Detrend_Declustered_df <- data_Detrend_Declustered_df[,-1]
   }
 
   HT04_Model<-vector('list',ncol(data_Detrend_Declustered_df))

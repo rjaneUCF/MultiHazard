@@ -1,12 +1,12 @@
 #' HURDAT
 #'
-#' Appends a dataframe with the names of any storms in the HURDAT database with a center of circulation within a specified radius of a location.
+#' Appends a data frame with the names of any storms in the HURDAT database with a center of circulation within a specified radius of a location.
 #'
 #' @param Data A data frame where the first column is a date or date_time object.
 #' @param lat.loc Numeric vector of length one specifying the latitude (in degrees)of the location of interest.
 #' @param lon.loc Numeric vector of length one specifying the longitude (in degrees) of the location of interest.
 #' @param rad Vector of length one, specifying radius (in km) about the location of interest to report storm names.
-#' @return The dataframe \code{Data} with an additional column containing the named storms.
+#' @return The data frame \code{Data} with an additional column containing the named storms.
 #' @export
 HURDAT <- function(Data,lat.loc,lon.loc,rad){
 
