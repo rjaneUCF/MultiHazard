@@ -80,19 +80,19 @@ Design_Event_2D_Multi_Pop<-function(Data, Data_Con1, Data_Con2, Data_Con3, Data_
   }
 
   # Threshold validation
-  if (sum(c(!is.na(u1), !is.na(Thres1), !is.null(GPD1), !is.null(Tab1))) != 1) {
+  if (sum(c(!is.na(u1), !is.na(Thres1), !is.null(GPD1), !is.null(Tab1[[1]]))) != 1) {
     stop("Exactly one of u1, Thres1, GPD1, or Tab1 must be provided.")
   }
 
-  if (sum(c(!is.na(u2), !is.na(Thres2), !is.null(GPD2), !is.null(Tab2))) != 1) {
+  if (sum(c(!is.na(u2), !is.na(Thres2), !is.null(GPD2), !is.null(Tab2[[1]]))) != 1) {
     stop("Exactly one of u2, Thres2, GPD2, or Tab2 must be provided.")
   }
 
-  if (sum(c(!is.na(u3), !is.na(Thres3), !is.null(GPD3), !is.null(Tab3))) != 1) {
+  if (sum(c(!is.na(u3), !is.na(Thres3), !is.null(GPD3), !is.null(Tab3[[1]]))) != 1) {
     stop("Exactly one of u3, Thres3, GPD3, or Tab3 must be provided.")
   }
 
-  if (sum(c(!is.na(u4), !is.na(Thres4), !is.null(GPD4), !is.null(Tab4))) != 1) {
+  if (sum(c(!is.na(u4), !is.na(Thres4), !is.null(GPD4), !is.null(Tab4[[1]]))) != 1) {
     stop("Exactly one of u4, Thres4, GPD4, or Tab4 must be provided.")
   }
 
