@@ -72,7 +72,7 @@ HT04_Lag<-function (data_Detrend_Dependence_df, data_Detrend_Declustered_df, Lag
   }
 
   # Check for non-integer values
-  if (any(Lags != round(Lag), na.rm = TRUE)) {
+  if (any(Lags != round(Lags), na.rm = TRUE)) {
     stop("Lag values must be integers or NA. Non-integer lag values are not permitted.")
   }
 
