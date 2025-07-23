@@ -57,28 +57,28 @@ HT04_Lag<-function (data_Detrend_Dependence_df, data_Detrend_Declustered_df, Lag
   }
 
   # Check if Lag is a matrix
-  if (!is.matrix(Lag)) {
+  if (!is.matrix(Lags)) {
     stop("Lag must be a matrix.")
   }
 
   # Check if Lag contains only numeric values and NA
-  if (!all(is.numeric(Lag) | is.na(Lag))) {
+  if (!all(is.numeric(Lags) | is.na(Lags))) {
     stop("Lag must contain only non-negative integer values or NA.")
   }
 
   # Check for negative values
-  if (any(Lag < 0, na.rm = TRUE)) {
-    stop("'Lag' values must be non-negative integers or NA. Negative lag values are not permitted.")
+  if (any(Lags < 0, na.rm = TRUE)) {
+    stop("Lag values must be non-negative integers or NA. Negative lag values are not permitted.")
   }
 
   # Check for non-integer values
-  if (any(Lag != round(Lag), na.rm = TRUE)) {
-    stop("'Lag' values must be integers or NA. Non-integer lag values are not permitted.")
+  if (any(Lags != round(Lag), na.rm = TRUE)) {
+    stop("Lag values must be integers or NA. Non-integer lag values are not permitted.")
   }
 
   # Check dimension match with data
-  if (nrow(Lag) != ncol(data_Detrend_Dependence_df)) {
-    stop("Number of rows in Lag must match number of columns in data_Detrend_Dependence_df. Row n denotes lags applied to variable in nth column of data.")
+  if (nrow(Lags) != ncol(data_Detrend_Dependence_df)) {
+    stop("Number of rows in Lags must match number of columns in data_Detrend_Dependence_df. Row n denotes lags applied to variable in nth column of data.")
   }
 
   # Validate u_Dependence

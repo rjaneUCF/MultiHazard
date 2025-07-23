@@ -34,7 +34,7 @@
 #' Lower right: As in the top row but for the 100 years return period quantile.
 #' @export
 #' @examples
-#  Declustering the O-sWL at site S22 using a 3-day window.
+#' #Declustering the O-sWL at site S22 using a 3-day window.
 #' Rainfall_Declust_SW<-Decluster_SW(Data=S22.Detrend.df[,c(1:2)],Window_Width=7)
 #' Finding an appropriate threshold for the declustered series
 #' S22_OsWL_Solari<-GPD_Threshold_Solari(Event=Rainfall_Declust_SW$Declustered,
@@ -44,7 +44,81 @@
 #'                                           Solari_Output=S22_OsWL_Solari,
 #'                                           Thres=S22_OsWL_Solari$Candidate_Threshold)
 GPD_Threshold_Solari_Sel<-function(Event,Data,Solari_Output,Thres,Alpha=0.1,N_Sim=10^4,RP_Min=1,RP_Max=1000,RP_Plot=100,mu=365.25,y_lab="Data"){
-  
+
+  # Check for missing required parameters
+  if (is.null(Data)) {
+    stop("Data is missing.")
+  }
+
+  # Check data types
+  if (!is.numeric(Event)) {
+    stop("Event must be a numeric vector.")
+  }
+
+  if (!is.numeric(Data)) {
+    stop("Data must be a numeric vector.")
+  }
+
+  if (!is.numeric(RP_Min)) {
+    stop("RP_Min must be a numeric vector.")
+  }
+
+  if (!is.numeric(RP_Max)) {
+    stop("RP_Max must be a numeric vector.")
+  }
+
+  # Check for all NA values before na.omit
+  if (all(is.na(Event))) {
+    stop("Event contains only NA values.")
+  }
+
+  if (all(is.na(Data))) {
+    stop("Data contains only NA values.")
+  }
+
+  # Check for infinite values
+  if (any(is.infinite(Event))) {
+    warning("Event contains infinite values which will be removed.")
+    Event <- Event[!is.infinite(Event)]
+  }
+
+  if (any(is.infinite(Data))) {
+    warning("Data contains infinite values which will be removed.")
+    Data <- Data[!is.infinite(Data)]
+  }
+
+
+  # Check for missing required parameters
+  if (is.null(Solari_Output)) {
+    stop("Solari_Output is missing.")
+  }
+
+  if (!is.numeric(Alpha)) {
+    stop("Alpha must be a numeric value.")
+  }
+
+  if (length(Alpha) != 1 || Alpha <= 0 || Alpha >= 1){
+    stop("Alpha must be between 0 and 1")
+  }
+
+  # Check mu parameter
+  if (!is.numeric(mu)) {
+    stop("mu must be a numeric value.")
+  }
+
+  if (length(mu) != 1 || mu <= 0){
+    stop("mu must be a single positive (greater than 0) numeric value.")
+  }
+
+  # Check N_Sim parameter
+  if (!is.numeric(N_Sim)) {
+    stop("N_Sim must be a numeric value.")
+  }
+
+  if (length(N_Sim) != 1 || N_Sim != round(N_Sim) || N_Sim <= 0){
+    stop("N_Sim must be a single positive (integer) numeric value.")
+  }
+
   # Auxiliary variables
   Data    = na.omit(Data)
   N_Years = length(Data)/mu
@@ -52,16 +126,16 @@ GPD_Threshold_Solari_Sel<-function(Event,Data,Solari_Output,Thres,Alpha=0.1,N_Si
   RP      = RP[RP>=RP_Min]
   RP      = RP[RP<=RP_Max]
   Event   = na.omit(Event)
-  
+
   # POT with MLE and C.I. with bootstrapping ##########################
   # Sort Events
   Event = sort(Event)
-  
+
   for(J in 1:length(Thres)){
-    
+
     Exceedence = Event[Event>Thres[J]]
     Rate = length(Exceedence)/N_Years
-    
+
     Estimate   = unlist(GPD_MLE_Boot(Exceedence,RP,N_Years))
     BOOT   = array(0,dim=c(N_Sim,length(Estimate)))
     for(I in 1:N_Sim){
@@ -71,7 +145,7 @@ GPD_Threshold_Solari_Sel<-function(Event,Data,Solari_Output,Thres,Alpha=0.1,N_Si
           BOOT[I,] = unlist(GPD_MLE_Boot(sample(Exceedence,length(Exceedence),replace=T),RP,N_Years))
         }, silent = FALSE)
       }
-      
+
       CI.Upper = apply(BOOT, 2,  quantile, 1-Alpha/2)
       CI.Lower = apply(BOOT, 2,  quantile, Alpha/2)
     }
@@ -79,7 +153,7 @@ GPD_Threshold_Solari_Sel<-function(Event,Data,Solari_Output,Thres,Alpha=0.1,N_Si
   #Define the layout of the plots
   layout_matrix <- matrix(c(1, 4, 2, 4, 3, 5), nrow = 2)
   layout(layout_matrix)
-  
+
   # Histogram of k (GPD shape)
   z<-which(Solari_Output$GPD_MLE[,1]>-0.5 & Solari_Output$GPD_MLE[,1]<0.5 & Solari_Output$GPD_MLE[,6]<(length(na.omit(Data)/mu)))
   h<-hist(Solari_Output$GPD_MLE[z,1],xlab="GP shape",ylab="Frequency",col="Grey",
@@ -94,7 +168,7 @@ GPD_Threshold_Solari_Sel<-function(Event,Data,Solari_Output,Thres,Alpha=0.1,N_Si
        xlim=c(min(Solari_Output$GPD_MLE[z,1])-diff(range(Solari_Output$GPD_MLE[z,1]))/4,
               max(Solari_Output$GPD_MLE[z,1])+diff(range(Solari_Output$GPD_MLE[z,1]))/4),
        lwd=2,xlab="",ylab="",xaxt='n',yaxt='n')
-  
+
   # Histogram of sigma (GPD scale)
   h<-hist(Solari_Output$GPD_MLE[z,2],xlab="GP scale",ylab="Frequency",col="Grey",
           xlim=c(min(Solari_Output$GPD_MLE[z,2])-diff(range(Solari_Output$GPD_MLE[z,2]))/4,
@@ -108,7 +182,7 @@ GPD_Threshold_Solari_Sel<-function(Event,Data,Solari_Output,Thres,Alpha=0.1,N_Si
        xlim=c(min(Solari_Output$GPD_MLE[z,2])-diff(range(Solari_Output$GPD_MLE[z,2]))/4,
               max(Solari_Output$GPD_MLE[z,2])+diff(range(Solari_Output$GPD_MLE[z,2]))/4),
        lwd=2,xlab="",ylab="",xaxt='n',yaxt='n')
-  
+
   # Histogram of u (GPD location)
   h<-hist(Solari_Output$GPD_MLE[z,3],
           xlab="GP position",ylab="Frequency",col="Grey",
@@ -123,7 +197,7 @@ GPD_Threshold_Solari_Sel<-function(Event,Data,Solari_Output,Thres,Alpha=0.1,N_Si
        xlim=c(min(Solari_Output$GPD_MLE[z,3])-diff(range(Solari_Output$GPD_MLE[z,3]))/4,
               max(Solari_Output$GPD_MLE[z,3])+diff(range(Solari_Output$GPD_MLE[z,3]))/4),
        lwd=2,xlab="",ylab="",xaxt='n',yaxt='n')
-  
+
   # Histogram for a return level of 100 years
   Solari_Output_RPs<-as.numeric(colnames(Solari_Output$GPD_MLE)[7:ncol(Solari_Output$GPD_MLE)])
   Solari_Output_RPs<-Solari_Output_RPs[which(Solari_Output_RPs<=RP_Max)]
@@ -139,7 +213,7 @@ GPD_Threshold_Solari_Sel<-function(Event,Data,Solari_Output,Thres,Alpha=0.1,N_Si
   lines(log10(RP),CI.Upper[-(1:4)],lwd=2)
   lines(log10(RP),CI.Lower[-(1:4)],lwd=2)
   points(log10(1/((1-(1:length(Exceedence))/(length(Exceedence)+1))*Rate)),sort(Event[which(Event>Thres)]),col="Green",pch=16)
-  
+
   h<-hist(Solari_Output$GPD_MLE[z,which(colnames(Solari_Output$GPD_MLE)==RP_Plot)],
           xlab=paste(RP_Plot,'year return level',y_lab),ylab="Frequency",col="Grey",
           xlim=c(min(Solari_Output$GPD_MLE[z,which(colnames(Solari_Output$GPD_MLE)==RP_Plot)])-diff(range(Solari_Output$GPD_MLE[z,which(colnames(Solari_Output$GPD_MLE)==RP_Plot)]))/4,

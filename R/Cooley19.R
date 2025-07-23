@@ -25,7 +25,119 @@
 #' p.base=0.01,p.proj=0.001,PLOT=TRUE,x_lim_max_T=500,y_lim_max_T=500)
 Cooley19<-function(Data,Migpd,p.base=0.01,p.proj=0.001,u=0.95,PLOT=FALSE,x_lim_min_T=NA, x_lim_max_T=NA,y_lim_min_T=NA,y_lim_max_T=NA,x_lim_min=NA,x_lim_max=NA,y_lim_min=NA,y_lim_max=NA){
 
-  #Check the asymptotic properities
+  # Check if Data is provided and valid
+  if (missing(Data)) {
+    stop("Data argument is required but missing.")
+  }
+
+  if (!is.data.frame(Data) && !is.matrix(Data)) {
+    stop("Data must be a data frame or matrix.")
+  }
+
+  if (ncol(Data) != 2) {
+    stop("Data must have exactly 2 columns for bivariate analysis.")
+  }
+
+  if (nrow(Data) < 10) {
+    stop("Data must have at least 10 observations for reliable analysis.")
+  }
+
+  if (any(is.na(Data)) || any(is.infinite(Data))) {
+    stop("Data contains NA or infinite values. Please clean the data first.")
+  }
+
+  if (!is.numeric(Data[,1]) || !is.numeric(Data[,2])) {
+    stop("Both columns of Data must be numeric.")
+  }
+
+  # Check Migpd object
+  if (missing(Migpd)) {
+    stop("Migpd argument is required but missing.")
+  }
+
+  if (!is.list(Migpd)) {
+    stop("Migpd must be a list object.")
+  }
+
+  if (!"models" %in% names(Migpd)) {
+    stop("Migpd must contain a 'models' component.")
+  }
+
+  if (length(Migpd$models) != 2) {
+    stop("Migpd$models must contain exactly 2 model objects for bivariate data.")
+  }
+
+  # Check each model in Migpd
+  for (i in 1:2) {
+    if (is.null(Migpd$models[[i]])) {
+      stop(paste("Migpd$models[[", i, "]] is NULL.", sep=""))
+    }
+
+    required_components <- c("mqu", "rate", "threshold", "coefficients")
+    missing_components <- setdiff(required_components, names(Migpd$models[[i]]))
+    if (length(missing_components) > 0) {
+      stop(paste("'Migpd$models[[", i, "]]' is missing required components: ",
+                 paste(missing_components, collapse=", "), sep=""))
+    }
+
+    if (length(Migpd$models[[i]]$coefficients) < 2) {
+      stop(paste("Migpd$models[[", i, "]]$coefficients must have at least 2 elements (sigma, xi).", sep=""))
+    }
+  }
+
+  # Check probability parameters
+  if (!is.numeric(p.base) || length(p.base) != 1 || p.base <= 0 || p.base >= 1) {
+    stop("p.base must be a single numeric value between 0 and 1 (exclusive).")
+  }
+
+  if (!is.numeric(p.proj) || length(p.proj) != 1 || p.proj <= 0 || p.proj >= 1) {
+    stop("p.proj must be a single numeric value between 0 and 1 (exclusive).")
+  }
+
+  if (p.proj >= p.base) {
+    stop("p.proj must be smaller than 'p.base' for extrapolation.")
+  }
+
+  if (!is.numeric(u) || length(u) != 1 || u <= 0 || u >= 1) {
+    stop("u must be a single numeric value between 0 and 1 (exclusive).")
+  }
+
+  # Check logical parameters
+  if (!is.logical(PLOT) || length(PLOT) != 1) {
+    stop("PLOT must be a single logical value (TRUE or FALSE).")
+  }
+
+  # Check limit parameters (should be numeric or NA)
+  limit_params <- list(x_lim_min_T=x_lim_min_T, x_lim_max_T=x_lim_max_T,
+                       y_lim_min_T=y_lim_min_T, y_lim_max_T=y_lim_max_T,
+                       x_lim_min=x_lim_min, x_lim_max=x_lim_max,
+                       y_lim_min=y_lim_min, y_lim_max=y_lim_max)
+
+  for (param_name in names(limit_params)) {
+    param_value <- limit_params[[param_name]]
+    if (!is.na(param_value) && (!is.numeric(param_value) || length(param_value) != 1)) {
+      stop(paste("'", param_name, "' must be a single numeric value or NA.", sep=""))
+    }
+  }
+
+  # Check for reasonable limit relationships
+  if (!is.na(x_lim_min_T) && !is.na(x_lim_max_T) && x_lim_min_T >= x_lim_max_T) {
+    stop("'x_lim_min_T must be less than x_lim_max_T.")
+  }
+
+  if (!is.na(y_lim_min_T) && !is.na(y_lim_max_T) && y_lim_min_T >= y_lim_max_T) {
+    stop("y_lim_min_T must be less than y_lim_max_T.")
+  }
+
+  if (!is.na(x_lim_min) && !is.na(x_lim_max) && x_lim_min >= x_lim_max) {
+    stop("x_lim_min must be less than x_lim_max.")
+  }
+
+  if (!is.na(y_lim_min) && !is.na(y_lim_max) && y_lim_min >= y_lim_max) {
+    stop("y_lim_min must be less than y_lim_max.")
+  }
+
+  #Check the asymptotic properties
   Chi<-chi(Data,nq=1000)
   CHI<-round(Chi$chi[which(abs(Chi$quantile-u)==min(abs(Chi$quantile-u))),2],2)
   n.bar<-(Chi$chibar[which(abs(Chi$quantile-u)==min(abs(Chi$quantile-u)))]+1)/2
@@ -104,6 +216,8 @@ Cooley19<-function(Data,Migpd,p.base=0.01,p.proj=0.001,u=0.95,PLOT=FALSE,x_lim_m
     lines(I.base$x,I.base$y,col=3,lwd=2)
     lines(I.proj$x,I.proj$y,col=2,lwd=2)
   }
+
+  #Reurn list
   res <- list(Asym = Asym, Chi= CHI, n.bar=n.bar, p.base = p.base, p.proj=p.proj, I.base = I.base, I.proj = I.proj)
   return(res)
 }
