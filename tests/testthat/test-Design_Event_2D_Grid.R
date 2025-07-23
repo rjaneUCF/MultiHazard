@@ -34,10 +34,8 @@ test_that("Design_Event_2D_Grid works", {
   expect_true(nrow(result$FullDependence$`100`) == 1 & ncol(result$FullDependence$`100`)==2)
   expect_true(nrow(result$MostLikelyEvent$`100`) == 1 & ncol(result$MostLikelyEvent$`100`)==2)
   expect_equal(nrow(result$Ensemble$`100`),10)
-  expect_equal(nrow(result$Isoline$`100`),10000)
-  expect_equal(length(result$Contour$`100`),10000)
-  expect_equal(nrow(result$Quantile_Isoline_1$`100`),1429)
-  expect_equal(nrow(result$Quantile_Isoline_2$`100`),1212)
+  expect_equal(nrow(result$Isoline$`100`),55)
+  expect_equal(length(result$Contour$`100`),55)
   expect_equal(length(result$Threshold_1),1)
   expect_equal(length(result$Threshold_2),1)
 
@@ -46,8 +44,6 @@ test_that("Design_Event_2D_Grid works", {
   expect_equal(colnames(S20.Detrend.df[,2:3]), colnames(result$MostLikelyEvent$`100`))
   expect_equal(colnames(S20.Detrend.df[,2:3]), colnames(result$Ensemble$`100`))
   expect_equal(colnames(S20.Detrend.df[,2:3]), colnames(result$Isoline$`100`))
-  expect_equal(colnames(S20.Detrend.df[,2:3]), colnames(result$Quantile_Isoline_1$`100`))
-  expect_equal(colnames(S20.Detrend.df[,2:3]), colnames(result$Quantile_Isoline_2$`100`))
 })
 
 test_that("Invalid inputs", {
@@ -60,7 +56,6 @@ test_that("Invalid inputs", {
                          Copula_Family1=S22.Copula.Rainfall, Copula_Family2=S22.Copula.OsWL,
                          Marginal_Dist1="Logis", Marginal_Dist2="Twe",
                          RP=100,Interval=10000,N=10^4,N_Ensemble=10,
-                         Isoline_Type = "Null",
                          Plot_Quantile_Isoline=FALSE),
     "N_Both must be a non-negative integer.")
 
