@@ -95,7 +95,7 @@ Cooley19<-function(Data,Migpd,p.base=0.01,p.proj=0.001,u=0.95,PLOT=FALSE,x_lim_m
   }
 
   if (p.proj >= p.base) {
-    stop("p.proj must be smaller than 'p.base' for extrapolation.")
+    stop("p.proj must be smaller than p.base for extrapolation.")
   }
 
   if (!is.numeric(u) || length(u) != 1 || u <= 0 || u >= 1) {
