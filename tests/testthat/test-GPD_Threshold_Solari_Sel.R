@@ -33,8 +33,6 @@ test_that("Invalid inputs", {
                              Thres=S22_OsWL_Solari$Candidate_Thres),
     "Solari_Output is missing.")
 
-  S20.Migpd.modified = S20.Migpd$models
-  S20.Migpd.modified$models = S20.Migpd$models[-1]
   expect_error(
     GPD_Threshold_Solari_Sel(Event=Rainfall_Declust_SW$Declustered,
                              Data=S22.Detrend.df[,2],
