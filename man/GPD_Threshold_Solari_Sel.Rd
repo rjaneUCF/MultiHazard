@@ -66,11 +66,13 @@ Lower right: As in the top row but for the 100 years return period quantile.
 A nonparametric bootstrapping procedure is undertaken to assess the uncertainty in the GPD parameters and associated return levels for a GPD fit to observations above a user specified threshold. The estimates are compared with those obtained at other thresholds by running the \code{GPD_Threshold_Solari} function beforehand, and using its output as an input of this function. The code is based on the \code{AUTOMATICO_MLE_BOOT} function provided by Sebastian Solari.
 }
 \examples{
+#Declustering the O-sWL at site S22 using a 3-day window.
 Rainfall_Declust_SW<-Decluster_SW(Data=S22.Detrend.df[,c(1:2)],Window_Width=7)
 Finding an appropriate threshold for the declustered series
 S22_OsWL_Solari<-GPD_Threshold_Solari(Event=Rainfall_Declust_SW$Declustered,
                                       Data=na.omit(S22.Detrend.df[,2]))
-S22_OsWL_Solari<-GPD_Threshold_Solari_Sel(Event=Rainfall_Declust_SW$Declustered,
-                                          Data=na.omit(S22.Detrend.df[,2]),
+S22_OsWL_Solari_Sel<-GPD_Threshold_Solari_Sel(Event=Rainfall_Declust_SW$Declustered,
+                                          Data=S22.Detrend.df[,2],
+                                          Solari_Output=S22_OsWL_Solari,
                                           Thres=S22_OsWL_Solari$Candidate_Threshold)
 }

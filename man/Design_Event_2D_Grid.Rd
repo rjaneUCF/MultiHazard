@@ -131,8 +131,6 @@ Design_Event_2D_Grid(
 \item{Sim_Max}{Numeric vector of length one specifying the maximum value, given as a multiple of the largest observation of each variable, permitted in the sample used to estimate the (relative) probabilities along the isoline.}
 
 \item{Plot_Quantile_Isoline}{Logical; indicating whether to first plot the quantile isoline. Default is \code{FALSE}.}
-
-\item{Isoline_Type}{Character vector of length one specifying the type of isoline. For isolines obtained using the overlaying method in Bender et al. (2016) use \code{"Combined"} (default). For quantile isoline from the sample conditioned on variable \code{Con1}|(\code{Con2}) use \code{"Con1"}(\code{"Con2"}).}
 }
 \value{
 Plot of all the observations (grey circles) as well as the declustered excesses above Thres1 (blue circles) or Thres2 (blue circles), observations may belong to both conditional samples. Also shown is the isoline associated with \code{RP} contoured according to their relative probability of occurrence on the basis of the sample from the two joint distributions, the "most likely" design event (black diamond), and design event under the assumption of full dependence (black triangle) are also shown in the plot. The function also returns a list comprising the design events assuming full dependence \code{"FullDependence"}, as well as once the dependence between the variables is accounted for the "Most likley" \code{"MostLikelyEvent"} as well as an \code{"Ensemble"} of possible design events and relative probabilities of events on the isoline \code{Contour}. The quantile isolines with \code{Quantile_Isoline_1} and \code{Quantile_Isoline_2}, and GPD thresholds with \code{Threshold_1} and \code{Threshold_2}.
