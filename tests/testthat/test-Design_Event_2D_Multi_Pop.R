@@ -173,7 +173,7 @@ colnames(S22.Detrend.df) = c("Date","Rainfall_vol","OsWL","Groundwater")
 
 test_that("Design_Event_2D_Multi_Pop works", {
 
-  result <- Design_Event_2D_Multi_Pop(Data=S22.Detrend.df[,1:3],
+  result <- Design_Event_2D_Multi_Pop(Data=S22.Detrend.df[,c(1:3)],
                                       Data_Con1=con.sample.rainfall.tc$Data, Data_Con2=con.sample.rainfall.tc$Data,
                                       Data_Con3=con.sample.oswl.tc$Data, Data_Con4=con.sample.oswl.tc$Data,
                                       u1=NA,u2=NA,u3=NA,u4=NA,
@@ -231,7 +231,7 @@ test_that("Design_Event_2D_Multi_Pop works", {
 test_that("Invalid inputs", {
 
   expect_error(
-    Design_Event_2D_Multi_Pop(Data=S22.Detrend.df[,1:3],
+    Design_Event_2D_Multi_Pop(Data=S22.Detrend.df[,c(1:3)],
                               Data_Con1=con.sample.rainfall.tc$Data, Data_Con2=con.sample.rainfall.tc$Data,
                               Data_Con3=con.sample.oswl.tc$Data, Data_Con4=con.sample.oswl.tc$Data,
                               u1=NA,u2=NA,u3=NA,u4=NA,
@@ -262,7 +262,7 @@ test_that("Invalid inputs", {
     "Invalid Copula_Family1.")
 
   expect_error(
-    Design_Event_2D_Multi_Pop(Data=S22.Detrend.df[,1:3],
+    Design_Event_2D_Multi_Pop(Data=S22.Detrend.df[,c(1:3)],
                               Data_Con1=con.sample.rainfall.tc$Data, Data_Con2=con.sample.rainfall.tc$Data,
                               Data_Con3=con.sample.oswl.tc$Data, Data_Con4=con.sample.oswl.tc$Data,
                               u1=NA,u2=NA,u3=NA,u4=NA,

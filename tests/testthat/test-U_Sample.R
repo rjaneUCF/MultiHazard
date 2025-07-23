@@ -45,7 +45,7 @@ test_that("U_Sample works", {
  expect_type(result, 'list')
  expect_named(result, c("Xp","D","Samp","V","Vn","I","In","Start","End"))
  expect_type(result$Xp, "double")
- expect_type(result$D, "integer")
+ expect_type(result$D, "double")
  expect_type(result$Samp, "integer")
  expect_equal(nrow(result), length(sim.peak))
 
@@ -73,6 +73,6 @@ test_that("Invalid inputs", {
   expect_error(
     U_Sample(Data=S13_Rainfall$Rainfall,
              Cluster_Max=S13.Rainfall.Declust$EventsMax,
-             D=d,Start=start,End=end),
+             D=d,Start=start,End=end, Xp=NULL),
     "Xp must contain at least one value.")
 })
