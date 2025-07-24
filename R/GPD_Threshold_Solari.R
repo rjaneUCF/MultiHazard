@@ -111,7 +111,7 @@ GPD_Threshold_Solari<-function(Event,Data,RPs=c(10,50,100,500,1000),RPs_PLOT=c(2
     }
 
     if (length(Alpha) != 1 || Alpha <= 0 || Alpha >= 1){
-     stop("Alpha")
+     stop("Alpha must be between 0 and 1.")
     }
 
     # Check mu parameter
