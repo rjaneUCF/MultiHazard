@@ -67,11 +67,11 @@ GPD_Threshold_Solari_Sel<-function(Event,Data,Solari_Output,Thres,Alpha=0.1,N_Si
     stop("RP_Max must be a numeric vector.")
   }
 
-  if (RP_Min>0) {
+  if (RP_Min<=0) {
     stop("RP_Min must be a single positive numeric value.")
   }
 
-  if (RP_Max>0) {
+  if (RP_Max<=0) {
     stop("RP_Max must be a single positive numeric value.")
   }
 
