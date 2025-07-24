@@ -10,12 +10,12 @@ test_that("Cooley19 works", {
   expect_type(result, 'list')
   expect_named(result, c("Asym", "Chi", "n.bar", "p.base", "p.proj", "I.base", "I.proj"))
   expect_type(result$Asym, "character")
-  expect_type(result$Chi, "numeric")
-  expect_type(result$n.bar, "numeric")
-  expect_type(result$p.base, "numeric")
-  expect_type(result$p.proj, "numeric")
-  expect_type(result$I.base, "data.frame")
-  expect_type(result$I.proj, "data.frame")
+  expect_type(result$Chi, "double")
+  expect_type(result$n.bar, "double")
+  expect_type(result$p.base, "double")
+  expect_type(result$p.proj, "double")
+  expect_type(result$I.base, "list")
+  expect_type(result$I.proj, "list")
 
   # Check that key outputs are reasonable
   expect_true(result$p.base == 0.01)
