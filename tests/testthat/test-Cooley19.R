@@ -1,8 +1,8 @@
-S20.GPD<-Migpd_Fit(Data=S20.Detrend.Declustered.df[,-1], Data_Full=S20.Detrend.df[,-1],  mqu =c(0.99,0.99,0.99))
+S20.GPD<-Migpd_Fit(Data=S20.Detrend.Declustered.df[,-C(1,4)], Data_Full=S20.Detrend.df[,-C(1,4)],  mqu =c(0.99,0.99))
 
 test_that("Cooley19 works", {
 
-  result = Cooley19(Data=na.omit(S20.Detrend.df[,3:4]),Migpd=S20.GPD,
+  result = Cooley19(Data=na.omit(S20.Detrend.df[,2:3]),Migpd=S20.GPD,
                     p.base=0.01,p.proj=0.001,PLOT=TRUE,x_lim_max_T=500,y_lim_max_T=500)
 
 
@@ -38,20 +38,20 @@ test_that("Cooley19 works", {
 test_that("Invalid inputs", {
 
   expect_error(
-    Cooley19(Data=na.omit(S20.Detrend.df[1:8,3:4]),Migpd=S20.GPD,
+    Cooley19(Data=na.omit(S20.Detrend.df[1:8,2:3]),Migpd=S20.GPD,
              p.base=0.01,p.proj=0.001,PLOT=TRUE,x_lim_max_T=500,y_lim_max_T=500),
     "Data must have at least 10 observations for reliable analysis.")
 
   expect_error(
-    Cooley19(Data=na.omit(S20.Detrend.df[,3:4]),Migpd=S20.GPD,
+    Cooley19(Data=na.omit(S20.Detrend.df[,2:3]),Migpd=S20.GPD,
              p.base=0.01,p.proj=5,PLOT=TRUE,x_lim_max_T=500,y_lim_max_T=500),
     "p.proj must be a single numeric value between 0 and 1 \\(exclusive\\).")
 
   expect_error(
-    Cooley19(Data=na.omit(S20.Detrend.df[,3:4]),
+    Cooley19(Data=na.omit(S20.Detrend.df[,2:3]),
              Migpd=S20.GPD,
              p.base=0.001,
-             p.proj=0.01,  # proj should be smaller than base
+             p.proj=0.01,
              PLOT=TRUE,
              x_lim_max_T=500,
              y_lim_max_T=500),
