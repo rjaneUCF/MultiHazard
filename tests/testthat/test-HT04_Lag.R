@@ -41,6 +41,7 @@ test_that("Invalid inputs", {
                         data_Detrend_Declustered_df=S20.Detrend.Declustered.df,
                         Lags = matrix(c(NA,0,1,NA,0,1,NA,0,NA),nrow=3,byrow = T),
                         u_Dependence=0.995,Migpd=S20.Migpd.modified,mu=365.25,N=1000),
-    "Data frames must have the same number of numeric columns after removing date/factor columns.")
+    "Data frames must have the same number of numeric columns after removing date/factor columns.",
+    fixed = TRUE)
 })
 
