@@ -1,4 +1,4 @@
-S20.GPD<-Migpd_Fit(Data=S20.Detrend.Declustered.df[,-C(1,4)], Data_Full=S20.Detrend.df[,-C(1,4)],  mqu =c(0.99,0.99))
+S20.GPD<-Migpd_Fit(Data=S20.Detrend.Declustered.df[,-c(1,4)], Data_Full=S20.Detrend.df[,-c(1,4)],  mqu =c(0.99,0.99))
 
 test_that("Cooley19 works", {
 
