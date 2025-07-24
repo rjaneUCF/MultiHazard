@@ -172,14 +172,14 @@ Cooley19<-function(Data,Migpd,p.base=0.01,p.proj=0.001,u=0.95,PLOT=FALSE,x_lim_m
   I.proj.y_U<- exp(-1/I.proj.y_F)
 
   I.proj.x<-as.numeric(quantile(Data[,1],I.proj.x_U))
-  I.proj.x[which(I.proj.x_U>Migpd$models[[1]]$mqu)]<-u2gpd(u=I.proj.x_U[which(I.proj.x_U>Migpd$models[[1]]$mqu)],
+  I.proj.x[which(I.proj.x_U>Migpd$mqu[1])]<-u2gpd(u=I.proj.x_U[which(I.proj.x_U>Migpd$mqu[1])],
                                                            p=Migpd$models[[1]]$rate,
                                                            th=Migpd$models[[1]]$threshold,
                                                            sigma=exp(Migpd$models[[1]]$coefficients[1]),
                                                            xi=Migpd$models[[1]]$coefficients[2])
 
   I.proj.y<-as.numeric(quantile(Data[,2],I.proj.y_U))
-  I.proj.y[which(I.proj.y_U>Migpd$models[[2]]$mqu)]<-u2gpd(u=I.proj.y_U[which(I.proj.y_U>Migpd$models[[2]]$mqu)],
+  I.proj.y[which(I.proj.y_U>Migpd$mqu[2])]<-u2gpd(u=I.proj.y_U[which(I.proj.y_U>Migpd$mqu[2])],
                                                            p=Migpd$models[[2]]$rate,
                                                            th=Migpd$models[[2]]$threshold,
                                                            sigma=exp(Migpd$models[[2]]$coefficients[1]),
