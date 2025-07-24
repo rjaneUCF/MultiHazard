@@ -69,7 +69,7 @@ Cooley19<-function(Data,Migpd,p.base=0.01,p.proj=0.001,u=0.95,PLOT=FALSE,x_lim_m
       stop(paste("Migpd$models[[", i, "]] is NULL.", sep=""))
     }
 
-    required_components <- c("mqu", "rate", "threshold", "coefficients")
+    required_components <- c("rate", "threshold", "coefficients")
     missing_components <- setdiff(required_components, names(Migpd$models[[i]]))
     if (length(missing_components) > 0) {
       stop(paste("'Migpd$models[[", i, "]]' is missing required components: ",
