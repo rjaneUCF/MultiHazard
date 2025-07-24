@@ -29,7 +29,7 @@ test_that("Invalid inputs", {
 
   expect_error(
     HT04_Lag(data_Detrend_Dependence_df=S20.Detrend.df,
-             data_Detrend_Declustered_df=S20.Detrend.Declustered.df[,1:3],
+             data_Detrend_Declustered_df=S20.Detrend.Declustered.df,
              u_Dependence=0.995,Migpd=S20.Migpd,mu=365.25,N=1000),
     "Lag must be a matrix.")
 
