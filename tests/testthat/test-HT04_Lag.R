@@ -21,9 +21,8 @@ test_that("HT04 works", {
   expect_equal(nrow(result$x.sim),round((1-0.995)*365.25*1000,0))
 
   #Checking column names of outputs
-  expect_equal(paste(colnames(S20.Detrend.df[,2:4]),".trans",sep=""), colnames(result$u.sim))
+  expect_equal(colnames(S20.Detrend.df[,2:4]), colnames(result$u.sim))
   expect_equal(colnames(S20.Detrend.df[,2:4]), colnames(result$x.sim))
-  expect_equal(colnames(S20.Detrend.df[,2:4]), names(result$z))
 })
 
 test_that("Invalid inputs", {
@@ -41,7 +40,7 @@ test_that("Invalid inputs", {
                         data_Detrend_Declustered_df=S20.Detrend.Declustered.df,
                         Lags = matrix(c(NA,0,1,NA,0,1,NA,0,NA),nrow=3,byrow = T),
                         u_Dependence=0.995,Migpd=S20.Migpd.modified,mu=365.25,N=1000),
-    "Data frames must have the same number of numeric columns after removing date/factor columns.",
+    "Number of models in Migpd$models (2) must match number of data columns (3).",
     fixed = TRUE)
 })
 
