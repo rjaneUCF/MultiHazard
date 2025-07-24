@@ -42,10 +42,6 @@ Cooley19<-function(Data,Migpd,p.base=0.01,p.proj=0.001,u=0.95,PLOT=FALSE,x_lim_m
     stop("Data must have at least 10 observations for reliable analysis.")
   }
 
-  if (any(is.na(Data)) || any(is.infinite(Data))) {
-    stop("Data contains NA or infinite values. Please clean the data first.")
-  }
-
   if (!is.numeric(Data[,1]) || !is.numeric(Data[,2])) {
     stop("Both columns of Data must be numeric.")
   }
