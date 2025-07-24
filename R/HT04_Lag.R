@@ -77,8 +77,8 @@ HT04_Lag<-function (data_Detrend_Dependence_df, data_Detrend_Declustered_df, Lag
   }
 
   # Check dimension match with data
-  if (nrow(Lags) != ncol(data_Detrend_Dependence_df)) {
-    stop("Number of rows in Lags must match number of columns in data_Detrend_Dependence_df. Row n denotes lags applied to variable in nth column of data.")
+  if (nrow(Lags) != ncol(temp_dep)) {
+    stop("Number of rows in Lags must match number of columns in data_Detrend_Dependence_df after removing any date/factor columns. Row n denotes lags applied to variable in nth column of data.")
   }
 
   # Validate u_Dependence
