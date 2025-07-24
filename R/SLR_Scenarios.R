@@ -36,7 +36,7 @@ SLR_Scenarios<-function(SeaLevelRise, Scenario="Compact", Unit = "m", Year=2022,
     stop("Error: SeaLevelRise missing or not numeric")
   }
 
-  if (!Scenario %in% c("Compact","NOAA2017","NOAA2022")  && !is.na(Scenario)) {
+  if (!Scenario %in% c("Compact","NOAA2017","NOAA2022","Other")) {
     stop("Error: Invalid Scenario")
   }
 
