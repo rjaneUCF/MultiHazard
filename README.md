@@ -29,7 +29,8 @@ approach (HT04) — are coded. Finally, the package can be implemented to
 derive temporally coherent extreme events comprising a hyetograph and
 water level curve for simulated peak rainfall and peak sea level events,
 as outlined in (Report).  
-\### Citation:
+
+### Citation:
 
 > Jane, R., Wahl, T., Peña, F., Obeysekera, J., Murphy-Barltrop, C.,
 > Ali, J., Maduwantha, P., Li, H., and Malagón Santos, V. (under review)
