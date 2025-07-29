@@ -681,10 +681,10 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
   y_min<-ifelse(is.na(y_lim_min)==T,min(na.omit(Data[,con2])),y_lim_min)
   y_max<-ifelse(is.na(y_lim_max)==T,max(na.omit(Data[,con2])),y_lim_max)
 
-  plot(Data[, con1], Data[, con2], xlim = c(x_min, x_max), ylim = c(y_min, y_max), col = "Light Grey",xlab = x_lab, ylab = y_lab, cex.lab = 1.5, cex.axis = 1.5)
-  points(cop.sample)
-  points(Data_Con1[,con1],Data_Con1[,con2],col=4,cex=1.5)
-  points(Data_Con2[,con1],Data_Con2[,con2],col="Red",pch=4,cex=1.5)
+  #plot(Data[, con1], Data[, con2], xlim = c(x_min, x_max), ylim = c(y_min, y_max), col = "Light Grey",xlab = x_lab, ylab = y_lab, cex.lab = 1.5, cex.axis = 1.5)
+  #points(cop.sample)
+  #points(Data_Con1[,con1],Data_Con1[,con2],col=4,cex=1.5)
+  #points(Data_Con2[,con1],Data_Con2[,con2],col="Red",pch=4,cex=1.5)
 
   ###Deriving the quantile isoline from the sample conditioned on variable 'Con2' i.e. Data_Con1
 
