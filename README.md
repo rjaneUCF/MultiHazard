@@ -599,21 +599,6 @@ S20.OsWL.Solari<-GPD_Threshold_Solari(Event=S20.OsWL.Declustered.SW$Declustered,
                                       Data=S20.Detrend.df$OsWL)
 ```
 
-    ## Error in solve.default(family$info(o)) : 
-    ##   system is computationally singular: reciprocal condition number = 5.53812e-17
-
-    ## Error in diag(o$cov) : invalid 'nrow' value (too large or NA)
-
-    ## Error in solve.default(family$info(o)) : 
-    ##   system is computationally singular: reciprocal condition number = 3.8921e-17
-
-    ## Error in diag(o$cov) : invalid 'nrow' value (too large or NA)
-
-    ## Error in solve.default(family$info(o)) : 
-    ##   system is computationally singular: reciprocal condition number = 3.30514e-17
-
-    ## Error in diag(o$cov) : invalid 'nrow' value (too large or NA)
-
 ![](README_files/figure-gfm/unnamed-chunk-35-1.png)<!-- -->
 
 ``` r
