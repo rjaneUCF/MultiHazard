@@ -24,7 +24,7 @@ Finds the sum of a time series within a moving window then declusters the summed
 }
 \examples{
 #Declustering 24 hour rainfall totals at site S13 using a 7-day window for declustering the events.
-plot(S13_Precip$Date,S13_Rainfall$Rainfall)
+plot(S13_Rainfall$Date,S13_Rainfall$Rainfall)
 S13_Rainfall_Totals_Declust<-Decluster_S_SW(Data=S13_Rainfall, Window_Width_Sum=24,
                                             Window_Width=7*24)
 plot(S13_Rainfall[,1],
