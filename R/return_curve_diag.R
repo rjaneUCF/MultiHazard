@@ -34,9 +34,9 @@
 #' The HT04 model is fit to two conditional samples. One sample comprises the declustered time series of the first variable paired with concurrent values of the other variable. The second sample is obtained in the same way but with the variables reversed. The empirical probabilities are calculated using these two conditional samples and the original dataset (without any declustering).
 #' The return period should be chosen to ensure there is sufficient data for estimating empirical probabilities, yet the curve is sufficiently 'extreme'. An example could be to consider the fit using the 1 year return period curve rather than the 100 year return period curve.
 #' @return List comprising the angles \code{"ang_ind"} associated with the points on the curve for which the empirical probability estimates were calculated.
-#' For the HT04 model: Median {"med_x_ht04"}, lower \code{"lb_x_ht04"} and upper \code{"ub_x_ht04"} bounds associated with the probabilities calculated using the sample conditioned on the first variable.
-#' Median {"med_y_ht04"}, lower \code{"lb_y_ht04"} and upper \code{"ub_y_ht04"} bounds associated with the probabilities calculated using the sample conditioned on the second variable.
-#' Median {"med_ht04"}, lower \code{"lb_ht04"} and upper \code{"ub_ht04"} bounds associated with the original dataset (without any declustering).
+#' For the HT04 model: Median \code{"med_x_ht04"}, lower \code{"lb_x_ht04"} and upper \code{"ub_x_ht04"} bounds associated with the probabilities calculated using the sample conditioned on the first variable.
+#' Median \code{"med_y_ht04"}, lower \code{"lb_y_ht04"} and upper \code{"ub_y_ht04"} bounds associated with the probabilities calculated using the sample conditioned on the second variable.
+#' Median \code{"med_ht04"}, lower \code{"lb_ht04"} and upper \code{"ub_ht04"} bounds associated with the original dataset (without any declustering).
 #'
 #' For the WT13 model: Median \code{"med_x_wt13"}, lower \code{"lb_x_wt13"} and upper \code{"ub_x_wt13"} bounds associated with the probabilities calculated using the sample conditioned on the first variable.
 #' Median \code{"med_y_wt13"}, lower \code{"lb_y_wt13"} and upper \code{"ub_y_wt13"} bounds associated with the probabilities calculated using the sample conditioned on the second variable.

@@ -11,17 +11,17 @@
 #' @return For \code{"Compact"}, \code{"NOAA2017"} and \code{"NOAA2022"} a list length of time for \code{SeaLevelRise} of sea level rise is expected to arise under the \code{High}, \code{Intermediate} and \code{Low}. For user specified scenarios, the time for \code{SeaLevelRise} to occur under each is returned as \code{SLR_Year}. Upper panel: A plot of the scenarios. Scenarios are in bold until the time the SeaLevelRise is reached and are transparent thereafter. Lower panel: A plot showing the number of years before is expected to occur.
 #' @examples
 #' #Calculate the estimated time required for 0.45m of SLR in Key West according to the scenarios
-#' in the Southeast Florida Regional Climate Change Compact
+#' #in the Southeast Florida Regional Climate Change Compact
 #' SLRScenarios(0.45)
 #' #Calculate the estimated time required for 0.8 inches of SLR in Naples according
-#' to the scenarios in the 2022 Interagency Sea Level Rise Scenario Tool
+#' #to the scenarios in the 2022 Interagency Sea Level Rise Scenario Tool
 #' SLRScenarios(0.45,Scenario="NOAA2022", Unit = "Inches", Location="Naples")
 #' #Read in the scenarios for Fort Myers downloaded
-#' from https://sealevel.nasa.gov/task-force-scenario-tool/?psmsl_id=1106
+#' #from https://sealevel.nasa.gov/task-force-scenario-tool/?psmsl_id=1106
 #' SeaLevelRise.2022<-read.csv("sl_taskforce_scenarios_psmsl_id_1106_Fort_Myers.csv")
 #' #Convert data to the appropriate format for the SLRScenarios function
 #' #i.e. first column years, following columns the scenarios most to least extreme,
-#' converted from millimeters to meters
+#' #converted from millimeters to meters
 #' SeaLevelRise.2022_input<-data.frame(Year=seq(2020,2150,10),
 #'                                     "High"=as.numeric(SeaLevelRise.2022[14,-(1:5)])/1000,
 #'                                     "Medium"=as.numeric(SeaLevelRise.2022[8,-(1:5)])/1000,
