@@ -11,9 +11,9 @@
 #' @export
 #' @examples
 #' #Loading data contained in the package
-#' data("S20_T_MAX_Daily_Completed_Detrend")
+#' data("S20_T_MAX_Daily_Completed_Detrend_Declustered")
 #' #Finding annual maximum
-#' Annual_Max(Data_Detrend=S20_T_MAX_Daily_Completed_Detrend$Detrend)
+#' Annual_Max(Data_Detrend=S20_T_MAX_Daily_Completed_Detrend_Declustered$Detrend)
 Annual_Max<-function(Data_Detrend, Complete_Prop=0.8){
 
   # Input validation
