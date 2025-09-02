@@ -68,7 +68,7 @@ A nonparametric bootstrapping procedure is undertaken to assess the uncertainty 
 \examples{
 #Declustering the O-sWL at site S22 using a 3-day window.
 Rainfall_Declust_SW<-Decluster_SW(Data=S22.Detrend.df[,c(1:2)],Window_Width=7)
-Finding an appropriate threshold for the declustered series
+#Finding an appropriate threshold for the declustered series
 S22_OsWL_Solari<-GPD_Threshold_Solari(Event=Rainfall_Declust_SW$Declustered,
                                       Data=na.omit(S22.Detrend.df[,2]))
 S22_OsWL_Solari_Sel<-GPD_Threshold_Solari_Sel(Event=Rainfall_Declust_SW$Declustered,

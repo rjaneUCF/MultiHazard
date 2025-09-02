@@ -76,6 +76,10 @@ Design_Event_2D_Grid(
 
 \item{Marginal_Dist2}{Character vector of length one specifying (non-extreme) distribution used to model the marginal distribution of the non-conditioned variable in \code{Data_Con2}.}
 
+\item{Marginal_Dist1_Par}{Object containing the distribution fitted to the non-conditioned variable in \code{Data_Con1}. For example it could be of class \code{fitdistr}. Default is \code{NA} as distributions specified by \code{Marginal_Dist1} are fitted within the function.}
+
+\item{Marginal_Dist2_Par}{Object containing the distribution fitted to the non-conditioned variable in \code{Data_Con2}. For example it could be of class \code{fitdistr}. Default is \code{NA} as distributions specified by \code{Marginal_Dist2} are fitted within the function.}
+
 \item{Con1}{Character vector of length one specifying the name of variable in the first column of \code{Data}.}
 
 \item{Con2}{Character vector of length one specifying the name of variable in the second column of \code{Data}.}
@@ -98,9 +102,13 @@ Design_Event_2D_Grid(
 
 \item{Decimal_Place}{Numeric vector specifying the number of decimal places to which to specify the isoline. Default is \code{2}}
 
-\item{Grid_x_min}{Numeric vector of length one specifying the minimum value of the variable in second column of \code{Data} contained in the grid.}
+\item{Grid_x_min}{Numeric vector of length one specifying the minimum value of the variable in first column of \code{Data} contained in the grid.}
 
-\item{Grid_x_max}{Numeric vector of length one specifying the maximum value of the variable in second column of \code{Data} contained in the grid.}
+\item{Grid_x_max}{Numeric vector of length one specifying the maximum value of the variable in first column of \code{Data} contained in the grid.}
+
+\item{Grid_y_min}{Numeric vector of length one specifying the minimum value of the variable in second column of \code{Data} contained in the grid.}
+
+\item{Grid_y_max}{Numeric vector of length one specifying the maximum value of the variable in second column of \code{Data} contained in the grid.}
 
 \item{Grid_x_interval}{Numeric vector of length one specifying the resolution of the grid in terms of the variable in first column of \code{Date}. Default is an interval \code{2} of between consecutive values.}
 

@@ -21,6 +21,8 @@ Dataframe_Combine(data.1, data.2, data.3, data.4 = 0, data.5 = 0, n = 3, names)
 \item{data.5}{As for \code{data.1}.}
 
 \item{n}{Integer \code{1-5} specifying the number of time series. Default is \code{3}.}
+
+\item{names}{Character vector giving the column names excluding the first column which is labelled as "Date".}
 }
 \value{
 A data frame containing all times from the first to the most up to date reading of any of the variables.
