@@ -19,7 +19,7 @@ design events. The package also includes methods from [Murphy-Barltrop
 et al. (2023)](https://doi.org/10.1002/env.2797) and [Murphy-Barltrop et
 al. (2024)](https://doi.org/10.1007/s10687-024-00490-4) for deriving
 isolines using the [Heffernan and Tawn
-(2004)](https://doi.org/10.1111/j.1467-9868.2004.02050.x) [HT04](#ht04)
+(2004)](https://doi.org/10.1111/j.1467-9868.2004.02050.x) \[HT04\]
 and [Wadsworth and Tawn (2013)](https://doi.org/10.3150/12-BEJ471)
 \[WT13\] models, together with a novel bootstrap procedure for
 quantifying sampling uncertainty in the isolines. Three higher
@@ -1873,3 +1873,4 @@ mtext("D",side=2,line=2.3)
 
 The figure demonstrates that the simulated events preserves the key
 characteristics of the observed events.
+
