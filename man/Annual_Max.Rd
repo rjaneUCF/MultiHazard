@@ -23,6 +23,6 @@ Extract annual maximum in years with over a user-defined proportion of non-missi
 \examples{
 #Loading data contained in the package
 data("S20_T_MAX_Daily_Completed_Detrend_Declustered")
-#Finding annual maximum
-Annual_Max(Data_Detrend=S20_T_MAX_Daily_Completed_Detrend_Declustered$Detrend)
+#Finding annual maximum of detrended time series
+Annual_Max(Data_Detrend=S20_T_MAX_Daily_Completed_Detrend_Declustered[,c(1,4)])
 }
