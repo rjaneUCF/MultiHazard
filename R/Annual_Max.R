@@ -10,8 +10,8 @@
 #' @return List comprising the index of the annual maximum \code{Event} and the annual maximum values \code{AM}.
 #' @export
 #' @examples
-#' #Loading data contained in the package
-#' data("S20_T_MAX_Daily_Completed_Detrend_Declustered")
+#' #Converting
+#' S20_T_MAX_Daily_Completed_Detrend_Declustered[,1] <- as.Date(S20_T_MAX_Daily_Completed_Detrend_Declustered[,1], format = "%m/%d/%Y")
 #' #Finding annual maximum of detrended time series
 #' Annual_Max(Data_Detrend=S20_T_MAX_Daily_Completed_Detrend_Declustered[,c(1,4)])
 Annual_Max<-function(Data_Detrend, Complete_Prop=0.8){
