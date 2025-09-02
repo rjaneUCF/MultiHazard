@@ -131,8 +131,23 @@ To find the conditional probabilities a large number of realizations are simulat
 }
 \examples{
 #Under a 10yr (or greater) rainfall event condition, what is the joint probability that a 10yr
-#O-sWLevent occurs simultaneously?  What is the cumulative probability of events with the
+#O-sWL event occurs simultaneously?  What is the cumulative probability of events with the
 #frequency equal to or less than a 10yr O-sWL event?
+#Conditional samples
+con.sample.Rainfall<-Con_Sampling_2D(Data_Detrend=S22.Detrend.df[,-c(1,4)],
+                                     Data_Declust=S22.Detrend.Declustered.df[,-c(1,4)],
+                                     Con_Variable="Rainfall",u=0.98)
+con.sample.OsWL<-Con_Sampling_2D(Data_Detrend=S22.Detrend.df[,-c(1,4)],
+                                 Data_Declust=S22.Detrend.Declustered.df[,-c(1,4)],
+                                 Con_Variable="OsWL",u=0.98)
+#Find the best fitting copula
+cop.Rainfall <- Copula_Threshold_2D(Data_Detrend=S22.Detrend.df[,-c(1,4)],
+                                    Data_Declust=S22.Detrend.Declustered.df[,-c(1,4)],
+                                     u1=0.98, u2=NA, PLOT=FALSE)$Copula_Family_Var1
+cop.OsWL<- Copula_Threshold_2D(Data_Detrend=S22.Detrend.df[,-c(1,4)],
+                               Data_Declust=S22.Detrend.Declustered.df[,-c(1,4)],
+                               u1=NA, u2=0.98, PLOT=FALSE)$Copula_Family_Var2
+#Calculate conditional probabilities
 Conditional_RP_2D(Data=S22.Detrend.df,
                   Data_Con1=con.sample.Rainfall$Data, Data_Con2=con.sample.OsWL$Data,
                   u1=0.98, u2=0.98,
@@ -144,7 +159,7 @@ Conditional_RP_2D(Data=S22.Detrend.df,
                   RP_Con=10, RP_Non_Con=10,
                   x_lab = "Rainfall (Inches)", y_lab = "O-sWL (ft NGVD 29)",
                   y_lim_max = 10,
-                  N=10^7)
+                  N=10^4)
 }
 \seealso{
 \code{\link{Design_Event_2D}}
