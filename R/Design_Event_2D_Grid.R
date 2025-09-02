@@ -13,6 +13,8 @@
 #' @param Copula_Family2 Numeric vector of length one specifying the copula family used to model the \code{Data_Con2} dataset. Best fitting of 40 copulas can be found using the \code{Copula_Threshold_2D} function.
 #' @param Marginal_Dist1 Character vector of length one specifying (non-extreme) distribution used to model the marginal distribution of the non-conditioned variable in \code{Data_Con1}.
 #' @param Marginal_Dist2 Character vector of length one specifying (non-extreme) distribution used to model the marginal distribution of the non-conditioned variable in \code{Data_Con2}.
+#' @param Marginal_Dist1_Par Object containing the distribution fitted to the non-conditioned variable in \code{Data_Con1}. For example it could be of class \code{fitdistr}. Default is \code{NA} as distributions specified by \code{Marginal_Dist1} are fitted within the function.
+#' @param Marginal_Dist2_Par Object containing the distribution fitted to the non-conditioned variable in \code{Data_Con2}. For example it could be of class \code{fitdistr}. Default is \code{NA} as distributions specified by \code{Marginal_Dist2} are fitted within the function.
 #' @param Con1 Character vector of length one specifying the name of variable in the first column of \code{Data}.
 #' @param Con2 Character vector of length one specifying the name of variable in the second column of \code{Data}.
 #' @param GPD1 Output of \code{GPD_Fit} applied to variable \code{con1} i.e., GPD fit \code{con1}. Default \code{NULL}. Only one of \code{u1}, \code{Thres1}, \code{GPD1} and \code{Tab1} is required.
@@ -27,8 +29,8 @@
 #' @param Decimal_Place Numeric vector specifying the number of decimal places to which to specify the isoline. Default is \code{2}
 #' @param Grid_x_min Numeric vector of length one specifying the minimum value of the variable in first column of \code{Data} contained in the grid.
 #' @param Grid_x_max Numeric vector of length one specifying the maximum value of the variable in first column of \code{Data} contained in the grid.
-#' @param Grid_x_min Numeric vector of length one specifying the minimum value of the variable in second column of \code{Data} contained in the grid.
-#' @param Grid_x_max Numeric vector of length one specifying the maximum value of the variable in second column of \code{Data} contained in the grid.
+#' @param Grid_y_min Numeric vector of length one specifying the minimum value of the variable in second column of \code{Data} contained in the grid.
+#' @param Grid_y_max Numeric vector of length one specifying the maximum value of the variable in second column of \code{Data} contained in the grid.
 #' @param Grid_x_interval Numeric vector of length one specifying the resolution of the grid in terms of the variable in first column of \code{Date}. Default is an interval \code{2} of between consecutive values.
 #' @param Grid_y_interval Numeric vector of length one specifying the resolution of the grid in terms of the variable in second column of \code{Date}. Default is an interval \code{0.1} of between consecutive values.
 #' @param Interval Numeric vector specifying the number of equally spaced points comprising the combined isoline.

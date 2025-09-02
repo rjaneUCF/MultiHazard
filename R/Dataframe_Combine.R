@@ -11,6 +11,7 @@
 #' @param data.4 As for \code{data.1}.
 #' @param data.5 As for \code{data.1}.
 #' @param n Integer \code{1-5} specifying the number of time series. Default is \code{3}.
+#' @param names Character vector giving the column names excluding the first column which is labelled as "Date".
 #' @return A data frame containing all times from the first to the most up to date reading of any of the variables.
 #' @seealso \code{\link{Detrend}}
 #' @export
