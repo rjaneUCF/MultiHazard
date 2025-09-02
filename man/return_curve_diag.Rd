@@ -29,8 +29,6 @@ return_curve_diag(
   block_length_all = 14,
   boot_prop_all = 0.8,
   alpha = 0.1,
-  x_lab = NA,
-  y_lab = NA,
   x_lim_min = min(data[, 2], na.rm = T),
   x_lim_max = max(data[, 2], na.rm = T) + 0.3 * diff(range(data[, 2], na.rm = T)),
   y_lim_min = min(data[, 3], na.rm = T),
@@ -82,7 +80,17 @@ return_curve_diag(
 
 \item{block_length_all}{Numeric vector of length one specifying block length. Only required if \code{boot_method_all = "block"}. Default is \code{14}.}
 
+\item{boot_prop_all}{Numeric vector of length one specifying the minimum proportion of non-missing values of at least one of the variables for a month to be included in the bootstrap. Only required if \code{boot_method_all = "monthly"}. Default is \code{0.8}.}
+
 \item{alpha}{Numeric vector of length one specifying the \code{100(1-alpha)\%} confidence interval. Default is \code{0.1}.}
+
+\item{x_lim_min}{Numeric vector of length one specifying x-axis minimum.}
+
+\item{x_lim_max}{Numeric vector of length one specifying x-axis maximum.}
+
+\item{y_lim_min}{Numeric vector of length one specifying y-axis minimum.}
+
+\item{y_lim_max}{Numeric vector of length one specifying y-axis maximum.}
 }
 \value{
 List comprising the angles \code{"ang_ind"} associated with the points on the curve for which the empirical probability estimates were calculated.
@@ -90,9 +98,9 @@ For the HT04 model: Median {"med_x_ht04"}, lower \code{"lb_x_ht04"} and upper \c
 Median {"med_y_ht04"}, lower \code{"lb_y_ht04"} and upper \code{"ub_y_ht04"} bounds associated with the probabilities calculated using the sample conditioned on the second variable.
 Median {"med_ht04"}, lower \code{"lb_ht04"} and upper \code{"ub_ht04"} bounds associated with the original dataset (without any declustering).
 
-For the WT13 model: Median {"med_x_wt13"}, lower \code{"lb_x_wt13"} and upper \code{"ub_x_wt13"} bounds associated with the probabilities calculated using the sample conditioned on the first variable.
-Median {"med_y_wt13"}, lower \code{"lb_y_wt13"} and upper \code{"ub_y_wt13"} bounds associated with the probabilities calculated using the sample conditioned on the second variable.
-Median {"med_wt13"}, lower \code{"lb_wt13"} and upper \code{"ub_wt13"} bounds associated with the original dataset (without any declustering).
+For the WT13 model: Median \code{"med_x_wt13"}, lower \code{"lb_x_wt13"} and upper \code{"ub_x_wt13"} bounds associated with the probabilities calculated using the sample conditioned on the first variable.
+Median \code{"med_y_wt13"}, lower \code{"lb_y_wt13"} and upper \code{"ub_y_wt13"} bounds associated with the probabilities calculated using the sample conditioned on the second variable.
+Median \code{"med_wt13"}, lower \code{"lb_wt13"} and upper \code{"ub_wt13"} bounds associated with the original dataset (without any declustering).
 }
 \description{
 The procedure calculates the empirical probability of observing data within the survival regions defined by a subset of points on the return curve. If the curve is a good fit, the empirical probabilities should closely match the probabilities associated with the return level curve.  The procedure which is introduced in Murphy-Barltrop et al. (2023) uses bootstrap resampling of the original data set to obtain confidence intervals for the empirical estimates.

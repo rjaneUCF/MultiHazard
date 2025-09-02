@@ -59,8 +59,6 @@ Design_Event_2D_Multi_Pop(
   Grid_y_interval = NA,
   RP,
   Interval = 10000,
-  End = F,
-  Resolution = "Low",
   x_lab = "Rainfall (mm)",
   y_lab = "O-sWL (mNGVD 29)",
   x_lim_min = NA,
@@ -129,9 +127,13 @@ Design_Event_2D_Multi_Pop(
 
 \item{Marginal_Dist4_Par}{Character vector of length one specifying (non-extreme) parameters of  \code{Marginal_Dist4}. Default is \code{NA}, specified distribution is fit within the procedure.}
 
-\item{Con1}{Character vector of length one specifying the name of variable in the first column of \code{Data_Con3}.}
+\item{Con1}{Character vector of length one specifying the name of variable in the first column of \code{Data_Con1}.}
 
-\item{Con2}{Character vector of length one specifying the name of variable in the second column of \code{Data_Con4}.}
+\item{Con2}{Character vector of length one specifying the name of variable in the second column of \code{Data_Con2}.}
+
+\item{Con3}{Character vector of length one specifying the name of variable in the first column of \code{Data_Con3}.}
+
+\item{Con4}{Character vector of length one specifying the name of variable in the second column of \code{Data_Con4}.}
 
 \item{GPD1}{Output of \code{GPD_Fit} applied to variable \code{con1} i.e., GPD fit \code{con1}. Default \code{NULL}. Only one of \code{u1}, \code{Thres1}, \code{GPD1} and \code{Tab1} is required.}
 
@@ -163,9 +165,13 @@ Design_Event_2D_Multi_Pop(
 
 \item{Decimal_Place}{Numeric vector specifying the number of decimal places to which to specify the isoline. Default is \code{2}}
 
-\item{Grid_x_min}{Numeric vector of length one specifying the minimum value of the variable in second column of \code{Data} contained in the grid.}
+\item{Grid_x_min}{Numeric vector of length one specifying the minimum value of the variable in first column of \code{Data} contained in the grid.}
 
-\item{Grid_x_max}{Numeric vector of length one specifying the maximum value of the variable in second column of \code{Data} contained in the grid.}
+\item{Grid_x_max}{Numeric vector of length one specifying the maximum value of the variable in first column of \code{Data} contained in the grid.}
+
+\item{Grid_y_min}{Numeric vector of length one specifying the minimum value of the variable in second column of \code{Data} contained in the grid.}
+
+\item{Grid_y_max}{Numeric vector of length one specifying the maximum value of the variable in second column of \code{Data} contained in the grid.}
 
 \item{Grid_x_interval}{Numeric vector of length one specifying the resolution of the grid in terms of the variable in first column of \code{Date}. Default is an interval \code{2} of between consecutive values.}
 
@@ -186,6 +192,8 @@ Design_Event_2D_Multi_Pop(
 \item{y_lim_min}{Numeric vector of length one specifying y-axis minimum. Default is \code{NA}.}
 
 \item{y_lim_max}{Numeric vector of length one specifying y-axis maximum. Default is \code{NA}.}
+
+\item{Isoline_Probs}{Character vector of length one specifying whether to calculate relative probabilities of points on the isoline from a \code{"Sample"} simulated from the fitted copula models or from the \code{"Observations"}.Default is \code{"Sample"}.}
 
 \item{N}{Numeric vector of length one specifying the size of the sample from the fitted joint distributions used to estimate the density along an isoline. Samples are collected from the two joint distribution with proportions consistent with the total number of extreme events conditioned on each variable. Default is \code{10^6}}
 

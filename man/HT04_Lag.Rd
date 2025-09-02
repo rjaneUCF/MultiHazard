@@ -34,6 +34,10 @@ HT04_Lag(
 
 \item{Migpd}{An \code{Migpd} object, containing the parameterized Pareto models fitted (independently) to each of the variables.}
 
+\item{mu}{Numeric vector of length one specifying the (average) occurrence frequency of events in \code{data_Detrend_Dependence_df}. Default is \code{365.25}, daily data.}
+
+\item{N}{Numeric vector of length one specifying the number of years worth of extremes to simulate. Default is \code{100} years.}
+
 \item{Margins}{Character vector specifying the form of margins to which the data are transformed for carrying out dependence estimation. Default is \code{"gumbel"}, alternative is \code{"laplace"}. Under Gumbel margins, the estimated parameters \code{a} and \code{b} describe only positive dependence, while \code{c} and \code{d} describe negative dependence in this case. For Laplace margins, only parameters \code{a} and \code{b} are estimated as these capture both positive and negative dependence.}
 
 \item{V}{See documentation for \code{mexDependence}.}
@@ -41,7 +45,7 @@ HT04_Lag(
 \item{Maxit}{See documentation for \code{mexDependence}.}
 }
 \value{
-List comprising the fitted HT04 models \code{Models}, proportion of the time each variable is most extreme, given at least one variable is extreme \code{Prop}, residuals \code{z}, as well as the simulated values on the transformed \code{u.sim} and original {x.sim} scales.
+List comprising the fitted HT04 models \code{Models}, proportion of the time each variable is most extreme, given at least one variable is extreme \code{Prop}, residuals \code{z}, as well as the simulated values on the transformed \code{u.sim} and original \code{x.sim} scales.
 }
 \description{
 Implements the version of the conditional multivariate approach of Heffernan and Tawn (2004) proposed in Keef et al. (2013) which incorporates lags between the variables. Function utilizes the \code{mexDependence} and \code{predict.mex.conditioned} functions from the \code{texmex} package.

@@ -13,6 +13,7 @@ GPD_Fit(
   GPD_Bayes = TRUE,
   Method = "Standard",
   min.RI = 1,
+  max.RI = 100,
   PLOT = FALSE,
   xlab_hist = "Data",
   y_lab = "Data"
@@ -31,15 +32,17 @@ GPD_Fit(
 
 \item{GPD_Bayes}{Logical; indicating whether to use a Bayesian approach to estimate GPD parameters. This involves applying a penalty to the likelihood to aid in the stability of the optimization procedure. Default is \code{TRUE}.}
 
-\item{Method}{Character vector of length one specifying the method of choosing the threshold. \code{"Standard"} (default) chooses the exact threshold specified aswither \code{"u"} or \code{"th"}, whereas \code{"Solari"} selects the minimum exceedence of the \code{"Data"} above the user-specified threshold.}
+\item{Method}{Character vector of length one specifying the method of choosing the threshold. \code{"Standard"} (default) chooses the exact threshold specified as either \code{"u"} or \code{"th"}, whereas \code{"Solari"} selects the minimum exceedence of the \code{"Data"} above the user-specified threshold.}
 
 \item{min.RI}{Numeric vector of length one specifying the minimum return period in the return level plot. Default is \code{1}.}
+
+\item{max.RI}{Numeric vector of length one specifying the maximum return period in the return level plot. Default is \code{100}.}
+
+\item{PLOT}{Logical; indicating whether to plot diagnostics. Default is \code{FALSE}.}
 
 \item{xlab_hist}{Character vector of length one. Histogram x-axis label. Default is \code{"Data"}.}
 
 \item{y_lab}{Character vector of length one. Histogram x-axis label. Default is \code{"Data"}.}
-
-\item{Plot}{Logical; indicating whether to plot diagnostics. Default is \code{FALSE}.}
 }
 \value{
 List comprising the GPD \code{Threshold}, shape parameter \code{xi} and scale parameters \code{sigma} along with their standard errors \code{sigma.SE} and \code{xi.SE}.

@@ -38,8 +38,6 @@ Design_Event_2D_Grid(
   Grid_y_interval = NA,
   RP,
   Interval = 10000,
-  End = F,
-  Resolution = "Low",
   x_lab = "Rainfall (mm)",
   y_lab = "O-sWL (mNGVD 29)",
   x_lim_min = NA,
@@ -124,6 +122,8 @@ Design_Event_2D_Grid(
 
 \item{y_lim_max}{Numeric vector of length one specifying y-axis maximum. Default is \code{NA}.}
 
+\item{Isoline_Probs}{Character vector of length one specifying whether to calculate relative probabilities of points on the isoline from a \code{"Sample"} simulated from the fitted copula models or from the \code{"Observations"}.Default is \code{"Sample"}.}
+
 \item{N}{Numeric vector of length one specifying the size of the sample from the fitted joint distributions used to estimate the density along an isoline. Samples are collected from the two joint distribution with proportions consistent with the total number of extreme events conditioned on each variable. Default is \code{10^6}}
 
 \item{N_Ensemble}{Numeric vector of length one specifying the number of possible design events sampled along the isoline of interest.}
@@ -156,7 +156,8 @@ S22.Copula.OsWL<-Copula_Threshold_2D(Data_Detrend=S22.Detrend.df[,-c(1,4)],
 Design.Event<-Design_Event_2D_Grid(Data=S22.Detrend.df[,-c(1,4)],
                                   Data_Con1=S22.Rainfall$Data, Data_Con2=S22.OsWL$Data,
                                   u1=0.97, u2=0.97, N_Both=3,
-                                  Copula_Family1=S22.Copula.Rainfall, Copula_Family2=S22.Copula.OsWL,
+                                  Copula_Family1=S22.Copula.Rainfall,
+                                  Copula_Family2=S22.Copula.OsWL,
                                   Marginal_Dist1="Logis", Marginal_Dist2="Twe",
                                   RP=c(5,100),Interval=10000,N=10^6,N_Ensemble=10,
                                   Plot_Quantile_Isoline=FALSE)

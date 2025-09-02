@@ -69,6 +69,10 @@ Conditional_RP_2D(
 
 \item{RP_Non_Con}{Numeric vector of length one specifying the return period of the non-conditioning variable.}
 
+\item{Var1}{Numeric vector of length one specifying a value of variable in the first column of \code{Data}. Can be used instead of specifying a return period. Default is \code{NA}.}
+
+\item{Var2}{Numeric vector of length one specifying a value of variable in the second column of \code{Data}. Can be used instead of specifying a return period. Default is \code{NA}.}
+
 \item{x_lab}{Character vector specifying the x-axis label.}
 
 \item{y_lab}{Character vector specifying the y-axis label.}

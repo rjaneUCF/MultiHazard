@@ -28,7 +28,7 @@ Joint_RP_2D(
   y_lim_min = NA,
   y_lim_max = NA,
   DecP = 2,
-  N
+  N = 10^6
 )
 }
 \arguments{
@@ -60,6 +60,10 @@ Joint_RP_2D(
 
 \item{mu}{Numeric vector of length one specifying the (average) occurrence frequency of events in \code{Data}. Default is \code{365.25}, daily data.}
 
+\item{Var1}{Numeric vector specifying the values of the variable in the first column of \code{Data}.}
+
+\item{Var2}{Numeric vector specifying the values of the variable in the second column of \code{Data}.}
+
 \item{x_lab}{Character vector specifying the x-axis label.}
 
 \item{y_lab}{Character vector specifying the y-axis label.}
@@ -75,10 +79,6 @@ Joint_RP_2D(
 \item{DecP}{Numeric vector of length one specifying the number of decimal places to round the data in the conditional samples to in order to identify observations in both conditional samples. Default is \code{2}.}
 
 \item{N}{Numeric vector of length one specifying the size of the sample from the fitted joint distributions used to estimate the density along an isoline. Samples are collected from the two joint distribution with proportions consistent with the total number of extreme events conditioned on each variable. Default is \code{10^6}}
-
-\item{Val1}{Numeric vector specifying the values of the variable in the first column of \code{Data}.}
-
-\item{Val2}{Numeric vector specifying the values of the variable in the second column of \code{Data}.}
 }
 \value{
 Console output is a vector \code{RP_Copula} of the joint return period of the specified (Var1,Var2) events according to the conditional sampling - copula theory approach.

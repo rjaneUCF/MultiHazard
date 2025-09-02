@@ -9,7 +9,7 @@ bootstrap_month(data, boot_prop = 0.8)
 \arguments{
 \item{data}{Data frame of raw data detrended if necessary. First column should be of the \code{Date}.}
 
-\item{block_prop}{Numeric vector of length one specifying the minimum proportion of non-missing values of at least one of the variables for a month to be included in the bootstrap. Default is \code{0.8}.}
+\item{boot_prop}{Numeric vector of length one specifying the minimum proportion of non-missing values of at least one of the variables for a month to be included in the bootstrap. Default is \code{0.8}.}
 }
 \value{
 Dataframe containing a bootstrap undertaken with replacement that accounts for monthly-scale seasonality.
@@ -24,7 +24,7 @@ Months in which at least one variable exceeds the user-specified minimum proport
 #Data starts on first day of 1948
 head(S22.Detrend.Declustered.df)
 
-#Dataframe ends on 1948-02-03 
+#Dataframe ends on 1948-02-03
 tail(S22.Detrend.Declustered.df)
 
 #Adding dates to complete final month of combined records
@@ -40,7 +40,7 @@ for(i in 1:100){
  cor[i] = cor(boot_df$Rainfall, boot_df$OsWL, method="kendall")
 }
 
-#Compare means of bootstrap samples with the mean of the observed data 
+#Compare means of bootstrap samples with the mean of the observed data
 hist(cor)
 df = na.omit(S22.Detrend.df[,1:3])
 abline(v=cor(df$Rainfall,df$OsWL, method="kendall"),col=2,lwd=2)

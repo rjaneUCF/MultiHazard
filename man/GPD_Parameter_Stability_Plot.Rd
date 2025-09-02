@@ -4,8 +4,7 @@
 \alias{GPD_Parameter_Stability_Plot}
 \title{GPD parameter stability plots}
 \usage{
-GPD_Parameter_Stability_Plot(Data, Data_Full, u = 0.95, PLOT = FALSE,
-  xlab_hist = "Data", y_lab = "Data")
+GPD_Parameter_Stability_Plot(Data, Data_Full, u = 0.95, PLOT = FALSE)
 }
 \arguments{
 \item{Data}{Numeric vector containing the declusted data.}
@@ -14,7 +13,7 @@ GPD_Parameter_Stability_Plot(Data, Data_Full, u = 0.95, PLOT = FALSE,
 
 \item{u}{Numeric vector of GPD thresholds; given as a quantiles \code{[0,1]} of \code{Data} vector. Default is \code{0.9} to \code{0.999} in intervals of \code{0.001}.}
 
-\item{Plot}{Logical; indicating whether to plot diagnostics. Default is \code{FALSE}.}
+\item{PLOT}{Logical; indicating whether to plot diagnostics. Default is \code{FALSE}.}
 }
 \value{
 Plot of the shape and modified scale parameter estimates along with their errors bars over the range of specified thresholds.

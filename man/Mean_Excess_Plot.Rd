@@ -7,7 +7,7 @@
 Mean_Excess_Plot(Data)
 }
 \arguments{
-\item{data}{A vector comprising a declustered and if necessary detrended time series to be modelled.}
+\item{Data}{A vector comprising a declustered and if necessary detrended time series to be modelled.}
 }
 \value{
 Plot of the empirical mean excess function (black line), average of all observations exceeding a threshold decreased by the threshold, for thresholds spanning the range of the observations. Also provided are \code{95\%} confidence intervals (blue dotted lines) and the observations (black dots).

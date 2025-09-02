@@ -81,5 +81,5 @@ Solari et al. (2017) formalized EDF statistic - GOF test threshold selection pro
 Rainfall_Declust_SW<-Decluster_SW(Data=S22.Detrend.df[,c(1:2)],Window_Width=7)
 #Finding an appropriate threshold for the declustered series
 GPD_Threshold_Solari(Event=Rainfall_Declust_SW$Declustered,
-                     Data=22.Detrend.df[,2])
+                     Data=S22.Detrend.df[,2])
 }

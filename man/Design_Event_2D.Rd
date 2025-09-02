@@ -70,6 +70,10 @@ Design_Event_2D(
 
 \item{Marginal_Dist2}{Character vector of length one specifying (non-extreme) distribution used to model the marginal distribution of the non-conditioned variable in \code{Data_Con2}.}
 
+\item{Marginal_Dist1_Par}{Object containing the distribution fitted to the non-conditioned variable in \code{Data_Con1}. For example it could be of class \code{fitdistr}. Default is \code{NA} as distributions specified by \code{Marginal_Dist1} are fitted within the function.}
+
+\item{Marginal_Dist2_Par}{Object containing the distribution fitted to the non-conditioned variable in \code{Data_Con2}. For example it could be of class \code{fitdistr}. Default is \code{NA} as distributions specified by \code{Marginal_Dist2} are fitted within the function.}
+
 \item{Con1}{Character vector of length one specifying the name of variable in the first column of \code{Data}.}
 
 \item{Con2}{Character vector of length one specifying the name of variable in the second column of \code{Data}.}
@@ -96,6 +100,10 @@ Design_Event_2D(
 
 \item{Interval}{Numeric vector specifying the number of equally spaced points comprising the combined isoline.}
 
+\item{End}{Logical; indicating whether to extend the isoline to the marginal \code{rp} event of Var1. Default is \code{FALSE}.}
+
+\item{Resolution}{Character vector specifying the resolution of the isoline. Options are \code{"Low"} (10^-3) and \code{"High"} (10^-4). Default is \code{"Low"}.}
+
 \item{x_lab}{Character vector specifying the x-axis label.}
 
 \item{y_lab}{Character vector specifying the y-axis label.}
@@ -107,6 +115,8 @@ Design_Event_2D(
 \item{y_lim_min}{Numeric vector of length one specifying y-axis minimum. Default is \code{NA}.}
 
 \item{y_lim_max}{Numeric vector of length one specifying y-axis maximum. Default is \code{NA}.}
+
+\item{Isoline_Probs}{Character vector of length one specifying whether to calculate relative probabilities of points on the isoline from a \code{"Sample"} simulated from the fitted copula models or from the \code{"Observations"}.Default is \code{"Sample"}.}
 
 \item{N}{Numeric vector of length one specifying the size of the sample from the fitted joint distributions used to estimate the density along an isoline. Samples are collected from the two joint distribution with proportions consistent with the total number of extreme events conditioned on each variable. Default is \code{10^6}}
 

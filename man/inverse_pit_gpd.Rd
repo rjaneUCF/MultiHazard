@@ -32,6 +32,7 @@ unif = runif(100,0,1)
 #Transform the unifrom variate to the original scale
 x.sim = inverse_pit_gpd(unif,S13.Detrend.df$Rainfall,S13.Rainfall.Declust$Declsutered,0.95)
 #Plotting the empirical distribution functions of the sample and observations
-plot(S13.Detrend.df$Rainfall[order(S13.Detrend.df$Rainfall)],(1:length(S13.Detrend.df$Rainfall))/length(S13.Detrend.df$Rainfall))
+plot(S13.Detrend.df$Rainfall[order(S13.Detrend.df$Rainfall)],
+    (1:length(S13.Detrend.df$Rainfall))/length(S13.Detrend.df$Rainfall))
 points(x.sim[order(x.sim)],1:length(x.sim)/length(x.sim),col=2)
 }

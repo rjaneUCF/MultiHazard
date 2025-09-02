@@ -4,16 +4,23 @@
 \alias{Dataframe_Combine}
 \title{Creates a data frame containing up to five time series}
 \usage{
-Dataframe_Combine(data.1, data.2, data.3, data.4 = 0, data.5 = 0,
-  n = 3, names)
+Dataframe_Combine(data.1, data.2, data.3, data.4 = 0, data.5 = 0, n = 3, names)
 }
 \arguments{
-\item{n}{Integer \code{1-5} specifying the number of time series. Default is \code{3}.}
-
-\item{data.1:5}{Data frames with two columns containing in column \itemize{
+\item{data.1}{Data frames with two columns containing in column \itemize{
 \item 1 - Continuous sequence of times spanning from the first to the final recorded observations.
 \item 2 - Corresponding values detrended where necessary.
 }}
+
+\item{data.2}{As for \code{data.1}.}
+
+\item{data.3}{As for \code{data.1}.}
+
+\item{data.4}{As for \code{data.1}.}
+
+\item{data.5}{As for \code{data.1}.}
+
+\item{n}{Integer \code{1-5} specifying the number of time series. Default is \code{3}.}
 }
 \value{
 A data frame containing all times from the first to the most up to date reading of any of the variables.
