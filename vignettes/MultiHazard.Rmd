@@ -1,7 +1,10 @@
 ---
-output: 
-  github_document:
-    math_method: webtex
+title: "MultiHazard: Copula-based Joint Probability Analysis"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{MultiHazard: Copula-based Joint Probability Analysis}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
 
 ```{r setup, include=FALSE}
