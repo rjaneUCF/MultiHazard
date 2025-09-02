@@ -94,9 +94,9 @@ return_curve_diag(
 }
 \value{
 List comprising the angles \code{"ang_ind"} associated with the points on the curve for which the empirical probability estimates were calculated.
-For the HT04 model: Median {"med_x_ht04"}, lower \code{"lb_x_ht04"} and upper \code{"ub_x_ht04"} bounds associated with the probabilities calculated using the sample conditioned on the first variable.
-Median {"med_y_ht04"}, lower \code{"lb_y_ht04"} and upper \code{"ub_y_ht04"} bounds associated with the probabilities calculated using the sample conditioned on the second variable.
-Median {"med_ht04"}, lower \code{"lb_ht04"} and upper \code{"ub_ht04"} bounds associated with the original dataset (without any declustering).
+For the HT04 model: Median \code{"med_x_ht04"}, lower \code{"lb_x_ht04"} and upper \code{"ub_x_ht04"} bounds associated with the probabilities calculated using the sample conditioned on the first variable.
+Median \code{"med_y_ht04"}, lower \code{"lb_y_ht04"} and upper \code{"ub_y_ht04"} bounds associated with the probabilities calculated using the sample conditioned on the second variable.
+Median \code{"med_ht04"}, lower \code{"lb_ht04"} and upper \code{"ub_ht04"} bounds associated with the original dataset (without any declustering).
 
 For the WT13 model: Median \code{"med_x_wt13"}, lower \code{"lb_x_wt13"} and upper \code{"ub_x_wt13"} bounds associated with the probabilities calculated using the sample conditioned on the first variable.
 Median \code{"med_y_wt13"}, lower \code{"lb_y_wt13"} and upper \code{"ub_y_wt13"} bounds associated with the probabilities calculated using the sample conditioned on the second variable.
