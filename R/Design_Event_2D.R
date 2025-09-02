@@ -12,6 +12,8 @@
 #' @param Copula_Family2 Numeric vector of length one specifying the copula family used to model the \code{Data_Con2} dataset. Best fitting of 40 copulas can be found using the \code{Copula_Threshold_2D} function.
 #' @param Marginal_Dist1 Character vector of length one specifying (non-extreme) distribution used to model the marginal distribution of the non-conditioned variable in \code{Data_Con1}.
 #' @param Marginal_Dist2 Character vector of length one specifying (non-extreme) distribution used to model the marginal distribution of the non-conditioned variable in \code{Data_Con2}.
+#' @param Marginal_Dist1_Par Object containing the distribution fitted to the non-conditioned variable in \code{Data_Con1}. For example it could be of class \code{fitdistr}. Default is \code{NA} as distributions specified by \code{Marginal_Dist1} are fitted within the function.
+#' @param Marginal_Dist2_Par Object containing the distribution fitted to the non-conditioned variable in \code{Data_Con2}. For example it could be of class \code{fitdistr}. Default is \code{NA} as distributions specified by \code{Marginal_Dist2} are fitted within the function.
 #' @param Con1 Character vector of length one specifying the name of variable in the first column of \code{Data}.
 #' @param Con2 Character vector of length one specifying the name of variable in the second column of \code{Data}.
 #' @param GPD1 Output of \code{GPD_Fit} applied to variable \code{con1} i.e., GPD fit \code{con1}. Default \code{NULL}. Only one of \code{u1}, \code{Thres1}, \code{GPD1} and \code{Tab1} is required.
@@ -25,12 +27,15 @@
 #' @param RP Numeric vector specifying the return periods of interest.
 #' @param Decimal_Place Numeric vector specifying the number of decimal places to which to specify the isoline. Default is \code{2}.
 #' @param Interval Numeric vector specifying the number of equally spaced points comprising the combined isoline.
+#' @param End Logical; indicating whether to extend the isoline to the marginal \code{rp} event of Var1. Default is \code{FALSE}.
+#' @param Resolution Character vector specifying the resolution of the isoline. Options are \code{"Low"} (10^-3) and \code{"High"} (10^-4). Default is \code{"Low"}.
 #' @param x_lab Character vector specifying the x-axis label.
 #' @param y_lab Character vector specifying the y-axis label.
 #' @param x_lim_min Numeric vector of length one specifying x-axis minimum. Default is \code{NA}.
 #' @param x_lim_max Numeric vector of length one specifying x-axis maximum. Default is \code{NA}.
 #' @param y_lim_min Numeric vector of length one specifying y-axis minimum. Default is \code{NA}.
 #' @param y_lim_max Numeric vector of length one specifying y-axis maximum. Default is \code{NA}.
+#' @param Isoline_Probs Character vector of length one specifying whether to calculate relative probabilities of points on the isoline from a \code{"Sample"} simulated from the fitted copula models or from the \code{"Observations"}.Default is \code{"Sample"}.
 #' @param N Numeric vector of length one specifying the size of the sample from the fitted joint distributions used to estimate the density along an isoline. Samples are collected from the two joint distribution with proportions consistent with the total number of extreme events conditioned on each variable. Default is \code{10^6}
 #' @param N_Ensemble Numeric vector of length one specifying the number of possible design events sampled along the isoline of interest.
 #' @param Sim_Max Numeric vector of length one specifying the maximum value, given as a multiple of the largest observation of each variable, permitted in the sample used to estimate the (relative) probabilities along the isoline.

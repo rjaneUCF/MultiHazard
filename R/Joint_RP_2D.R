@@ -17,8 +17,8 @@
 #' @param Con1 Character vector of length one specifying the name of variable in the first column of \code{Data}.
 #' @param Con2 Character vector of length one specifying the name of variable in the second column of \code{Data}.
 #' @param mu Numeric vector of length one specifying the (average) occurrence frequency of events in \code{Data}. Default is \code{365.25}, daily data.
-#' @param Val1 Numeric vector specifying the values of the variable in the first column of \code{Data}.
-#' @param Val2 Numeric vector specifying the values of the variable in the second column of \code{Data}.
+#' @param Var1 Numeric vector specifying the values of the variable in the first column of \code{Data}.
+#' @param Var2 Numeric vector specifying the values of the variable in the second column of \code{Data}.
 #' @param x_lab Character vector specifying the x-axis label.
 #' @param y_lab Character vector specifying the y-axis label.
 #' @param x_lim_min Numeric vector of length one specifying x-axis minimum. Default is \code{NA}.
@@ -51,7 +51,7 @@ Joint_RP_2D<-function (Data, Data_Con1, Data_Con2, u1, u2,
                        Con1 = "Rainfall", Con2 = "OsWL", mu = 365.25,
                        Var1=NA,Var2=NA,
                        x_lab = "Rainfall (mm)", y_lab = "O-sWL (mNGVD 29)", x_lim_min = NA,
-                       x_lim_max = NA, y_lim_min = NA, y_lim_max = NA, DecP = 2, N)
+                       x_lim_max = NA, y_lim_min = NA, y_lim_max = NA, DecP = 2, N=10^6)
 {
   ###Preliminaries
 
@@ -478,7 +478,7 @@ Joint_RP_2D<-function (Data, Data_Con1, Data_Con2, u1, u2,
                                   scale = as.numeric(marginal_non_con2$estimate[2]))
   }
   if (Marginal_Dist2 == "TNorm") {
-    cop.sample1.non.con <- qtruncnorm(sample[, con1], a = min(Data_Con2[,
+    cop.sample2.non.con <- qtruncnorm(sample[, con1], a = min(Data_Con2[,
                                                                         con1]), mean = as.numeric(marginal_non_con2$estimate[1]),
                                       sd = as.numeric(marginal_non_con2$estimate[2]))
   }

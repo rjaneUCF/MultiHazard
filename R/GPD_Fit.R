@@ -11,7 +11,7 @@
 #' @param Method Character vector of length one specifying the method of choosing the threshold. \code{"Standard"} (default) chooses the exact threshold specified as either \code{"u"} or \code{"th"}, whereas \code{"Solari"} selects the minimum exceedence of the \code{"Data"} above the user-specified threshold.
 #' @param min.RI Numeric vector of length one specifying the minimum return period in the return level plot. Default is \code{1}.
 #' @param max.RI Numeric vector of length one specifying the maximum return period in the return level plot. Default is \code{100}.
-#' @param Plot Logical; indicating whether to plot diagnostics. Default is \code{FALSE}.
+#' @param PLOT Logical; indicating whether to plot diagnostics. Default is \code{FALSE}.
 #' @param xlab_hist Character vector of length one. Histogram x-axis label. Default is \code{"Data"}.
 #' @param y_lab Character vector of length one. Histogram x-axis label. Default is \code{"Data"}.
 #' @section Details:

@@ -38,6 +38,7 @@
 #' @param x_lim_max Numeric vector of length one specifying x-axis maximum. Default is \code{NA}.
 #' @param y_lim_min Numeric vector of length one specifying y-axis minimum. Default is \code{NA}.
 #' @param y_lim_max Numeric vector of length one specifying y-axis maximum. Default is \code{NA}.
+#' @param Isoline_Probs Character vector of length one specifying whether to calculate relative probabilities of points on the isoline from a \code{"Sample"} simulated from the fitted copula models or from the \code{"Observations"}.Default is \code{"Sample"}.
 #' @param N Numeric vector of length one specifying the size of the sample from the fitted joint distributions used to estimate the density along an isoline. Samples are collected from the two joint distribution with proportions consistent with the total number of extreme events conditioned on each variable. Default is \code{10^6}
 #' @param N_Ensemble Numeric vector of length one specifying the number of possible design events sampled along the isoline of interest.
 #' @param Sim_Max Numeric vector of length one specifying the maximum value, given as a multiple of the largest observation of each variable, permitted in the sample used to estimate the (relative) probabilities along the isoline.
@@ -63,13 +64,14 @@
 #'Design.Event<-Design_Event_2D_Grid(Data=S22.Detrend.df[,-c(1,4)],
 #'                                   Data_Con1=S22.Rainfall$Data, Data_Con2=S22.OsWL$Data,
 #'                                   u1=0.97, u2=0.97, N_Both=3,
-#'                                   Copula_Family1=S22.Copula.Rainfall, Copula_Family2=S22.Copula.OsWL,
+#'                                   Copula_Family1=S22.Copula.Rainfall,
+#'                                   Copula_Family2=S22.Copula.OsWL,
 #'                                   Marginal_Dist1="Logis", Marginal_Dist2="Twe",
 #'                                   RP=c(5,100),Interval=10000,N=10^6,N_Ensemble=10,
 #'                                   Plot_Quantile_Isoline=FALSE)
 #'#Extracting the 100-year isoline from the output
 #'Design.Event$`100`$Isoline
-Design_Event_2D_Grid<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=NA, N_Both, Copula_Family1, Copula_Family2, Marginal_Dist1, Marginal_Dist2, Marginal_Dist1_Par=NA, Marginal_Dist2_Par=NA, Con1="Rainfall",Con2="OsWL", GPD1=NULL, GPD2=NULL, Rate_Con1=NA, Rate_Con2=NA, Tab1= NULL, Tab2 = NULL, mu=365.25, GPD_Bayes=FALSE, Decimal_Place=2, Grid_x_min = NA ,Grid_x_max = NA, Grid_y_min = NA, Grid_y_max = NA, Grid_x_interval=NA, Grid_y_interval=NA, RP, Interval=10000, End=F, Resolution="Low", x_lab="Rainfall (mm)",y_lab="O-sWL (mNGVD 29)",x_lim_min = NA,x_lim_max = NA,y_lim_min = NA,y_lim_max = NA,Isoline_Probs="Sample", N=10^6,N_Ensemble=0,Sim_Max=10,Plot_Quantile_Isoline=FALSE){
+Design_Event_2D_Grid<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=NA, N_Both, Copula_Family1, Copula_Family2, Marginal_Dist1, Marginal_Dist2, Marginal_Dist1_Par=NA, Marginal_Dist2_Par=NA, Con1="Rainfall",Con2="OsWL", GPD1=NULL, GPD2=NULL, Rate_Con1=NA, Rate_Con2=NA, Tab1= NULL, Tab2 = NULL, mu=365.25, GPD_Bayes=FALSE, Decimal_Place=2, Grid_x_min = NA ,Grid_x_max = NA, Grid_y_min = NA, Grid_y_max = NA, Grid_x_interval=NA, Grid_y_interval=NA, RP, Interval=10000, x_lab="Rainfall (mm)",y_lab="O-sWL (mNGVD 29)",x_lim_min = NA,x_lim_max = NA,y_lim_min = NA,y_lim_max = NA,Isoline_Probs="Sample", N=10^6,N_Ensemble=0,Sim_Max=10,Plot_Quantile_Isoline=FALSE){
 
   #Validation of inputs
   if (!is.data.frame(Data) || ncol(Data) != 2) {

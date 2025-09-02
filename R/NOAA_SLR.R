@@ -5,7 +5,7 @@
 #' @param OsWL_req Numeric vector of SLR required.
 #' @param SLR_scen Character vector specifying which of the NOAA (2017) scenarios to consider. Options include \code{High}, Intermediate high \code{Int.High}, \code{Intermediate}, Intermediate low (\code{Int.Low}) and \code{Low}.
 #' @param Input_unit Character vector of length one; specifying units of SLR. Default is meters \code{"m"}, other option is feet \code{"ft"}.
-#' @param Year Character vector of length one; specifying
+#' @param Year.Inital Character vector of length one; specifying the current year.
 #' @return List comprising the specified \code{Threshold} as the quantile of the conditioning variable above which declustered excesses are paired with co-occurrences of the other variable, the resulting two-dimensional sample \code{data} and \code{name} of the conditioning variable.
 #' @export
 #' @examples

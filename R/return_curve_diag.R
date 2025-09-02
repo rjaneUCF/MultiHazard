@@ -24,7 +24,12 @@
 #' @param boot_method_all Character vector of length one specifying the bootstrapping procedure to use when estimating the distribution of empirical (survival) probabilities from the original dataset (without any declustering). Options are \code{"basic"} (default) and \code{"block"}.
 #' @param boot_replace_all Character vector of length one specifying whether bootstrapping of original dataset (without any declustering) when estimating the distribution of empirical (survival) probabilities is carried out with \code{"T"} or without \code{"F"} replacement. Only required if \code{boot_method_all = "basic"}. Default is \code{NA}.
 #' @param block_length_all Numeric vector of length one specifying block length. Only required if \code{boot_method_all = "block"}. Default is \code{14}.
+#' @param boot_prop_all Numeric vector of length one specifying the minimum proportion of non-missing values of at least one of the variables for a month to be included in the bootstrap. Only required if \code{boot_method_all = "monthly"}. Default is \code{0.8}.
 #' @param alpha Numeric vector of length one specifying the \code{100(1-alpha)\%} confidence interval. Default is \code{0.1}.
+#' @param x_lim_min Numeric vector of length one specifying x-axis minimum.
+#' @param x_lim_max Numeric vector of length one specifying x-axis maximum.
+#' @param y_lim_min Numeric vector of length one specifying y-axis minimum.
+#' @param y_lim_max Numeric vector of length one specifying y-axis maximum.
 #' @section Details:
 #' The HT04 model is fit to two conditional samples. One sample comprises the declustered time series of the first variable paired with concurrent values of the other variable. The second sample is obtained in the same way but with the variables reversed. The empirical probabilities are calculated using these two conditional samples and the original dataset (without any declustering).
 #' The return period should be chosen to ensure there is sufficient data for estimating empirical probabilities, yet the curve is sufficiently 'extreme'. An example could be to consider the fit using the 1 year return period curve rather than the 100 year return period curve.
@@ -33,9 +38,9 @@
 #' Median {"med_y_ht04"}, lower \code{"lb_y_ht04"} and upper \code{"ub_y_ht04"} bounds associated with the probabilities calculated using the sample conditioned on the second variable.
 #' Median {"med_ht04"}, lower \code{"lb_ht04"} and upper \code{"ub_ht04"} bounds associated with the original dataset (without any declustering).
 #'
-#' For the WT13 model: Median {"med_x_wt13"}, lower \code{"lb_x_wt13"} and upper \code{"ub_x_wt13"} bounds associated with the probabilities calculated using the sample conditioned on the first variable.
-#' Median {"med_y_wt13"}, lower \code{"lb_y_wt13"} and upper \code{"ub_y_wt13"} bounds associated with the probabilities calculated using the sample conditioned on the second variable.
-#' Median {"med_wt13"}, lower \code{"lb_wt13"} and upper \code{"ub_wt13"} bounds associated with the original dataset (without any declustering).
+#' For the WT13 model: Median \code{"med_x_wt13"}, lower \code{"lb_x_wt13"} and upper \code{"ub_x_wt13"} bounds associated with the probabilities calculated using the sample conditioned on the first variable.
+#' Median \code{"med_y_wt13"}, lower \code{"lb_y_wt13"} and upper \code{"ub_y_wt13"} bounds associated with the probabilities calculated using the sample conditioned on the second variable.
+#' Median \code{"med_wt13"}, lower \code{"lb_wt13"} and upper \code{"ub_wt13"} bounds associated with the original dataset (without any declustering).
 #' @export
 #' @examples
 #' #' #Data starts on first day of 1948
@@ -60,7 +65,7 @@
 #'                   alpha=0.1,
 #'                   boot_method_all="block", boot_replace_all=NA,
 #'                   block_length_all=14)
-return_curve_diag = function(data,q,rp,mu,n_sim,n_grad,n_boot,boot_method, boot_replace, block_length, boot_prop, decl_method_x, decl_method_y, window_length_x, window_length_y, u_x=NA, u_y=NA, sep_crit_x=NA, sep_crit_y=NA, boot_method_all="block", boot_replace_all=NA, block_length_all=14, boot_prop_all=0.8,alpha=0.1, x_lab=NA, y_lab=NA,x_lim_min=min(data[,2],na.rm=T),x_lim_max=max(data[,2],na.rm=T)+0.3*diff(range(data[,2],na.rm=T)),y_lim_min=min(data[,3],na.rm=T),y_lim_max=max(data[,3],na.rm=T)+0.3*diff(range(data[,2],na.rm=T))){
+return_curve_diag = function(data,q,rp,mu,n_sim,n_grad,n_boot,boot_method, boot_replace, block_length, boot_prop, decl_method_x, decl_method_y, window_length_x, window_length_y, u_x=NA, u_y=NA, sep_crit_x=NA, sep_crit_y=NA, boot_method_all="block", boot_replace_all=NA, block_length_all=14, boot_prop_all=0.8,alpha=0.1,x_lim_min=min(data[,2],na.rm=T),x_lim_max=max(data[,2],na.rm=T)+0.3*diff(range(data[,2],na.rm=T)),y_lim_min=min(data[,3],na.rm=T),y_lim_max=max(data[,3],na.rm=T)+0.3*diff(range(data[,2],na.rm=T))){
 
   if (missing(data) || is.null(data)) {
     stop("data is missing.")

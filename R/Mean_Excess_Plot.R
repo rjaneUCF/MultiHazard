@@ -1,10 +1,10 @@
-#' Mean excess plot - GPD threshold selection 
+#' Mean excess plot - GPD threshold selection
 #'
-#' The empirical mean excess function is linear in the case of a GPD.  
+#' The empirical mean excess function is linear in the case of a GPD.
 #'
-#' @param data A vector comprising a declustered and if necessary detrended time series to be modelled.
+#' @param Data A vector comprising a declustered and if necessary detrended time series to be modelled.
 #' @return Plot of the empirical mean excess function (black line), average of all observations exceeding a threshold decreased by the threshold, for thresholds spanning the range of the observations. Also provided are \code{95\%} confidence intervals (blue dotted lines) and the observations (black dots).
-#' @seealso \code{\link{Decluster}} \code{\link{Detrend}} 
+#' @seealso \code{\link{Decluster}} \code{\link{Detrend}}
 #' @export
 #' @examples
 #' Mean_Excess_Plot(Data=S20_Detrend_Declustered_df$Rainfall)

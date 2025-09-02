@@ -20,6 +20,8 @@
 #' @param Con_Var Character vector of length one specifying the (column) name of the conditioning variable.
 #' @param RP_Con Numeric vector of length one specifying the return period of the conditioning variable \code{Con_Var}.
 #' @param RP_Non_Con Numeric vector of length one specifying the return period of the non-conditioning variable.
+#' @param Var1 Numeric vector of length one specifying a value of variable in the first column of \code{Data}. Can be used instead of specifying a return period. Default is \code{NA}.
+#' @param Var2 Numeric vector of length one specifying a value of variable in the second column of \code{Data}. Can be used instead of specifying a return period. Default is \code{NA}.
 #' @param x_lab Character vector specifying the x-axis label.
 #' @param y_lab Character vector specifying the y-axis label.
 #' @param x_lim_min Numeric vector of length one specifying x-axis minimum. Default is \code{NA}.
@@ -146,7 +148,7 @@ Conditional_RP_2D<-function (Data, Data_Con1, Data_Con2, u1, u2,
     marginal_non_con1 <- fitdistr(Data_Con1[, con2], "exponential")
   }
   if (Marginal_Dist1 == "Gam(2)") {
-    marginal_non_con1 <- fitdistr(Data_Con1[, con2], "gamma")
+    marginal_non_con1 <- fitdistr(Data_Con1[, con2], "gamma2")
   }
   if(Marginal_Dist1 == "Gam(3)"){
     data.gamlss<-data.frame(X=Data_Con1[,con2])

@@ -52,7 +52,7 @@
 #' Rainfall_Declust_SW<-Decluster_SW(Data=S22.Detrend.df[,c(1:2)],Window_Width=7)
 #' #Finding an appropriate threshold for the declustered series
 #' GPD_Threshold_Solari(Event=Rainfall_Declust_SW$Declustered,
-#'                      Data=22.Detrend.df[,2])
+#'                      Data=S22.Detrend.df[,2])
 GPD_Threshold_Solari<-function(Event,Data,RPs=c(10,50,100,500,1000),RPs_PLOT=c(2,3,4),Min_Quantile=0.95,Alpha=0.1,mu=365.25,N_Sim=10){
 
     # Check for missing required parameters
