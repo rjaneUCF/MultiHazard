@@ -27,7 +27,7 @@ HURDAT <- function(Data,lat.loc,lon.loc,rad){
   #Vector to append HURDAT2 dataset with the names of the storms
   storm.names = rep(storm.name, storm.duration)
 
-  #CombinIng name vecor with HURDAT2 data
+  #Combining name vector with HURDAT2 data
   HURDAT2 = data.frame(storm.names, HURDAT2[-which(n.char==37),])
 
   #Functions to extract (1) latitude and (2) longitude of storm
@@ -47,7 +47,7 @@ HURDAT <- function(Data,lat.loc,lon.loc,rad){
   phi = lat * pi/180
   phi.loc = lat.loc * pi/180
 
-  #'haversine' formula to calculate the great-circle distance between two points (distance in km)
+  #haversine formula to calculate the great-circle distance between two points (distance in km)
   a = sin(d.phi/2) * sin(d.phi/2)  + cos(phi) * cos(phi.loc) * sin(d.lambda/2) * sin(d.lambda/2)
   c = 2 * asin(sqrt(a))
   d = R * c
