@@ -112,7 +112,7 @@ The return period should be chosen to ensure there is sufficient data for estima
 }
 
 \examples{
-#' #Data starts on first day of 1948
+#Data starts on first day of 1948
 head(S22.Detrend.df)
 
 #Dataframe ends on 1948-02-03

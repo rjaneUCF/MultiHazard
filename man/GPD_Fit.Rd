@@ -57,9 +57,9 @@ where \eqn{\xi} and \eqn{\sigma>0} are the shape and scale parameters  of the GP
 }
 
 \examples{
-#Decluster time seires
+#Decluster time series
 S20T_decl = Decluster(Data=S20_T_MAX_Daily_Completed_Detrend_Declustered$Detrend)
 #Fit GPD
 GPD_Fit(Data=S20T_decl$Declustered,
-       Data_Full=S20_T_MAX_Daily_Completed_Detrend_Declustered$Detrend)
+        Data_Full=S20_T_MAX_Daily_Completed_Detrend_Declustered$Detrend)
 }
