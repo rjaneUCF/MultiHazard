@@ -51,7 +51,7 @@ List comprising the fitted HT04 models \code{Models}, proportion of the time eac
 Implements the version of the conditional multivariate approach of Heffernan and Tawn (2004) proposed in Keef et al. (2013) which incorporates lags between the variables. Function utilizes the \code{mexDependence} and \code{predict.mex.conditioned} functions from the \code{texmex} package.
 }
 \examples{
-#' Fit GPD marginal distributions above the threshold
+#Fit GPD marginal distributions above the threshold
 S22_GPD<-Migpd_Fit(Data=S20.Detrend.Declustered.df[,-1],
                      Data_Full=S20.Detrend.Declustered.df[,-1],
                      mqu =c(0.99,0.99,0.99))
