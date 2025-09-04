@@ -14,8 +14,8 @@
 #' #Fitting multiple independent GPDs to the data
 #' #(required to transform realisation back to original scale)
 #' S20.Migpd<-Migpd_Fit(Data=S20.Detrend.Declustered.df[,-1],
-#' Data_Full =S20.Detrend.df[,-1],
-#' mqu=c(0.975,0.975,0.9676))
+#'                      Data_Full =S20.Detrend.df[,-1],
+#'                      mqu=c(0.975,0.975,0.9676))
 #' #Fitting Gaussian copula
 #' S20.Gaussian<-Standard_Copula_Fit(Data=S20.Detrend.df,Copula_Type="Gaussian")
 #' #Simulating from fitted (joint probability) model

@@ -22,7 +22,7 @@
 #' @seealso \code{\link{Dataframe_Combine}} \code{\link{Decluster}} \code{\link{GPD_Fit}} \code{\link{Migpd_Fit}}
 #' @export
 #' @examples
-#' #' Fit GPD marginal distributions above the threshold
+#' #Fit GPD marginal distributions above the threshold
 #' S22_GPD<-Migpd_Fit(Data=S20.Detrend.Declustered.df[,-1],
 #'                      Data_Full=S20.Detrend.Declustered.df[,-1],
 #'                      mqu =c(0.99,0.99,0.99))
