@@ -16,8 +16,6 @@
 #' @seealso \code{\link{U_Sample}} \code{\link{WL_Curve}}
 #' @export
 #' @examples
-#' Time_Series_Plot(Rainfall_Series=x_n,Oswl_Time_Series=oswl.ts.rainfall,
-#'                  Sample=S13.rainfall.sample,Con_Variable="Rainfall",Event_ID=1:16)
 Time_Series_Plot<-function(Rainfall_Series,Oswl_Time_Series,Sample,Con_Variable,Buffer=6,Intensity=NA,Event_ID=1:16,Row=4,Col=4,Mar=c(4.2,4.5,1.5,3.5)){
  #Figure layout
  par(mfrow=c(Row,Col))

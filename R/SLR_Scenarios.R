@@ -12,13 +12,13 @@
 #' @examples
 #' #Calculate the estimated time required for 0.45m of SLR in Key West according to the scenarios
 #' #in the Southeast Florida Regional Climate Change Compact
-#' SLRScenarios(0.45)
+#' SLR_Scenarios(0.45)
 #' #Calculate the estimated time required for 0.8 inches of SLR in Naples according
 #' #to the scenarios in the 2022 Interagency Sea Level Rise Scenario Tool
-#' SLRScenarios(0.45,Scenario="NOAA2022", Unit = "Inches", Location="Naples")
+#' SLR_Scenarios(0.45,Scenario="NOAA2022", Unit = "Inches", Location="Naples")
 #' #Read in the scenarios for Fort Myers downloaded
 #' #from https://sealevel.nasa.gov/task-force-scenario-tool/?psmsl_id=1106
-#' SeaLevelRise.2022<-read.csv("sl_taskforce_scenarios_psmsl_id_1106_Fort_Myers.csv")
+#' SeaLevelRise.2022<-sl_taskforce_scenarios_psmsl_id_1106_Fort_Myers
 #' #Convert data to the appropriate format for the SLRScenarios function
 #' #i.e. first column years, following columns the scenarios most to least extreme,
 #' #converted from millimeters to meters

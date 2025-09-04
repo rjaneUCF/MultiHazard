@@ -3,7 +3,7 @@
 #' Calculates joint return periods via simulation. A large number of realizations are simulated from the copulas fit to the conditioned samples, in proportion with the sizes of the conditional samples.
 #' The realizations are transformed to the original scale and the relevant probabilities estimated empirically.
 #'
-#' @param Data Data frame of dimension \code{nx2} containing two co-occurring time series of length \code{n}.
+#' @param Data Data frame containing two co-occurring time series.
 #' @param Data_Con1 Data frame containing the conditional sample (declustered excesses paired with concurrent values of other variable), conditioned on the variable in the first column.
 #' @param Data_Con2 Data frame containing the conditional sample (declustered excesses paired with concurrent values of other variable), conditioned on the variable in the second column. Can be obtained using the \code{Con_Sampling_2D} function.
 #' @param u1 Numeric vector of length one specifying the (quantile) threshold above which the variable in the first column was sampled in Data_Con1.
@@ -17,8 +17,10 @@
 #' @param Con1 Character vector of length one specifying the name of variable in the first column of \code{Data}.
 #' @param Con2 Character vector of length one specifying the name of variable in the second column of \code{Data}.
 #' @param mu Numeric vector of length one specifying the (average) occurrence frequency of events in \code{Data}. Default is \code{365.25}, daily data.
-#' @param Var1 Numeric vector specifying the values of the variable in the first column of \code{Data}.
-#' @param Var2 Numeric vector specifying the values of the variable in the second column of \code{Data}.
+#' @param RP_Var1 Numeric vector of length one specifying the univariate return period of variable \code{Con1}.
+#' @param RP_Var2 Numeric vector of length one specifying the univariate return period of variable \code{Con2}.
+#' @param Var1 Numeric vector specifying the values of the variable in the first column of \code{Data}. Default is \code{NA}.
+#' @param Var2 Numeric vector specifying the values of the variable in the second column of \code{Data}. Default is \code{NA}.
 #' @param x_lab Character vector specifying the x-axis label.
 #' @param y_lab Character vector specifying the y-axis label.
 #' @param x_lim_min Numeric vector of length one specifying x-axis minimum. Default is \code{NA}.
@@ -31,6 +33,20 @@
 #' @seealso \code{\link{Design_Event_2D}}
 #' @export
 #' @examples
+#' con.sample.Rainfall<-Con_Sampling_2D(Data_Detrend=S22.Detrend.df[,-c(1,4)],
+#'                                      Data_Declust=S22.Detrend.Declustered.df[,-c(1,4)],
+#'                                      Con_Variable="Rainfall",u=0.97)
+#' con.sample.OsWL<-Con_Sampling_2D(Data_Detrend=S22.Detrend.df[,-c(1,4)],
+#'                                  Data_Declust=S22.Detrend.Declustered.df[,-c(1,4)],
+#'                                  Con_Variable="OsWL",u=0.97)
+#' cop.Rainfall<-Copula_Threshold_2D(Data_Detrend=S22.Detrend.df[,-c(1,4)],
+#'                                   Data_Declust=S22.Detrend.Declustered.df[,-c(1,4)],u1 =0.97,
+#'                                   y_lim_min=-0.075,y_lim_max=0.25,
+#'                                   Upper=c(2,9),Lower=c(2,10),GAP=0.15)$Copula_Family_Var1
+#' cop.OsWL<-Copula_Threshold_2D(Data_Detrend=S22.Detrend.df[,-c(1,4)],
+#'                               Data_Declust=S22.Detrend.Declustered.df[,-c(1,4)],u2 =0.97,
+#'                               y_lim_min=-0.075, y_lim_max =0.25,
+#'                               Upper=c(2,9),Lower=c(2,10),GAP=0.15)$Copula_Family_Var2
 #' #Joint excedence probability of a 5 inch rainfall and 2 ft O-sWL at S-22.
 #' Joint_RP_2D(Data=S22.Detrend.df,
 #'             Data_Con1=con.sample.Rainfall$Data, Data_Con2=con.sample.OsWL$Data,
@@ -40,7 +56,7 @@
 #'             Con1 = "Rainfall", Con2 = "OsWL",
 #'             mu = 365.25,
 #'             Con_Var="Rainfall",
-#'             RP_Con=10, RP_Non_Con=10,
+#'             RP_Var1 =10, RP_Var2 =10,
 #'             x_lab = "Rainfall (Inches)", y_lab = "O-sWL (ft NGVD 29)",
 #'             y_lim_max = 10,
 #'             N=10^7)
@@ -49,7 +65,7 @@ Joint_RP_2D<-function (Data, Data_Con1, Data_Con2, u1, u2,
                        Copula_Family1, Copula_Family2,
                        Marginal_Dist1, Marginal_Dist2,
                        Con1 = "Rainfall", Con2 = "OsWL", mu = 365.25,
-                       Var1=NA,Var2=NA,
+                       RP_Var1, RP_Var2, Var1=NA,Var2=NA,
                        x_lab = "Rainfall (mm)", y_lab = "O-sWL (mNGVD 29)", x_lim_min = NA,
                        x_lim_max = NA, y_lim_min = NA, y_lim_max = NA, DecP = 2, N=10^6)
 {

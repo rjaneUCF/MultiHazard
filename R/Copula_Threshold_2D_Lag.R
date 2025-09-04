@@ -234,7 +234,7 @@ Copula_Threshold_2D_Lag<-function(Data_Detrend,Data_Declust,u1=seq(0.9,0.99,0.01
       points(u2,correlation_Var2_Value,pch=ifelse(correlation_Var2_Test<0.05,16,1),cex=5,col="Red")
       text(u2,correlation_Var2_Value,as.character(correlation_Var2_N),col=ifelse(correlation_Var2_Test<0.05,"White","Black"))
 
-      if(is.na(Lower)==TRUE){
+      if(is.na(Lower[1])==TRUE){
         text(u2,(correlation_Var2_Value+y_lim*GAP),copula_Var2_Family_Name,col="Red")
       }
       if(length(u2[Lower])==length(u2)){

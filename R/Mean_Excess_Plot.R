@@ -7,9 +7,9 @@
 #' @seealso \code{\link{Decluster}} \code{\link{Detrend}}
 #' @export
 #' @examples
-#' Mean_Excess_Plot(Data=S20_Detrend_Declustered_df$Rainfall)
+#' Mean_Excess_Plot(Data=S20.Detrend.Declustered.df$Rainfall)
 Mean_Excess_Plot<-function(Data){
-  if(length(which(is.na(1:10)==TRUE))>0){
+  if(length(which(is.na(Data)==TRUE))>0){
     thres<-seq(sort(na.omit(Data),decreasing = T)[length(na.omit(Data))],sort(na.omit(Data),decreasing = T)[2],0.1)
     Data<-na.omit(Data)
   } else{

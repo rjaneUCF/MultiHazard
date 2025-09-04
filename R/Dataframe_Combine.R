@@ -10,7 +10,7 @@
 #' @param data.3 As for \code{data.1}.
 #' @param data.4 As for \code{data.1}.
 #' @param data.5 As for \code{data.1}.
-#' @param n Integer \code{1-5} specifying the number of time series. Default is \code{3}.
+#' @param n Integer \code{1-5} specifying the number of time series. Default is \code{2}.
 #' @param names Character vector giving the column names excluding the first column which is labelled as "Date".
 #' @return A data frame containing all times from the first to the most up to date reading of any of the variables.
 #' @seealso \code{\link{Detrend}}
@@ -30,9 +30,8 @@
 #' #Combining the two datasets by Date argument
 #' S20.Detrend.df<-Dataframe_Combine(data.1<-S20.Rainfall.df,
 #'                                  data.2<-S20.OsWL.Detrend.df,
-#'                                  data.3=0,
 #'                                  names=c("Rainfall","OsWL"))
-Dataframe_Combine<-function(data.1,data.2,data.3,data.4=0,data.5=0,n=3,names){
+Dataframe_Combine<-function(data.1,data.2,data.3=NA,data.4=NA,data.5=NA,n=2,names){
 
   data_Detrend_1_df<-data.frame(data.1[,1],data.1[,2])
   colnames(data_Detrend_1_df)<-c("Date",colnames(data.1)[2])

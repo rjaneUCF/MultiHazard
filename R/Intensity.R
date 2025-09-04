@@ -19,7 +19,7 @@
 #' S13.OsWL.Declust = Decluster(Data=S13.Detrend.df$OsWL,
 #'                             SepCrit=24*7, u=0.99667)
 #' #Calculate O-sWL of the identified cluster maximum
-#' intensity = Intensity(Data=S13.Detrend.df,Cluster_Max=S13.OsWL.Declust$EventsMax)
+#' intensity = Intensity(Data=S13.Detrend.df[,c(1,3)],Cluster_Max=S13.OsWL.Declust$EventsMax)
 #' #Plot O-sWL series identifying cluster maximum (in red) and print "intensity" above each maximum
 #' plot(as.Date(S13.Detrend.df$Date_Time),
 #'      S13.Detrend.df$OsWL)

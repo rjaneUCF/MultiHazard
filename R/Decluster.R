@@ -11,26 +11,37 @@
 #' @seealso \code{\link{Detrend}}
 #' @export
 #' @examples
-#' Decluster(data=S20_T_MAX_Daily_Completed_Detrend$Detrend)
+#' #Declustering tailwater time series at structure S20
+#' S20T_decl = Decluster(Data=S20_T_MAX_Daily_Completed_Detrend_Declustered$Detrend)
+#' #Plotting detrended data
+#' plot(as.Date(S20_T_MAX_Daily_Completed_Detrend_Declustered$Date),
+#'     S20_T_MAX_Daily_Completed_Detrend_Declustered$Detrend,
+#'     xlab="Date",ylab="Tailwater level (ft NGVD29)",pch=16,cex=0.5)
+#' #Declustering threshold
+#' abline(h=quantile(S20_T_MAX_Daily_Completed_Detrend_Declustered$Detrend,0.95), col="green")
+#' #Cluster maxima
+#' points(S20_T_MAX_Daily_Completed_Detrend_Declustered$Date[S20T_decl$EventsMax],
+#'        S20_T_MAX_Daily_Completed_Detrend_Declustered$Detrend[S20T_decl$EventsMax],
+#'        col="red",pch=16,cex=0.5)
 Decluster<-function(Data,u=0.95,Thres=NA,SepCrit=3,mu=365.25){
-  
+
   z<-0
   if(is.na(Thres)==T){
     Thres<-as.numeric(quantile(na.omit(Data),u))
   }
-  
+
   if(length(which(is.na(Data)==T))>0){
     z<-which(is.na(Data)==T)
     Data[z]<-min(Data,na.rm=T)-1000
   }
-  
+
   Events<-Event_Identify(Data=Data,Threshold=Thres,SeparationPeriod=SepCrit)
   Events.Max<-Event_Max(Data=Data,Events=Events)
   Events.Start<-Event_Start(Data=Data,Threshold=Thres,Events=Events,Event.Max=Events.Max)
-  
+
   Threshold<-Thres
   Rate<-length(Events)/(length(Data)/mu)
-  
+
   #Declustered data as a vector
   data_Detrend_Declustered<-Data
   for(i in 1:length(Events)){

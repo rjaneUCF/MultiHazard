@@ -76,7 +76,8 @@
 #'                                  Data_Declust=S22.Detrend.Declustered.df[,-c(1,4)],
 #'                                  Con_Variable="OsWL",u=0.98)
 #' #Add some noise to rainfall to aid distribution fitting in Conditional_RP_2D function
-#' con.sample.OsWL$Data$Rainfall<-con.sample.OsWL$Data$Rainfall+runif(length(con.sample.OsWL$Data$Rainfall),0.001,0.01)
+#' con.sample.OsWL$Data$Rainfall<-con.sample.OsWL$Data$Rainfall+
+#'                                 runif(length(con.sample.OsWL$Data$Rainfall),0.001,0.01)
 #' #Find the best fitting copula
 #' cop.Rainfall <- Copula_Threshold_2D(Data_Detrend=S22.Detrend.df[,-c(1,4)],
 #'                                     Data_Declust=S22.Detrend.Declustered.df[,-c(1,4)],

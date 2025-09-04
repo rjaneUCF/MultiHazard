@@ -21,7 +21,7 @@
 #' S20.Vine.Sim<-Vine_Copula_Sim(Data=S20.Detrend.df,Vine_Model=S20.Vine,
 #'                               Marginals=S20.Migpd,N=10)
 #' #Plotting observed (black) and simulated (red) values
-#' S20.Pairs.Plot.Data<-data.frame(rbind(na.omit(S20.Detrend.df[,-1]),S22.Vine.Sim$x.Sim),
+#' S20.Pairs.Plot.Data<-data.frame(rbind(na.omit(S20.Detrend.df[,-1]),S20.Vine.Sim$x.Sim),
 #'                                 c(rep("Observation",nrow(na.omit(S20.Detrend.df))),
 #'                                 rep("Simulation",nrow(S20.Vine.Sim$x.Sim))))
 #' colnames(S20.Pairs.Plot.Data)<-c(names(S20.Detrend.df)[-1],"Type")
@@ -88,7 +88,7 @@ Vine_Copula_Sim<-function(Data,Vine_Model,Marginals,mu=365.25,N=10000){
   #Number of extreme events
   No.events<-round(mu*N,0)
 
-  if(class(Data[,1])=="Date" | class(Data[,1])=="factor"){
+  if(inherits(Data[,1], c("Date", "factor"))){
     #Simulating from copula on the transformed scale
     RMV<- RVineMatrix(Matrix = Vine_Model$Structure, family = Vine_Model$Family,
                       par = Vine_Model$Par, par2 = Vine_Model$Par2)

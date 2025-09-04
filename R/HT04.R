@@ -21,6 +21,10 @@
 #' @seealso \code{\link{Dataframe_Combine}} \code{\link{Migpd_Fit}}
 #' @export
 #' @examples
+#' Fit GPD marginal distributions above the threshold
+#' S20.Migpd<-Migpd_Fit(Data=S20.Detrend.Declustered.df[,-1],
+#'                      Data_Full=S20.Detrend.Declustered.df[,-1],
+#'                      mqu =c(0.99,0.99,0.99))
 #' #Fitting and simulating from the Heffernan and Tawn (2004) model
 #' S20.HT04<-HT04(data_Detrend_Dependence_df=S20.Detrend.df,
 #'                data_Detrend_Declustered_df=S20.Detrend.Declustered.df,
