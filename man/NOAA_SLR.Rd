@@ -27,6 +27,6 @@ List comprising the specified \code{Threshold} as the quantile of the conditioni
 Time (in years) for a specified amount of sea-level rise (SLR) to occur at Miami Beach according to the five SLR scenarios in NOAA 2017 report titled "Global and Regional Sea Level Rise Scenarios for the United States".
 }
 \examples{
-NOAA_SLR<-function(OsWL_req=seq(0,1,0.01),SLR_scen = c("High","Intermediate","Low"),
+NOAA_SLR(OsWL_req=seq(0,1,0.01),SLR_scen = c("High","Intermediate","Low"),
                    Input_unit="m")
 }

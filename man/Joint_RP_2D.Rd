@@ -19,6 +19,8 @@ Joint_RP_2D(
   Con1 = "Rainfall",
   Con2 = "OsWL",
   mu = 365.25,
+  RP_Var1,
+  RP_Var2,
   Var1 = NA,
   Var2 = NA,
   x_lab = "Rainfall (mm)",
@@ -32,7 +34,7 @@ Joint_RP_2D(
 )
 }
 \arguments{
-\item{Data}{Data frame of dimension \code{nx2} containing two co-occurring time series of length \code{n}.}
+\item{Data}{Data frame containing two co-occurring time series.}
 
 \item{Data_Con1}{Data frame containing the conditional sample (declustered excesses paired with concurrent values of other variable), conditioned on the variable in the first column.}
 
@@ -60,9 +62,13 @@ Joint_RP_2D(
 
 \item{mu}{Numeric vector of length one specifying the (average) occurrence frequency of events in \code{Data}. Default is \code{365.25}, daily data.}
 
-\item{Var1}{Numeric vector specifying the values of the variable in the first column of \code{Data}.}
+\item{RP_Var1}{Numeric vector of length one specifying the univariate return period of variable \code{Con1}.}
 
-\item{Var2}{Numeric vector specifying the values of the variable in the second column of \code{Data}.}
+\item{RP_Var2}{Numeric vector of length one specifying the univariate return period of variable \code{Con2}.}
+
+\item{Var1}{Numeric vector specifying the values of the variable in the first column of \code{Data}. Default is \code{NA}.}
+
+\item{Var2}{Numeric vector specifying the values of the variable in the second column of \code{Data}. Default is \code{NA}.}
 
 \item{x_lab}{Character vector specifying the x-axis label.}
 
@@ -88,6 +94,20 @@ Calculates joint return periods via simulation. A large number of realizations a
 The realizations are transformed to the original scale and the relevant probabilities estimated empirically.
 }
 \examples{
+con.sample.Rainfall<-Con_Sampling_2D(Data_Detrend=S22.Detrend.df[,-c(1,4)],
+                                     Data_Declust=S22.Detrend.Declustered.df[,-c(1,4)],
+                                     Con_Variable="Rainfall",u=0.97)
+con.sample.OsWL<-Con_Sampling_2D(Data_Detrend=S22.Detrend.df[,-c(1,4)],
+                                 Data_Declust=S22.Detrend.Declustered.df[,-c(1,4)],
+                                 Con_Variable="OsWL",u=0.97)
+cop.Rainfall<-Copula_Threshold_2D(Data_Detrend=S22.Detrend.df[,-c(1,4)],
+                                  Data_Declust=S22.Detrend.Declustered.df[,-c(1,4)],u1 =0.97,
+                                  y_lim_min=-0.075,y_lim_max=0.25,
+                                  Upper=c(2,9),Lower=c(2,10),GAP=0.15)$Copula_Family_Var1
+cop.OsWL<-Copula_Threshold_2D(Data_Detrend=S22.Detrend.df[,-c(1,4)],
+                              Data_Declust=S22.Detrend.Declustered.df[,-c(1,4)],u2 =0.97,
+                              y_lim_min=-0.075, y_lim_max =0.25,
+                              Upper=c(2,9),Lower=c(2,10),GAP=0.15)$Copula_Family_Var2
 #Joint excedence probability of a 5 inch rainfall and 2 ft O-sWL at S-22.
 Joint_RP_2D(Data=S22.Detrend.df,
             Data_Con1=con.sample.Rainfall$Data, Data_Con2=con.sample.OsWL$Data,
@@ -97,7 +117,7 @@ Joint_RP_2D(Data=S22.Detrend.df,
             Con1 = "Rainfall", Con2 = "OsWL",
             mu = 365.25,
             Con_Var="Rainfall",
-            RP_Con=10, RP_Non_Con=10,
+            RP_Var1 =10, RP_Var2 =10,
             x_lab = "Rainfall (Inches)", y_lab = "O-sWL (ft NGVD 29)",
             y_lim_max = 10,
             N=10^7)

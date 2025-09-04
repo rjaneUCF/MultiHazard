@@ -4,7 +4,15 @@
 \alias{Dataframe_Combine}
 \title{Creates a data frame containing up to five time series}
 \usage{
-Dataframe_Combine(data.1, data.2, data.3, data.4 = 0, data.5 = 0, n = 3, names)
+Dataframe_Combine(
+  data.1,
+  data.2,
+  data.3 = NA,
+  data.4 = NA,
+  data.5 = NA,
+  n = 2,
+  names
+)
 }
 \arguments{
 \item{data.1}{Data frames with two columns containing in column \itemize{
@@ -20,7 +28,7 @@ Dataframe_Combine(data.1, data.2, data.3, data.4 = 0, data.5 = 0, n = 3, names)
 
 \item{data.5}{As for \code{data.1}.}
 
-\item{n}{Integer \code{1-5} specifying the number of time series. Default is \code{3}.}
+\item{n}{Integer \code{1-5} specifying the number of time series. Default is \code{2}.}
 
 \item{names}{Character vector giving the column names excluding the first column which is labelled as "Date".}
 }
@@ -45,7 +53,6 @@ colnames(S20.OsWL.Detrend.df)<-c("Date","OsWL")
 #Combining the two datasets by Date argument
 S20.Detrend.df<-Dataframe_Combine(data.1<-S20.Rainfall.df,
                                  data.2<-S20.OsWL.Detrend.df,
-                                 data.3=0,
                                  names=c("Rainfall","OsWL"))
 }
 \seealso{

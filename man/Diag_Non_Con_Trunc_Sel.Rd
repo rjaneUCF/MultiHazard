@@ -36,9 +36,10 @@ Plots demonstrating the goodness of fit of a selected (truncated) non-extreme ma
 S20.OsWL<-Con_Sampling_2D(Data_Detrend=S20.Detrend.df[,-c(1,4)],
                           Data_Declust=S20.Detrend.Declustered.df[,-c(1,4)],
                           Con_Variable="OsWL",Thres=0.97)
+S20.OsWL$Data$Rainfall <- S20.OsWL$Data$Rainfall + runif(length(S20.OsWL$Data$Rainfall),0.001,0.01)
 Diag_Non_Con_Trunc(Data=S20.OsWL$Data$Rainfall,x_lab="Rainfall (Inches)",
                    y_lim_min=0,y_lim_max=2)
-Diag_Non_Con_Sel_Trunc(Data=S20.OsWL$Data$Rainfall,x_lab="Rainfall (Inches)",
+Diag_Non_Con_Trunc_Sel(Data=S20.OsWL$Data$Rainfall,x_lab="Rainfall (Inches)",
                        y_lim_min=0,y_lim_max=2,Selected="Twe")
 }
 \seealso{

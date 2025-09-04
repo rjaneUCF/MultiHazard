@@ -16,7 +16,7 @@ Plot of the empirical mean excess function (black line), average of all observat
 The empirical mean excess function is linear in the case of a GPD.
 }
 \examples{
-Mean_Excess_Plot(Data=S20_Detrend_Declustered_df$Rainfall)
+Mean_Excess_Plot(Data=S20.Detrend.Declustered.df$Rainfall)
 }
 \seealso{
 \code{\link{Decluster}} \code{\link{Detrend}}

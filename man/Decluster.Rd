@@ -4,12 +4,14 @@
 \alias{Decluster}
 \title{Declusters a time series}
 \usage{
-Decluster(Data, u = 0.95, SepCrit = 3, mu = 365.25)
+Decluster(Data, u = 0.95, Thres = NA, SepCrit = 3, mu = 365.25)
 }
 \arguments{
 \item{Data}{Numeric vector of the time series.}
 
 \item{u}{Numeric vector of length one specifying the declustering threshold; as a quantile \code{[0,1]} of \code{Data} vector. Default is \code{0.95}.}
+
+\item{Thres}{Threshold expressed on the original scale of the observations. Only one of \code{u} and \code{Thres} should be supplied. Default is \code{NA}.}
 
 \item{SepCrit}{Integer; specifying the separation criterion under which events are declustered. Default is \code{3} corresponding to a storm window of three days in the case of daily data.}
 
@@ -22,7 +24,18 @@ List comprising the \code{Threshold} above which cluster maxima are identified, 
 Identify cluster maxima above a threshold, using the runs method of Smith and Weissman (1994).
 }
 \examples{
-Decluster(data=S20_T_MAX_Daily_Completed_Detrend$Detrend)
+#Declustering tailwater time series at structure S20
+S20T_decl = Decluster(Data=S20_T_MAX_Daily_Completed_Detrend_Declustered$Detrend)
+#Plotting detrended data
+plot(as.Date(S20_T_MAX_Daily_Completed_Detrend_Declustered$Date),
+    S20_T_MAX_Daily_Completed_Detrend_Declustered$Detrend,
+    xlab="Date",ylab="Tailwater level (ft NGVD29)",pch=16,cex=0.5)
+#Declustering threshold
+abline(h=quantile(S20_T_MAX_Daily_Completed_Detrend_Declustered$Detrend,0.95), col="green")
+#Cluster maxima
+points(S20_T_MAX_Daily_Completed_Detrend_Declustered$Date[S20T_decl$EventsMax],
+       S20_T_MAX_Daily_Completed_Detrend_Declustered$Detrend[S20T_decl$EventsMax],
+       col="red",pch=16,cex=0.5)
 }
 \seealso{
 \code{\link{Detrend}}

@@ -47,6 +47,7 @@ surge_class = Surge_Criterion(Data = S13.Detrend.df,
                              Cluster_Max = S13.OsWL.Declust$EventsMax,
                              Criterion_Number = 5)
 #Plot O-sWL time series with peaks the color of peaks representing classification
+ S13.Detrend.df$Date_Time =  as.POSIXct(S13.Detrend.df$Date_Time)
 plot(S13.Detrend.df$Date_Time,S13.Detrend.df$OsWL)
 points(S13.Detrend.df$Date_Time[S13.OsWL.Declust$EventsMax],
       S13.Detrend.df$OsWL[S13.OsWL.Declust$EventsMax],

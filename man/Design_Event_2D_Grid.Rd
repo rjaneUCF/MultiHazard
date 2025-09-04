@@ -37,7 +37,6 @@ Design_Event_2D_Grid(
   Grid_x_interval = NA,
   Grid_y_interval = NA,
   RP,
-  Interval = 10000,
   x_lab = "Rainfall (mm)",
   y_lab = "O-sWL (mNGVD 29)",
   x_lim_min = NA,
@@ -116,8 +115,6 @@ Design_Event_2D_Grid(
 
 \item{RP}{Numeric vector specifying the return periods of interest.}
 
-\item{Interval}{Numeric vector specifying the number of equally spaced points comprising the combined isoline.}
-
 \item{x_lab}{Character vector specifying the x-axis label.}
 
 \item{y_lab}{Character vector specifying the y-axis label.}
@@ -167,7 +164,9 @@ Design.Event<-Design_Event_2D_Grid(Data=S22.Detrend.df[,-c(1,4)],
                                   Copula_Family1=S22.Copula.Rainfall,
                                   Copula_Family2=S22.Copula.OsWL,
                                   Marginal_Dist1="Logis", Marginal_Dist2="Twe",
-                                  RP=c(5,100),Interval=10000,N=10^6,N_Ensemble=10,
+                                  RP=c(5,100),
+                                  Grid_x_interval=0.1,Grid_y_interval=0.1,
+                                  N=10^6,N_Ensemble=10,
                                   Plot_Quantile_Isoline=FALSE)
 #Extracting the 100-year isoline from the output
 Design.Event$`100`$Isoline

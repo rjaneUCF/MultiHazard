@@ -4,10 +4,22 @@
 \alias{Cooley19}
 \title{Derives bivariate isolines using the non-parametric approach of Cooley et al. (2019).}
 \usage{
-Cooley19(Data, Migpd, p.base = 0.01, p.proj = 0.001, u = 0.95,
-  PLOT = FALSE, x_lim_min_T = NA, x_lim_max_T = NA,
-  y_lim_min_T = NA, y_lim_max_T = NA, x_lim_min = NA,
-  x_lim_max = NA, y_lim_min = NA, y_lim_max = NA)
+Cooley19(
+  Data,
+  Migpd,
+  p.base = 0.01,
+  p.proj = 0.001,
+  u = 0.95,
+  PLOT = FALSE,
+  x_lim_min_T = NA,
+  x_lim_max_T = NA,
+  y_lim_min_T = NA,
+  y_lim_max_T = NA,
+  x_lim_min = NA,
+  x_lim_max = NA,
+  y_lim_min = NA,
+  y_lim_max = NA
+)
 }
 \arguments{
 \item{Data}{Data frame consisting of two columns.}
@@ -45,7 +57,9 @@ List comprising a description of the type of (asymptoptic) dependence \code{Asym
 The Cooley et al. (2019) method exploits bivariate regular variation and kernel density estimation to generate isolines of bivariate exceedance probabilities. The function utilizes the \code{ks} and \code{texmex} packages, and works for both asymptotic dependence and independence.
 }
 \examples{
-S20.GPD<-Migpd_Fit(Data=S20.Detrend.Declustered.df[,-1], mqu =c(0.99,0.99,0.99))
+S20.GPD<-Migpd_Fit(Data=S20.Detrend.Declustered.df[,-1],
+                   Data_Full=S20.Detrend.Declustered.df[,-1],
+                   mqu =c(0.99,0.99,0.99))
 Cooley19(Data=na.omit(S20.Detrend.df[,3:4]),Migpd=s.Migpd,
 p.base=0.01,p.proj=0.001,PLOT=TRUE,x_lim_max_T=500,y_lim_max_T=500)
 }

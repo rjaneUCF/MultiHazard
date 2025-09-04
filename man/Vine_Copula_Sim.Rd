@@ -34,7 +34,7 @@ S20.Vine<-Vine_Copula_Fit(Data=S20.Detrend.df)
 S20.Vine.Sim<-Vine_Copula_Sim(Data=S20.Detrend.df,Vine_Model=S20.Vine,
                               Marginals=S20.Migpd,N=10)
 #Plotting observed (black) and simulated (red) values
-S20.Pairs.Plot.Data<-data.frame(rbind(na.omit(S20.Detrend.df[,-1]),S22.Vine.Sim$x.Sim),
+S20.Pairs.Plot.Data<-data.frame(rbind(na.omit(S20.Detrend.df[,-1]),S20.Vine.Sim$x.Sim),
                                 c(rep("Observation",nrow(na.omit(S20.Detrend.df))),
                                 rep("Simulation",nrow(S20.Vine.Sim$x.Sim))))
 colnames(S20.Pairs.Plot.Data)<-c(names(S20.Detrend.df)[-1],"Type")
