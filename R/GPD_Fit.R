@@ -20,11 +20,11 @@
 #' @return List comprising the GPD \code{Threshold}, shape parameter \code{xi} and scale parameters \code{sigma} along with their standard errors \code{sigma.SE} and \code{xi.SE}.
 #' @export
 #' @examples
-#' #Decluster time seires
+#' #Decluster time series
 #' S20T_decl = Decluster(Data=S20_T_MAX_Daily_Completed_Detrend_Declustered$Detrend)
 #' #Fit GPD
 #' GPD_Fit(Data=S20T_decl$Declustered,
-#'        Data_Full=S20_T_MAX_Daily_Completed_Detrend_Declustered$Detrend)
+#'         Data_Full=S20_T_MAX_Daily_Completed_Detrend_Declustered$Detrend)
 GPD_Fit<-function(Data,Data_Full,u=0.95,Thres=NA,mu=365.25,GPD_Bayes=TRUE,Method="Standard",min.RI=1,max.RI=100,PLOT=FALSE,xlab_hist="Data",y_lab="Data"){
 
   #Checking inputs are valid

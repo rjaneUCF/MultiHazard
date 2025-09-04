@@ -21,7 +21,7 @@ Standard_Copula_Sel<-function(Data){
     stop("Error: Data must have at least 10 rows")
   }
 
-  if(class(Data[,1])=="Date" | class(Data[,1])=="factor"){
+  if(inherits(Data[,1], c("Date", "factor"))){
     Data <- Data[,-1]
   }
 

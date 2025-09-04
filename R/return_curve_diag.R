@@ -43,7 +43,7 @@
 #' Median \code{"med_wt13"}, lower \code{"lb_wt13"} and upper \code{"ub_wt13"} bounds associated with the original dataset (without any declustering).
 #' @export
 #' @examples
-#' #' #Data starts on first day of 1948
+#' #Data starts on first day of 1948
 #' head(S22.Detrend.df)
 #'
 #' #Dataframe ends on 1948-02-03
