@@ -272,7 +272,7 @@ Design_Event_2D_Multi_Pop<-function(Data, Data_Con1, Data_Con2, Data_Con3, Data_
   names(FullDependence)<-RP
 
   #Remove 1st column of Data if it is a Date or factor object.
-  if(class(Data[,1])=="Date" | class(Data[,1])=="factor" | class(Data[,1])[1]=="POSIXct"){
+  if(inherits(Data[,1], c("Date", "factor","POSIXct"))){
     Data<-Data[,-1]
   }
 

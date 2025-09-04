@@ -33,7 +33,7 @@ Vine_Copula_Fit<-function(Data){
   }
 
   #Proceeds to fit copula model
-  if (inherits(Data[,1], c("Date", "factor", "POSIXct", "character"))){
+  if(inherits(Data[,1], c("Date", "factor", "POSIXct", "character"))){
     M<-RVineStructureSelect(pobs(na.omit(Data[,2:ncol(Data)])))
     Model <- RVineCopSelect(pobs(na.omit(Data[,2:ncol(Data)])),Matrix=M$Matrix)
   } else {

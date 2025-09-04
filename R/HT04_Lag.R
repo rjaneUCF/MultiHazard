@@ -172,12 +172,11 @@ HT04_Lag<-function (data_Detrend_Dependence_df, data_Detrend_Declustered_df, Lag
     }
   }
 
-  if (class(data_Detrend_Declustered_df[, 1]) == "Date" |
-      class(data_Detrend_Declustered_df[, 1]) == "factor") {
+
+  if(inherits(data_Detrend_Declustered_df[,1], c("Date", "factor"))){
     data_Detrend_Declustered_df <- data_Detrend_Declustered_df[,-1]
   }
-  if (class(data_Detrend_Dependence_df[, 1]) == "Date" |
-      class(data_Detrend_Dependence_df[, 1]) == "factor") {
+  if(inherits(data_Detrend_Dependence_df[,1], c("Date", "factor"))){
     data_Detrend_Dependence_df <- data_Detrend_Dependence_df[,-1]
   }
 

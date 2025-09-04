@@ -43,7 +43,7 @@ Standard_Copula_Sim<-function(Data,Marginals,Copula,mu=365.25,N=10000){
   #Number of extreme events
   No.events<-round(mu*N,0)
 
-  if(class(Data[,1])=="Date" | class(Data[,1])=="factor"){
+  if(inherits(Data[,1], c("Date", "factor"))){
     #Simulating from copula on the transformed scale
     u<-rCopula(round(No.events,0), Copula)
     colnames(u)<-names(Data[2:(ncol(Data))])
