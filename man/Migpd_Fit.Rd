@@ -25,18 +25,18 @@ Migpd_Fit(
 
 \item{mqu}{Marginal quantiles, above which generalized Pareto models are fitted. \strong{Only one of \code{mth} and \code{mqu} should be supplied.} Numeric vector of length \code{n}.}
 
-\item{penalty}{See \code{\link{ggplot.migpd}}.}
+\item{penalty}{How the likelihood should be penalized. Defaults to \code{"gaussian"}.}
 
-\item{maxit}{See \code{\link{ggplot.migpd}}.}
+\item{maxit}{Numeric vector of length specifying the maximum number of iterations used in the optimization. Default is \code{10000}.}
 
-\item{trace}{See \code{\link{ggplot.migpd}}.}
+\item{trace}{Default is \code{0}.}
 
-\item{verbose}{See \code{\link{ggplot.migpd}}.}
+\item{verbose}{Default is \code{FALSE}.}
 
-\item{priorParameters}{See \code{\link{ggplot.migpd}}.}
+\item{priorParameters}{Prior parameters. Only use if \code{penalty = "gaussian"}.}
 }
 \value{
-An object of class \code{"migpd"}. There are \code{coef}, \code{print}, \code{plot}, \code{ggplot} and \code{summary} functions available.
+An object of class \code{"migpd"}. There are \code{coef}, \code{print}, \code{plot}, and \code{summary} functions available.
 }
 \description{
 Fit multiple independent generalized Pareto models to each column of a data frame. Edited version of the \code{migpd} function in \code{texmex}, to allow for \code{NA}s in a time series.
