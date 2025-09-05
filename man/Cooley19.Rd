@@ -60,7 +60,7 @@ The Cooley et al. (2019) method exploits bivariate regular variation and kernel 
 S20.GPD<-Migpd_Fit(Data=S20.Detrend.Declustered.df[,-1],
                    Data_Full=S20.Detrend.Declustered.df[,-1],
                    mqu =c(0.99,0.99,0.99))
-Cooley19(Data=na.omit(S20.Detrend.df[,3:4]),Migpd=s.Migpd,
+Cooley19(Data=na.omit(S20.Detrend.df[,3:4]),Migpd=S20.GPD,
 p.base=0.01,p.proj=0.001,PLOT=TRUE,x_lim_max_T=500,y_lim_max_T=500)
 }
 \seealso{
