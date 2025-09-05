@@ -12,7 +12,7 @@
 #' @export
 #' @examples
 #' #Declustering 24 hour rainfall totals at site S13 using a 7-day window for declustering the events.
-#' plot(S13_Precip$Date,S13_Rainfall$Rainfall)
+#' plot(S13_Rainfall$Date,S13_Rainfall$Rainfall)
 #' S13_Rainfall_Totals_Declust<-Decluster_S_SW(Data=S13_Rainfall, Window_Width_Sum=24,
 #'                                             Window_Width=7*24)
 #' plot(S13_Rainfall[,1],
@@ -149,3 +149,4 @@ Decluster_S_SW<-function(Data, Window_Width_Sum, Window_Width) {
   res <- list("Detrend"= Data[, 2], "Totals" = Sum, "Declustered" = Decl$Declustered, "EventID" = Decl$EventID, "Event_Start"=Event_Start, "Event_End"=Event_End)
   return(res)
 }
+
