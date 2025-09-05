@@ -62,7 +62,6 @@ Imports:
     lubridate,
     MASS,
     RColorBrewer,
-    ReturnCurves,
     rmatio,
     scales,
     statmod,
