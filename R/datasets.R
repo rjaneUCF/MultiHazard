@@ -54,7 +54,8 @@
 #'    \item{Spaces 7-8, before 1st comma}{Day}
 #'    \item{Spaces 11-12}{Hours in UTC (Universal Time Coordinate)}
 #'    \item{Spaces 13-14 (before 2nd comma)}{Minutes}
-#'    \item{Space 17 (before 3rd comma)} {Record identifier: \itemize{
+#'    \item{Space 17 (before 3rd comma)} {Record identifier:
+#'     \itemize{
 #'                           \item C – Closest approach to a coast, not followed by a landfall
 #'                           \item G – Genesis
 #'                           \item vI – An intensity peak in terms of both pressure and wind
@@ -63,8 +64,10 @@
 #'                           \item R – Provides additional detail on the intensity of the cyclone when rapid changes are underway
 #'                           \item S – Change of status of the system
 #'                           \item T – Provides additional detail on the track (position) of the cyclone
-#'                           \item W – Maximum sustained wind speed}}
-#'    \item{Spaces 20-21 (before 4th comma)} {Status of system. Options are: \itemize{
+#'                           \item W – Maximum sustained wind speed}
+#'     }
+#'    \item{Spaces 20-21 (before 4th comma)} {Status of system. Options are:
+#'     \itemize{
 #'                           \item TD – Tropical cyclone of tropical depression intensity (< 34 knots)
 #'                           \item TS – Tropical cyclone of tropical storm intensity (34-63 knots)
 #'                           \item HU – Tropical cyclone of hurricane intensity (> 64 knots)
@@ -73,14 +76,15 @@
 #'                           \item SS – Subtropical cyclone of subtropical storm intensity (> 34 knots)
 #'                           \item LO – A low that is neither a tropical cyclone, a subtropical cyclone, nor an extratropical cyclone (of any intensity)
 #'                           \item WV – Tropical Wave (of any intensity)
-#'                           \item DB – Disturbance (of any intensity)}}
+#'                           \item DB – Disturbance (of any intensity)}
+#'     }
 #'    \item{Spaces 24-27}{Latitude}
 #'    \item{Space 28 (before 5th comma)}{Hemisphere – North or South}
 #'    \item{Spaces 31-35}{Longitude}
 #'    \item{Space 36 (before 6th comma)}{Hemisphere – West or East}
 #'    \item{Spaces 39-41 (before 7th comma)}{Maximum sustained wind (in knots)}
 #'    \item{Spaces 44-47 (before 8th comma)}{Minimum Pressure (in millibars)}
-#'    \item{Spaces 50-53 (before 9th comma)}{34 kt wind radii maximum extent in northeastern quadrant (in nautical miles)
+#'    \item{Spaces 50-53 (before 9th comma)}{34 kt wind radii maximum extent in northeastern quadrant (in nautical miles)}
 #'    \item{Spaces 56-59 (before 10th comma)}{34 kt wind radii maximum extent in southeastern quadrant (in nautical miles)}
 #'    \item{Spaces 62-65 (before 11th comma)}{34 kt wind radii maximum extent in southwestern quadrant (in nautical miles)}
 #'    \item{Spaces 68-71 (before 12th comma)}{34 kt wind radii maximum extent in northwestern quadrant (in nautical miles)}
@@ -102,10 +106,11 @@
 
 #' Rainfall Totals at Miami International Airport
 #'
-#' Time series of daily rainfall totals from the gauge at Miami International Airport, FL [Network:ID	GHCND:USW00012839].
+#' Time series of daily rainfall totals from the gauge at Miami International Airport, FL (Network:ID	GHCND:USW00012839).
 #'
 #' @format A data frame with XX rows and 2 variables:
 #' \describe{
+#'   \item{X}{Index}
 #'   \item{Date}{Date of observation (YYYY-MM-DD)}
 #'   \item{Value}{Rainfall totals (inches)}
 #' }
@@ -119,10 +124,15 @@
 #'
 #' Sea level rise projections for Virginia Key under four emission scenarios from NOAA Technical Report OAR CPO-1 (2012).
 #'
-#' @format A data frame with XX rows and 1 variable:
+#' @format A data frame containing the projections with columns as follows:
 #' \describe{
-#'   \item{Date}{Date (YYYY-MM-DD)}
-#'   \item{Value}{Projected sea level rise (inches)}
+#'   \item{Year}{Year of Projection (YYYY)}
+#'   \item{VLM}{Date (YYYY-MM-DD)}
+#'   \item{Low}{Projections for the low emission scenario (m)}
+#'   \item{Int.Low}{Projections for the intermediate low emission scenario (m)}
+#'   \item{Intermediate}{Projections for the intermediate emission scenario (m)}
+#'   \item{Int.High}{Projections for the intermediate high emission scenario (m)}
+#'   \item{High}{Projections for the high emission scenario (m)}
 #' }
 #' @source NOAA National Ocean Service. Report available at:
 #' [https://repository.library.noaa.gov/view/noaa/11124](https://repository.library.noaa.gov/view/noaa/11124)
@@ -134,10 +144,16 @@
 #'
 #' Sea level rise projections for Virginia Key derived from NOAA Technical Report NOS CO-OPS 083 (2017). The report defines six global mean sea level rise scenarios, which are regionally downscaled on a 1-degree grid covering U.S. coastlines.
 #'
-#' @format A data frame with XX rows and 1 variable:
+#' @format A data frame containing the projections with columns as follows:
 #' \describe{
-#'   \item{Date}{Date (YYYY-MM-DD)}
-#'   \item{Value}{Projected sea level rise (inches)}
+#'   \item{Year}{Year of Projection (YYYY)}
+#'   \item{VLM}{Date (YYYY-MM-DD)}
+#'   \item{Low}{Projections for the low emission scenario (m)}
+#'   \item{Int.Low}{Projections for the intermediate low emission scenario (m)}
+#'   \item{Intermediate}{Projections for the intermediate emission scenario (m)}
+#'   \item{Int.High}{Projections for the intermediate high emission scenario (m)}
+#'   \item{High}{Projections for the high emission scenario (m)}
+#'   \item{Extreme}{Projections for the extreme emission scenario (m)}
 #' }
 #' @source NOAA National Ocean Service. Report available at: [https://tidesandcurrents.noaa.gov/publications/techrpt83_Global_and_Regional_SLR_Scenarios_for_the_US_final.pdf](https://tidesandcurrents.noaa.gov/publications/techrpt83_Global_and_Regional_SLR_Scenarios_for_the_US_final.pdf)
 #'
@@ -146,12 +162,25 @@
 
 #' 2022 NOAA Global and Regional Sea Level Rise Scenarios for the United States
 #'
-#' Sea level rise scenarios for Virginia Key from given in NOAA Technical Report NOS 01. In the report, five global mean sea level rise scenarios are used to derive probabilistic regional RSL responses on a 1-degree grid covering the coastlines of the U.S. mainland.
+#' Probabilistic sea level rise scenarios for Virginia Key from given in NOAA Technical Report NOS 01. In the report, five global mean sea level rise scenarios are used to derive probabilistic regional RSL responses on a 1-degree grid covering the coastlines of the U.S. mainland.
 #'
-#' @format A data frame with XX rows and 1 variable:
+#' @format A data frame containing the projections with columns as follows:
 #' \describe{
-#'   \item{Date}{Date of observation (YYYY-MM-DD)}
-#'   \item{Value}{Rainfall totals (Inches)}
+#'   \item{psmsl_id}{PSML identifier}
+#'   \item{process}{Process e.g total sea level}
+#'   \item{Units}{Measurement units (mm)}
+#'   \item{scenario}{Emission scenario (e.g., Low, Int_Medium, High)}
+#'   \item{quantile}{Quantile of the projection distribution (e.g., 0.05, 0.50, 0.95)}
+#'   \item{X2020}{Projected sea level rise in 2020 (mm)}
+#'   \item{X2030}{Projected sea level rise in 2030 (mm)}
+#'   \item{X2040}{...}
+#'   \item{X2050}{...}
+#'   \item{X2060}{...}
+#'   \item{X2070}{...}
+#'   \item{X2080}{...}
+#'   \item{X2090}{...}
+#'   \item{X2100}{...}
+#'   \item{X2150}{...}
 #' }
 #' @source NOAA National Ocean Service, via [https://oceanservice.noaa.gov/hazards/sealevelrise](https://oceanservice.noaa.gov/hazards/sealevelrise)
 #'
@@ -162,7 +191,7 @@
 #'
 #' P-values used in the Automatic Peaks Over Threshold (POT) threshold selection procedure in Solari et al. (2017) for a subset of shape and scale parameter values.
 #'
-#' @format A data frame or matrix of p-values, where rows correspond to [describe what they represent] and columns to [describe columns].
+#' @format A data frame or matrix of p-values, where rows correspond to XX and columns to XX.
 #' @source Supplied by the authors of Solari et al. (2017): \doi{10.1002/2016WR019426}
 #'
 #' @references Solari, et al. (2017). [https://agupubs.onlinelibrary.wiley.com/doi/full/10.1002/2016WR019426](https://agupubs.onlinelibrary.wiley.com/doi/full/10.1002/2016WR019426)
@@ -172,7 +201,7 @@
 #'
 #' P-values used in the Automatic Peaks Over Threshold (POT) threshold selection procedure in Solari et al. (2017) for a subset of shape and scale parameter values.
 #'
-#' @format A data frame or matrix of p-values, where rows correspond to [describe what they represent] and columns to [describe columns].
+#' @format A data frame or matrix of p-values, where rows correspond to XX and columns to XX.
 #' @source Supplied by the authors of Solari et al. (2017): \doi{10.1002/2016WR019426}
 #'
 #' @references Solari, et al. (2017). [https://agupubs.onlinelibrary.wiley.com/doi/full/10.1002/2016WR019426](https://agupubs.onlinelibrary.wiley.com/doi/full/10.1002/2016WR019426)
@@ -182,7 +211,7 @@
 #'
 #' P-values used in the Automatic Peaks Over Threshold (POT) threshold selection procedure in Solari et al. (2017) for a subset of shape and scale parameter values.
 #'
-#' @format A data frame or matrix of p-values, where rows correspond to [describe what they represent] and columns to [describe columns].
+#' @format A data frame or matrix of p-values, where rows correspond to XX and columns to XX.
 #' @source Supplied by the authors of Solari et al. (2017): \doi{10.1002/2016WR019426}
 #'
 #' @references Solari, et al. (2017). [https://agupubs.onlinelibrary.wiley.com/doi/full/10.1002/2016WR019426](https://agupubs.onlinelibrary.wiley.com/doi/full/10.1002/2016WR019426)
@@ -192,7 +221,7 @@
 #'
 #' P-values used in the Automatic Peaks Over Threshold (POT) threshold selection procedure in Solari et al. (2017) for a subset of shape and scale parameter values.
 #'
-#' @format A data frame or matrix of p-values, where rows correspond to [describe what they represent] and columns to [describe columns].
+#' @format A data frame or matrix of p-values, where rows correspond to XX and columns to XX.
 #' @source Supplied by the authors of Solari et al. (2017): \doi{10.1002/2016WR019426}
 #'
 #' @references Solari, et al. (2017). [https://agupubs.onlinelibrary.wiley.com/doi/full/10.1002/2016WR019426](https://agupubs.onlinelibrary.wiley.com/doi/full/10.1002/2016WR019426)
@@ -200,7 +229,7 @@
 
 #' Rainfall Totals at Perrine, FL.
 #'
-#' Time series of daily rainfall totals from the gauge at Perrine 4W, FL [Network:ID GHCND:USC00087020].
+#' Time series of daily rainfall totals from the gauge at Perrine 4W, FL (Network:ID GHCND:USC00087020).
 #'
 #' @format A data frame with XX rows and 2 variables:
 #' \describe{
@@ -213,13 +242,13 @@
 #' @usage data(Perrine_df)
 "Perrine_df"
 
-#' Measurememt from Control Structure S-13
+#' Measurement from Control Structure S-13
 #'
 #' Hourly time series of rainfall totals and ocean-side water levels (tailwater levels) measured at control structure S-13. The O-sWLs are detrended using a 3-month moving window.
 #'
 #' @format A data frame with XX rows and 3 variables:
 #' \describe{
-#'   \item{Date}{Date of observation (YYYY-MM-DD)}
+#'   \item{Date_Time}{Time of observation (YYYY-MM-DD HH:MM:SS)}
 #'   \item{Rainfall}{Rainfall totals (inches)}
 #'   \item{OsWL}{Ocean-side water levels totals (ft NGVD29)}
 #' }
@@ -291,18 +320,19 @@
 #' Declustered Time Series of the Ocean-side Water Level at control structure S-20
 #'
 #' Declustered Time Series of the Ocean-side Water Level at control structure S-20.
-#' Declustering is implimented using a peaks-over-threshold approach (runs method with a 0.98 quantile threshold and a 3-day separation criterion).
+#' Declustering is implemented using a peaks-over-threshold approach (runs method with a 0.98 quantile threshold and a 3-day separation criterion).
 #'
-#' @format A data frame with XX rows and 2 variables:
+#' @format A data frame with XX rows and 4 variables:
 #' \describe{
+#'   \item{X}{Index}
 #'   \item{Date}{Date of observation (YYYY-MM-DD)}
-#'   \item{Rainfall}{Rainfall totals (inches)}
-#'   \item{OsWL}{Ocean-side water levels (ft NGVD29)}
-#'   \item{Groundwater}{Groundwater levels (ft NGVD29)}
+#'   \item{Value}{Raw time series (ft NGVD29)}
+#'   \item{Value_Filled}{Raw times series with missing values in-filled using record at structure S-21A_T (ft NGVD29)}
+#'   \item{Detrended}{Detrended time series (ft NGVD29)}
+#'   \item{Declustered}{Declustered time series (ft NGVD29)}
 #' }
 #'
-#' @source Rainfall totals from the NOAA National Centers for Environmental Information: \url{https://www.ncdc.noaa.gov/}
-#' Ocean-side water levels and groundwater levels from the South Florida Water Management District: \url{https://www.sfwmd.gov/science-data/dbhydro/}
+#' @source South Florida Water Management District: \url{https://www.sfwmd.gov/science-data/dbhydro/}
 #'
 #' @usage data(S22.Detrend.Declustered.df)
 "S20_T_MAX_Daily_Completed_Detrend_Declustered"
@@ -358,24 +388,24 @@
 #' @format A data frame containing the projections with columns as follows:
 #' \describe{
 #'   \item{psmsl_id}{PSML identifier}
-#'   \item{Process}{Process e.g total sea level}
+#'   \item{process}{Process e.g total sea level}
 #'   \item{Units}{Measurement units (mm)}
 #'   \item{scenario}{Emission scenario (e.g., Low, Int_Medium, High)}
 #'   \item{quantile}{Quantile of the projection distribution (e.g., 0.05, 0.50, 0.95)}
-#'   \item{2020}{Projected sea level rise in 2020 (mm)}
-#'   \item{2030}{Projected sea level rise in 2030}
-#'   \item{2040}{...}
-#'   \item{2050}{...}
-#'   \item{2060}{...}
-#'   \item{2070}{...}
-#'   \item{2080}{...}
-#'   \item{2090}{...}
-#'   \item{2100}{...}
-#'   \item{2150}{...}
+#'   \item{X2020}{Projected sea level rise in 2020 (mm)}
+#'   \item{X2030}{Projected sea level rise in 2030 (mm)}
+#'   \item{X2040}{...}
+#'   \item{X2050}{...}
+#'   \item{X2060}{...}
+#'   \item{X2070}{...}
+#'   \item{X2080}{...}
+#'   \item{X2090}{...}
+#'   \item{X2100}{...}
+#'   \item{X2150}{...}
 #' }
 #' @source Interagency Sea Level Rise Scenario Tool (PSMSL ID 1106 – Fort Myers), accessed via the National Sea Level Explorer.
 #'
-#' @usage read.csv("sl_taskforce_scenarios_psmsl_id_1106_Fort_Myers.csv")
+#' @usage data(sl_taskforce_scenarios_psmsl_id_1106_Fort_Myers)
 "sl_taskforce_scenarios_psmsl_id_1106_Fort_Myers"
 
 #' USACE Sea Level Projections for Virginia Key
@@ -385,12 +415,12 @@
 #'
 #' @format A data frame containing the projections with columns as follows:
 #' \describe{
-#'   \item{year}{Year of Projection (YYYY)}
+#'   \item{Year}{Year of Projection (YYYY)}
 #'   \item{Low}{Projections for the low emission scenario (m)}
 #'   \item{Int}{Projections for the intermediate emission scenario (m)}
 #'   \item{High}{Projections for the high emission scenario (m)}
 #' }
 #' @source U.S. Army Corps. of Engineers, via. USACE Sea Level Change Calculator: \url{http://www.corpsclimate.us/ccaceslcurves.cfm}
 #'
-#' @usage read.csv("USACE2013.csv")
+#' @usage data(USACE2013.csv)
 "USACE2013"
