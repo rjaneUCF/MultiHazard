@@ -8,27 +8,27 @@
 A data frame containing the projections with columns as follows:
 \describe{
 \item{psmsl_id}{PSML identifier}
-\item{Process}{Process e.g total sea level}
+\item{process}{Process e.g total sea level}
 \item{Units}{Measurement units (mm)}
 \item{scenario}{Emission scenario (e.g., Low, Int_Medium, High)}
 \item{quantile}{Quantile of the projection distribution (e.g., 0.05, 0.50, 0.95)}
-\item{2020}{Projected sea level rise in 2020 (mm)}
-\item{2030}{Projected sea level rise in 2030}
-\item{2040}{...}
-\item{2050}{...}
-\item{2060}{...}
-\item{2070}{...}
-\item{2080}{...}
-\item{2090}{...}
-\item{2100}{...}
-\item{2150}{...}
+\item{X2020}{Projected sea level rise in 2020 (mm)}
+\item{X2030}{Projected sea level rise in 2030 (mm)}
+\item{X2040}{...}
+\item{X2050}{...}
+\item{X2060}{...}
+\item{X2070}{...}
+\item{X2080}{...}
+\item{X2090}{...}
+\item{X2100}{...}
+\item{X2150}{...}
 }
 }
 \source{
 Interagency Sea Level Rise Scenario Tool (PSMSL ID 1106 – Fort Myers), accessed via the National Sea Level Explorer.
 }
 \usage{
-read.csv("sl_taskforce_scenarios_psmsl_id_1106_Fort_Myers.csv")
+data(sl_taskforce_scenarios_psmsl_id_1106_Fort_Myers)
 }
 \description{
 Probabilistic sea level rise projections for Fort Myers (PSMSL ID 1106) derived from the Interagency Sea Level Rise Scenario Tool.

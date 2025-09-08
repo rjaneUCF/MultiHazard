@@ -7,7 +7,7 @@
 \format{
 A data frame containing the projections with columns as follows:
 \describe{
-\item{year}{Year of Projection (YYYY)}
+\item{Year}{Year of Projection (YYYY)}
 \item{Low}{Projections for the low emission scenario (m)}
 \item{Int}{Projections for the intermediate emission scenario (m)}
 \item{High}{Projections for the high emission scenario (m)}
@@ -17,7 +17,7 @@ A data frame containing the projections with columns as follows:
 U.S. Army Corps. of Engineers, via. USACE Sea Level Change Calculator: \url{http://www.corpsclimate.us/ccaceslcurves.cfm}
 }
 \usage{
-read.csv("USACE2013.csv")
+data(USACE2013.csv)
 }
 \description{
 U.S. Army Corps. of Engineers (USACE) 2013 sea level rise projections for Virginia Key, as provided in Engineering Regulation ER 1100-2-8162.

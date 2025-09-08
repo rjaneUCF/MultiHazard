@@ -7,6 +7,7 @@
 \format{
 A data frame with XX rows and 2 variables:
 \describe{
+\item{X}{Index}
 \item{Date}{Date of observation (YYYY-MM-DD)}
 \item{Value}{Rainfall totals (inches)}
 }
@@ -19,6 +20,6 @@ NOAA National Centers for Environmental Information, via
 data(Miami_Airport_df)
 }
 \description{
-Time series of daily rainfall totals from the gauge at Miami International Airport, FL \link{Network:ID	GHCND:USW00012839}.
+Time series of daily rainfall totals from the gauge at Miami International Airport, FL (Network:ID	GHCND:USW00012839).
 }
 \keyword{datasets}

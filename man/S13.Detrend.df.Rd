@@ -3,11 +3,11 @@
 \docType{data}
 \name{S13.Detrend.df}
 \alias{S13.Detrend.df}
-\title{Measurememt from Control Structure S-13}
+\title{Measurement from Control Structure S-13}
 \format{
 A data frame with XX rows and 3 variables:
 \describe{
-\item{Date}{Date of observation (YYYY-MM-DD)}
+\item{Date_Time}{Time of observation (YYYY-MM-DD HH:MM:SS)}
 \item{Rainfall}{Rainfall totals (inches)}
 \item{OsWL}{Ocean-side water levels totals (ft NGVD29)}
 }

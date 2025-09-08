@@ -12,7 +12,8 @@ A data frame with columns parsed from the fixed-width HURDAT2 format:
 \item{Spaces 7-8, before 1st comma}{Day}
 \item{Spaces 11-12}{Hours in UTC (Universal Time Coordinate)}
 \item{Spaces 13-14 (before 2nd comma)}{Minutes}
-\item{Space 17 (before 3rd comma)} {Record identifier: \itemize{
+\item{Space 17 (before 3rd comma)} {Record identifier:
+\itemize{
 \item C – Closest approach to a coast, not followed by a landfall
 \item G – Genesis
 \item vI – An intensity peak in terms of both pressure and wind
@@ -21,8 +22,10 @@ A data frame with columns parsed from the fixed-width HURDAT2 format:
 \item R – Provides additional detail on the intensity of the cyclone when rapid changes are underway
 \item S – Change of status of the system
 \item T – Provides additional detail on the track (position) of the cyclone
-\item W – Maximum sustained wind speed}}
-\item{Spaces 20-21 (before 4th comma)} {Status of system. Options are: \itemize{
+\item W – Maximum sustained wind speed}
+}
+\item{Spaces 20-21 (before 4th comma)} {Status of system. Options are:
+\itemize{
 \item TD – Tropical cyclone of tropical depression intensity (< 34 knots)
 \item TS – Tropical cyclone of tropical storm intensity (34-63 knots)
 \item HU – Tropical cyclone of hurricane intensity (> 64 knots)
@@ -31,14 +34,15 @@ A data frame with columns parsed from the fixed-width HURDAT2 format:
 \item SS – Subtropical cyclone of subtropical storm intensity (> 34 knots)
 \item LO – A low that is neither a tropical cyclone, a subtropical cyclone, nor an extratropical cyclone (of any intensity)
 \item WV – Tropical Wave (of any intensity)
-\item DB – Disturbance (of any intensity)}}
+\item DB – Disturbance (of any intensity)}
+}
 \item{Spaces 24-27}{Latitude}
 \item{Space 28 (before 5th comma)}{Hemisphere – North or South}
 \item{Spaces 31-35}{Longitude}
 \item{Space 36 (before 6th comma)}{Hemisphere – West or East}
 \item{Spaces 39-41 (before 7th comma)}{Maximum sustained wind (in knots)}
 \item{Spaces 44-47 (before 8th comma)}{Minimum Pressure (in millibars)}
-\item{Spaces 50-53 (before 9th comma)}{34 kt wind radii maximum extent in northeastern quadrant (in nautical miles)
+\item{Spaces 50-53 (before 9th comma)}{34 kt wind radii maximum extent in northeastern quadrant (in nautical miles)}
 \item{Spaces 56-59 (before 10th comma)}{34 kt wind radii maximum extent in southeastern quadrant (in nautical miles)}
 \item{Spaces 62-65 (before 11th comma)}{34 kt wind radii maximum extent in southwestern quadrant (in nautical miles)}
 \item{Spaces 68-71 (before 12th comma)}{34 kt wind radii maximum extent in northwestern quadrant (in nautical miles)}

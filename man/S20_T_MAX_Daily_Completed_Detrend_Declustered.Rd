@@ -5,23 +5,24 @@
 \alias{S20_T_MAX_Daily_Completed_Detrend_Declustered}
 \title{Declustered Time Series of the Ocean-side Water Level at control structure S-20}
 \format{
-A data frame with XX rows and 2 variables:
+A data frame with XX rows and 4 variables:
 \describe{
+\item{X}{Index}
 \item{Date}{Date of observation (YYYY-MM-DD)}
-\item{Rainfall}{Rainfall totals (inches)}
-\item{OsWL}{Ocean-side water levels (ft NGVD29)}
-\item{Groundwater}{Groundwater levels (ft NGVD29)}
+\item{Value}{Raw time series (ft NGVD29)}
+\item{Value_Filled}{Raw times series with missing values in-filled using record at structure S-21A_T (ft NGVD29)}
+\item{Detrended}{Detrended time series (ft NGVD29)}
+\item{Declustered}{Declustered time series (ft NGVD29)}
 }
 }
 \source{
-Rainfall totals from the NOAA National Centers for Environmental Information: \url{https://www.ncdc.noaa.gov/}
-Ocean-side water levels and groundwater levels from the South Florida Water Management District: \url{https://www.sfwmd.gov/science-data/dbhydro/}
+South Florida Water Management District: \url{https://www.sfwmd.gov/science-data/dbhydro/}
 }
 \usage{
 data(S22.Detrend.Declustered.df)
 }
 \description{
 Declustered Time Series of the Ocean-side Water Level at control structure S-20.
-Declustering is implimented using a peaks-over-threshold approach (runs method with a 0.98 quantile threshold and a 3-day separation criterion).
+Declustering is implemented using a peaks-over-threshold approach (runs method with a 0.98 quantile threshold and a 3-day separation criterion).
 }
 \keyword{datasets}

@@ -5,7 +5,7 @@
 \alias{PVAL_AU2_LMOM_2}
 \title{Automatic Peaks Over Threshold (POT) Threshold Selection}
 \format{
-A data frame or matrix of p-values, where rows correspond to \link{describe what they represent} and columns to \link{describe columns}.
+A data frame or matrix of p-values, where rows correspond to XX and columns to XX.
 }
 \source{
 Supplied by the authors of Solari et al. (2017): \doi{10.1002/2016WR019426}

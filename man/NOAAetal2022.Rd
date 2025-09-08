@@ -5,10 +5,23 @@
 \alias{NOAAetal2022}
 \title{2022 NOAA Global and Regional Sea Level Rise Scenarios for the United States}
 \format{
-A data frame with XX rows and 1 variable:
+A data frame containing the projections with columns as follows:
 \describe{
-\item{Date}{Date of observation (YYYY-MM-DD)}
-\item{Value}{Rainfall totals (Inches)}
+\item{psmsl_id}{PSML identifier}
+\item{process}{Process e.g total sea level}
+\item{Units}{Measurement units (mm)}
+\item{scenario}{Emission scenario (e.g., Low, Int_Medium, High)}
+\item{quantile}{Quantile of the projection distribution (e.g., 0.05, 0.50, 0.95)}
+\item{X2020}{Projected sea level rise in 2020 (mm)}
+\item{X2030}{Projected sea level rise in 2030 (mm)}
+\item{X2040}{...}
+\item{X2050}{...}
+\item{X2060}{...}
+\item{X2070}{...}
+\item{X2080}{...}
+\item{X2090}{...}
+\item{X2100}{...}
+\item{X2150}{...}
 }
 }
 \source{
@@ -18,6 +31,6 @@ NOAA National Ocean Service, via \url{https://oceanservice.noaa.gov/hazards/seal
 data(NOAAetal2022)
 }
 \description{
-Sea level rise scenarios for Virginia Key from given in NOAA Technical Report NOS 01. In the report, five global mean sea level rise scenarios are used to derive probabilistic regional RSL responses on a 1-degree grid covering the coastlines of the U.S. mainland.
+Probabilistic sea level rise scenarios for Virginia Key from given in NOAA Technical Report NOS 01. In the report, five global mean sea level rise scenarios are used to derive probabilistic regional RSL responses on a 1-degree grid covering the coastlines of the U.S. mainland.
 }
 \keyword{datasets}

@@ -11,7 +11,7 @@ Standard_Copula_Sel(Data)
 }
 \value{
 Data frame containing copula name in column 1 and associated AIC in column 2.
-Parameters are estimated using the \code{fitCopula()} function in \code{copula} package using maximum pseudo-likelihood estimator \code{"mpl"}. See \code{\link{fitCopula}} for a more thorough explanation.
+Parameters are estimated using the \code{fitCopula()} function in \code{copula} package using maximum pseudo-likelihood estimator \code{"mpl"}. See \code{fitCopula} for a more thorough explanation.
 }
 \description{
 Fits five n-dimensional standard copula to a dataset and returns their corresponding AIC values.

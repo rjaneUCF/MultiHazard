@@ -5,10 +5,15 @@
 \alias{NOAAetal2012}
 \title{2012 NOAA Sea Level Rise Projections for Virginia Key}
 \format{
-A data frame with XX rows and 1 variable:
+A data frame containing the projections with columns as follows:
 \describe{
-\item{Date}{Date (YYYY-MM-DD)}
-\item{Value}{Projected sea level rise (inches)}
+\item{Year}{Year of Projection (YYYY)}
+\item{VLM}{Date (YYYY-MM-DD)}
+\item{Low}{Projections for the low emission scenario (m)}
+\item{Int.Low}{Projections for the intermediate low emission scenario (m)}
+\item{Intermediate}{Projections for the intermediate emission scenario (m)}
+\item{Int.High}{Projections for the intermediate high emission scenario (m)}
+\item{High}{Projections for the high emission scenario (m)}
 }
 }
 \source{

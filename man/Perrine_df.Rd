@@ -19,6 +19,6 @@ NOAA National Centers for Environmental Information, via
 data(Perrine_df)
 }
 \description{
-Time series of daily rainfall totals from the gauge at Perrine 4W, FL \link{Network:ID GHCND:USC00087020}.
+Time series of daily rainfall totals from the gauge at Perrine 4W, FL (Network:ID GHCND:USC00087020).
 }
 \keyword{datasets}
