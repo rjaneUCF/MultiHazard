@@ -69,30 +69,8 @@
 #'    \item{Spaces 7-8, before 1st comma}{Day}
 #'    \item{Spaces 11-12}{Hours in UTC (Universal Time Coordinate)}
 #'    \item{Spaces 13-14 (before 2nd comma)}{Minutes}
-#'    \item{Space 17 (before 3rd comma)}{Record identifier:
-#'     \itemize{
-#'                           \item C – Closest approach to a coast, not followed by a landfall
-#'                           \item G – Genesis
-#'                           \item vI – An intensity peak in terms of both pressure and wind
-#'                           \item L – Landfall (center of system crossing a coastline)
-#'                           \item P – Minimum in central pressure
-#'                           \item R – Provides additional detail on the intensity of the cyclone when rapid changes are underway
-#'                           \item S – Change of status of the system
-#'                           \item T – Provides additional detail on the track (position) of the cyclone
-#'                           \item W – Maximum sustained wind speed}
-#'     }
-#'    \item{Spaces 20-21 (before 4th comma)}{Status of system. Options are:
-#'     \itemize{
-#'                           \item TD – Tropical cyclone of tropical depression intensity (< 34 knots)
-#'                           \item TS – Tropical cyclone of tropical storm intensity (34-63 knots)
-#'                           \item HU – Tropical cyclone of hurricane intensity (> 64 knots)
-#'                           \item EX – Extratropical cyclone (of any intensity)
-#'                           \item SD – Subtropical cyclone of subtropical depression intensity (< 34 knots)
-#'                           \item SS – Subtropical cyclone of subtropical storm intensity (> 34 knots)
-#'                           \item LO – A low that is neither a tropical cyclone, a subtropical cyclone, nor an extratropical cyclone (of any intensity)
-#'                           \item WV – Tropical Wave (of any intensity)
-#'                           \item DB – Disturbance (of any intensity)}
-#'     }
+#'    \item{Space 17 (before 3rd comma)}{Record identifier: C-Closest approach to a coast, not followed by a landfall, G – Genesis, vI – An intensity peak in terms of both pressure and wind, L – Landfall (center of system crossing a coastline), P – Minimum in central pressure, R – Provides additional detail on the intensity of the cyclone when rapid changes are underway, S – Change of status of the system, T – Provides additional detail on the track (position) of the cyclone, W – Maximum sustained wind speed}
+#'    \item{Spaces 20-21 (before 4th comma)}{Status of system. Options are: TD – Tropical cyclone of tropical depression intensity (< 34 knots), TS – Tropical cyclone of tropical storm intensity (34-63 knots), HU – Tropical cyclone of hurricane intensity (> 64 knots), EX – Extratropical cyclone (of any intensity), SD – Subtropical cyclone of subtropical depression intensity (< 34 knots), SS – Subtropical cyclone of subtropical storm intensity (> 34 knots), LO – A low that is neither a tropical cyclone, a subtropical cyclone, nor an extratropical cyclone (of any intensity), WV – Tropical Wave (of any intensity), DB – Disturbance (of any intensity)}
 #'    \item{Spaces 24-27}{Latitude}
 #'    \item{Space 28 (before 5th comma)}{Hemisphere – North or South}
 #'    \item{Spaces 31-35}{Longitude}
@@ -142,7 +120,6 @@
 #' @format A data frame containing the projections with columns as follows:
 #' \describe{
 #'   \item{Year}{Year of Projection (YYYY)}
-#'   \item{VLM}{Date (YYYY-MM-DD)}
 #'   \item{Low}{Projections for the low emission scenario (m)}
 #'   \item{Int.Low}{Projections for the intermediate low emission scenario (m)}
 #'   \item{Int.High}{Projections for the intermediate high emission scenario (m)}
@@ -161,7 +138,7 @@
 #' @format A data frame containing the projections with columns as follows:
 #' \describe{
 #'   \item{Year}{Year of Projection (YYYY)}
-#'   \item{VLM}{Date (YYYY-MM-DD)}
+#'   \item{VLM}{Virtical land motion (m)}
 #'   \item{Low}{Projections for the low emission scenario (m)}
 #'   \item{Int.Low}{Projections for the intermediate low emission scenario (m)}
 #'   \item{Intermediate}{Projections for the intermediate emission scenario (m)}
@@ -345,7 +322,7 @@
 #'   \item{X}{Index}
 #'   \item{Date}{Date of observation (YYYY-MM-DD)}
 #'   \item{Value}{Raw time series (ft NGVD29)}
-#'   \item{Value_Filled}{Raw times series with missing values in-filled using record at structure S-21A_T (ft NGVD29)}
+#'   \item{ValueFilled}{Raw times series with missing values in-filled using record at structure S-21A_T (ft NGVD29)}
 #'   \item{Detrend}{Detrended time series (ft NGVD29)}
 #'   \item{Declustered}{Declustered time series (ft NGVD29)}
 #' }
