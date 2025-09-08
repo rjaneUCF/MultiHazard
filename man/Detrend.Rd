@@ -4,8 +4,15 @@
 \alias{Detrend}
 \title{Detrends a time series.}
 \usage{
-Detrend(Data, Method = "window", Window_Width = 89,
-  End_Length = 1826, PLOT = FALSE, x_lab = "Data", y_lab = "Data")
+Detrend(
+  Data,
+  Method = "window",
+  Window_Width = 89,
+  End_Length = 1826,
+  PLOT = FALSE,
+  x_lab = "Date",
+  y_lab = "Data"
+)
 }
 \arguments{
 \item{Data}{Data frame containing two columns. In column: \itemize{
@@ -34,6 +41,6 @@ Detrends a time series using either a linear fit covering the entire dataset or 
 \examples{
 #Detrending ocean-side water level at site S22 using a 3 month moving average window and the last
 #five years of observations to calculate the present day average.
-Detrend(S22_T_MAX_Daily_Completed_Detrend,Method = "window",Window_Width= 89,
+Detrend(S22_T_MAX_Daily_Completed,Method = "window",Window_Width= 89,
         End_Length = 1826, PLOT=FALSE,x_lab="Data",y_lab="Data")
 }
