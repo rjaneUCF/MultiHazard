@@ -3,16 +3,17 @@
 \docType{data}
 \name{G_3355}
 \alias{G_3355}
-\title{Groundwater Well G-3355}
+\title{Groundwater Levels at Well G-3355}
 \format{
-A data frame with 12,340 rows and 1 variable:
+A data frame with 12,340 rows and 2 variables:
 \describe{
 \item{Date}{Date of observation (YYYY-MM-DD)}
-\item{Value}{Groudwater elevation}
+\item{Value}{Groundwater elevation (ft NGVD29)}
 }
 }
 \source{
-South Florida Water Management District, via \url{https://www.sfwmd.gov/science-data/dbhydro/}
+South Florida Water Management District, via
+\url{https://www.sfwmd.gov/science-data/dbhydro/}
 }
 \usage{
 data(G_3355)
