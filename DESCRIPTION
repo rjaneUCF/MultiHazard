@@ -43,7 +43,7 @@ Description: The `MultiHazard` package provides tools for stationary
     of Heffernan and Tawn (2004). Finally, a function that calculates the
     time for a user-specified height of sea level rise to occur under
     various scenarios is supplied.
-License: GPL (>= 3)
+License: GPL (>=3) + file LICENSE
 URL: https://rdrr.io/github/rjaneUCF/MultiHazard-R-Package/
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
