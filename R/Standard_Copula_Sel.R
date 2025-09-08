@@ -4,7 +4,7 @@
 #'
 #' @param Data Data frame containing n at least partially concurrent time series, detrended if necessary. Time steps must be equally spaced, with missing values assigned \code{NA}. First object may be a \code{"Date"} object. Can be \code{Dataframe_Combine} output.
 #' @return Data frame containing copula name in column 1 and associated AIC in column 2.
-#' Parameters are estimated using the \code{fitCopula()} function in \code{copula} package using maximum pseudo-likelihood estimator \code{"mpl"}. See \code{\link{fitCopula}} for a more thorough explanation.
+#' Parameters are estimated using the \code{fitCopula()} function in \code{copula} package using maximum pseudo-likelihood estimator \code{"mpl"}. See \code{fitCopula} for a more thorough explanation.
 #' @export
 #' @seealso \code{\link{Dataframe_Combine}} \code{\link{Standard_Copula_Fit}}
 #' @examples
