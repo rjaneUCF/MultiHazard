@@ -21,7 +21,7 @@ test_that("Design_Event_2D_Grid works", {
                                  N_Both=3,
                                  Copula_Family1=S22.Copula.Rainfall, Copula_Family2=S22.Copula.OsWL,
                                  Marginal_Dist1="Logis", Marginal_Dist2="Twe",
-                                 RP=100,Interval=10000,N=10^4,N_Ensemble=10,
+                                 RP=100,N=10^4,N_Ensemble=10,
                                  Plot_Quantile_Isoline=FALSE)
 
   # Checking type of output
@@ -55,7 +55,7 @@ test_that("Invalid inputs", {
                          N_Both=-3,
                          Copula_Family1=S22.Copula.Rainfall, Copula_Family2=S22.Copula.OsWL,
                          Marginal_Dist1="Logis", Marginal_Dist2="Twe",
-                         RP=100,Interval=10000,N=10^4,N_Ensemble=10,
+                         RP=100,N=10^4,N_Ensemble=10,
                          Plot_Quantile_Isoline=FALSE),
     "N_Both must be a non-negative integer.")
 
@@ -65,7 +65,7 @@ test_that("Invalid inputs", {
                          u1=0.97, u2=0.97,
                          Copula_Family1=S22.Copula.Rainfall, Copula_Family2=25,
                          Marginal_Dist1="Logis", Marginal_Dist2="Twe",
-                         RP=100,Interval=10000,N=10^4,N_Ensemble=10,
+                         RP=100,N=10^4,N_Ensemble=10,
                          Plot_Quantile_Isoline=FALSE),
     "N_Both parameter is required and cannot be missing.")
 })
