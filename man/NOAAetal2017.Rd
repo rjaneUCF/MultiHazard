@@ -8,7 +8,7 @@
 A data frame containing the projections with columns as follows:
 \describe{
 \item{Year}{Year of Projection (YYYY)}
-\item{VLM}{Date (YYYY-MM-DD)}
+\item{VLM}{Virtical land motion (m)}
 \item{Low}{Projections for the low emission scenario (m)}
 \item{Int.Low}{Projections for the intermediate low emission scenario (m)}
 \item{Intermediate}{Projections for the intermediate emission scenario (m)}
