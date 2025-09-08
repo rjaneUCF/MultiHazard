@@ -11,7 +11,6 @@ A data frame containing the projections with columns as follows:
 \item{VLM}{Date (YYYY-MM-DD)}
 \item{Low}{Projections for the low emission scenario (m)}
 \item{Int.Low}{Projections for the intermediate low emission scenario (m)}
-\item{Intermediate}{Projections for the intermediate emission scenario (m)}
 \item{Int.High}{Projections for the intermediate high emission scenario (m)}
 \item{High}{Projections for the high emission scenario (m)}
 }

@@ -17,7 +17,7 @@ A data frame containing the projections with columns as follows:
 U.S. Army Corps. of Engineers, via. USACE Sea Level Change Calculator: \url{http://www.corpsclimate.us/ccaceslcurves.cfm}
 }
 \usage{
-data(USACE2013.csv)
+data(USACE2013)
 }
 \description{
 U.S. Army Corps. of Engineers (USACE) 2013 sea level rise projections for Virginia Key, as provided in Engineering Regulation ER 1100-2-8162.

@@ -21,6 +21,10 @@ A data frame containing the projections with columns as follows:
 \item{X2080}{...}
 \item{X2090}{...}
 \item{X2100}{...}
+\item{X2110}{...}
+\item{X2120}{...}
+\item{X2130}{...}
+\item{X2140}{...}
 \item{X2150}{...}
 }
 }

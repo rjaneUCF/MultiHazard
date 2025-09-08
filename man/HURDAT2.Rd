@@ -12,7 +12,7 @@ A data frame with columns parsed from the fixed-width HURDAT2 format:
 \item{Spaces 7-8, before 1st comma}{Day}
 \item{Spaces 11-12}{Hours in UTC (Universal Time Coordinate)}
 \item{Spaces 13-14 (before 2nd comma)}{Minutes}
-\item{Space 17 (before 3rd comma)} {Record identifier:
+\item{Space 17 (before 3rd comma)}{Record identifier:
 \itemize{
 \item C – Closest approach to a coast, not followed by a landfall
 \item G – Genesis
@@ -24,7 +24,7 @@ A data frame with columns parsed from the fixed-width HURDAT2 format:
 \item T – Provides additional detail on the track (position) of the cyclone
 \item W – Maximum sustained wind speed}
 }
-\item{Spaces 20-21 (before 4th comma)} {Status of system. Options are:
+\item{Spaces 20-21 (before 4th comma)}{Status of system. Options are:
 \itemize{
 \item TD – Tropical cyclone of tropical depression intensity (< 34 knots)
 \item TS – Tropical cyclone of tropical storm intensity (34-63 knots)
