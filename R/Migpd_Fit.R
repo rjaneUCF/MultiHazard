@@ -16,7 +16,9 @@
 #' @export
 #' @examples
 #' #With date as first column
-#' S22.GPD<-Migpd_Fit(Data=S22.Detrend.Declustered.df, Data_Full=S22.Detrend.df, mqu =c(0.99,0.99,0.99))
+#' S22.GPD<-Migpd_Fit(Data=S22.Detrend.Declustered.df,
+#'                    Data_Full=S22.Detrend.df,
+#'                    mqu =c(0.99,0.99,0.99))
 #' #Same GPDs fit as above but thresholds given on the original scale
 #' S22.Rainfall.Quantile<-quantile(na.omit(S22.Detrend.Declustered.df$Rainfall),0.99)
 #' S22.OsWL.Quantile<-quantile(na.omit(S22.Detrend.Declustered.df$OsWL),0.99)

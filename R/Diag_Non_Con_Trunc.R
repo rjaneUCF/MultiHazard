@@ -103,7 +103,7 @@ Diag_Non_Con_Trunc<-function(Data,Omit=NA,x_lab="Data",y_lim_min=0,y_lim_max=1){
   if (!requireNamespace("gamlss.dist", quietly = TRUE)) {
     stop("The 'gamlss.dist' package is required but not installed.")
   }
-  GG <- get("GG", envir = asNamespace("gamlss.dist"))
+  GG <- gamlss.dist::GG #get("GG", envir = asNamespace("gamlss.dist"))
   GA <- get("GA", envir = asNamespace("gamlss.dist"))
 
   # Load density and cumulative functions safely

@@ -28,6 +28,21 @@
 #' @usage data(G_3356)
 "G_3356"
 
+#' Groundwater Levels at Well G-860
+#'
+#' Time series of daily water elevation at Well G-860.
+#'
+#' @format A data frame with 12,272 rows and 2 variables:
+#' \describe{
+#'   \item{Date}{Date of observation (YYYY-MM-DD)}
+#'   \item{Value}{Groundwater elevation (ft NGVD29)}
+#' }
+#' @source South Florida Water Management District, via
+#' [https://www.sfwmd.gov/science-data/dbhydro/](https://www.sfwmd.gov/science-data/dbhydro/)
+#'
+#' @usage data(G_860)
+"G_860"
+
 #' Groundwater Levels at Well G-580A
 #'
 #' Time series of daily water elevation at Well G-580A.
@@ -54,7 +69,7 @@
 #'    \item{Spaces 7-8, before 1st comma}{Day}
 #'    \item{Spaces 11-12}{Hours in UTC (Universal Time Coordinate)}
 #'    \item{Spaces 13-14 (before 2nd comma)}{Minutes}
-#'    \item{Space 17 (before 3rd comma)} {Record identifier:
+#'    \item{Space 17 (before 3rd comma)}{Record identifier:
 #'     \itemize{
 #'                           \item C – Closest approach to a coast, not followed by a landfall
 #'                           \item G – Genesis
@@ -66,7 +81,7 @@
 #'                           \item T – Provides additional detail on the track (position) of the cyclone
 #'                           \item W – Maximum sustained wind speed}
 #'     }
-#'    \item{Spaces 20-21 (before 4th comma)} {Status of system. Options are:
+#'    \item{Spaces 20-21 (before 4th comma)}{Status of system. Options are:
 #'     \itemize{
 #'                           \item TD – Tropical cyclone of tropical depression intensity (< 34 knots)
 #'                           \item TS – Tropical cyclone of tropical storm intensity (34-63 knots)
@@ -130,7 +145,6 @@
 #'   \item{VLM}{Date (YYYY-MM-DD)}
 #'   \item{Low}{Projections for the low emission scenario (m)}
 #'   \item{Int.Low}{Projections for the intermediate low emission scenario (m)}
-#'   \item{Intermediate}{Projections for the intermediate emission scenario (m)}
 #'   \item{Int.High}{Projections for the intermediate high emission scenario (m)}
 #'   \item{High}{Projections for the high emission scenario (m)}
 #' }
@@ -180,6 +194,10 @@
 #'   \item{X2080}{...}
 #'   \item{X2090}{...}
 #'   \item{X2100}{...}
+#'   \item{X2110}{...}
+#'   \item{X2120}{...}
+#'   \item{X2130}{...}
+#'   \item{X2140}{...}
 #'   \item{X2150}{...}
 #' }
 #' @source NOAA National Ocean Service, via [https://oceanservice.noaa.gov/hazards/sealevelrise](https://oceanservice.noaa.gov/hazards/sealevelrise)
@@ -328,14 +346,34 @@
 #'   \item{Date}{Date of observation (YYYY-MM-DD)}
 #'   \item{Value}{Raw time series (ft NGVD29)}
 #'   \item{Value_Filled}{Raw times series with missing values in-filled using record at structure S-21A_T (ft NGVD29)}
-#'   \item{Detrended}{Detrended time series (ft NGVD29)}
+#'   \item{Detrend}{Detrended time series (ft NGVD29)}
 #'   \item{Declustered}{Declustered time series (ft NGVD29)}
 #' }
 #'
 #' @source South Florida Water Management District: \url{https://www.sfwmd.gov/science-data/dbhydro/}
 #'
-#' @usage data(S22.Detrend.Declustered.df)
+#' @usage data(S20_T_MAX_Daily_Completed_Detrend_Declustered)
 "S20_T_MAX_Daily_Completed_Detrend_Declustered"
+
+#' Declustered Time Series of the Ocean-side Water Level at control structure S-20
+#'
+#' Declustered Time Series of the Ocean-side Water Level at control structure S-20.
+#' Declustering is implemented using a peaks-over-threshold approach (runs method with a 0.98 quantile threshold and a 3-day separation criterion).
+#'
+#' @format A data frame with XX rows and 4 variables:
+#' \describe{
+#'   \item{X}{Index}
+#'   \item{Date}{Date of observation (YYYY-MM-DD)}
+#'   \item{Value}{Raw time series (ft NGVD29)}
+#'   \item{Value_Filled}{Raw times series with missing values in-filled using record at structure S-21A_T (ft NGVD29)}
+#'   \item{Detrend}{Detrended time series (ft NGVD29)}
+#'   \item{Declustered}{Declustered time series (ft NGVD29)}
+#' }
+#'
+#' @source South Florida Water Management District: \url{https://www.sfwmd.gov/science-data/dbhydro/}
+#'
+#' @usage data(S22_T_MAX_Daily_Completed)
+"S22_T_MAX_Daily_Completed"
 
 #' Declustered Time Series for Case Study Site S-22 in Jane et al. (2020)
 #'
@@ -401,6 +439,10 @@
 #'   \item{X2080}{...}
 #'   \item{X2090}{...}
 #'   \item{X2100}{...}
+#'   \item{X2110}{...}
+#'   \item{X2120}{...}
+#'   \item{X2130}{...}
+#'   \item{X2140}{...}
 #'   \item{X2150}{...}
 #' }
 #' @source Interagency Sea Level Rise Scenario Tool (PSMSL ID 1106 – Fort Myers), accessed via the National Sea Level Explorer.
@@ -422,5 +464,5 @@
 #' }
 #' @source U.S. Army Corps. of Engineers, via. USACE Sea Level Change Calculator: \url{http://www.corpsclimate.us/ccaceslcurves.cfm}
 #'
-#' @usage data(USACE2013.csv)
+#' @usage data(USACE2013)
 "USACE2013"
