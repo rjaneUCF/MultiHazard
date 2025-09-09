@@ -239,11 +239,11 @@ Use the `Dataframe_Combine()` function to create data frames containing all obse
 S20.Detrend.df<-Dataframe_Combine(data.1<-S20.Rainfall.df,
                                   data.2<-S20.OsWL.Detrend.df,
                                   data.3<-S20.Groundwater.Detrend.df,
-                                  names=c("Rainfall","OsWL","Groundwater"))
+                                  names=c("Rainfall","OsWL","Groundwater"), n=3)
 S20.Detrend.Declustered.df<-Dataframe_Combine(data.1<-S20.Rainfall.Declustered.df,
                                               data.2<-S20.OsWL.Detrend.Declustered.df,
                                               data.3<-S20.Groundwater.Detrend.Declustered.df,
-                                              names=c("Rainfall","OsWL","Groundwater"))
+                                              names=c("Rainfall","OsWL","Groundwater"), n=3)
 ```
 
 The package contains two other declustering functions. The `Decluster_SW()` function declusters a time series via a storm window approach. A moving window of length (`Window_Width`) is moved over the time series, if the maximum value is located at the center of the window then the value is considered a peak and retained, otherwise it is set equal to NA. For a seven day window at S20:
