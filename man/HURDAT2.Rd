@@ -7,32 +7,7 @@
 \format{
 A data frame with columns parsed from the fixed-width HURDAT2 format:
 \describe{
-\item{Spaces 1-4}{Year}
-\item{Spaces 5-6}{Month}
-\item{Spaces 7-8, before 1st comma}{Day}
-\item{Spaces 11-12}{Hours in UTC (Universal Time Coordinate)}
-\item{Spaces 13-14 (before 2nd comma)}{Minutes}
-\item{Space 17 (before 3rd comma)}{Record identifier: C-Closest approach to a coast, not followed by a landfall, G – Genesis, vI – An intensity peak in terms of both pressure and wind, L – Landfall (center of system crossing a coastline), P – Minimum in central pressure, R – Provides additional detail on the intensity of the cyclone when rapid changes are underway, S – Change of status of the system, T – Provides additional detail on the track (position) of the cyclone, W – Maximum sustained wind speed}
-\item{Spaces 20-21 (before 4th comma)}{Status of system. Options are: TD – Tropical cyclone of tropical depression intensity (< 34 knots), TS – Tropical cyclone of tropical storm intensity (34-63 knots), HU – Tropical cyclone of hurricane intensity (> 64 knots), EX – Extratropical cyclone (of any intensity), SD – Subtropical cyclone of subtropical depression intensity (< 34 knots), SS – Subtropical cyclone of subtropical storm intensity (> 34 knots), LO – A low that is neither a tropical cyclone, a subtropical cyclone, nor an extratropical cyclone (of any intensity), WV – Tropical Wave (of any intensity), DB – Disturbance (of any intensity)}
-\item{Spaces 24-27}{Latitude}
-\item{Space 28 (before 5th comma)}{Hemisphere – North or South}
-\item{Spaces 31-35}{Longitude}
-\item{Space 36 (before 6th comma)}{Hemisphere – West or East}
-\item{Spaces 39-41 (before 7th comma)}{Maximum sustained wind (in knots)}
-\item{Spaces 44-47 (before 8th comma)}{Minimum Pressure (in millibars)}
-\item{Spaces 50-53 (before 9th comma)}{34 kt wind radii maximum extent in northeastern quadrant (in nautical miles)}
-\item{Spaces 56-59 (before 10th comma)}{34 kt wind radii maximum extent in southeastern quadrant (in nautical miles)}
-\item{Spaces 62-65 (before 11th comma)}{34 kt wind radii maximum extent in southwestern quadrant (in nautical miles)}
-\item{Spaces 68-71 (before 12th comma)}{34 kt wind radii maximum extent in northwestern quadrant (in nautical miles)}
-\item{Spaces 74-77 (before 13th comma)}{50 kt wind radii maximum extent in northeastern quadrant (in nautical miles)}
-\item{Spaces 80-83 (before 14th comma)}{50 kt wind radii maximum extent in southeastern quadrant (in nautical miles)}
-\item{Spaces 86-89 (before 15th comma)}{50 kt wind radii maximum extent in southwestern quadrant (in nautical miles)}
-\item{Spaces 92-95 (before 16th comma)}{50 kt wind radii maximum extent in northwestern quadrant (in nautical miles)}
-\item{Spaces 98-101 (before 17th comma)}{64 kt wind radii maximum extent in northeastern quadrant (in nautical miles)}
-\item{Spaces 104-107 (before 18th comma)}{64 kt wind radii maximum extent in southeastern quadrant (in nautical miles)}
-\item{Spaces 110-113 (before 19th comma)}{64 kt wind radii maximum extent in southwestern quadrant (in nautical miles)}
-\item{Spaces 116-119 (before 20th comma)}{64 kt wind radii maximum extent in northwestern quadrant (in nautical miles)}
-\item{Spaces 122-125}{Radius of Maximum Wind (in nautical miles)}
+\item{V1}{See \url{https://www.nhc.noaa.gov/data/hurdat/hurdat2-format-atl-1851-2021.pdf} for description.}
 }
 }
 \source{
