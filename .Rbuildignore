@@ -5,3 +5,4 @@
 ^README_files$
 ^data-raw$
 ^joss-submission$
+^\.github$
