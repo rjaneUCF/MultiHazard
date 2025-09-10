@@ -315,6 +315,7 @@
 #' \describe{
 #'   \item{Date}{Date of observation (YYYY-MM-DD)}
 #'   \item{ValueFilled}{Raw times series with missing values in-filled using record at structure S-21A_T (ft NGVD29)}
+#'   \item{Detrend}{Detrended time series (ft NGVD29)}
 #' }
 #'
 #' @source South Florida Water Management District: \url{https://www.sfwmd.gov/science-data/dbhydro/}
