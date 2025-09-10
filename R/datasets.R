@@ -32,7 +32,7 @@
 #'
 #' Time series of daily water elevation at Well G-860.
 #'
-#' @format A data frame with 12,272 rows and 2 variables:
+#' @format A data frame with 16,507 rows and 2 variables:
 #' \describe{
 #'   \item{Date}{Date of observation (YYYY-MM-DD)}
 #'   \item{Value}{Groundwater elevation (ft NGVD29)}
@@ -47,7 +47,7 @@
 #'
 #' Time series of daily water elevation at Well G-580A.
 #'
-#' @format A data frame with XX rows and 2 variables:
+#' @format A data frame with 12,301 rows and 2 variables:
 #' \describe{
 #'   \item{Date}{Date of observation (YYYY-MM-DD)}
 #'   \item{Value}{Groundwater elevation (ft NGVD29)}
@@ -76,7 +76,7 @@
 #'
 #' Time series of daily rainfall totals from the gauge at Miami International Airport, FL (Network:ID	GHCND:USW00012839).
 #'
-#' @format A data frame with XX rows and 2 variables:
+#' @format A data frame with 25,959 rows and 2 variables:
 #' \describe{
 #'   \item{X}{Index}
 #'   \item{Date}{Date of observation (YYYY-MM-DD)}
@@ -88,9 +88,9 @@
 #' @usage data(Miami_Airport_df)
 "Miami_Airport_df"
 
-#' 2012 NOAA Sea Level Rise Projections for Virginia Key
+#' 2012 NOAA Sea Level Rise Projections for Miami Beach
 #'
-#' Sea level rise projections for Virginia Key under four emission scenarios from NOAA Technical Report OAR CPO-1 (2012).
+#' Sea level rise projections for Miami Beach under four emission scenarios from NOAA Technical Report OAR CPO-1 (2012).
 #'
 #' @format A data frame containing the projections with columns as follows:
 #' \describe{
@@ -106,9 +106,9 @@
 #' @usage data(NOAAetal2012)
 "NOAAetal2012"
 
-#' 2017 NOAA Sea Level Rise Projections for Virginia Key
+#' 2017 NOAA Sea Level Rise Projections for Miami Beach
 #'
-#' Sea level rise projections for Virginia Key derived from NOAA Technical Report NOS CO-OPS 083 (2017). The report defines six global mean sea level rise scenarios, which are regionally downscaled on a 1-degree grid covering U.S. coastlines.
+#' Sea level rise projections for Miami Beach derived from NOAA Technical Report NOS CO-OPS 083 (2017). The report defines six global mean sea level rise scenarios, which are regionally downscaled on a 1-degree grid covering U.S. coastlines.
 #'
 #' @format A data frame containing the projections with columns as follows:
 #' \describe{
@@ -128,7 +128,7 @@
 
 #' 2022 NOAA Global and Regional Sea Level Rise Scenarios for the United States
 #'
-#' Probabilistic sea level rise scenarios for Virginia Key from given in NOAA Technical Report NOS 01. In the report, five global mean sea level rise scenarios are used to derive probabilistic regional RSL responses on a 1-degree grid covering the coastlines of the U.S. mainland.
+#' Probabilistic sea level rise scenarios for Miami Beach from given in NOAA Technical Report NOS 01. In the report, five global mean sea level rise scenarios are used to derive probabilistic regional RSL responses on a 1-degree grid covering the coastlines of the U.S. mainland.
 #'
 #' @format A data frame containing the projections with columns as follows:
 #' \describe{
@@ -201,7 +201,7 @@
 #'
 #' Time series of daily rainfall totals from the gauge at Perrine 4W, FL (Network:ID GHCND:USC00087020).
 #'
-#' @format A data frame with XX rows and 2 variables:
+#' @format A data frame with 22,100 rows and 2 variables:
 #' \describe{
 #'   \item{Date}{Date of observation (YYYY-MM-DD)}
 #'   \item{Value}{Rainfall totals (inches)}
@@ -216,7 +216,7 @@
 #'
 #' Hourly time series of rainfall totals and ocean-side water levels (tailwater levels) measured at control structure S-13. The O-sWLs are detrended using a 3-month moving window.
 #'
-#' @format A data frame with XX rows and 3 variables:
+#' @format A data frame with 281,846 rows and 3 variables:
 #' \describe{
 #'   \item{Date_Time}{Time of observation (YYYY-MM-DD HH:MM:SS)}
 #'   \item{Rainfall}{Rainfall totals (inches)}
@@ -233,7 +233,7 @@
 #'
 #' Hourly time series of rainfall totals from the gauge at control structure S-13.
 #'
-#' @format A data frame with XX rows and 2 variables:
+#' @format A data frame with 281,846 rows and 2 variables:
 #' \describe{
 #'   \item{Date_Time}{Time of observation (YYYY-MM-DD HH:MM:SS)}
 #'   \item{Rainfall}{Rainfall totals (inches)}
@@ -250,7 +250,7 @@
 #' All time series were declustered using a peaks-over-threshold approach (runs method with a 0.98 quantile threshold and a 3-day separation criterion).
 #' Ocean-side water levels and groundwater levels were each detrended using a 3-month moving average window prior to declustering.
 #'
-#' @format A data frame with XX rows and 4 variables:
+#' @format A data frame with 22,100 rows and 4 variables:
 #' \describe{
 #'   \item{Date}{Date of observation (YYYY-MM-DD)}
 #'   \item{Rainfall}{Rainfall totals (inches)}
@@ -271,7 +271,7 @@
 #' Time series of rainfall totals from the Perrine 4W gauge, ocean-side water levels at control structure S-20, and groundwater at Well G-3356 (with missing values interpolated using groundwater levels at Well G-3355).
 #' Ocean-side water levels and groundwater levels were each detrended using a 3-month moving average window.
 #'
-#' @format A data frame with XX rows and 4 variables:
+#' @format A data frame with 22,100 rows and 4 variables:
 #' \describe{
 #'   \item{Date}{Date of observation (YYYY-MM-DD)}
 #'   \item{Rainfall}{Rainfall totals (inches)}
@@ -292,7 +292,7 @@
 #' Declustered Time Series of the Ocean-side Water Level at control structure S-20.
 #' Declustering is implemented using a peaks-over-threshold approach (runs method with a 0.98 quantile threshold and a 3-day separation criterion).
 #'
-#' @format A data frame with XX rows and 4 variables:
+#' @format A data frame with 18,320 rows and 5 variables:
 #' \describe{
 #'   \item{X}{Index}
 #'   \item{Date}{Date of observation (YYYY-MM-DD)}
@@ -311,7 +311,7 @@
 #'
 #' Time Series of the Ocean-side Water Level at control structure S-22.
 #'
-#' @format A data frame with XX rows and 4 variables:
+#' @format A data frame with 12,137 rows and 4 variables:
 #' \describe{
 #'   \item{Date}{Date of observation (YYYY-MM-DD)}
 #'   \item{ValueFilled}{Raw times series with missing values in-filled using record at structure S-21A_T (ft NGVD29)}
@@ -329,7 +329,7 @@
 #' All time series were declustered using a peaks-over-threshold approach (runs method with a 0.98 quantile threshold and a 3-day separation criterion).
 #' Ocean-side water levels and groundwater levels were each detrended using a 3-month moving average window prior to declustering.
 #'
-#' @format A data frame with XX rows and 4 variables:
+#' @format A data frame with 26,067 rows and 4 variables:
 #' \describe{
 #'   \item{Date}{Date of observation (YYYY-MM-DD)}
 #'   \item{Rainfall}{Rainfall totals (inches)}
@@ -350,7 +350,7 @@
 #' Time series of rainfall totals from the Miami International Airport gauge, ocean-side water levels at control structure S-22, and groundwater at Well G-580A (with missing values interpolated using groundwater levels at Well G-860).
 #' Ocean-side water levels and groundwater levels were each detrended using a 3-month moving average window.
 #'
-#' @format A data frame with XX rows and 4 variables:
+#' @format A data frame with 25,992 rows and 4 variables:
 #' \describe{
 #'   \item{Date}{Date of observation (YYYY-MM-DD)}
 #'   \item{Rainfall}{Rainfall totals (inches)}
