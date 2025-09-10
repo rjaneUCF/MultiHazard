@@ -565,7 +565,7 @@ curve$ensemble_wt13
 
 The `return_curve_diag()` function calculates the empirical probability of observing data within the survival regions defined by a subset of points on the return curve. If the curve is a good fit, the empirical probabilities should closely match the probabilities associated with the return level curve. The procedure which is introduced in [Murphy-Barltrop et al. (2023)](https://doi.org/10.1002/env.2797) uses bootstrap resampling of the original data set to obtain confidence intervals for the empirical estimates. Since observations are required in the survival regions to estimate the empirical probabilities, it is recommended that this function be run for shorter return periods that may usually be considered for design e.g., for a 1-year return period rather than a 50-year return period. The inputs are almost identical to those of the `return_curve_est` function. The only additional arguments are `boot_method_all` which details the bootstrapping procedure - basic or block - to use when estimating the distribution of empirical (survival) probabilities from the original data set (without any declustering), `boot_replace_all` which specifies whether to sample with replacement in the case of a basic bootstrap and `block_length_all` which specifies the block length for the block bootstrap.
 
-```{r}
+```{r, , fig.width=6, fig.height=4}
 #Diagnostic plots for the return curves
 curve = return_curve_diag(data=S22.Detrend.df.extended[,1:3],
                           q=0.985,rp=1,mu=365.25,n_sim=100,
