@@ -21,7 +21,7 @@ remotes::install_github("rjaneUCF/MultiHazard")
 
 <br>
 
-## Features:
+## Features
 
 The package contains
 functions for pre-processing data, including imputing missing values,
@@ -50,7 +50,7 @@ derive temporally coherent extreme events comprising a hyetograph and
 water level curve for simulated peak rainfall and peak sea level events,
 as outlined in (Report).
 
-## Citation:
+## Citation
 
 If you use this package, please cite:
 
@@ -68,7 +68,7 @@ to submit issues or pull requests on GitHub.
 
 <br>
 
-## Applications of package:
+## Applications of package
 
 This package has been used in several peer-reviewed publications:
 
@@ -114,4 +114,5 @@ This package has been used in several peer-reviewed publications:
 > Multivariate statistical modelling of the drivers of compound flood
 > events in South Florida, Nat. Hazards Earth Syst. Sci., 20, 2681–2699,
 > <https://doi.org/10.5194/nhess-20-2681-2020>.
+
 
