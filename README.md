@@ -50,6 +50,10 @@ derive temporally coherent extreme events comprising a hyetograph and
 water level curve for simulated peak rainfall and peak sea level events,
 as outlined in (Report).
 
+## Learn More
+
+For detailed tutorials and examples, see the package [vignette](https://github.com/rjaneUCF/MultiHazard/tree/master/vignettes)
+
 ## Citation
 
 If you use this package, please cite:
@@ -114,5 +118,6 @@ This package has been used in several peer-reviewed publications:
 > Multivariate statistical modelling of the drivers of compound flood
 > events in South Florida, Nat. Hazards Earth Syst. Sci., 20, 2681–2699,
 > <https://doi.org/10.5194/nhess-20-2681-2020>.
+
 
 
