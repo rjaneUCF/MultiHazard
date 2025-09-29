@@ -21,7 +21,7 @@ remotes::install_github("rjaneUCF/MultiHazard")
 
 <br>
 
-### Features:
+## Features:
 
 The package contains
 functions for pre-processing data, including imputing missing values,
@@ -50,7 +50,7 @@ derive temporally coherent extreme events comprising a hyetograph and
 water level curve for simulated peak rainfall and peak sea level events,
 as outlined in (Report).
 
-### Citation:
+## Citation:
 
 If you use this package, please cite:
 
@@ -68,18 +68,9 @@ to submit issues or pull requests on GitHub.
 
 <br>
 
-### Applications of package:
+## Applications of package:
 
 This package has been used in several peer-reviewed publications:
-
-Li et al. (2025) - Assessing spatial correlation of compound flooding in the US. <https://doi.org/10.5194/egusphere-2025-2993>
-Amorim et al. (2025) - Process-driven modeling of compound rainfall and storm surge in coastal Texas. Link
-Maduwantha et al. (2024) - Multivariate statistical framework for mixed storm types. Link
-Nasr et al. (2023) - Temporal changes in compound coastal and inland flooding drivers. Link
-Kim et al. (2023a) - High-resolution probabilistic design events for rainfall and storm surge. Link
-Kim et al. (2023b) - Compounding of nitrate loads and discharge. Link
-Peña et al. (2023) - Compound flooding in low elevation coastal karst environments. Link
-Jane et al. (2020) - Multivariate statistical modeling of compound flood events in South Florida. Link
 
 > Li, H., Jane, R. A., Eilander, D., Enríquez, A. R., Haer, T., and
 > Ward, P. J. (2025). Assessing the spatial correlation of potential
@@ -123,3 +114,4 @@ Jane et al. (2020) - Multivariate statistical modeling of compound flood events 
 > Multivariate statistical modelling of the drivers of compound flood
 > events in South Florida, Nat. Hazards Earth Syst. Sci., 20, 2681–2699,
 > <https://doi.org/10.5194/nhess-20-2681-2020>.
+
