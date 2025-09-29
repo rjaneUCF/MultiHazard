@@ -1,2 +1,0 @@
-#' @import gamlss.mx
-NULL
