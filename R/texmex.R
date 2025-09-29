@@ -1,2 +1,0 @@
-#' @import texmex
-NULL
