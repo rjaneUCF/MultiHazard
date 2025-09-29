@@ -64,12 +64,6 @@ If you use this package, please cite:
 
 <br>
 
-## License
-
-GPL (>=3)
-
-<br>
-
 ## Community guidelines
 
 Contributions to the `MultiHazard` package are welcome! Please feel free
@@ -123,6 +117,7 @@ This package has been used in several peer-reviewed publications:
 > Multivariate statistical modelling of the drivers of compound flood
 > events in South Florida, Nat. Hazards Earth Syst. Sci., 20, 2681–2699,
 > <https://doi.org/10.5194/nhess-20-2681-2020>.
+
 
 
 
