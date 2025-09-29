@@ -47,12 +47,11 @@ dimensional approaches — standard (elliptic/Archimedean) copulas, Pair
 Copula Constructions (PCCs) and a conditional threshold exceedance
 approach (HT04) — are coded. Finally, the package can be implemented to
 derive temporally coherent extreme events comprising a hyetograph and
-water level curve for simulated peak rainfall and peak sea level events,
-as outlined in (Report).
+water level curve for simulated peak rainfall and peak sea level events.
 
 ## Learn More
 
-For detailed tutorials and examples, see the package [vignette](https://github.com/rjaneUCF/MultiHazard/tree/master/vignettes)
+For detailed tutorials and examples, see the package [vignette](https://github.com/rjaneUCF/MultiHazard/tree/master/vignettes).
 
 ## Citation
 
@@ -62,6 +61,12 @@ If you use this package, please cite:
 > Ali, J., Maduwantha, P., Li, H., and Malagón Santos, V. (under review)
 > MultiHazard: Copula-based Joint Probability Analysis in R. Journal of
 > Open Source Software. \[under revision\]
+
+<br>
+
+## License
+
+GPL (>=3)
 
 <br>
 
@@ -118,6 +123,7 @@ This package has been used in several peer-reviewed publications:
 > Multivariate statistical modelling of the drivers of compound flood
 > events in South Florida, Nat. Hazards Earth Syst. Sci., 20, 2681–2699,
 > <https://doi.org/10.5194/nhess-20-2681-2020>.
+
 
 
 
