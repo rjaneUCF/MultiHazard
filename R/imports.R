@@ -1,4 +1,20 @@
 #' @keywords internal
+#' @import GeneralizedHyperbolic
+#' @import MASS
+#' @import RColorBrewer
+#' @import copula
+#' @import dplyr
+#' @import fitdistrplus
+#' @import grDevices
+#' @import graphics
+#' @import ks
+#' @import rmatio
+#' @import scales
+#' @import statmod
+#' @import stats
+#' @import texmex
+#' @import truncnorm
+#' @import tweedie
 #' @importFrom utils capture.output
 #' @importFrom VGAM vglm dbisa pbisa
 #' @importFrom lubridate year
