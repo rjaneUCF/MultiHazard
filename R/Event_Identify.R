@@ -1,6 +1,6 @@
 #' Event_Identify
 #' @noRd
-Event_Identify<-function(Data,Threshold=Thres,SeparationPeriod=3){  #Threshold is a quantile
+Event_Identify<-function(Data,Threshold,SeparationPeriod=3){  #Threshold is a quantile
   x.exceed<-order(Data,decreasing = TRUE)[1:length(which(Data>=Threshold))]
   x.exceed.position<-numeric(length(x.exceed))
   for(i in 1:length(x.exceed)){

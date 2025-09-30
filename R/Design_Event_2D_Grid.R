@@ -815,7 +815,7 @@ Design_Event_2D_Grid<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Th
     }
 
     if(is.null(Tab2)==F){
-      con2.y = approx(1-1/Tab2[,1],Tab2[,2],xout=u2+as.numeric(Pgrid[,2])*(((1-1/(mu*RP[k]))-u2)/max(as.numeric(unlist(xy160[[1]][3])))))$y
+      con2.y = approx(1-1/Tab2[,1],Tab2[,2],xout=u2+as.numeric(Pgrid[,2])*(((1-1/(mu*RP[k]))-u2)/max(as.numeric(Pgrid[,2]))))$y
     }
 
     #Transform the values of the conditioned variable in Data_Con2 (Con1) to the (0,1) scale using the CDF function of the selected parameteric (non-extreme value) distributions.

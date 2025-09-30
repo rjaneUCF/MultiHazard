@@ -430,14 +430,7 @@ Conditional_RP_2D<-function (Data, Data_Con1, Data_Con2, u1, u2,
     cop.sample1.non.con<-qGG(sample[,con2], mu=exp(marginal_non_con1$mu.coefficients), sigma=exp(marginal_non_con1$sigma.coefficients), nu=marginal_non_con1$nu.coefficients)
   }
   if(Marginal_Dist1=="GamMix(2)"){
-    prob.MX1 <- round(marginal_non_con1$prob[1],3)
-    prob.MX2 <- 1 - prob.MX1
-    cop.sample1.non.con<-qMX(sample[,con2], mu=list(mu1=exp(marginal_non_con1$models[[1]]$mu.coefficients), mu2=exp(marginal_non_con1$models[[2]]$mu.coefficients)),
-                             sigma=list(sigma1=exp(marginal_non_con1$models[[1]]$sigma.coefficients), sigma2=exp(marginal_non_con1$models[[2]]$sigma.coefficients)),
-                             pi = list(pi1=prob.MX1, pi2=prob.MX2), family=list(fam1="GA", fam2="GA"))
-  }
-  if(Marginal_Dist1=="GamMix(2)"){
-    xx <- seq(0, max(Data_Con3[,2])*10, 0.001)
+    xx <- seq(0, max(Data_Con2[,2])*10, 0.001)
     prob.MX1 <- round(marginal_non_con1$prob[1],3)
     prob.MX2 <- 1 - prob.MX1
     cdf.MX<-pMX(xx, mu=list(mu1=exp(marginal_non_con1$models[[1]]$mu.coefficients), mu2=exp(marginal_non_con1$models[[2]]$mu.coefficients)),
