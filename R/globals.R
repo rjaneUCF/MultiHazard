@@ -1,0 +1,17 @@
+utils::globalVariables(c(
+  "NOAA2017",
+  "NOAAetal2012",
+  "NOAAetal2017",
+  "NOAAetal2022",
+  "USACE2013",
+  "PVAL_AU2_LMOM_1",
+  "PVAL_AU2_LMOM_2",
+  "PVAL_AU2_LMOM_3",
+  "PVAL_AU2_LMOM_4",
+  "S13.oswl.sample",
+  "S13.rainfall.sample",
+  "oswl.ts.oswl",
+  "intensity.oswl",
+  "Year.Initial",
+  "past"
+))
