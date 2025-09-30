@@ -21,5 +21,5 @@
 #' @importFrom VineCopula RVineMatrix BiCopEst BiCopSim RVineSim BiCopSelect
 #' @importFrom gamlss gamlss
 #' @importFrom gamlss.mx gamlssMX dMX pMX qMX
-#' @importFrom gamlss.dist GU RU GG GA dGG pGG dGA pGA dGU pGU dRU pRU
+#' @importFrom gamlss.dist GU GG GA dGG pGG dGA pGA dGU pGU
 "_PACKAGE"
