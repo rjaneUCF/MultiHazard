@@ -47,29 +47,7 @@ License: GPL (>=3) + file LICENSE
 URL: https://rdrr.io/github/rjaneUCF/MultiHazard-R-Package/
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
-Imports: 
-    actuar,
-    akima,
-    copula,
-    dplyr,
-    fitdistrplus,
-    gamlss,
-    gamlss.dist,
-    gamlss.mx,
-    GeneralizedHyperbolic,
-    ks,
-    lubridate,
-    MASS,
-    RColorBrewer,
-    rmatio,
-    scales,
-    statmod,
-    texmex,
-    truncnorm,
-    tweedie,
-    VGAM,
-    VineCopula
+RoxygenNote: 7.3.3
 Suggests: 
     knitr,
     rmarkdown,
