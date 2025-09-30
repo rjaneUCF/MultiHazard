@@ -11,8 +11,8 @@
 #' @param x_lim_max Numeric vector of length one specifying x-axis maximum. Default is \code{NA}.
 #' @param y_lim_min Numeric vector of length one specifying y-axis minimum. Default \code{-1.0}.
 #' @param y_lim_max Numeric vector of length one specifying y-axis maximum. Default \code{1.0}.
-#' @param Upper Numeric vector specifying the element number of the \code{u1} argument for which the copula family name label to appear above the corresponding point on the Kendall's tau coefficient vs threshold plot, when conditioning on the variable in column 1. Default is \code{0}.
-#' @param Lower Numeric vector specifying the element number of the \code{u2} argument for which the copula family name label to appear below the corresponding point on the Kendall's tau coefficient vs threshold plot, when conditioning on the variable in column 2. Default is \code{0}.
+#' @param Upper Numeric vector specifying the element number of the \code{u1} argument for which the copula family name label to appear above the corresponding point on the Kendall's tau coefficient vs threshold plot, when conditioning on the variable in column 1. Default is \code{NA}.
+#' @param Lower Numeric vector specifying the element number of the \code{u2} argument for which the copula family name label to appear below the corresponding point on the Kendall's tau coefficient vs threshold plot, when conditioning on the variable in column 2. Default is \code{NA}.
 #' @param GAP Numeric vector of length one specifying the distance above or below the copula family name label appears the corresponding point on the Kendall's tau coefficient vs threshold plot. Default is \code{0.05}.
 #' @param Legend Logic vector of length one specifying whether a legend should be plotted. Default is \code{TRUE}.
 #' @param Cex_Legend Numeric vector of length one specifying the font size of the legend. Default is \code{1}.

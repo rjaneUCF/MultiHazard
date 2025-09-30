@@ -904,7 +904,7 @@ Design_Event_2D_Multi_Pop<-function(Data, Data_Con1, Data_Con2, Data_Con3, Data_
 
   #Fit the GPD to the conditioned variable con4 in Data_Con4.
   if(is.null(GPD4) & is.na(Thres4) & is.null(Tab4)){
-    Thres4<-quantile(na.omit(Data_4[,con4]),u4)
+    Thres4<-quantile(na.omit(Data_Con4[,con4]),u4)
   }
 
   if(is.null(GPD4) & GPD_Bayes & is.null(Tab4)){

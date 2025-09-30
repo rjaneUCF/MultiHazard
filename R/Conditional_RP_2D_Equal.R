@@ -294,19 +294,23 @@ Conditional_RP_2D_Equal<-function(Data, Data_Con1, Data_Con2,
     cop.sample1.non.con<-qGG(sample[,con2], mu=exp(marginal_non_con1$mu.coefficients), sigma=exp(marginal_non_con1$sigma.coefficients), nu=marginal_non_con1$nu.coefficients)
   }
   if(Marginal_Dist1=="GamMix(2)"){
+    xx <- seq(0, max(Data_Con2[,2])*10, 0.001)
     prob.MX1 <- round(marginal_non_con1$prob[1],3)
     prob.MX2 <- 1 - prob.MX1
-    cop.sample1.non.con<-qMX(sample[,con2], mu=list(mu1=exp(marginal_non_con1$models[[1]]$mu.coefficients), mu2=exp(marginal_non_con1$models[[2]]$mu.coefficients)),
-                             sigma=list(sigma1=exp(marginal_non_con1$models[[1]]$sigma.coefficients), sigma2=exp(marginal_non_con1$models[[2]]$sigma.coefficients)),
-                             pi = list(pi1=prob.MX1, pi2=prob.MX2), family=list(fam1="GA", fam2="GA"))
+    cdf.MX<-pMX(xx, mu=list(mu1=exp(marginal_non_con1$models[[1]]$mu.coefficients), mu2=exp(marginal_non_con1$models[[2]]$mu.coefficients)),
+                sigma=list(sigma1=exp(marginal_non_con1$models[[1]]$sigma.coefficients), sigma2=exp(marginal_non_con1$models[[2]]$sigma.coefficients)),
+                pi = list(pi1=prob.MX1, pi2=prob.MX2), family=list(fam1="GA", fam2="GA"))
+    cop.sample1.non.con <- approx(cdf.MX, xx, sample[,con2])$y
   }
   if(Marginal_Dist1=="GamMix(3)"){
+    xx <- seq(0, max(Data_Con2[,2])*10, 0.001)
     prob.MX1 <- round(marginal_non_con1$prob[1],3)
     prob.MX2 <- round(marginal_non_con1$prob[2],3)
     prob.MX3 <- 1 - prob.MX1 - prob.MX2
-    cop.sample1.non.con<-qMX(sample[,con2], mu=list(mu1=exp(marginal_non_con1$models[[1]]$mu.coefficients), mu2=exp(marginal_non_con1$models[[2]]$mu.coefficients), mu3=exp(marginal_non_con1$models[[3]]$mu.coefficients)),
-                             sigma=list(sigma1=exp(marginal_non_con1$models[[1]]$sigma.coefficients), sigma2=exp(marginal_non_con1$models[[2]]$sigma.coefficients), sigma3=exp(marginal_non_con1$models[[3]]$sigma.coefficients)),
-                             pi = list(pi1=prob.MX1, pi2=prob.MX2, pi3=prob.MX3), family=list(fam1="GA", fam2="GA", fam3="GA"))
+    cdf.MX<-pMX(xx, mu=list(mu1=exp(marginal_non_con1$models[[1]]$mu.coefficients), mu2=exp(marginal_non_con1$models[[2]]$mu.coefficients), mu3=exp(marginal_non_con2$models[[3]]$mu.coefficients)),
+                sigma=list(sigma1=exp(marginal_non_con1$models[[1]]$sigma.coefficients), sigma2=exp(marginal_non_con1$models[[2]]$sigma.coefficients), sigma3=exp(marginal_non_con1$models[[3]]$sigma.coefficients)),
+                pi = list(pi1=prob.MX1, pi2=prob.MX2, pi3=prob.MX3), family=list(fam1="GA", fam2="GA", fam3="GA"))
+    cop.sample1.non.con <- approx(cdf.MX, xx, sample[,con2])$y
   }
   if (Marginal_Dist1 == "Gaus") {
     cop.sample1.non.con <- qnorm(sample[, con2], mean = as.numeric(marginal_non_con1$estimate[1]),
@@ -371,19 +375,23 @@ Conditional_RP_2D_Equal<-function(Data, Data_Con1, Data_Con2,
     cop.sample2.non.con<-qGG(sample[,con1], mu=exp(marginal_non_con2$mu.coefficients), sigma=exp(marginal_non_con2$sigma.coefficients), nu=marginal_non_con2$nu.coefficients)
   }
   if(Marginal_Dist2=="GamMix(2)"){
+    xx <- seq(0, max(Data_Con1[,1])*10, 0.001)
     prob.MX1 <- round(marginal_non_con2$prob[1],3)
     prob.MX2 <- 1 - prob.MX1
-    cop.sample2.non.con<-qMX(sample[,con1], mu=list(mu1=exp(marginal_non_con2$models[[1]]$mu.coefficients), mu2=exp(marginal_non_con2$models[[2]]$mu.coefficients)),
-                             sigma=list(sigma1=exp(marginal_non_con2$models[[1]]$sigma.coefficients), sigma2=exp(marginal_non_con2$models[[2]]$sigma.coefficients)),
-                             pi = list(pi1=prob.MX1, pi2=prob.MX2), family=list(fam1="GA", fam2="GA"))
+    cdf.MX<-pMX(xx, mu=list(mu1=exp(marginal_non_con2$models[[1]]$mu.coefficients), mu2=exp(marginal_non_con2$models[[2]]$mu.coefficients)),
+                sigma=list(sigma1=exp(marginal_non_con2$models[[1]]$sigma.coefficients), sigma2=exp(marginal_non_con2$models[[2]]$sigma.coefficients)),
+                pi = list(pi1=prob.MX1, pi2=prob.MX2), family=list(fam1="GA", fam2="GA"))
+    cop.sample2.non.con <- approx(cdf.MX, xx, sample[,con1])$y
   }
   if(Marginal_Dist2=="GamMix(3)"){
+    xx <- seq(0, max(Data_Con1[,1])*10, 0.001)
     prob.MX1 <- round(marginal_non_con2$prob[1],3)
     prob.MX2 <- round(marginal_non_con2$prob[2],3)
     prob.MX3 <- 1 - prob.MX1 - prob.MX2
-    cop.sample2.non.con<-qMX(sample[,con1], mu=list(mu1=exp(marginal_non_con2$models[[1]]$mu.coefficients), mu2=exp(marginal_non_con2$models[[2]]$mu.coefficients), mu3=exp(marginal_non_con2$models[[3]]$mu.coefficients)),
-                             sigma=list(sigma1=exp(marginal_non_con2$models[[1]]$sigma.coefficients), sigma2=exp(marginal_non_con2$models[[2]]$sigma.coefficients), sigma3=exp(marginal_non_con2$models[[3]]$sigma.coefficients)),
-                             pi = list(pi1=prob.MX1, pi2=prob.MX2, pi3=prob.MX3), family=list(fam1="GA", fam2="GA", fam3="GA"))
+    cdf.MX<-pMX(xx, mu=list(mu1=exp(marginal_non_con2$models[[1]]$mu.coefficients), mu2=exp(marginal_non_con2$models[[2]]$mu.coefficients), mu3=exp(marginal_non_con2$models[[3]]$mu.coefficients)),
+                sigma=list(sigma1=exp(marginal_non_con2$models[[1]]$sigma.coefficients), sigma2=exp(marginal_non_con2$models[[2]]$sigma.coefficients), sigma3=exp(marginal_non_con2$models[[3]]$sigma.coefficients)),
+                pi = list(pi1=prob.MX1, pi2=prob.MX2, pi3=prob.MX3), family=list(fam1="GA", fam2="GA", fam3="GA"))
+    cop.sample2.non.con <- approx(cdf.MX, xx, sample[,con1])$y
   }
   if (Marginal_Dist2 == "Gaus") {
     cop.sample2.non.con <- qnorm(sample[, con1], mean = as.numeric(marginal_non_con2$estimate[1]),
