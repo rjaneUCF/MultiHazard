@@ -18,10 +18,13 @@ Copula_Threshold_2D_Lag(
   x_lim_max = NA,
   y_lim_min = -1,
   y_lim_max = 1,
-  Upper = 0,
-  Lower = 0,
+  Upper = NA,
+  Lower = NA,
   GAP = 0.05,
-  Legend = TRUE
+  Legend = TRUE,
+  Cex_Legend = 1,
+  Cex_Axis = 1,
+  Cex_Axis_Original = 1
 )
 }
 \arguments{
@@ -51,13 +54,19 @@ Copula_Threshold_2D_Lag(
 
 \item{y_lim_max}{Numeric vector of length one specifying y-axis maximum. Default \code{1.0}.}
 
-\item{Upper}{Numeric vector specifying the element number of the \code{u1} argument for which the copula family name label to appear above the corresponding point on the Kendall's tau coefficient vs uhold plot, when conditioning on the variable in column 1. Default is \code{0}.}
+\item{Upper}{Numeric vector specifying the element number of the \code{u1} argument for which the copula family name label to appear above the corresponding point on the Kendall's tau coefficient vs uhold plot, when conditioning on the variable in column 1. Default is \code{NA}.}
 
-\item{Lower}{Numeric vector specifying the element number of the \code{u2} argument for which the copula family name label to appear below the corresponding point on the Kendall's tau coefficient vs uhold plot, when conditioning on the variable in column 2. Default is \code{0}.}
+\item{Lower}{Numeric vector specifying the element number of the \code{u2} argument for which the copula family name label to appear below the corresponding point on the Kendall's tau coefficient vs uhold plot, when conditioning on the variable in column 2. Default is \code{NA}.}
 
 \item{GAP}{Numeric vector of length one specifying the distance above or below the copula family name label appears the corresponding point on the Kendall's tau coefficient vs uhold plot. Default is \code{0.05}.}
 
 \item{Legend}{Logic vector of length one specifying whether a legend should be plotted. Default is \code{TRUE}.}
+
+\item{Cex_Legend}{Numeric vector of length one specifying the font size of the legend. Default is \code{1}.}
+
+\item{Cex_Axis}{Numeric vector of length one specifying the font size of the axes. Default is \code{1}.}
+
+\item{Cex_Axis_Original}{Numeric vector of length one specifying the font size of the values of the quantiles on the original (data) scale (i.e. second x-axis). Default is \code{1}.}
 }
 \value{
 List comprising: \itemize{
@@ -72,15 +81,18 @@ best fitting copula for the specified thresholds
 }
 when the dataset is conditioned on the variable in column 1.
 Analogous vector \code{Kendalls_Tau2}, \code{p_value_Var2}, \code{N_Var2} and \code{Copula_Family_Var2} for the specified thresholds when the dataset is conditioned on the variable in column 2.
+If \code{PLOT=TRUE} then a plot of the Kendall's tau correlation coefficient versus quantile threshold is also returned.
+Filled circles denote statistically significant correlation at a \code{5\%} significance level. Numbers inside the circles correspond to the sample size while the best fitting copula family is printed above.
+Numbers below x-axis are the values of the corresponding quantiles on the original (data) scale.
 }
 \description{
 Declustered excesses of a (conditioning) variable are paired with co-occurences of the other variable before the best fitting bivariate copula is selected, using \code{BiCopSelect} function in the \code{VineCopula} package, for a single or range of thresholds. The procedure is automatically repeated with the variables switched.
 }
 \examples{
-Copula_uhold_2D(Data_Detrend=S20.Detrend.df[,-c(1,4)],
-                    Data_Declust=S20.Detrend.Declustered.df[,-c(1,4)],
-                    y_lim_min=-0.075, y_lim_max =0.25,
-                    Upper=c(6,8), Lower=c(6,8),GAP=0.1)
+Copula_Threshold_2D_Lag(Data_Detrend=S20.Detrend.df[,-c(1,4)],
+                        Data_Declust=S20.Detrend.Declustered.df[,-c(1,4)],
+                        y_lim_min=-0.075, y_lim_max =0.25,
+                        Upper=c(6,8), Lower=c(6,8),GAP=0.1)
 }
 \seealso{
 \code{\link{Dataframe_Combine}}
