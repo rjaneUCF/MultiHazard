@@ -16,10 +16,10 @@
 #' @import truncnorm
 #' @import tweedie
 #' @importFrom utils capture.output
-#' @importFrom VGAM vglm dbisa pbisa bisa
-#' @importFrom lubridate year
-#' @importFrom VineCopula RVineMatrix BiCopEst BiCopSim RVineSim BiCopSelect
+#' @importFrom VGAM vglm dbisa pbisa qbisa bisa dlaplace plaplace qlaplace
+#' @importFrom lubridate year month
+#' @importFrom VineCopula RVineMatrix BiCopEst BiCopSim RVineSim BiCopSelect BiCopCDF
 #' @importFrom gamlss gamlss
 #' @importFrom gamlss.mx gamlssMX dMX pMX
-#' @importFrom gamlss.dist GU GG GA dGG pGG dGA pGA dGU pGU
+#' @importFrom gamlss.dist GU GG GA RG dGG pGG dGA pGA dGU pGU dRG qRG pRG qGU qGG qGA
 "_PACKAGE"
