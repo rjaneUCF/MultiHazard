@@ -16,7 +16,8 @@
 #' @import truncnorm
 #' @import tweedie
 #' @importFrom utils capture.output
-#' @importFrom VGAM vglm dbisa pbisa qbisa bisa dlaplace plaplace qlaplace
+#' @importFrom actuar qMx
+#' @importFrom VGAM Coef vglm dbisa pbisa qbisa bisa dlaplace plaplace qlaplace
 #' @importFrom lubridate year month
 #' @importFrom VineCopula RVineMatrix BiCopEst BiCopSim RVineSim BiCopSelect BiCopCDF
 #' @importFrom gamlss gamlss
