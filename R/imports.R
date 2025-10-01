@@ -2,7 +2,6 @@
 #' @import GeneralizedHyperbolic
 #' @import MASS
 #' @import RColorBrewer
-#' @import dplyr
 #' @import fitdistrplus
 #' @import grDevices
 #' @import graphics
@@ -14,6 +13,7 @@
 #' @import texmex
 #' @import truncnorm
 #' @import tweedie
+#' @importFrom dplyr left_join
 #' @importFrom copula pobs fitCopula normalCopula tCopula gumbelCopula claytonCopula frankCopula dCopula pCopula rCopula
 #' @importFrom utils capture.output
 #' @importFrom VGAM Coef vglm dbisa pbisa qbisa bisa dlaplace plaplace qlaplace
