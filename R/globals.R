@@ -12,6 +12,5 @@ utils::globalVariables(c(
   "S13.rainfall.sample",
   "oswl.ts.oswl",
   "intensity.oswl",
-  "Year.Initial",
-  "past"
+  "Year.Initial"
 ))
