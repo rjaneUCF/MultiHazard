@@ -2,7 +2,6 @@
 #' @import GeneralizedHyperbolic
 #' @import MASS
 #' @import RColorBrewer
-#' @import copula
 #' @import dplyr
 #' @import fitdistrplus
 #' @import grDevices
@@ -15,6 +14,7 @@
 #' @import texmex
 #' @import truncnorm
 #' @import tweedie
+#' @importFrom copula pobs fitCopula normalCopula tCopula gumbelCopula claytonCopula frankCopula dCopula pCopula rCopula
 #' @importFrom utils capture.output
 #' @importFrom VGAM Coef vglm dbisa pbisa qbisa bisa dlaplace plaplace qlaplace
 #' @importFrom lubridate year month
