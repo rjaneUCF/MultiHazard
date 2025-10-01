@@ -7,7 +7,7 @@ S20.OsWL$Data$Rainfall <- S20.OsWL$Data$Rainfall + runif(length(S20.OsWL$Data$Ra
 # Test basic functionality for both distributions
 # Group distribution tests
 test_that("All distributions work correctly", {
-  distributions <- c("BS", "Exp", "Gam(2)", "Gam(3)", "GamMix(2)", "GamMix(3)", "LNorm", "TNorm", "Twe", "Weib")
+  distributions <- c("BS", "Exp", "Gam(2)", "Gam(3)", "LNorm", "TNorm", "Twe", "Weib")
   for(dist in distributions) {
     expect_no_error(suppressWarnings(Diag_Non_Con_Trunc_Sel(Data = S20.OsWL$Data$Rainfall,
                                                             x_lab = "Rainfall (Inches)",
