@@ -58,7 +58,6 @@ Design_Event_2D_Multi_Pop(
   Grid_x_interval = NA,
   Grid_y_interval = NA,
   RP,
-  Interval = 10000,
   x_lab = "Rainfall (mm)",
   y_lab = "O-sWL (mNGVD 29)",
   x_lim_min = NA,
@@ -178,8 +177,6 @@ Design_Event_2D_Multi_Pop(
 \item{Grid_y_interval}{Numeric vector of length one specifying the resolution of the grid in terms of the variable in second column of \code{Date}. Default is an interval \code{0.1} of between consecutive values.}
 
 \item{RP}{Numeric vector specifying the return periods of interest.}
-
-\item{Interval}{Numeric vector specifying the number of equally spaced points comprising the combined isoline.}
 
 \item{x_lab}{Character vector specifying the x-axis label.}
 

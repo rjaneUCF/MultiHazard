@@ -52,14 +52,14 @@ Implements the version of the conditional multivariate approach of Heffernan and
 }
 \examples{
 #Fit GPD marginal distributions above the threshold
-S22_GPD<-Migpd_Fit(Data=S20.Detrend.Declustered.df[,-1],
+S20_GPD<-Migpd_Fit(Data=S20.Detrend.Declustered.df[,-1],
                      Data_Full=S20.Detrend.Declustered.df[,-1],
                      mqu =c(0.99,0.99,0.99))
 #Fitting and simulating from the Heffernan and Tawn (2004) model
-HT04_Lag(data_Detrend_Dependence_df = S22.Detrend.df,
-     data_Detrend_Declustered_df = S22.Detrend.Declustered.df,
+HT04_Lag(data_Detrend_Dependence_df = S20.Detrend.df,
+     data_Detrend_Declustered_df = S20.Detrend.Declustered.df,
      Lags = matrix(c(NA,0,1,NA,0,1,NA,0,NA),nrow=3,byrow = T),
-     Migpd = S22_GPD, u_Dependence=0.7,Margins = "gumbel")
+     Migpd = S20_GPD, u_Dependence=0.7,Margins = "gumbel")
 }
 \seealso{
 \code{\link{Dataframe_Combine}} \code{\link{Decluster}} \code{\link{GPD_Fit}} \code{\link{Migpd_Fit}}
