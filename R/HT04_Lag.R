@@ -10,7 +10,7 @@
 #' \item 1 - Continuous sequence of dates spanning the first to the final time of any of the variables are recorded.
 #' \item 2:(n+1) - Declustered and if necessary detrended values of the variables to be modelled.
 #' }
-#' @param Lags Matrix specifying the lags. The no lag i.e. \code{0} lag cases need to be specified. Row n denotes the lags applied to the variable in the nth column of \code{data_Detrend_Dependence_df}. Column n corresponds to the nth largest lag applied to any variable. Default is \code{matrix(c(NA,0,1,NA,0,1,NA,0,NA),nrow=3,byrow = T)}, which corresponds to a lag of 1 being applied to variables in the first and second columns of \code{data_Detrend_Dependence_df} and no lag being applied to the variable in the third column of \code{data_Detrend_Dependence_df}.
+#' @param Lags Matrix specifying the lags. The no lag i.e. \code{0} lag cases need to be specified. Row n denotes the lags applied to the variable in the nth column of \code{data_Detrend_Dependence_df}. Column n corresponds to the nth largest lag applied to any variable. Default is \code{matrix(c(NA,0,1,NA,0,1,NA,0,NA),nrow=3,byrow = TRUE)}, which corresponds to a lag of 1 being applied to variables in the first and second columns of \code{data_Detrend_Dependence_df} and no lag being applied to the variable in the third column of \code{data_Detrend_Dependence_df}.
 #' @param u_Dependence Dependence quantile. Specifies the (sub-sample of) data to which the dependence model is fitted, that for which the conditioning variable exceeds the threshold associated with the prescribed quantile. Default is \code{0.7}, thus the dependence parameters are estimated using the data with the highest \code{30\%} of values of the conditioning variables.
 #' @param Migpd An \code{Migpd} object, containing the parameterized Pareto models fitted (independently) to each of the variables.
 #' @param mu Numeric vector of length one specifying the (average) occurrence frequency of events in \code{data_Detrend_Dependence_df}. Default is \code{365.25}, daily data.
@@ -29,7 +29,7 @@
 #' #Fitting and simulating from the Heffernan and Tawn (2004) model
 #' HT04_Lag(data_Detrend_Dependence_df = S20.Detrend.df,
 #'      data_Detrend_Declustered_df = S20.Detrend.Declustered.df,
-#'      Lags = matrix(c(NA,0,1,NA,0,1,NA,0,NA),nrow=3,byrow = T),
+#'      Lags = matrix(c(NA,0,1,NA,0,1,NA,0,NA),nrow=3,byrow = TRUE),
 #'      Migpd = S20_GPD, u_Dependence=0.7,Margins = "gumbel")
 HT04_Lag<-function (data_Detrend_Dependence_df, data_Detrend_Declustered_df, Lags, u_Dependence, Migpd, mu = 365.25, N = 100, Margins = "gumbel",V = 10, Maxit = 10000){
 
