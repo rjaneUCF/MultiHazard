@@ -22,7 +22,7 @@ Dataframe \code{$AIC} giving the AIC associated with each distribution and the n
 }
 \description{
 Fits two (unbounded) non-extreme marginal distributions to a dataset and returns three plots demonstrating their relative goodness of fit.
-The distributions are the Laplace \code{"Lapl"}, Logistic \code{"Logis"}, Gaussian \code{"Gaus"}, Gumbel \code{"Gum"} and the reverse Gumbel \code{"RGum"}.
+The distributions are the Gaussian \code{"Gaus"}, Gumbel \code{"Gum"}, Laplace \code{"Lapl"}, Logistic \code{"Logis"} and the reverse Gumbel \code{"RGum"}.
 }
 \examples{
 S20.Rainfall<-Con_Sampling_2D(Data_Detrend=S20.Detrend.df[,-c(1,4)],

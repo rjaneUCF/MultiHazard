@@ -13,7 +13,7 @@ Vine_Copula_Fit(Data)
 List comprising the vine copula \code{Structure}, pair-copula families composing the C- or D-vine copula \code{Family}, its parameters \code{Par} and \code{Par2}.
 }
 \description{
-Fit either a C- or D-vine copula model. Function is a repackaging the \code{RVineStructureSelect} and \code{RVineCopSelect} functions from the \code{VineCopula} package into a single function.
+Fit either a C- or D-vine copula model. Function is a repackaging the \code{RVineStructureSelect} and \code{RVineCopSelect} functions from the \code{RVine} package into a single function.
 }
 \examples{
 S20.Vine<-Vine_Copula_Fit(Data=S20.Detrend.df)

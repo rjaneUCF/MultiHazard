@@ -20,7 +20,7 @@ WL_Curve(
 \arguments{
 \item{Data}{A data frame of the time series with the column containing ocean-side water levels labeled \code{"OsWL"}.}
 
-\item{Cluster_Max}{Numeric vector containing indexes of peaks in the O-sWL column of \code{Data}. If analyzing a sample conditioned on O-sWL derived using \code{Con_Sample_2D()} set equal to the \code{$xcon} output.}
+\item{Cluster_Max}{Numeric vector containing indexes of peaks in the O-sWL column of \code{Data}. If analyzing a sample conditioned on O-sWL derived using \code{Con_Sample_2D()} set equal to the \code{$x.con} output.}
 
 \item{Pre_Low}{Numeric vector of the indexes of the O-sWL column in \code{Data} containing the preceding low water level.}
 
@@ -74,7 +74,7 @@ for(i in 2:length(S13.OsWL.Declust$EventsMax-144)){
         S13.Detrend.df$OsWL[(S13.OsWL.Declust$EventsMax[i]-144):
                             (S13.OsWL.Declust$EventsMax[i]+144)])
 }
-#Superimpose the curves generated ro the four synthetic events
+#Superimpose the curves generated for the four synthetic events
 for(i in 1:4){
   lines(1:289,oswl_ts_oswl$Series[i,],col=2)
 }
