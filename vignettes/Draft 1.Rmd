@@ -1,0 +1,63 @@
+---
+title: "Untitled"
+output: powerpoint_presentation
+date: "2023-04-28"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r, include=FALSE}
+library(dplyr)
+```
+
+```{r, include=FALSE}
+COCO1_Rainfall<-read.csv("C://Users//ro327497//OneDrive - University of Central Florida//Documents//SFWMD//Naples_2023//Naples_Rain.csv")[,c(3,4)]
+colnames(COCO1_Rainfall)<-c("Date","Value")
+COCO1_Rainfall$Date<-as.Date(COCO1_Rainfall$Date,tryFormats="%m/%d/%Y")
+head(COCO1_Rainfall)
+
+Date.df<-data.frame(Date=seq.Date(as.Date("1980-01-01"),as.Date("2023-04-20"),by="day"))
+
+COCO1_Rainfall<-left_join(Date.df,COCO1_Rainfall,by="Date")
+colnames(COCO1_Rainfall)<-c("Date","Value")
+```
+## Compound flooding
+
+- Pre-conditioned
+
+- Spatial
+
+- Temporal
+
+- *Multivariate*
+
+```{r}
+knitr::include_graphics("C://Users//ro327497//OneDrive - University of Central Florida//Documents//IHE Masters//Compound_Flooding.emf")
+```
+
+## Slide with Bullets {.build} 
+
+Bullet 1
+
+Bullet 2
+
+Bullet 3
+
+## Slide with R Output
+
+Delcustering 
+
+```{r cars, echo = TRUE}
+plot(COCO1_Rainfall$Date,COCO1_Rainfall$Value)
+```
+
+the events
+
+## Slide with Plot
+
+```{r pressure}
+plot(pressure)
+```
+
