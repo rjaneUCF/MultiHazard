@@ -1,0 +1,362 @@
+---
+title: "MultiHazard: Copula-based Joint Probability Analysis"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{MultiHazard: Copula-based Joint Probability Analysis}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE, collapse = TRUE,
+  comment = "#>")
+fig.path = "../man/figures/vignette-"
+library(MultiHazard)
+library(dplyr)
+library(scales)
+library(copula)
+```
+
+# MultiHazard <img src="https://user-images.githubusercontent.com/15319503/195926656-9d3d37b5-86ab-4d4b-9e6d-3c70d5399c73.png" align="right" height="200"/>
+
+The `MultiHazard` package provides tools for stationary multivariate statistical modeling, for example, to estimate joint occurrence probabilities of MULTIple co-occurring HAZARDs. The package contains functions for pre-processing data, including imputing missing values, detrending and declustering time series as well as analyzing pairwise correlations over a range of lags. Functionality is built in to implement the conditional sampling - copula theory approach described in [Jane et al. (2020)](https://doi.org/10.5194/nhess-20-2681-2020) including the automated threshold selection method from [Solari et al. (2017)](https://doi.org/10.1002/2016WR019426). There is a function that calculates joint probability contours using the method of overlaying conditional contours given in [Bender et al. (2016)](https://doi.org/10.1080/02626667.2015.1052816) and extracts design events such as the "most likely" event or an ensemble of possible design events. The package also includes methods from [Murphy-Barltrop et al. (2023)](https://doi.org/10.1002/env.2797) and [Murphy-Barltrop et al. (2024)](https://doi.org/10.1007/s10687-024-00490-4) for deriving isolines using the [Heffernan and Tawn (2004)](https://doi.org/10.1111/j.1467-9868.2004.02050.x) [HT04] and [Wadsworth and Tawn (2013)](https://doi.org/10.3150/12-BEJ471) [WT13] models, together with a novel bootstrap procedure for quantifying sampling uncertainty in the isolines. Three higher dimensional approaches — standard (elliptic/Archimedean) copulas, Pair Copula Constructions (PCCs) and a conditional threshold exceedance approach (HT04) — are coded. Finally, the package can be implemented to derive temporally coherent extreme events comprising a hyetograph and water level curve for simulated peak rainfall and peak sea level events, as outlined in (Report).  
+
+### Citation: 
+
+>Jane, R., Wahl, T., Peña, F., Obeysekera, J., Murphy-Barltrop, C., Ali, J., Maduwantha, P., Li, H., and Malagón Santos, V. (under review) MultiHazard: Copula-based Joint Probability Analysis in R. Journal of Open Source Software. [under revision]
+
+<br>
+
+## Installation
+Install the latest version of this package by entering the following in R:
+
+```{r, eval=FALSE}
+install.packages("remotes")
+remotes::install_github("rjaneUCF/MultiHazard")
+```
+
+## 1. Introduction
+
+The `MultiHazard` package provides tools for stationary multivariate statistical modeling, for example, to estimate the joint distribution of MULTIple co-occurring HAZARDs. This document is designed to explain and demonstrate the functions contained within the package. Section 1 looks at the functions concerned with pre-processing the data including imputing missing values. Section 2 illustrates the functions for detrending and declustering time series while Section 3 introduces a function that analyzes pairwise correlations over a range of lags. Section 4 shows how the conditional sampling - copula theory approach in [Jane et al. (2020)](https://doi.org/10.5194/nhess-20-2681-2020) can be implemented including the automated threshold selection method in [Solari et al. (2017)](https://doi.org/10.1002/2016WR019426). Functions for selecting the best fitting among an array of (non-extreme, truncated and non-truncated) parametric marginal distributions, and copulas to model the dependence structure are demonstrated in this section. Section 4 also contains an explanation of the function that derives the joint probability contours according to the method of overlaying (conditional) contours given in [Bender et al. (2016)](https://doi.org/10.1080/02626667.2015.1052816), and extracts design events such as the "most likely" event or an ensemble of possible design events. Section 4 also introduces the functions that generate isolines using the methods from [Murphy-Barltrop et al. (2023)](https://doi.org/10.1002/env.2797) and [Murphy-Barltrop et al. (2024)](https://doi.org/10.1007/s10687-024-00490-4), and implements a novel bootstrap procedure for quantifying sampling uncertainty in the isolines. Section 5 introduces the functions for fitting and simulating synthetic events from three higher-dimensional approaches - standard (elliptic/Archimedean) copulas, Pair Copula Constructions (PCCs) and the conditional threshold exceedance approach of HT04. Section 6 describes a function that calculates the time for a user-specified height of sea level rise to occur under various scenarios. Lastly, Section 7 shows the simulation of temporally coherent extreme rainfall and ocean water level events.
+
+## 2. Pre-processing
+
+### Imputation
+
+Well G_3356 represents the groundwater level at Site S20, however, it contains missing values. Let's impute missing values in the record at Well G_3356 using recordings at nearby Well G_3355. First, reading in the two time series.
+
+```{r}
+#Viewing first few rows of in the groundwater level records
+head(G_3356)
+```
+
+
+```{r}
+head(G_3355)
+```
+
+
+```{r}
+#Converting Date column to "Date"" object
+G_3356$Date<-seq(as.Date("1985-10-23"), as.Date("2019-05-29"), by="day")
+G_3355$Date<-seq(as.Date("1985-08-20"), as.Date("2019-06-02"), by="day")
+#Converting column containing the readings to a "numeric"" object
+G_3356$Value<-as.numeric(as.character(G_3356$Value))
+G_3355$Value<-as.numeric(as.character(G_3355$Value))
+```
+
+Warning message confirms there are NAs in the record at Well G_3356. Before carrying out the imputation the two data frames need to be merged.
+
+```{r}
+#Merge the two dataframes by date
+GW_S20<-left_join(G_3356,G_3355,by="Date")
+colnames(GW_S20)<-c("Date","G3356","G3355")
+#Carrying out imputation
+Imp<-Imputation(Data=GW_S20,Variable="G3356",
+                x_lab="G-3355 (ft NGVD 29)", y_lab="G-3356 (ft NGVD 29)")
+```
+
+The completed record is given in the `ValuesFilled` column of the data frame outputted as the `Data` object while the linear regression model including its coefficient of determinant are given by the `model` output argument.
+
+```{r}
+head(Imp$Data)
+```
+
+```{r}
+Imp$Model
+```
+
+Are any values still NA?
+
+```{r}
+G_3356_ValueFilled_NA<-which(is.na(Imp$Data$ValuesFilled)==TRUE)
+length(G_3356_ValueFilled_NA) 
+```
+
+Linear interpolating the three remaining NAs.
+
+```{r}
+G3356_approx<-approx(seq(1,length(Imp$Data$ValuesFilled),1),Imp$Data$ValuesFilled,
+                     xout=seq(1,length(Imp$Data$ValuesFilled),1))
+Imp$Data$ValuesFilled[which(is.na(Imp$Data$ValuesFilled)==TRUE)]<-
+  G3356_approx$y[which(is.na(Imp$Data$ValuesFilled)==TRUE)]
+```
+
+### Detrending
+
+In the analysis completed O-sWL (Ocean-side Water Level) and groundwater level series are subsequently detrended. The Detrend() function uses either a linear fit covering the entire data (`Method`=`linear`) or moving average window (`Method`=`window`) of a specified length (`Window_Width`) to remove trends from a time series. The residuals are added to the final `End_Length` observations. The default `Detrend()` parameters specify a moving average (`Method`=`window`) three month window (`Window_Width`=`89`), to remove any seasonality from the time series. The default is then to add the residuals to the average of the final five years of observations (`End_Length`=`1826`) to bring the record to the present day level, accounting for the Perigean tide in the case of O-sWL. The mean of the observations over the first three months were subtracted from the values during this period before the present day (5-year) average was added. The following R code detrends the record at Well G_3356. Note the function requires a Date object and the completed series.
+
+```{r}
+#Creating a data frame with the imputed series alongside the corresponding dates 
+G_3356_Imp<-data.frame(Imp$Data$Date,Imp$Data$ValuesFilled)
+colnames(G_3356_Imp)<-c("Date","ValuesFilled")
+#Detrending
+G_3356_Detrend<-Detrend(Data=G_3356_Imp,PLOT=TRUE,x_lab="Date",
+                        y_lab="Groundwater level (ft NGVD 29)")
+```
+
+Output of the function is simply the detrended time series.
+
+```{r}
+head(G_3356_Detrend)
+```
+
+Creating a data frame containing the detrended groundwater series at site S_20 i.e. G_3356_Detrend and their corresponding dates
+
+```{r}
+S20.Groundwater.Detrend.df<-data.frame(as.Date(GW_S20$Date),G_3356_Detrend)
+colnames(S20.Groundwater.Detrend.df)<-c("Date","Groundwater")
+```
+
+### Declustering
+
+The `Decluster()` function declusters a time series using a threshold u specified as a quantile of the completed series and separation criterion `SepCrit` to ensure independent events. If `mu`=`365.25` then `SepCrit` denotes the minimum number of days readings must remain below the threshold before a new event is defined.
+
+```{r}
+G_3356.Declustered<-Decluster(Data=G_3356_Detrend,u=0.95,SepCrit=3,mu=365.25)
+```
+
+Plot showing the completed, detrended record at Well G-3356 (grey circles) along with cluster maxima (red circles) identified using a 95% threshold (green line) and three day separation criterion.
+
+```{r}
+G_3356_Imp$Detrend<-G_3356_Detrend
+plot(as.Date(G_3356_Imp$Date),G_3356_Imp$Detrend,col="Grey",pch=16,
+     cex=0.25,xlab="Date",ylab="Groundwater level (ft NGVD 29)")
+abline(h=G_3356.Declustered$Threshold,col="Dark Green")
+points(as.Date(G_3356_Imp$Date[G_3356.Declustered$EventsMax]),
+       G_3356.Declustered$Declustered[G_3356.Declustered$EventsMax],
+       col="Red",pch=16,cex=0.5)
+```
+
+Other outputs from the `Decluster()` function include the threshold on the original scale
+
+```{r}
+G_3356.Declustered$Threshold
+```
+
+and the number of events per year
+
+```{r}
+G_3356.Declustered$Rate
+```
+
+In preparation for later work, lets assign the detrended and declustered groundwater series at site S20 a name.
+
+```{r}
+S20.Groundwater.Detrend.Declustered<-G_3356.Declustered$Declustered
+```
+
+Reading in the other rainfall and O-sWL series at Site S20
+
+
+```{r}
+#Changing names of the data frames
+S20.Rainfall.df<-Perrine_df
+S20.OsWL.df<-S20_T_MAX_Daily_Completed_Detrend_Declustered[,c(1,3)]
+#Converting Date column to "Date"" object
+S20.Rainfall.df$Date<-as.Date(as.character(S20.Rainfall.df$Date), format = "%m/%d/%Y")
+S20.OsWL.df$Date<-as.Date(as.character(S20.OsWL.df$Date), format = "%m/%d/%Y")
+```
+
+Detrending and declustering the rainfall and O-sWL series at Site S20
+
+```{r}
+S20.OsWL.Detrend<-Detrend(Data=S20.OsWL.df,Method = "window",PLOT=FALSE,
+                          x_lab="Date",y_lab="O-sWL (ft NGVD 29)")
+```
+
+Creating a dataframe with the date alongside the detrended OsWL series
+
+```{r}
+S20.OsWL.Detrend.df<-data.frame(as.Date(S20.OsWL.df$Date),S20.OsWL.Detrend)
+colnames(S20.OsWL.Detrend.df)<-c("Date","OsWL")
+```
+
+Declustering rainfall and O-sWL series at site S20,
+
+```{r}
+#Declustering rainfall and O-sWL series
+S20.Rainfall.Declustered<-Decluster(Data=S20.Rainfall.df$Value,u=0.95,SepCrit=3)$Declustered
+S20.OsWL.Detrend.Declustered<-Decluster(Data=S20.OsWL.Detrend,u=0.95,SepCrit=3,mu=365.25)$Declustered
+```
+
+Creating data frames with the date alongside declustered series
+
+```{r}
+S20.OsWL.Detrend.Declustered.df<-data.frame(S20.OsWL.df$Date,S20.OsWL.Detrend.Declustered)
+colnames(S20.OsWL.Detrend.Declustered.df)<-c("Date","OsWL")
+S20.Rainfall.Declustered.df<-data.frame(S20.Rainfall.df$Date,S20.Rainfall.Declustered)
+colnames(S20.Rainfall.Declustered.df)<-c("Date","Rainfall")
+S20.Groundwater.Detrend.Declustered.df<-data.frame(G_3356$Date,S20.Groundwater.Detrend.Declustered)
+colnames(S20.Groundwater.Detrend.Declustered.df)<-c("Date","Groundwater")
+```
+
+Use the `Dataframe_Combine()` function to create data frames containing all observations of the original, detrended if necessary, and declustered time series. On dates where not all variables are observed, missing values are assigned NA.
+
+```{r}
+S20.Detrend.df<-Dataframe_Combine(data.1<-S20.Rainfall.df,
+                                  data.2<-S20.OsWL.Detrend.df,
+                                  data.3<-S20.Groundwater.Detrend.df,
+                                  names=c("Rainfall","OsWL","Groundwater"), n=3)
+S20.Detrend.Declustered.df<-Dataframe_Combine(data.1<-S20.Rainfall.Declustered.df,
+                                              data.2<-S20.OsWL.Detrend.Declustered.df,
+                                              data.3<-S20.Groundwater.Detrend.Declustered.df,
+                                              names=c("Rainfall","OsWL","Groundwater"), n=3)
+```
+
+The package contains two other declustering functions. The `Decluster_SW()` function declusters a time series via a storm window approach. A moving window of length (`Window_Width`) is moved over the time series, if the maximum value is located at the center of the window then the value is considered a peak and retained, otherwise it is set equal to NA. For a seven day window at S20:
+  
+```{r}
+S20.Rainfall.Declustered.SW<-Decluster_SW(Data=S20.Rainfall.df,Window_Width=7)
+```
+
+Plotting the original and detrended series:
+  
+```{r}
+plot(S20.Rainfall.df$Date,S20.Rainfall.df$Value,pch=16,cex=0.5,
+     xlab="Date",ylab="Total daily rainfall (Inches)")
+#points(S20.Rainfall.df$Date,S20.Rainfall.Declustered.SW$Declustered,pch=16,col=2,cex=0.5)
+```
+
+
+Repeating the analysis for the O-sWL with a 3-day window.
+
+```{r}
+S20.OsWL.Declustered.SW<-Decluster_SW(Data=S20.OsWL.df,Window_Width=3)
+```
+
+The `Decluster_S_SW()` function declusters a summed time series via a storm window approach. First a moving window of width (`Window_Width_Sum`) travels across the data and each time the values are summed. As with the `Decluster_SW()` function a moving window of length `(Window_Width`) is then moved over the time series, if the maximum value in a window is located at its center then the value considered a peak and retained, otherwise it is set equal to NA. To decluster weekly precipitation totals using a seven day storm window at S20:
+  
+```{r}
+#Declustering
+S20.Rainfall.Declustered.S.SW<-Decluster_S_SW(Data=S20.Rainfall.df, 
+                                              Window_Width_Sum=7, Window_Width=7)
+#First twenty values of the weekly totals
+S20.Rainfall.Declustered.S.SW$Totals[1:20]
+```
+
+```{r}
+#First ten values of the declustered weekly totals
+S20.Rainfall.Declustered.S.SW$Declustered[1:20]
+```
+
+Plotting the original and detrended series:
+  
+```{r}
+plot(S20.Rainfall.df$Date,S20.Rainfall.Declustered.S.SW$Totals,pch=16,cex=0.5,
+     xlab="Date",ylab="Total weekly rainfall (Inches)")
+points(S20.Rainfall.df$Date,S20.Rainfall.Declustered.S.SW$Declustered,pch=16,col=2,cex=0.5)
+```
+
+#### Fit GPD
+
+The `GPD_Fit()` function fits a generalized Pareto distribution (GPD) to observations above a threshold u, specified as a quantile of the completed time series. To fit the distribution the `GPD_Fit()` function requires the declustered series as its Data argument and the entire completed series, detrended if necessary, as its `Data_Full` argument. The completed series is required to calculate the value on the original scale corresponding to u. If `PLOT=TRUE` then diagnostic plots are produced to allow an assessment of the fit.
+
+```{r}
+GPD_Fit(Data=S20.Detrend.Declustered.df$Rainfall,Data_Full=na.omit(S20.Detrend.df$Rainfall),
+        u=0.997,PLOT=TRUE,xlab_hist="Rainfall (Inches)",y_lab="Rainfall (Inches)")
+```
+
+#### Solari (2017) automated threshold selection
+
+[Solari et al. (2017)](https://doi.org/10.1002/2016WR019426) proposes a methodology for automatic threshold estimation, based on an EDF-statistic and a goodness of fit test to test the null hypothesis that exceedances of a high threshold come from a GPD distribution.
+
+EDF-statistics measure the distance between the empirical distribution $F_n$ obtained from the sample and the parametric distribution $F(x)$. The Anderson Darling $A^2$ statistic is an EDF-statistic, which assigns more weight to the tails of the data than similar measures. [Sinclair et al. (1990)](https://doi.org/10.1080/03610929008830405) proposed the right-tail weighted Anderson Darling statistic $A_R^2$ which allocates more weight to the upper tail and less to the lower tail of the distribution than $A^2$ and is given by:
+  $${A}_{R}^{2}= -\frac{n}{2} -  \sum\_{i=1}^{n} \left\[\left(2-\frac{(2i-1)}{n}\right)\text{log}(1-z\_{i})+2z\_{i}\right\] $$
+  where $z=F(x)$ and $n$ is the sample size. The approach in [Solari et al. (2017)](https://doi.org/10.1002/2016WR019426) is implemented as follows:
+  
+  1.  A time series is declustered using the storm window approach to identify independent peaks.
+2.  Candidate thresholds are defined by ordering the peaks and removing any repeated values. A GPD is fit to all the peaks above each candidate threshold. The right-tail weighted Anderson-Darling statistic $A_R^2$ and its corresponding p-value are calculated for each threshold.
+3.  The threshold that minimizes one minus the p-value is then selected.
+
+The `GPD_Threshold_Solari()` function carries out these steps.
+
+```{r}
+S20.Rainfall.Solari<-GPD_Threshold_Solari(Event=S20.Rainfall.Declustered.SW$Declustered,
+                                          Data=S20.Detrend.df$Rainfall)
+```
+
+The optimum threshold according to the Solari approach is
+
+```{r}
+S20.Rainfall.Solari$Candidate_Thres
+```
+
+```{r}
+Rainfall.Thres.Quantile<-ecdf(S20.Detrend.df$Rainfall)(S20.Rainfall.Solari$Candidate_Thres)
+```
+
+The `GPD_Threshold_Solari_Sel()` allows the goodness-of-fit at a particular threshold (`Thres`) to be investigated in more detail. Let's study the fit of the threshold selected by the method.
+
+```{r}
+Solari.Sel<-GPD_Threshold_Solari_Sel(Event=S20.Rainfall.Declustered.SW$Declustered,
+                                    Data=S20.Detrend.df$Rainfall,
+                                    Solari_Output=S20.Rainfall.Solari,
+                                    Thres=S20.Rainfall.Solari$Candidate_Thres,
+                                    RP_Max=100)
+```
+
+Repeating the automated threshold selection procedure for O-sWL.
+
+```{r, warning=FALSE, message=FALSE, error=FALSE}
+S20.OsWL.Solari<-GPD_Threshold_Solari(Event=S20.OsWL.Declustered.SW$Declustered,
+                                      Data=S20.Detrend.df$OsWL)
+```
+
+```{r}
+S20.OsWL.Solari$Candidate_Thres
+```
+
+```{r}
+OsWL.Thres.Quantile<-ecdf(S20.Detrend.df$OsWL)(S20.OsWL.Solari$Candidate_Thres)
+```
+
+and checking the fit of the GPD at the selected threshold.
+
+```{r}
+Solari.Sel<-GPD_Threshold_Solari_Sel(Event=S20.OsWL.Declustered.SW$Declustered,
+                                     Data=S20.Detrend.df$OsWL,
+                                     Solari_Output=S20.OsWL.Solari,
+                                     Thres=S20.OsWL.Solari$Candidate_Thres,
+                                     RP_Max=100)
+```
+
+## 3. Correlation analysis
+
+We can use the `Kendall_Lag()` function to view the Kendall's rank correlations coefficient $\tau$ between the time series over a range of lags
+
+```{r}
+S20.Kendall.Results<-Kendall_Lag(Data=S20.Detrend.df,GAP=0.2)
+```
+
+Let's pull out the Kendall correlation coefficient values between rainfall and O-sWL for lags of $−5, ..., 0, ..,5$ applied to the latter quantity
+
+```{r}
+S20.Kendall.Results$Value$Rainfall_OsWL
+```
+
+and the corresponding p-values testing the null hypothesis $\tau=0$
+
+```{r}
+S20.Kendall.Results$Test$Rainfall_OsWL_Test
+```
