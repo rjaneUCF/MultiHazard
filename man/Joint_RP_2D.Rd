@@ -100,6 +100,8 @@ con.sample.Rainfall<-Con_Sampling_2D(Data_Detrend=S22.Detrend.df[,-c(1,4)],
 con.sample.OsWL<-Con_Sampling_2D(Data_Detrend=S22.Detrend.df[,-c(1,4)],
                                  Data_Declust=S22.Detrend.Declustered.df[,-c(1,4)],
                                  Con_Variable="OsWL",u=0.97)
+con.sample.OsWL$Data$Rainfall <- con.sample.OsWL$Data$Rainfall +
+                                     runif(length(con.sample.OsWL$Data$Rainfall),0.001,0.01)
 cop.Rainfall<-Copula_Threshold_2D(Data_Detrend=S22.Detrend.df[,-c(1,4)],
                                   Data_Declust=S22.Detrend.Declustered.df[,-c(1,4)],u1 =0.97,
                                   y_lim_min=-0.075,y_lim_max=0.25,
