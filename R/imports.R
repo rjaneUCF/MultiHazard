@@ -14,7 +14,7 @@
 #' @import truncnorm
 #' @import tweedie
 #' @importFrom dplyr left_join full_join
-#' @importFrom copula pobs fitCopula normalCopula tCopula gumbelCopula claytonCopula frankCopula dCopula pCopula rCopula
+#' @importFrom copula pobs fitCopula normalCopula tCopula gumbelCopula claytonCopula frankCopula dCopula pCopula rCopula getTheta
 #' @importFrom utils capture.output
 #' @importFrom VGAM Coef vglm dbisa pbisa qbisa bisa dlaplace plaplace qlaplace
 #' @importFrom lubridate year month
