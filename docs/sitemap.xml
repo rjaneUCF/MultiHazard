@@ -1,9 +1,7 @@
 <urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
 <url><loc>/404.html</loc></url>
-<url><loc>/articles/Draft 1.html</loc></url>
 <url><loc>/articles/index.html</loc></url>
 <url><loc>/articles/MultiHazard.html</loc></url>
-<url><loc>/articles/my-vignette.html</loc></url>
 <url><loc>/authors.html</loc></url>
 <url><loc>/index.html</loc></url>
 <url><loc>/LICENSE-text.html</loc></url>
@@ -85,4 +83,5 @@
 <url><loc>/reference/Vine_Copula_Sim.html</loc></url>
 <url><loc>/reference/WL_Curve.html</loc></url>
 </urlset>
+
 
