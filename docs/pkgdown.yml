@@ -2,6 +2,6 @@ pandoc: 3.6.3
 pkgdown: 2.1.3
 pkgdown_sha: ~
 articles:
-  Draft 1: Draft 1.html
+  MultiHazard: MultiHazard.html
   my-vignette: my-vignette.html
-last_built: 2025-10-02T03:34Z
+last_built: 2025-10-03T22:08Z
