@@ -7,3 +7,5 @@
 ^joss-submission$
 ^\.github$
 ^joss_submission$
+^doc$
+^Meta$
