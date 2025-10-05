@@ -13,10 +13,10 @@
 #'                    Input_unit="m")
 NOAA_SLR<-function(OsWL_req,SLR_scen = c("High","Intermediate","Low"),Input_unit="m",Year.Inital=2020){
   res<-matrix(0,nrow=length(OsWL_req),ncol=length(SLR_scen))
-  scenario<-which(colnames(NOAA2017)==SLR_scen)
+  scenario<-which(colnames(NOAAetal2017)==SLR_scen)
   for(j in 1:length(scenario)){
-    sp.Initial<-spline(NOAA2017$Year,ifelse(Input_unit=="m",1,3.28084)*NOAA2017[,scenario[j]], n = 201)
-    sp<-spline(NOAA2017$Year[-which(NOAA2017$Year<Year.Initial)],ifelse(Input_unit=="m",1,3.28084)*(NOAA2017[,scenario[j]][-which(NOAA2017$Year<Year.Initial)]-sp.Initial$y[which(sp.Initial$x==Year.Initial)]), n = 201)
+    sp.Initial<-spline(NOAAetal2017$Year,ifelse(Input_unit=="m",1,3.28084)*NOAAetal2017[,scenario[j]], n = 201)
+    sp<-spline(NOAAetal2017$Year[-which(NOAAetal2017$Year<Year.Initial)],ifelse(Input_unit=="m",1,3.28084)*(NOAAetal2017[,scenario[j]][-which(NOAAetal2017$Year<Year.Initial)]-sp.Initial$y[which(sp.Initial$x==Year.Initial)]), n = 201)
     plot(sp$x,sp$y)
     for(i in 1:length(OsWL_req)){
       res[i,j]<-sp$x[min(which((sp$y-OsWL_req[i])>0))]-Year.Initial
