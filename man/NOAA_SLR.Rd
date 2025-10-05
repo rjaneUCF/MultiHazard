@@ -8,7 +8,7 @@ NOAA_SLR(
   OsWL_req,
   SLR_scen = c("High", "Intermediate", "Low"),
   Input_unit = "m",
-  Year.Inital = 2020
+  Year.Initial = 2020
 )
 }
 \arguments{
@@ -18,7 +18,7 @@ NOAA_SLR(
 
 \item{Input_unit}{Character vector of length one; specifying units of SLR. Default is meters \code{"m"}, other option is feet \code{"ft"}.}
 
-\item{Year.Inital}{Character vector of length one; specifying the current year.}
+\item{Year.Initial}{Character vector of length one; specifying the current year.}
 }
 \value{
 List comprising the specified \code{Threshold} as the quantile of the conditioning variable above which declustered excesses are paired with co-occurrences of the other variable, the resulting two-dimensional sample \code{data} and \code{name} of the conditioning variable.
