@@ -1,0 +1,2 @@
+#' @import rmatio
+NULL

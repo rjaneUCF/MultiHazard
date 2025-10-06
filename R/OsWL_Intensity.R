@@ -30,7 +30,7 @@
 #' text(as.Date(S13.Detrend.df$Date_Time[S13.OsWL.Declust$EventsMax]),
 #'      S13.Detrend.df$OsWL[S13.OsWL.Declust$EventsMax]+0.2,
 #'      round(intensity$Intensity,0),cex=0.5)
-OsWL_Intensity<-function(Data,Cluster_Max,Base_Line=mean(Data$OsWL,na.rm=T),Rainfall_Interval=24){
+OsWL_Intensity<-function(Data,Cluster_Max,Base_Line=mean(Data$OsWL,na.rm=TRUE),Rainfall_Interval=24){
 
  #Find local maximum in the O-sWL series
  x.max = local_maximum(Data$OsWL)
@@ -49,26 +49,26 @@ OsWL_Intensity<-function(Data,Cluster_Max,Base_Line=mean(Data$OsWL,na.rm=T),Rain
  for(i in 1:length(Cluster_Max)){
 
   #Preceding high water level
-  pre.high[i] = max(x.max[x.max<Cluster_Max[i]],na.rm=T)
+  pre.high[i] = max(x.max[x.max<Cluster_Max[i]],na.rm=TRUE)
 
   #Following high water level
-  fol.high[i] = min(x.max[x.max>Cluster_Max[i]],na.rm=T)
+  fol.high[i] = min(x.max[x.max>Cluster_Max[i]],na.rm=TRUE)
 
   #Preceding low water level
-  pre.low[i] = max(x.min[x.min<pre.high[i]],na.rm=T)
+  pre.low[i] = max(x.min[x.min<pre.high[i]],na.rm=TRUE)
 
   #Following low water level
-  fol.low[i] = min(x.min[x.min>fol.high[i]],na.rm=T)
+  fol.low[i] = min(x.min[x.min>fol.high[i]],na.rm=TRUE)
 
   #Calculate surge "intensity"
   intensity[i] = sum(Data$OsWL[(pre.low[i]):(fol.low[i])][
     which(Data$OsWL[(pre.low[i]):(fol.low[i])]>
-            mean(Data$OsWL,na.rm=T))]-
-      mean(Data$OsWL,na.rm=T))
+            mean(Data$OsWL,na.rm=TRUE))]-
+      mean(Data$OsWL,na.rm=TRUE))
 
   #Calculate rainfall volume within +/- Rainfall_Interval hrs about water level peak
   vol[i] = sum(Data$Rainfall[(Cluster_Max[i]-Rainfall_Interval):
-                             (Cluster_Max[i]+Rainfall_Interval)],na.rm = T)
+                             (Cluster_Max[i]+Rainfall_Interval)],na.rm = TRUE)
  }
 
  #Put results in a data frame

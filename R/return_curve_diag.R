@@ -9,7 +9,7 @@
 #' @param n_sim Numeric vector of length one specifying the number of simulations for HT model. Default is \code{50}.
 #' @param n_grad Numeric vector of length one specifying number of number of rays along which to compute points on the curve. Default is \code{50}.
 #' @param boot_method Character vector of length one specifying the bootstrap method. Options are \code{"basic"} (default), \code{"block"} or \code{"monthly"}.
-#' @param boot_replace Logical vector of length one specifying whether simple bootstrapping is carried out with \code{T} or without \code{F} replacement. Only required if \code{boot_method = "basic"}. Default is \code{NA}.
+#' @param boot_replace Logical vector of length one specifying whether simple bootstrapping is carried out with \code{TRUE} or without \code{FALSE} replacement. Only required if \code{boot_method = "basic"}. Default is \code{NA}.
 #' @param block_length Numeric vector of length one specifying block length. Only required if \code{boot_method = "block"}. Default is \code{NA}.
 #' @param boot_prop Numeric vector of length one specifying the minimum proportion of non-missing values of at least of the variables for a month to be included in the bootstrap. Only required if \code{boot_method = "monthly"}. Default is \code{0.8}.
 #' @param n_boot Numeric vector of length one specifying number of bootstrap samples. Default is \code{100}.
@@ -22,7 +22,7 @@
 #' @param sep_crit_x Numeric vector of length one specifying the separation criterion to apply during the declustering of the first variable if \code{decl_method_x = "runs"}. Default is \code{NA}.
 #' @param sep_crit_y Numeric vector of length one specifying the separation criterion to apply during the declustering of the second variable if \code{decl_method_y = "runs"}. Default is \code{NA}.
 #' @param boot_method_all Character vector of length one specifying the bootstrapping procedure to use when estimating the distribution of empirical (survival) probabilities from the original dataset (without any declustering). Options are \code{"basic"} (default) and \code{"block"}.
-#' @param boot_replace_all Character vector of length one specifying whether bootstrapping of original dataset (without any declustering) when estimating the distribution of empirical (survival) probabilities is carried out with \code{"T"} or without \code{"F"} replacement. Only required if \code{boot_method_all = "basic"}. Default is \code{NA}.
+#' @param boot_replace_all Character vector of length one specifying whether bootstrapping of original dataset (without any declustering) when estimating the distribution of empirical (survival) probabilities is carried out with \code{"TRUE"} or without \code{"FALSE"} replacement. Only required if \code{boot_method_all = "basic"}. Default is \code{NA}.
 #' @param block_length_all Numeric vector of length one specifying block length. Only required if \code{boot_method_all = "block"}. Default is \code{14}.
 #' @param boot_prop_all Numeric vector of length one specifying the minimum proportion of non-missing values of at least one of the variables for a month to be included in the bootstrap. Only required if \code{boot_method_all = "monthly"}. Default is \code{0.8}.
 #' @param alpha Numeric vector of length one specifying the \code{100(1-alpha)\%} confidence interval. Default is \code{0.1}.
@@ -65,7 +65,7 @@
 #'                   alpha=0.1,
 #'                   boot_method_all="block", boot_replace_all=NA,
 #'                   block_length_all=14)
-return_curve_diag = function(data,q,rp,mu,n_sim,n_grad,n_boot,boot_method, boot_replace, block_length, boot_prop, decl_method_x, decl_method_y, window_length_x, window_length_y, u_x=NA, u_y=NA, sep_crit_x=NA, sep_crit_y=NA, boot_method_all="block", boot_replace_all=NA, block_length_all=14, boot_prop_all=0.8,alpha=0.1,x_lim_min=min(data[,2],na.rm=T),x_lim_max=max(data[,2],na.rm=T)+0.3*diff(range(data[,2],na.rm=T)),y_lim_min=min(data[,3],na.rm=T),y_lim_max=max(data[,3],na.rm=T)+0.3*diff(range(data[,2],na.rm=T))){
+return_curve_diag = function(data,q,rp,mu,n_sim,n_grad,n_boot,boot_method, boot_replace, block_length, boot_prop, decl_method_x, decl_method_y, window_length_x, window_length_y, u_x=NA, u_y=NA, sep_crit_x=NA, sep_crit_y=NA, boot_method_all="block", boot_replace_all=NA, block_length_all=14, boot_prop_all=0.8,alpha=0.1,x_lim_min=min(data[,2],na.rm=TRUE),x_lim_max=max(data[,2],na.rm=TRUE)+0.3*diff(range(data[,2],na.rm=TRUE)),y_lim_min=min(data[,3],na.rm=TRUE),y_lim_max=max(data[,3],na.rm=TRUE)+0.3*diff(range(data[,2],na.rm=TRUE))){
 
   if (missing(data) || is.null(data)) {
     stop("data is missing.")

@@ -9,7 +9,7 @@
 #' @param n_sim Numeric vector of length one specifying the number of simulations for HT model. Default is \code{50}.
 #' @param n_grad Numeric vector of length one specifying number of number of rays along which to compute points on the curve. Default is \code{50}.
 #' @param boot_method Character vector of length one specifying the bootstrap method. Options are \code{"basic"} (default), \code{"block"} or \code{"monthly"}.
-#' @param boot_replace Character vector of length one specifying whether bootstrapping is carried out with \code{"T"} or without \code{"F"} replacement. Only required if \code{boot_method = "basic"}. Default is \code{NA}.
+#' @param boot_replace Character vector of length one specifying whether bootstrapping is carried out with \code{"TRUE"} or without \code{"FALSE"} replacement. Only required if \code{boot_method = "basic"}. Default is \code{NA}.
 #' @param block_length Numeric vector of length one specifying block length. Only required if \code{boot_method = "block"}. Default is \code{NA}.
 #' @param boot_prop Numeric vector of length one specifying the minimum proportion of non-missing values of at least of the variables for a month to be included in the bootstrap. Only required if \code{boot_method = "monthly"}. Default is \code{0.8}.
 #' @param n_boot Numeric vector of length one specifying number of bootstrap samples. Default is \code{100}.
@@ -23,19 +23,19 @@
 #' @param sep_crit_y Numeric vector of length one specifying the separation criterion to apply during the declustering of the second variable if \code{decl_method_y = "runs"}. Default is \code{NA}.
 #' @param alpha Numeric vector of length one specifying the \code{100(1-alpha)\%} confidence interval. Default is \code{0.1}.
 #' @param most_likely Character vector of length one specifying whether to estimate the relative likelihood of events along the curves. For the ht04 curve probabilites are estimated by simulating from the ht04 model while for the wt13 curve a two-sided conditional sampling (using q as the threshold for both samples) copula theory is adopted. Default is \code{FALSE}.
-#' @param n_interp Numeric vector of length one specifying the resolution of the interpolation of the curves Default is \code{1000} thus the curve will be composed of \code{1000} points. The interpolation is only carried out if \code{most-likely = T}.
+#' @param n_interp Numeric vector of length one specifying the resolution of the interpolation of the curves Default is \code{1000} thus the curve will be composed of \code{1000} points. The interpolation is only carried out if \code{most-likely = TRUE}.
 #' @param n Numeric vector of length one specifying the size of the sample from the fitted joint distributions used to estimate the density along an return curves. Default is \code{10^6}
 #' @param n_ensemble Numeric vector of length one specifying the number of possible design events sampled along the two curves. Default is \code{0}
 #' @param x_lab Character vector specifying the x-axis label. Default is \code{colnames(data)[2]}.
 #' @param y_lab Character vector specifying the y-axis label. Default is \code{colnames(data)[3]}.
-#' @param x_lim_min Numeric vector of length one specifying x-axis minimum. Default is \code{min(data[,2],na.rm=T)}.
-#' @param x_lim_max Numeric vector of length one specifying x-axis maximum. Default is \code{max(data[,2],na.rm=T)+0.3*diff(range(data[,3],na.rm=T))}.
-#' @param y_lim_min Numeric vector of length one specifying y-axis minimum. Default is \code{min(data[,3],na.rm=T)}.
-#' @param y_lim_max Numeric vector of length one specifying y-axis maximum. Default is \code{max(data[,3],na.rm=T)+0.3*diff(range(data[,3],na.rm=T))}.
+#' @param x_lim_min Numeric vector of length one specifying x-axis minimum. Default is \code{min(data[,2],na.rm=TRUE)}.
+#' @param x_lim_max Numeric vector of length one specifying x-axis maximum. Default is \code{max(data[,2],na.rm=TRUE)+0.3*diff(range(data[,3],na.rm=TRUE))}.
+#' @param y_lim_min Numeric vector of length one specifying y-axis minimum. Default is \code{min(data[,3],na.rm=TRUE)}.
+#' @param y_lim_max Numeric vector of length one specifying y-axis maximum. Default is \code{max(data[,3],na.rm=TRUE)+0.3*diff(range(data[,3],na.rm=TRUE))}.
 #' @param plot Logical; whether to plot return curves. Default is \code{"TRUE"}.
 #' @section Details:
 #' The HT04 model is fit to two conditional samples. One sample comprises the declustered time series of the first variable paired with concurrent values of the other variable. The second sample is obtained in the same way but with the variables reversed.
-#' @return List comprising the median curve based on the HT04 model \code{median_ht04}, and the upper \code{ub_ht04} and lower \code{lb_ht04} bound of its \code{100(1-alpha)\%} confidence interval. Analogous results for the curve based on the WT13 method \code{median_wt13}, \code{ub_wt13} and \code{lb_wt13}. If \code{plot=T} the median return level curve and associated \code{100(1-alpha)\%} confidence intervals are plotted for both extremal dependence models. If \code{most-likely=T}, the relative probability of events on the two curves is also returned \code{contour_ht04} and \code{contour_wt13} along with the "most-likely"design event \code{most_likely_ht04} and \code{most_likely_wt13}, and an ensemble of possible "design events"sampled along the curve \code{ensemble_ht04} and \code{ensemble_wt13}.
+#' @return List comprising the median curve based on the HT04 model \code{median_ht04}, and the upper \code{ub_ht04} and lower \code{lb_ht04} bound of its \code{100(1-alpha)\%} confidence interval. Analogous results for the curve based on the WT13 method \code{median_wt13}, \code{ub_wt13} and \code{lb_wt13}. If \code{plot=TRUE} the median return level curve and associated \code{100(1-alpha)\%} confidence intervals are plotted for both extremal dependence models. If \code{most-likely=TRUE}, the relative probability of events on the two curves is also returned \code{contour_ht04} and \code{contour_wt13} along with the "most-likely"design event \code{most_likely_ht04} and \code{most_likely_wt13}, and an ensemble of possible "design events"sampled along the curve \code{ensemble_ht04} and \code{ensemble_wt13}.
 #' @export
 #' @examples
 #' #Data starts on first day of 1948
@@ -58,7 +58,7 @@
 #'                  u_x=0.95, u_y=0.95,
 #'                  sep_crit_x=36, sep_crit_y=36,
 #'                  alpha=0.1, x_lab=NA, y_lab=NA)
-return_curve_est = function(data,q,rp,mu,n_sim,n_grad,n_boot,boot_method, boot_replace, block_length, boot_prop, decl_method_x, decl_method_y, window_length_x, window_length_y, u_x=NA, u_y=NA, sep_crit_x=NA, sep_crit_y=NA, alpha=0.1, most_likely=F, n_interp=1000, n=10^6, n_ensemble=0, x_lab=colnames(data)[2], y_lab=colnames(data)[3],x_lim_min=min(data[,2],na.rm=T),x_lim_max=max(data[,2],na.rm=T)+0.3*diff(range(data[,2],na.rm=T)),y_lim_min=min(data[,3],na.rm=T),y_lim_max=max(data[,3],na.rm=T)+0.3*diff(range(data[,3],na.rm=T)),plot=T){
+return_curve_est = function(data,q,rp,mu,n_sim,n_grad,n_boot,boot_method, boot_replace, block_length, boot_prop, decl_method_x, decl_method_y, window_length_x, window_length_y, u_x=NA, u_y=NA, sep_crit_x=NA, sep_crit_y=NA, alpha=0.1, most_likely=FALSE, n_interp=1000, n=10^6, n_ensemble=0, x_lab=colnames(data)[2], y_lab=colnames(data)[3],x_lim_min=min(data[,2],na.rm=TRUE),x_lim_max=max(data[,2],na.rm=TRUE)+0.3*diff(range(data[,2],na.rm=TRUE)),y_lim_min=min(data[,3],na.rm=TRUE),y_lim_max=max(data[,3],na.rm=TRUE)+0.3*diff(range(data[,3],na.rm=TRUE)),plot=TRUE){
 
   if (missing(data) || is.null(data)) {
     stop("data is missing.")
@@ -308,11 +308,11 @@ for(j in 1:n_boot){
  colnames(data_y) = colnames(data[,2:3])
 
  #Fit GPDs
- thresh_x = quantile(boot_df[,2],q,na.rm=T)
+ thresh_x = quantile(boot_df[,2],q,na.rm=TRUE)
  gpd_x = evm(data_x[,1],th = thresh_x)
  gpd_x$rate = length(data_x[,1][data_x[,1]>thresh_x])/(length(na.omit(data_x[,1]))/mu)
 
- thresh_y = quantile(boot_df[,3],q,na.rm=T)
+ thresh_y = quantile(boot_df[,3],q,na.rm=TRUE)
  gpd_y = evm(data_y[,2],th = thresh_y)
  gpd_y$rate = length(data_y[,2][data_y[,2]>thresh_y])/(length(na.omit(data_y[,2]))/mu)
 
@@ -360,8 +360,8 @@ for(j in 1:n_boot){
 }
 
 angles = ((n_grad:1)/(n_grad+1))*(pi/2)
-x0 = min(data[,2], na.rm=T)
-y0 = min(data[,3],na.rm=T)
+x0 = min(data[,2], na.rm=TRUE)
+y0 = min(data[,3],na.rm=TRUE)
 
 angles_est_points = array(0,dim=c(n_grad,2,n_boot))
 angles_est_points2 = array(0,dim=c(n_grad,2,n_boot))
@@ -425,7 +425,7 @@ colnames(upper_bound2) <- c(names(data)[2],names(data)[3])
 
 
 #(relative) Probabilities implied by the data for the points composing the isoline. Probabilities are scaled to [0,1].
-if(most_likely==T){
+if(most_likely==TRUE){
 
   #Interpolating the isolines
   x_u = (median[,1] - min(median[,1]))/(max(median[,1])-min(median[,1]))
@@ -514,10 +514,10 @@ if(most_likely==T){
 
 
   #Fit GPDs
-  thresh_x = quantile(data[,2],q,na.rm=T)
+  thresh_x = quantile(data[,2],q,na.rm=TRUE)
   gpd_x = evm(data_x[,1],th = thresh_x)
   gpd_x$rate = length(data_x[,1][data_x[,1]>thresh_x])/(length(na.omit(data_x[,1]))/mu)
-  thresh_y = quantile(data[,3],q,na.rm=T)
+  thresh_y = quantile(data[,3],q,na.rm=TRUE)
   gpd_y = evm(data_y[,2],th = thresh_y)
   gpd_y$rate = length(data_y[,2][data_y[,2]>thresh_y])/(length(na.omit(data_y[,2]))/mu)
 
@@ -549,8 +549,8 @@ if(most_likely==T){
   contour_wt13 <- (prediction_wt13-min(prediction_wt13))/(max(prediction_wt13)-min(prediction_wt13))
 
   #Find "most-likely" event
-  most_likely_ht04<-data.frame(as.numeric(median[which(prediction_ht04==max(prediction_ht04,na.rm=T)),1]),as.numeric(median[which(prediction_ht04==max(prediction_ht04,na.rm=T)),2]))
-  most_likely_wt13<-data.frame(as.numeric(median2[which(prediction_wt13==max(prediction_wt13,na.rm=T)),1]),as.numeric(median2[which(prediction_wt13==max(prediction_wt13,na.rm=T)),2]))
+  most_likely_ht04<-data.frame(as.numeric(median[which(prediction_ht04==max(prediction_ht04,na.rm=TRUE)),1]),as.numeric(median[which(prediction_ht04==max(prediction_ht04,na.rm=TRUE)),2]))
+  most_likely_wt13<-data.frame(as.numeric(median2[which(prediction_wt13==max(prediction_wt13,na.rm=TRUE)),1]),as.numeric(median2[which(prediction_wt13==max(prediction_wt13,na.rm=TRUE)),2]))
 
   colnames(most_likely_ht04) <- c(names(data)[2],names(data)[3])
   colnames(most_likely_wt13) <- c(names(data)[2],names(data)[3])
@@ -566,14 +566,14 @@ if(most_likely==T){
 }
 
 
-if(plot==T){
+if(plot==TRUE){
 par(mfrow=c(2,1))
 par(mar=c(4.2,4.5,0.1,0.1))
 
 #plotting results
 plot(data[,c(2,3)],pch=16,col="Grey",xlab=x_lab,ylab=y_lab,cex.lab=1.2, cex.axis=1.2,cex.main=1.5,xlim=c(x_lim_min,x_lim_max),ylim=c(y_lim_min,y_lim_max),main="")
 lines(median,col="Red3",lwd=2)
-if(most_likely==T){
+if(most_likely==TRUE){
   points(median,col=rev(heat.colors(150))[20:120][1+100*contour_ht04],lwd=2,pch=16,cex=1.75)
   points(most_likely_ht04,pch=18,cex=1.75,col="dark green")
 }
@@ -585,7 +585,7 @@ lines(lower_bound,lty=2,lwd=2)
 
 plot(data[,c(2,3)],pch=16,col="Grey",xlab=x_lab,ylab=y_lab,cex.lab=1.2, cex.axis=1.2,cex.main=1.5,xlim=c(x_lim_min,x_lim_max),ylim=c(y_lim_min,y_lim_max),main="")
 lines(median2,col="green3",lwd=2)
-if(most_likely==T){
+if(most_likely==TRUE){
   points(median2,col=rev(heat.colors(150))[20:120][1+100*contour_wt13],lwd=2,pch=16,cex=1.75)
   points(most_likely_wt13,pch=18,cex=1.75,col="dark green")
 }

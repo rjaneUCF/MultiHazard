@@ -49,7 +49,7 @@
 #' for(i in 1:4){
 #'   lines(1:289,oswl_ts_oswl$Series[i,],col=2)
 #' }
-WL_Curve<-function(Data,Cluster_Max,Pre_Low,Fol_Low,Thres,Base_Line=mean(Data$OsWL,na.rm=T),Limit,Peak,Intensity,Length=144){
+WL_Curve<-function(Data,Cluster_Max,Pre_Low,Fol_Low,Thres,Base_Line=mean(Data$OsWL,na.rm=TRUE),Limit,Peak,Intensity,Length=144){
 
   if (is.null(Data) | !is.data.frame(Data)){
     stop("Data must be a data frame.")

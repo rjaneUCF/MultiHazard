@@ -111,8 +111,8 @@ SLR_Scenarios<-function(SeaLevelRise, Scenario="Compact", Unit = "m", Year=2022,
     for(i in 1:(ncol(New_Scenario)-1)){
       splines[[i]]<-spline(New_Scenario[,1],ifelse(Unit=="m",1,0.00328084)*New_Scenario[,i+1], xout=seq(Year,max.Year,0.25))
     }
-    max.SLR<-max(unlist(lapply(splines, `[[`, 2)),na.rm=T)
-    min.SLR<-min(0,min(unlist(lapply(splines, `[[`, 2)),na.rm=T))
+    max.SLR<-max(unlist(lapply(splines, `[[`, 2)),na.rm=TRUE)
+    min.SLR<-min(0,min(unlist(lapply(splines, `[[`, 2)),na.rm=TRUE))
     plot(0,xlab="Year",ylab=y_axis,type='n',xlim=c(Year,max.Year),ylim=c(min.SLR,ifelse(Unit=="m",1,3.28084)*max.SLR*1.25),cex.lab=1.5,cex.axis=1.5)
     for(i in 1:(ncol(New_Scenario)-1)){
       lines(splines[[i]]$x,splines[[i]]$y,col=alpha(mypalette[i],0.2),lwd=5)
