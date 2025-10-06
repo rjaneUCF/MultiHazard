@@ -1,5 +1,4 @@
 utils::globalVariables(c(
-  "NOAA2017",
   "NOAAetal2012",
   "NOAAetal2017",
   "NOAAetal2022",
@@ -11,6 +10,5 @@ utils::globalVariables(c(
   "S13.oswl.sample",
   "S13.rainfall.sample",
   "oswl.ts.oswl",
-  "intensity.oswl",
-  "Year.Initial"
+  "intensity.oswl"
 ))
