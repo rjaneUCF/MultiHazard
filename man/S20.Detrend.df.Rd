@@ -5,7 +5,7 @@
 \alias{S20.Detrend.df}
 \title{Time Series for Case Study Site S-20 in Jane et al. (2020)}
 \format{
-A data frame with XX rows and 4 variables:
+A data frame with 22,100 rows and 4 variables:
 \describe{
 \item{Date}{Date of observation (YYYY-MM-DD)}
 \item{Rainfall}{Rainfall totals (inches)}

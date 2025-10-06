@@ -29,10 +29,10 @@ return_curve_diag(
   block_length_all = 14,
   boot_prop_all = 0.8,
   alpha = 0.1,
-  x_lim_min = min(data[, 2], na.rm = T),
-  x_lim_max = max(data[, 2], na.rm = T) + 0.3 * diff(range(data[, 2], na.rm = T)),
-  y_lim_min = min(data[, 3], na.rm = T),
-  y_lim_max = max(data[, 3], na.rm = T) + 0.3 * diff(range(data[, 2], na.rm = T))
+  x_lim_min = min(data[, 2], na.rm = TRUE),
+  x_lim_max = max(data[, 2], na.rm = TRUE) + 0.3 * diff(range(data[, 2], na.rm = TRUE)),
+  y_lim_min = min(data[, 3], na.rm = TRUE),
+  y_lim_max = max(data[, 3], na.rm = TRUE) + 0.3 * diff(range(data[, 2], na.rm = TRUE))
 )
 }
 \arguments{
@@ -52,7 +52,7 @@ return_curve_diag(
 
 \item{boot_method}{Character vector of length one specifying the bootstrap method. Options are \code{"basic"} (default), \code{"block"} or \code{"monthly"}.}
 
-\item{boot_replace}{Logical vector of length one specifying whether simple bootstrapping is carried out with \code{T} or without \code{F} replacement. Only required if \code{boot_method = "basic"}. Default is \code{NA}.}
+\item{boot_replace}{Logical vector of length one specifying whether simple bootstrapping is carried out with \code{TRUE} or without \code{FALSE} replacement. Only required if \code{boot_method = "basic"}. Default is \code{NA}.}
 
 \item{block_length}{Numeric vector of length one specifying block length. Only required if \code{boot_method = "block"}. Default is \code{NA}.}
 
@@ -76,7 +76,7 @@ return_curve_diag(
 
 \item{boot_method_all}{Character vector of length one specifying the bootstrapping procedure to use when estimating the distribution of empirical (survival) probabilities from the original dataset (without any declustering). Options are \code{"basic"} (default) and \code{"block"}.}
 
-\item{boot_replace_all}{Character vector of length one specifying whether bootstrapping of original dataset (without any declustering) when estimating the distribution of empirical (survival) probabilities is carried out with \code{"T"} or without \code{"F"} replacement. Only required if \code{boot_method_all = "basic"}. Default is \code{NA}.}
+\item{boot_replace_all}{Character vector of length one specifying whether bootstrapping of original dataset (without any declustering) when estimating the distribution of empirical (survival) probabilities is carried out with \code{"TRUE"} or without \code{"FALSE"} replacement. Only required if \code{boot_method_all = "basic"}. Default is \code{NA}.}
 
 \item{block_length_all}{Numeric vector of length one specifying block length. Only required if \code{boot_method_all = "block"}. Default is \code{14}.}
 

@@ -5,7 +5,7 @@
 \alias{S20_T_MAX_Daily_Completed_Detrend_Declustered}
 \title{Declustered Time Series of the Ocean-side Water Level at control structure S-20}
 \format{
-A data frame with XX rows and 4 variables:
+A data frame with 18,320 rows and 5 variables:
 \describe{
 \item{X}{Index}
 \item{Date}{Date of observation (YYYY-MM-DD)}

@@ -5,10 +5,11 @@
 \alias{S22_T_MAX_Daily_Completed_Detrend}
 \title{Time Series of the Ocean-side Water Level at control structure S-22}
 \format{
-A data frame with XX rows and 4 variables:
+A data frame with 12,137 rows and 4 variables:
 \describe{
 \item{Date}{Date of observation (YYYY-MM-DD)}
 \item{ValueFilled}{Raw times series with missing values in-filled using record at structure S-21A_T (ft NGVD29)}
+\item{Detrend}{Detrended time series (ft NGVD29)}
 }
 }
 \source{

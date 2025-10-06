@@ -10,7 +10,7 @@ WL_Curve(
   Pre_Low,
   Fol_Low,
   Thres,
-  Base_Line = mean(Data$OsWL, na.rm = T),
+  Base_Line = mean(Data$OsWL, na.rm = TRUE),
   Limit,
   Peak,
   Intensity,

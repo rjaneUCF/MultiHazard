@@ -5,7 +5,7 @@
 \alias{S13.Detrend.df}
 \title{Measurement from Control Structure S-13}
 \format{
-A data frame with XX rows and 3 variables:
+A data frame with 281,846 rows and 3 variables:
 \describe{
 \item{Date_Time}{Time of observation (YYYY-MM-DD HH:MM:SS)}
 \item{Rainfall}{Rainfall totals (inches)}

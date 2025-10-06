@@ -7,7 +7,7 @@
 OsWL_Intensity(
   Data,
   Cluster_Max,
-  Base_Line = mean(Data$OsWL, na.rm = T),
+  Base_Line = mean(Data$OsWL, na.rm = TRUE),
   Rainfall_Interval = 24
 )
 }

@@ -5,7 +5,7 @@
 \alias{Miami_Airport_df}
 \title{Rainfall Totals at Miami International Airport}
 \format{
-A data frame with XX rows and 2 variables:
+A data frame with 25,959 rows and 2 variables:
 \describe{
 \item{X}{Index}
 \item{Date}{Date of observation (YYYY-MM-DD)}

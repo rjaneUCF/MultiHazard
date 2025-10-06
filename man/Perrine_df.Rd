@@ -5,7 +5,7 @@
 \alias{Perrine_df}
 \title{Rainfall Totals at Perrine, FL.}
 \format{
-A data frame with XX rows and 2 variables:
+A data frame with 22,100 rows and 2 variables:
 \describe{
 \item{Date}{Date of observation (YYYY-MM-DD)}
 \item{Value}{Rainfall totals (inches)}

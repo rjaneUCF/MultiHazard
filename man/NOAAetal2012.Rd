@@ -3,7 +3,7 @@
 \docType{data}
 \name{NOAAetal2012}
 \alias{NOAAetal2012}
-\title{2012 NOAA Sea Level Rise Projections for Virginia Key}
+\title{2012 NOAA Sea Level Rise Projections for Miami Beach}
 \format{
 A data frame containing the projections with columns as follows:
 \describe{
@@ -22,6 +22,6 @@ NOAA National Ocean Service. Report available at:
 data(NOAAetal2012)
 }
 \description{
-Sea level rise projections for Virginia Key under four emission scenarios from NOAA Technical Report OAR CPO-1 (2012).
+Sea level rise projections for Miami Beach under four emission scenarios from NOAA Technical Report OAR CPO-1 (2012).
 }
 \keyword{datasets}

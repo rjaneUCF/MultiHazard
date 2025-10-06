@@ -25,17 +25,17 @@ return_curve_est(
   sep_crit_x = NA,
   sep_crit_y = NA,
   alpha = 0.1,
-  most_likely = F,
+  most_likely = FALSE,
   n_interp = 1000,
   n = 10^6,
   n_ensemble = 0,
   x_lab = colnames(data)[2],
   y_lab = colnames(data)[3],
-  x_lim_min = min(data[, 2], na.rm = T),
-  x_lim_max = max(data[, 2], na.rm = T) + 0.3 * diff(range(data[, 2], na.rm = T)),
-  y_lim_min = min(data[, 3], na.rm = T),
-  y_lim_max = max(data[, 3], na.rm = T) + 0.3 * diff(range(data[, 3], na.rm = T)),
-  plot = T
+  x_lim_min = min(data[, 2], na.rm = TRUE),
+  x_lim_max = max(data[, 2], na.rm = TRUE) + 0.3 * diff(range(data[, 2], na.rm = TRUE)),
+  y_lim_min = min(data[, 3], na.rm = TRUE),
+  y_lim_max = max(data[, 3], na.rm = TRUE) + 0.3 * diff(range(data[, 3], na.rm = TRUE)),
+  plot = TRUE
 )
 }
 \arguments{
@@ -55,7 +55,7 @@ return_curve_est(
 
 \item{boot_method}{Character vector of length one specifying the bootstrap method. Options are \code{"basic"} (default), \code{"block"} or \code{"monthly"}.}
 
-\item{boot_replace}{Character vector of length one specifying whether bootstrapping is carried out with \code{"T"} or without \code{"F"} replacement. Only required if \code{boot_method = "basic"}. Default is \code{NA}.}
+\item{boot_replace}{Character vector of length one specifying whether bootstrapping is carried out with \code{"TRUE"} or without \code{"FALSE"} replacement. Only required if \code{boot_method = "basic"}. Default is \code{NA}.}
 
 \item{block_length}{Numeric vector of length one specifying block length. Only required if \code{boot_method = "block"}. Default is \code{NA}.}
 
@@ -81,7 +81,7 @@ return_curve_est(
 
 \item{most_likely}{Character vector of length one specifying whether to estimate the relative likelihood of events along the curves. For the ht04 curve probabilites are estimated by simulating from the ht04 model while for the wt13 curve a two-sided conditional sampling (using q as the threshold for both samples) copula theory is adopted. Default is \code{FALSE}.}
 
-\item{n_interp}{Numeric vector of length one specifying the resolution of the interpolation of the curves Default is \code{1000} thus the curve will be composed of \code{1000} points. The interpolation is only carried out if \code{most-likely = T}.}
+\item{n_interp}{Numeric vector of length one specifying the resolution of the interpolation of the curves Default is \code{1000} thus the curve will be composed of \code{1000} points. The interpolation is only carried out if \code{most-likely = TRUE}.}
 
 \item{n}{Numeric vector of length one specifying the size of the sample from the fitted joint distributions used to estimate the density along an return curves. Default is \code{10^6}}
 
@@ -91,18 +91,18 @@ return_curve_est(
 
 \item{y_lab}{Character vector specifying the y-axis label. Default is \code{colnames(data)[3]}.}
 
-\item{x_lim_min}{Numeric vector of length one specifying x-axis minimum. Default is \code{min(data[,2],na.rm=T)}.}
+\item{x_lim_min}{Numeric vector of length one specifying x-axis minimum. Default is \code{min(data[,2],na.rm=TRUE)}.}
 
-\item{x_lim_max}{Numeric vector of length one specifying x-axis maximum. Default is \code{max(data[,2],na.rm=T)+0.3*diff(range(data[,3],na.rm=T))}.}
+\item{x_lim_max}{Numeric vector of length one specifying x-axis maximum. Default is \code{max(data[,2],na.rm=TRUE)+0.3*diff(range(data[,3],na.rm=TRUE))}.}
 
-\item{y_lim_min}{Numeric vector of length one specifying y-axis minimum. Default is \code{min(data[,3],na.rm=T)}.}
+\item{y_lim_min}{Numeric vector of length one specifying y-axis minimum. Default is \code{min(data[,3],na.rm=TRUE)}.}
 
-\item{y_lim_max}{Numeric vector of length one specifying y-axis maximum. Default is \code{max(data[,3],na.rm=T)+0.3*diff(range(data[,3],na.rm=T))}.}
+\item{y_lim_max}{Numeric vector of length one specifying y-axis maximum. Default is \code{max(data[,3],na.rm=TRUE)+0.3*diff(range(data[,3],na.rm=TRUE))}.}
 
 \item{plot}{Logical; whether to plot return curves. Default is \code{"TRUE"}.}
 }
 \value{
-List comprising the median curve based on the HT04 model \code{median_ht04}, and the upper \code{ub_ht04} and lower \code{lb_ht04} bound of its \code{100(1-alpha)\%} confidence interval. Analogous results for the curve based on the WT13 method \code{median_wt13}, \code{ub_wt13} and \code{lb_wt13}. If \code{plot=T} the median return level curve and associated \code{100(1-alpha)\%} confidence intervals are plotted for both extremal dependence models. If \code{most-likely=T}, the relative probability of events on the two curves is also returned \code{contour_ht04} and \code{contour_wt13} along with the "most-likely"design event \code{most_likely_ht04} and \code{most_likely_wt13}, and an ensemble of possible "design events"sampled along the curve \code{ensemble_ht04} and \code{ensemble_wt13}.
+List comprising the median curve based on the HT04 model \code{median_ht04}, and the upper \code{ub_ht04} and lower \code{lb_ht04} bound of its \code{100(1-alpha)\%} confidence interval. Analogous results for the curve based on the WT13 method \code{median_wt13}, \code{ub_wt13} and \code{lb_wt13}. If \code{plot=TRUE} the median return level curve and associated \code{100(1-alpha)\%} confidence intervals are plotted for both extremal dependence models. If \code{most-likely=TRUE}, the relative probability of events on the two curves is also returned \code{contour_ht04} and \code{contour_wt13} along with the "most-likely"design event \code{most_likely_ht04} and \code{most_likely_wt13}, and an ensemble of possible "design events"sampled along the curve \code{ensemble_ht04} and \code{ensemble_wt13}.
 }
 \description{
 Calculates return level curves using two extremal dependence models: (1) Heffernan and Tawn (2004) (hereon in HT04) and (2) Wadsworth and Tawn (2013) (hereon in WT13) as outlined in Murphy-Barltrop et al. (2023).

@@ -3,7 +3,7 @@
 \docType{data}
 \name{NOAAetal2017}
 \alias{NOAAetal2017}
-\title{2017 NOAA Sea Level Rise Projections for Virginia Key}
+\title{2017 NOAA Sea Level Rise Projections for Miami Beach}
 \format{
 A data frame containing the projections with columns as follows:
 \describe{
@@ -24,6 +24,6 @@ NOAA National Ocean Service. Report available at: \url{https://tidesandcurrents.
 data(NOAAetal2017)
 }
 \description{
-Sea level rise projections for Virginia Key derived from NOAA Technical Report NOS CO-OPS 083 (2017). The report defines six global mean sea level rise scenarios, which are regionally downscaled on a 1-degree grid covering U.S. coastlines.
+Sea level rise projections for Miami Beach derived from NOAA Technical Report NOS CO-OPS 083 (2017). The report defines six global mean sea level rise scenarios, which are regionally downscaled on a 1-degree grid covering U.S. coastlines.
 }
 \keyword{datasets}

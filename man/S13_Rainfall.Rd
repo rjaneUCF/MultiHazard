@@ -5,7 +5,7 @@
 \alias{S13_Rainfall}
 \title{Rainfall Totals at S-13}
 \format{
-A data frame with XX rows and 2 variables:
+A data frame with 281,846 rows and 2 variables:
 \describe{
 \item{Date_Time}{Time of observation (YYYY-MM-DD HH:MM:SS)}
 \item{Rainfall}{Rainfall totals (inches)}

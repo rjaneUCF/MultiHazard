@@ -35,6 +35,6 @@ NOAA National Ocean Service, via \url{https://oceanservice.noaa.gov/hazards/seal
 data(NOAAetal2022)
 }
 \description{
-Probabilistic sea level rise scenarios for Virginia Key from given in NOAA Technical Report NOS 01. In the report, five global mean sea level rise scenarios are used to derive probabilistic regional RSL responses on a 1-degree grid covering the coastlines of the U.S. mainland.
+Probabilistic sea level rise scenarios for Miami Beach from given in NOAA Technical Report NOS 01. In the report, five global mean sea level rise scenarios are used to derive probabilistic regional RSL responses on a 1-degree grid covering the coastlines of the U.S. mainland.
 }
 \keyword{datasets}
