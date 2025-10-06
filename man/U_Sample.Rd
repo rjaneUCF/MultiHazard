@@ -44,7 +44,7 @@ S13.Rainfall.Declust = Decluster(Data=S13.Detrend.df$Rainfall,
 #Assumed to be the result of uncertainty in measuring equipment.
 S13_Rainfall$Rainfall[which(S13_Rainfall$Rainfall<0.01)] = 0
 #Find NAs in rainfall series
-z = which(is.na(S13_Rainfall$Rainfall)==T)
+z = which(is.na(S13_Rainfall$Rainfall)==TRUE)
 #Temporarily set NAs to zero
 S13_Rainfall$Rainfall[z] = 0
 #Find times where there is 6-hours of no rainfall
