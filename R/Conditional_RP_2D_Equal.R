@@ -121,13 +121,13 @@ Conditional_RP_2D_Equal<-function(Data, Data_Con1, Data_Con2,
   RP_Var2<-ifelse(con_var==2,RP_Con,RP_Non_Con)
 
   #Axis limits for plots
-  x_min <- ifelse(is.na(x_lim_min) == T, min(na.omit(Data[, con1])), x_lim_min)
-  x_max <- ifelse(is.na(x_lim_max) == T, max(na.omit(Data[, con1])), x_lim_max)
-  y_min <- ifelse(is.na(y_lim_min) == T, min(na.omit(Data[,con2])), y_lim_min)
-  y_max <- ifelse(is.na(y_lim_max) == T, max(na.omit(Data[,con2])), y_lim_max)
+  x_min <- ifelse(is.na(x_lim_min), min(na.omit(Data[, con1])), x_lim_min)
+  x_max <- ifelse(is.na(x_lim_max), max(na.omit(Data[, con1])), x_lim_max)
+  y_min <- ifelse(is.na(y_lim_min), min(na.omit(Data[,con2])), y_lim_min)
+  y_max <- ifelse(is.na(y_lim_max), max(na.omit(Data[,con2])), y_lim_max)
 
   #Finding the threshold if specified as a quantile
-  if(is.na(Thres1)==T){
+  if(is.na(Thres1)){
     Thres1<-quantile(na.omit(Data[,con1]), u1)
   }
 
@@ -196,7 +196,7 @@ Conditional_RP_2D_Equal<-function(Data, Data_Con1, Data_Con2,
   }
 
   #Finding the threshold if specified as a quantile
-  if(is.na(Thres2)==T){
+  if(is.na(Thres2)){
     Thres2<-quantile(na.omit(Data[,con2]), u2)
   }
 

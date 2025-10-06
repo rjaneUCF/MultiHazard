@@ -234,14 +234,14 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
   ###Fit the 4 marginal distributions (2 GPD and 2 parametric non-extreme value distributions).
 
   #Fit the GPD to the conditioned variable con1 in Data_Con1.
-  if(is.null(GPD1)==T & is.na(Thres1)==T & is.null(Tab1)==T){
+  if(is.null(GPD1) & is.na(Thres1) & is.null(Tab1)){
     Thres1<-quantile(na.omit(Data[,con1]),u1)
   }
 
-  if(is.null(GPD1)==T & GPD_Bayes==T & is.null(Tab1)==T){
+  if(is.null(GPD1) & GPD_Bayes==TRUE & is.null(Tab1)){
     GPD_con1<-evm(Data_Con1[,con1], th = Thres1,penalty = "gaussian",priorParameters = list(c(0, 0), matrix(c(100^2, 0, 0, 0.25), nrow = 2)))
   }
-  if(is.null(GPD1)==T & GPD_Bayes==F & is.null(Tab1)==T){
+  if(is.null(GPD1) & GPD_Bayes==FALSE & is.null(Tab1)){
     GPD_con1<-evm(Data_Con1[,con1], th = Thres1)
   }
 
@@ -251,18 +251,18 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
   time.period<-nrow(Data[which(is.na(Data[,1])==FALSE & is.na(Data[,2])==FALSE),])/mu
 
   #Calculate the rate of occurrences of extremes (in terms of mu) in Data_Con1.
-  if(is.na(Rate_Con1)==T){
+  if(is.na(Rate_Con1)){
     Rate_Con1<-nrow(Data_Con1)/time.period
   }
 
   #Calculate the rate of occurrences of extremes (in terms of mu) in Data_Con2.
-  if(is.na(Rate_Con2)==T){
+  if(is.na(Rate_Con2)){
     Rate_Con2<-nrow(Data_Con2)/time.period
   }
 
   #Fit the specified marginal distribution (Marginal_Dist1) to the non-conditioned variable con2 in Data_Con1.
   if(Marginal_Dist1 == "BS"){
-    if(is.na(Marginal_Dist1_Par)==T){
+    if(is.na(Marginal_Dist1_Par)){
       bdata2 <- data.frame(shape = exp(-0.5), scale = exp(0.5))
       bdata2 <- transform(bdata2, y = Data_Con1[,con2])
       marginal_non_con1<-vglm(y ~ 1, bisa, data = bdata2, trace = FALSE)
@@ -271,21 +271,21 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
     }
   }
   if(Marginal_Dist1 == "Exp"){
-    if(is.na(Marginal_Dist1_Par)==T){
+    if(is.na(Marginal_Dist1_Par)){
       marginal_non_con1<-fitdistr(Data_Con1[,con2],"exponential")
     }else{
       marginal_non_con1<-Marginal_Dist1_Par
     }
   }
   if(Marginal_Dist1 == "Gam(2)"){
-    if(is.na(Marginal_Dist1_Par)==T){
+    if(is.na(Marginal_Dist1_Par)){
       marginal_non_con1<-fitdistr(Data_Con1[,con2], "gamma")
     }else{
       marginal_non_con1<-Marginal_Dist1_Par
     }
   }
   if(Marginal_Dist1 == "Gam(3)"){
-    if(is.na(Marginal_Dist1_Par)==T){
+    if(is.na(Marginal_Dist1_Par)){
       data.gamlss<-data.frame(X=Data_Con1[,con2])
       marginal_non_con1 <- tryCatch(gamlss(X~1, data=data.gamlss, family=GG),
                                     error = function(e) "error")
@@ -294,7 +294,7 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
     }
   }
   if(Marginal_Dist1 == "GamMix(2)"){
-    if(is.na(Marginal_Dist1_Par)==T){
+    if(is.na(Marginal_Dist1_Par)){
       data.gamlss<-data.frame(X=Data_Con1[,con2])
       marginal_non_con1 <- tryCatch(gamlssMX(X~1, data=data.gamlss, family=GA, K=2, trace=FALSE),
                                     error = function(e) "error")
@@ -303,7 +303,7 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
     }
   }
   if(Marginal_Dist1 == "GamMix(3)"){
-    if(is.na(Marginal_Dist1_Par)==T){
+    if(is.na(Marginal_Dist1_Par)){
       data.gamlss<-data.frame(X=Data_Con1[,con2])
       marginal_non_con1 <- tryCatch(gamlssMX(X~1, data=data.gamlss, family=GA, K=3, trace=FALSE),
                                     error = function(e) "error")
@@ -312,42 +312,42 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
     }
   }
   if(Marginal_Dist1 == "Gaus"){
-    if(is.na(Marginal_Dist1_Par)==T){
+    if(is.na(Marginal_Dist1_Par)){
       marginal_non_con1<-fitdistr(Data_Con1[,con2],"normal")
     }else{
       marginal_non_con1<-Marginal_Dist1_Par
     }
   }
   if(Marginal_Dist1 == "Gum"){
-    if(is.na(Marginal_Dist1_Par)==T){
+    if(is.na(Marginal_Dist1_Par)){
       marginal_non_con1 <- gamlss(Data_Con1[,con2]  ~ 1, family= GU, trace=FALSE)
     }else{
       marginal_non_con1<-Marginal_Dist1_Par
     }
   }
   if(Marginal_Dist1 == "InvG"){
-    if(is.na(Marginal_Dist1_Par)==T){
+    if(is.na(Marginal_Dist1_Par)){
       marginal_non_con1<-fitdist(Data_Con1[,con2], "invgauss", start = list(mean = 5, shape = 1))
     }else{
       marginal_non_con1<-Marginal_Dist1_Par
     }
   }
   if(any(Marginal_Dist1=="Lapl")){
-    if(is.na(Marginal_Dist1_Par)==T){
+    if(is.na(Marginal_Dist1_Par)){
       marginal_non_con1 <- fitdistr(Data_Con1[,con2], dlaplace, start=list(location=mean(Data_Con1[,con2]), scale=sd(Data_Con1[,con2])/sqrt(2)))
     }else{
       marginal_non_con1<-Marginal_Dist1_Par
     }
   }
   if(Marginal_Dist1 == "Logis"){
-    if(is.na(Marginal_Dist1_Par)==T){
+    if(is.na(Marginal_Dist1_Par)){
       marginal_non_con1<-fitdistr(Data_Con1[,con2], "logistic")
     }else{
       marginal_non_con1<-Marginal_Dist1_Par
     }
   }
   if(Marginal_Dist1 == "LNorm"){
-    if(is.na(Marginal_Dist1_Par)==T){
+    if(is.na(Marginal_Dist1_Par)){
       marginal_non_con1<-fitdistr(Data_Con1[,con2],"lognormal")
     }else{
       marginal_non_con1<-Marginal_Dist1_Par
@@ -355,7 +355,7 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
   }
 
   if(Marginal_Dist1 == "RGum"){
-    if(is.na(Marginal_Dist1_Par)==T){
+    if(is.na(Marginal_Dist1_Par)){
       marginal_non_con1 <- gamlss(Data_Con1[,con2] ~ 1,family=RG, trace=FALSE)
     }else{
       marginal_non_con1<-Marginal_Dist1_Par
@@ -363,14 +363,14 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
   }
 
   if(Marginal_Dist1 == "TNorm"){
-    if(is.na(Marginal_Dist1_Par)==T){
+    if(is.na(Marginal_Dist1_Par)){
       marginal_non_con1<-fitdistr(Data_Con1[,con2],"normal")
     }else{
       marginal_non_con1<-Marginal_Dist1_Par
     }
   }
   if(Marginal_Dist1 == "Twe"){
-    if(is.na(Marginal_Dist1_Par)==T){
+    if(is.na(Marginal_Dist1_Par)){
       capture.output(
       marginal_non_con1<-tweedie.profile(Data_Con1[,con2] ~ 1,p.vec=seq(1.5, 2.5, by=0.2), do.plot=FALSE),
       type = "output"
@@ -380,7 +380,7 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
     }
   }
   if(Marginal_Dist1 == "Weib"){
-    if(is.na(Marginal_Dist1_Par)==T){
+    if(is.na(Marginal_Dist1_Par)){
       marginal_non_con1<-fitdistr(Data_Con1[,con2], "weibull")
     }else{
       marginal_non_con1<-Marginal_Dist1_Par
@@ -388,20 +388,20 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
   }
 
   #Fit the GPD to the conditioned variable con2 in Data_Con2.
-  if(is.null(GPD2)==T & is.na(Thres2)==T & is.null(Tab2)==T){
+  if(is.null(GPD2) & is.na(Thres2) & is.null(Tab2)){
     Thres2<-quantile(na.omit(Data[,con2]),u2)
   }
 
-  if(is.null(GPD2)==T & GPD_Bayes==T & is.null(Tab2)==T){
+  if(is.null(GPD2) & GPD_Bayes==TRUE & is.null(Tab2)){
     GPD_con2<-evm(Data_Con2[,con2], th=Thres2 ,penalty = "gaussian",priorParameters = list(c(0, 0), matrix(c(100^2, 0, 0, 0.25), nrow = 2)))
   }
-  if(is.null(GPD2)==T & GPD_Bayes==F & is.null(Tab2)==T){
+  if(is.null(GPD2) & GPD_Bayes==FALSE & is.null(Tab2)){
     GPD_con2<-evm(Data_Con2[,con2], th= Thres2)
   }
 
   ##Fit the specified marginal distribution (Marginal_Dist2) to the non-conditioned variable con1 in Data_Con2.
   if(Marginal_Dist2 == "BS"){
-    if(is.na(Marginal_Dist2_Par)==T){
+    if(is.na(Marginal_Dist2_Par)){
       bdata2 <- data.frame(shape = exp(-0.5), scale = exp(0.5))
       bdata2 <- transform(bdata2, y = Data_Con2[,con1])
       marginal_non_con2<-vglm(y ~ 1, bisa, data = bdata2, trace = FALSE)
@@ -410,21 +410,21 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
     }
   }
   if(Marginal_Dist2 == "Exp"){
-    if(is.na(Marginal_Dist2_Par)==T){
+    if(is.na(Marginal_Dist2_Par)){
       marginal_non_con2<-fitdistr(Data_Con2[,con1],"exponential")
     }else{
       marginal_non_con2<-Marginal_Dist2_Par
     }
   }
   if(Marginal_Dist2 == "Gam(2)"){
-    if(is.na(Marginal_Dist2_Par)==T){
+    if(is.na(Marginal_Dist2_Par)){
       marginal_non_con2<-fitdistr(Data_Con2[,con1], "gamma")
     }else{
       marginal_non_con2<-Marginal_Dist2_Par
     }
   }
   if(Marginal_Dist2 == "Gam(3)"){
-    if(is.na(Marginal_Dist2_Par)==T){
+    if(is.na(Marginal_Dist2_Par)){
       data.gamlss<-data.frame(X=Data_Con2[,con1])
       marginal_non_con2 <- tryCatch(gamlss(X~1, data=data.gamlss, family=GG),
                                     error = function(e) "error")
@@ -433,7 +433,7 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
     }
   }
   if(Marginal_Dist2 == "GamMix(2)"){
-    if(is.na(Marginal_Dist2_Par)==T){
+    if(is.na(Marginal_Dist2_Par)){
       data.gamlss<-data.frame(X=Data_Con2[,con1])
       marginal_non_con2 <- tryCatch(gamlssMX(X~1, data=data.gamlss, family=GA, K=2, trace=FALSE),
                                     error = function(e) "error")
@@ -442,7 +442,7 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
     }
   }
   if(Marginal_Dist2 == "GamMix(3)"){
-    if(is.na(Marginal_Dist2_Par)==T){
+    if(is.na(Marginal_Dist2_Par)){
       data.gamlss<-data.frame(X=Data_Con2[,con1])
       marginal_non_con2 <- tryCatch(gamlssMX(X~1, data=data.gamlss, family=GA, K=3, trace=FALSE),
                                     error = function(e) "error")
@@ -451,42 +451,42 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
     }
   }
   if(Marginal_Dist2 == "Gaus"){
-    if(is.na(Marginal_Dist2_Par)==T){
+    if(is.na(Marginal_Dist2_Par)){
       marginal_non_con2<-fitdistr(Data_Con2[,con1],"normal")
     }else{
       marginal_non_con2<-Marginal_Dist2_Par
     }
   }
   if(Marginal_Dist2 == "Gum"){
-    if(is.na(Marginal_Dist2_Par)==T){
+    if(is.na(Marginal_Dist2_Par)){
       marginal_non_con2 <- gamlss(Data_Con2[,con1]  ~ 1, family= GU, trace=FALSE)
     }else{
       marginal_non_con2 <- Marginal_Dist2_Par
     }
   }
   if(Marginal_Dist2 == "InvG"){
-    if(is.na(Marginal_Dist2_Par)==T){
+    if(is.na(Marginal_Dist2_Par)){
       marginal_non_con2<-fitdist(Data_Con2[,con1], "invgauss", start = list(mean = 5, shape = 1))
     }else{
       marginal_non_con2<-Marginal_Dist2_Par
     }
   }
   if(any(Marginal_Dist2=="Lapl")){
-   if(is.na(Marginal_Dist2_Par)==T){
+   if(is.na(Marginal_Dist2_Par)){
     marginal_non_con2 <- fitdistr(Data_Con2[,con1], dlaplace, start=list(location=mean(Data), scale=sd(Data)/sqrt(2)))
    }else{
     marginal_non_con2<-Marginal_Dist2_Par
    }
   }
   if(Marginal_Dist2 == "Logis"){
-    if(is.na(Marginal_Dist2_Par)==T){
+    if(is.na(Marginal_Dist2_Par)){
       marginal_non_con2<-fitdistr(Data_Con2[,con1],"logistic")
     }else{
       marginal_non_con2<-Marginal_Dist2_Par
     }
   }
   if(Marginal_Dist2 == "LNorm"){
-    if(is.na(Marginal_Dist2_Par)==T){
+    if(is.na(Marginal_Dist2_Par)){
       marginal_non_con2<-fitdistr(Data_Con2[,con1],"lognormal")
     }else{
       marginal_non_con2<-Marginal_Dist2_Par
@@ -494,7 +494,7 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
   }
 
   if(Marginal_Dist2 == "RGum"){
-   if(is.na(Marginal_Dist2_Par)==T){
+   if(is.na(Marginal_Dist2_Par)){
     marginal_non_con2 <- gamlss(Data_Con2[,con1] ~ 1,family=RG, trace=FALSE)
    }else{
     marginal_non_con2<-Marginal_Dist2_Par
@@ -502,14 +502,14 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
   }
 
   if(Marginal_Dist2 == "TNorm"){
-    if(is.na(Marginal_Dist2_Par)==T){
+    if(is.na(Marginal_Dist2_Par)){
       marginal_non_con2<-fitdistr(Data_Con2[,con1],"normal")
     }else{
       marginal_non_con2<-Marginal_Dist2_Par
     }
   }
   if(Marginal_Dist2 == "Twe"){
-    if(is.na(Marginal_Dist2_Par)==T){
+    if(is.na(Marginal_Dist2_Par)){
       capture.output(
       marginal_non_con2<-tweedie.profile(Data_Con2[,con1] ~ 1,p.vec=seq(1.5, 2.5, by=0.2), do.plot=FALSE),
       type = "output"
@@ -519,7 +519,7 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
     }
   }
   if(Marginal_Dist2 == "Weib"){
-    if(is.na(Marginal_Dist2_Par)==T){
+    if(is.na(Marginal_Dist2_Par)){
       marginal_non_con2<-fitdistr(Data_Con2[,con1], "weibull")
     }else{
       marginal_non_con2<-Marginal_Dist2_Par
@@ -535,10 +535,10 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
   #Simulate a sample from the fitted copula. Out of the sample size 'N' the proportion of the sample from the copula associated with Data_Con1 is proportional to the size of Data_Con1 relative to Data_Con2.
   sample<-BiCopSim(round(N*nrow(Data_Con1)/(nrow(Data_Con1)+nrow(Data_Con2)),0),obj1)
   #Transform the realizations of the conditioned variable con1 to the original scale using inverse cumulative distribution a.k.a. quantile functions (inverse probability integral transform) of the GPD contained in the u2gpd function.
-  if(is.null(GPD1)==T & is.null(Tab1)==T){
+  if(is.null(GPD1) & is.null(Tab1)){
    cop.sample1.con<-u2gpd(sample[,con1], p = 1, th=Thres1 , sigma=exp(GPD_con1$coefficients[1]),xi= GPD_con1$coefficients[2])
   }
-  if(is.null(GPD1)==F){
+  if(!is.null(GPD1)){
    cop.sample1.con<-u2gpd(sample[,con1], p = 1, th = GPD1$Threshold, sigma = GPD1$sigma, xi= GPD1$xi)
   }
   if(!is.null(Tab1)){
@@ -610,10 +610,10 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
   sample<-BiCopSim(round(N*nrow(Data_Con2)/(nrow(Data_Con1)+nrow(Data_Con2)),0),obj2)
 
   #Transform the realizations of the conditioned variable con2 to the original scale using the inverse CDF (quantile function) of the GPD contained in the u2gpd function.
-  if(is.null(GPD2)==T & is.null(Tab2)==T){
+  if(is.null(GPD2) & is.null(Tab2)){
    cop.sample2.con<-u2gpd(sample[,con2], p = 1, th=Thres2, sigma=exp(GPD_con2$coefficients[1]),xi= GPD_con2$coefficients[2])
   }
-  if(is.null(GPD2)==F){
+  if(!is.null(GPD2)){
    cop.sample2.con<-u2gpd(sample[,con2], p = 1, th = GPD2$Threshold, sigma = GPD2$sigma, xi= GPD2$xi)
   }
   if(!is.null(Tab2)){
@@ -681,15 +681,11 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
   cop.sample<-rbind(cop.sample1,cop.sample2)
 
   #Find the minimum and maximum x- and y-axis limits for the plot. If the limits are not specified in the input use the minimum and maximum values of the Data.
-  x_min<-ifelse(is.na(x_lim_min)==T,min(na.omit(Data[,con1])),x_lim_min)
-  x_max<-ifelse(is.na(x_lim_max)==T,max(na.omit(Data[,con1])),x_lim_max)
-  y_min<-ifelse(is.na(y_lim_min)==T,min(na.omit(Data[,con2])),y_lim_min)
-  y_max<-ifelse(is.na(y_lim_max)==T,max(na.omit(Data[,con2])),y_lim_max)
+  x_min<-ifelse(is.na(x_lim_min),min(na.omit(Data[,con1])),x_lim_min)
+  x_max<-ifelse(is.na(x_lim_max),max(na.omit(Data[,con1])),x_lim_max)
+  y_min<-ifelse(is.na(y_lim_min),min(na.omit(Data[,con2])),y_lim_min)
+  y_max<-ifelse(is.na(y_lim_max),max(na.omit(Data[,con2])),y_lim_max)
 
-  #plot(Data[, con1], Data[, con2], xlim = c(x_min, x_max), ylim = c(y_min, y_max), col = "Light Grey",xlab = x_lab, ylab = y_lab, cex.lab = 1.5, cex.axis = 1.5)
-  #points(cop.sample)
-  #points(Data_Con1[,con1],Data_Con1[,con2],col=4,cex=1.5)
-  #points(Data_Con2[,con1],Data_Con2[,con2],col="Red",pch=4,cex=1.5)
 
   ###Deriving the quantile isoline from the sample conditioned on variable 'Con2' i.e. Data_Con1
 
@@ -722,14 +718,14 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
     #Transform the points on the contour to the original scale using the inverse cumulative distribution a.k.a. quantile functions (inverse probability integral transform)
     #Transform the conditioned variable in Data_Con1, Con1 to the original scale using the inverse CDF of the GPD contained in the u2gpd function
 
-    if(is.null(GPD1)==T & is.null(Tab1)==T){
+    if(is.null(GPD1) & is.null(Tab1)){
       con1.x<-u2gpd(as.numeric(unlist(xy160[[1]][2])), p = 1, th=Thres1 , sigma=exp(GPD_con1$coefficients[1]),xi= GPD_con1$coefficients[2] )
     }
 
-    if(is.null(GPD1)==F){
+    if(!is.null(GPD1)){
       con1.x<-u2gpd(as.numeric(unlist(xy160[[1]][2])), p = (GPD1$Rate)/Rate_Con1, th = GPD1$Threshold, sigma = GPD1$sigma, xi = GPD1$xi)
     }
-    if(is.null(Tab1)==F){
+    if(!is.null(Tab1)){
       con1.x = approx(1-1/Tab1[,1],Tab1[,2],xout=u1+as.numeric(unlist(xy160[[1]][2]))*(((1-1/(mu*RP[k]))-u1)/max(as.numeric(unlist(xy160[[1]][2])))))$y
     }
 
@@ -829,14 +825,14 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
 
     #Transform the points on the contour to the original scale using the inverse cumulative distributions a.k.a. quantile functions (i.e. using the inverse probability integral transform).
     #Transforming the conditioned variable in Data_Con2, Con2 to the original scale using the inverse CDF of the GPD contained in the u2gpd function.
-    if(is.null(GPD2)==T & is.null(Tab2)==T){
+    if(is.null(GPD2) & is.null(Tab2)){
      con2.y<-u2gpd(as.numeric(unlist(xy160[[1]][3])), p = 1, th=Thres2 , sigma=exp(GPD_con2$coefficients[1]),xi= GPD_con2$coefficients[2] )
     }
 
-    if(is.null(GPD2)==F){
+    if(!is.null(GPD2)){
      con2.y<-u2gpd(as.numeric(unlist(xy160[[1]][3])), p = (GPD2$Rate)/Rate_Con2, th = GPD2$Threshold, sigma = GPD2$sigma, xi = GPD2$xi)
     }
-    if(is.null(Tab2)==F){
+    if(!is.null(Tab2)){
      con2.y = approx(1-1/Tab2[,1],Tab2[,2],xout=u2+as.numeric(unlist(xy160[[1]][3]))*(((1-1/(mu*RP[k]))-u2)/max(as.numeric(unlist(xy160[[1]][3])))))$y
     }
 
@@ -910,12 +906,12 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
     colnames(con2.prediction.points.ALL)<-c(names(Data)[1],names(Data)[2])
     ##plot(con1.prediction.points.ALL,col=1,xlim=c(9,11),ylim=c(-2,9))
 
-    x_min<-ifelse(is.na(x_lim_min)==T,min(na.omit(Data[,con1])),x_lim_min)
-    x_max<-ifelse(is.na(x_lim_max)==T,max(na.omit(Data[,con1])),x_lim_max)
-    y_min<-ifelse(is.na(y_lim_min)==T,min(na.omit(Data[,con2])),y_lim_min)
-    y_max<-ifelse(is.na(y_lim_max)==T,max(na.omit(Data[,con2])),y_lim_max)
+    x_min<-ifelse(is.na(x_lim_min),min(na.omit(Data[,con1])),x_lim_min)
+    x_max<-ifelse(is.na(x_lim_max),max(na.omit(Data[,con1])),x_lim_max)
+    y_min<-ifelse(is.na(y_lim_min),min(na.omit(Data[,con2])),y_lim_min)
+    y_max<-ifelse(is.na(y_lim_max),max(na.omit(Data[,con2])),y_lim_max)
 
-    if(Plot_Quantile_Isoline==T){
+    if(Plot_Quantile_Isoline==TRUE){
       #Plot
       par(mar=c(4.5,4.2,0.5,0.5))
       plot(Data[, con1], Data[, con2], xlim =c(x_min, x_max), ylim = c(y_min, y_max), col = "Light Grey",xlab = x_lab, ylab = y_lab, cex.lab = 1.5, cex.axis = 1.5)
@@ -945,14 +941,14 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
                     con2.prediction.points.ALL[,2][which(con2.prediction.points.ALL.Round==x.1[i])])
       }
       #If any y.1 elements are '-Inf' then remove.
-      if(any(y.1==-Inf)==T){
+      if(any(y.1==-Inf)==TRUE){
         y.1[which(y.1==-Inf)]<-ifelse(y.1[which(y.1==-Inf)]==max(y.1,na.rm=T),
                                       max(c(con1.prediction.points.ALL[,2],con2.prediction.points.ALL[,2])),
                                       NA)
       }
 
       #If any x.1 or y.1 elements are 'NA' then remove.
-      if(length(which(is.na(y.1)==T))>0){
+      if(length(which(is.na(y.1)==TRUE))>0){
         x.1<-x.1[-which(is.na(y.1)==TRUE)]
         y.1<-y.1[-which(is.na(y.1)==TRUE)]
       }
@@ -1076,7 +1072,7 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
                     con2.prediction.points.ALL[,2][which(con2.prediction.points.ALL.Round==x.1[i])])
       }
       #If any y.1 elements are '-Inf' then remove.
-      if(any(y.1==-Inf)==T){
+      if(any(y.1==-Inf)==TRUE){
         y.1[which(y.1==-Inf)]<-ifelse(y.1[which(y.1==-Inf)]==max(y.1,na.rm=T),
                                       max(c(con1.prediction.points.ALL[,2],con2.prediction.points.ALL[,2])),
                                       NA)
@@ -1102,7 +1098,7 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
         x.2[i]<-max(round(con1.prediction.points.ALL[,1],2)[which(con1.prediction.points.ALL.Round==y.2[i])])
       }
 
-      if(any(x.2==-Inf)==T){
+      if(any(x.2==-Inf)==TRUE){
         x.2[which(x.2==-Inf)]<-NA
       }
 
@@ -1210,7 +1206,7 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
       }
 
       #If any y.1 elements are '-Inf' then remove.
-      if(any(y.1==-Inf)==T){
+      if(any(y.1==-Inf)==TRUE){
         y.1[which(y.1==-Inf)]<-ifelse(y.1[which(y.1==-Inf)]==max(y.1,na.rm=T),
                                       max(c(con1.prediction.points.ALL[,2],con2.prediction.points.ALL[,2])),
                                       NA)
@@ -1237,7 +1233,7 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
                     con2.prediction.points.ALL[,1][which(con2.prediction.points.ALL.Round==y.2[i])])
       }
 
-      if(any(x.2==-Inf)==T){
+      if(any(x.2==-Inf)==TRUE){
         x.2[which(x.2==-Inf)]<-NA
       }
 
@@ -1324,10 +1320,10 @@ Design_Event_2D<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=
   ###Plot the isoline
 
   #Find the minimum and maximum x- and y-axis limits for the plot. If the limits are not specified in the input use the minimum and maximum values of the Data.
-  x_min<-ifelse(is.na(x_lim_min)==T,min(na.omit(Data[,con1])),x_lim_min)
-  x_max<-ifelse(is.na(x_lim_max)==T,max(na.omit(Data[,con1])),x_lim_max)
-  y_min<-ifelse(is.na(y_lim_min)==T,min(na.omit(Data[,con2])),y_lim_min)
-  y_max<-ifelse(is.na(y_lim_max)==T,max(na.omit(Data[,con2])),y_lim_max)
+  x_min<-ifelse(is.na(x_lim_min),min(na.omit(Data[,con1])),x_lim_min)
+  x_max<-ifelse(is.na(x_lim_max),max(na.omit(Data[,con1])),x_lim_max)
+  y_min<-ifelse(is.na(y_lim_min),min(na.omit(Data[,con2])),y_lim_min)
+  y_max<-ifelse(is.na(y_lim_max),max(na.omit(Data[,con2])),y_lim_max)
 
   #Plot
   par(mar=c(4.5,4.2,0.5,0.5))

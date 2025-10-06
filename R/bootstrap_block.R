@@ -1,5 +1,5 @@
-#' Implements a block bootstrap 
-#' 
+#' Implements a block bootstrap
+#'
 #' This function performs block bootstrapping on a given dataset.
 #'
 #' @param data Data frame of raw data detrended if necessary. First column should be of the \code{Date}.
@@ -10,7 +10,7 @@
 #' #Boostrap the detrended data at site S-22
 #' boot_df = bootstrap_block(S22.Detrend.df[,2:3])
 #' #Calculate the mean of the drivers in bootstrapped sample
-#' apply(boot_df,2,function(x) mean(x,na.rm=T))
+#' apply(boot_df,2,function(x) mean(x,na.rm=TRUE))
 bootstrap_block = function(data,k=14){ #function for performing block bootstrapping
   #data is bivariate dataset
   #k is block length

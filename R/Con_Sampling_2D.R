@@ -61,7 +61,7 @@ Con_Sampling_2D<-function(Data_Detrend,Data_Declust,Con_Variable,u=0.97,Thres=NA
     con<-Con_Variable
     noncon<-c(1,2)[-con]
   }
-  if(is.na(Thres)==T){
+  if(is.na(Thres)){
     Thres<-quantile(na.omit(Data_Detrend[,con]), u)
   }
   x<-which(Data_Declust[,con]>=Thres)

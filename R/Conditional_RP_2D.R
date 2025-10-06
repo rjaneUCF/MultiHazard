@@ -122,19 +122,19 @@ Conditional_RP_2D<-function (Data, Data_Con1, Data_Con2, u1, u2,
   con1 <- which(names(Data) == Con1)
   con2 <- which(names(Data) == Con2)
   con_var <- which(names(Data) == Con_Var)
-  if(is.na(Var1)==T){
+  if(is.na(Var1)){
   RP_Var1 <- ifelse(con_var == 1, RP_Con, RP_Non_Con)
   RP_Var2 <- ifelse(con_var == 2, RP_Con, RP_Non_Con)
   }
 
   #Axis limits for plots
-  x_min <- ifelse(is.na(x_lim_min) == T, min(na.omit(Data[,con1])), x_lim_min)
-  x_max <- ifelse(is.na(x_lim_max) == T, max(na.omit(Data[,con1])), x_lim_max)
-  y_min <- ifelse(is.na(y_lim_min) == T, min(na.omit(Data[,con2])), y_lim_min)
-  y_max <- ifelse(is.na(y_lim_max) == T, max(na.omit(Data[,con2])), y_lim_max)
+  x_min <- ifelse(is.na(x_lim_min), min(na.omit(Data[,con1])), x_lim_min)
+  x_max <- ifelse(is.na(x_lim_max), max(na.omit(Data[,con1])), x_lim_max)
+  y_min <- ifelse(is.na(y_lim_min), min(na.omit(Data[,con2])), y_lim_min)
+  y_max <- ifelse(is.na(y_lim_max), max(na.omit(Data[,con2])), y_lim_max)
 
   #Finding the threshold if specified as a quantile
-  if(is.na(Thres1)==T){
+  if(is.na(Thres1)){
     Thres1<-quantile(na.omit(Data[,con1]), u1)
   }
 
@@ -148,10 +148,10 @@ Conditional_RP_2D<-function (Data, Data_Con1, Data_Con2, u1, u2,
   #Interarrival time
   EL_Con1<-1/rate
   #Value of con1 with return period RP_Var1
-  if(is.na(var1)==T){
+  if(is.na(var1)){
    Var1<-as.numeric(u2gpd((1-EL_Con1/RP_Var1), p = 1, th=Thres1 , sigma=exp(GPD_con1$coefficients[1]),xi= GPD_con1$coefficients[2]))
   }
-  if(is.na(var2)==F){
+  if(!is.na(var2)){
    RP_Var1<-1/(1-pgpd(Var1, u=Thres1 , sigma=exp(GPD_con1$coefficients[1]),xi= GPD_con1$coefficients[2]))
   }
 
@@ -208,11 +208,11 @@ Conditional_RP_2D<-function (Data, Data_Con1, Data_Con2, u1, u2,
   }
 
   #Finding the threshold if specified as a quantile
-  if(is.na(Thres2)==T){
+  if(is.na(Thres2)){
     Thres2<-quantile(na.omit(Data[,con2]), u2)
   }
 
-  if (is.na(var2)==F){
+  if (!is.na(var2)==F){
     if (Marginal_Dist1 == "BS") {
       RP_Var2_con1 <- 1/(1-pbisa(Var2, as.numeric(Coef(marginal_non_con1)[1]),
                             as.numeric(Coef(marginal_non_con1)[2])))
@@ -282,10 +282,10 @@ Conditional_RP_2D<-function (Data, Data_Con1, Data_Con2, u1, u2,
   #Calculate the inter-arrival time of extremes (in terms of mu) in Data_Con1.
   EL_Con2<-1/rate
   #Value of con2 with return period RP_Var2
-  if(is.na(var2)==T){
+  if(is.na(var2)){
    Var2<-as.numeric(u2gpd((1-EL_Con2/RP_Var2), p = 1, th=Thres2 , sigma=exp(GPD_con2$coefficients[1]),xi= GPD_con2$coefficients[2]))
   }
-  if(is.na(var2)==F){
+  if(!is.na(var2)){
    RP_Var2<-1/(1-pgpd(Var2, u=Thres2 , sigma=exp(GPD_con2$coefficients[1]),xi= GPD_con2$coefficients[2]))
   }
 

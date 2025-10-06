@@ -76,8 +76,8 @@ Copula_Threshold_2D<-function(Data_Detrend,Data_Declust,u1=seq(0.9,0.99,0.01),u2
   }
 
   #Axes limits for plots
-  x_lim_min<-ifelse(is.na(x_lim_min)==T,min(u1,u2,na.rm=T),x_lim_min)
-  x_lim_max<-ifelse(is.na(x_lim_max)==T,max(u1,u2,na.rm=T),x_lim_max)
+  x_lim_min<-ifelse(is.na(x_lim_min),min(u1,u2,na.rm=TRUE),x_lim_min)
+  x_lim_max<-ifelse(is.na(x_lim_max),max(u1,u2,na.rm=TRUE),x_lim_max)
   y_lim=y_lim_max-y_lim_min
 
   #Table of copula codes in Vine copula package

@@ -103,9 +103,9 @@ Decluster_S_SW<-function(Data, Window_Width_Sum, Window_Width) {
   z<-0
 
   #Assigning any NA values to a very small number relative to the data
-  if (length(which(is.na(Data[,2]) == T)) > 0) {
-    z <- which(is.na(Data[,2]) == T)
-    Data[z,2] <- min(Data[,2], na.rm = T) - 1000
+  if (length(which(is.na(Data[,2]))) > 0) {
+    z <- which(is.na(Data[,2]))
+    Data[z,2] <- min(Data[,2], na.rm = TRUE) - 1000
   }
 
   #Summing observations using a centered window

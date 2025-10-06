@@ -26,13 +26,13 @@
 Decluster<-function(Data,u=0.95,Thres=NA,SepCrit=3,mu=365.25){
 
   z<-0
-  if(is.na(Thres)==T){
+  if(is.na(Thres)){
     Thres<-as.numeric(quantile(na.omit(Data),u))
   }
 
-  if(length(which(is.na(Data)==T))>0){
-    z<-which(is.na(Data)==T)
-    Data[z]<-min(Data,na.rm=T)-1000
+  if(length(which(is.na(Data)))>0){
+    z<-which(is.na(Data)==TRUE)
+    Data[z]<-min(Data,na.rm=TRUE)-1000
   }
 
   Events<-Event_Identify(Data=Data,Threshold=Thres,SeparationPeriod=SepCrit)

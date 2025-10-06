@@ -74,7 +74,7 @@ Con_Sampling_2D_Lag<-
       con <- Con_Variable
       noncon <- c(1, 2)[-con]
     }
-    if(is.na(Thres)==T){
+    if(is.na(Thres)){
       Thres<-quantile(na.omit(Data_Detrend[,con]), u)
     }
     x.con <- which(Data_Declust[, con] >= Thres)

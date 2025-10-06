@@ -271,10 +271,10 @@ Design_Event_2D_Multi_Pop<-function(Data, Data_Con1, Data_Con2, Data_Con3, Data_
   }
 
   #Define the grid over which to calculate Annual Excedence Probabilities
-  Grid_x_min = ifelse(is.na(Grid_x_min),min(Data[,1],na.rm=T),Grid_x_min)
-  Grid_x_max = 2*ifelse(is.na(Grid_x_max),max(Data[,1],na.rm=T),Grid_x_max)
-  Grid_y_min = ifelse(is.na(Grid_y_min),min(Data[,2],na.rm=T),Grid_y_min)
-  Grid_y_max = 2*ifelse(is.na(Grid_y_max),max(Data[,2],na.rm=T),Grid_y_max)
+  Grid_x_min = ifelse(is.na(Grid_x_min),min(Data[,1],na.rm=TRUE),Grid_x_min)
+  Grid_x_max = 2*ifelse(is.na(Grid_x_max),max(Data[,1],na.rm=TRUE),Grid_x_max)
+  Grid_y_min = ifelse(is.na(Grid_y_min),min(Data[,2],na.rm=TRUE),Grid_y_min)
+  Grid_y_max = 2*ifelse(is.na(Grid_y_max),max(Data[,2],na.rm=TRUE),Grid_y_max)
   Grid_x_interval = ifelse(is.na(Grid_x_interval),2,Grid_x_interval)
   Grid_y_interval = ifelse(is.na(Grid_y_interval),0.1,Grid_y_interval)
 
@@ -295,22 +295,22 @@ Design_Event_2D_Multi_Pop<-function(Data, Data_Con1, Data_Con2, Data_Con3, Data_
   time.period<-nrow(Data[which(is.na(Data[,1])==FALSE & is.na(Data[,2])==FALSE),])/mu
 
   #Calculate the rate of occurrences of extremes (in terms of mu) in Data_Con1.
-  if(is.na(Rate_Con1)==T){
+  if(is.na(Rate_Con1)){
     Rate_Con1<-(nrow(Data_Con1)+N_Both_1/2)/time.period
   }
 
   #Calculate the rate of occurrences of extremes (in terms of mu) in Data_Con2.
-  if(is.na(Rate_Con2)==T){
+  if(is.na(Rate_Con2)){
     Rate_Con2<-(nrow(Data_Con2)+N_Both_1/2)/time.period
   }
 
   #Calculate the rate of occurrences of extremes (in terms of mu) in Data_Con3.
-  if(is.na(Rate_Con3)==T){
+  if(is.na(Rate_Con3)){
     Rate_Con3<-(nrow(Data_Con3)+N_Both_2/2)/time.period
   }
 
   #Calculate the rate of occurrences of extremes (in terms of mu) in Data_Con4.
-  if(is.na(Rate_Con4)==T){
+  if(is.na(Rate_Con4)){
     Rate_Con4<-(nrow(Data_Con4)+N_Both_2/2)/time.period
   }
 
@@ -323,17 +323,17 @@ Design_Event_2D_Multi_Pop<-function(Data, Data_Con1, Data_Con2, Data_Con3, Data_
     Thres1<-quantile(na.omit(Data[,con1]),u1)
   }
 
-  if(is.null(GPD1) & GPD_Bayes & is.null(Tab1)){
+  if(is.null(GPD1) & GPD_Bayes==TRUE & is.null(Tab1)){
     GPD_con1<-evm(Data_Con1[,con1], th = Thres1,penalty = "gaussian",priorParameters = list(c(0, 0), matrix(c(100^2, 0, 0, 0.25), nrow = 2)))
   }
-  if(is.null(GPD1) & !GPD_Bayes & is.null(Tab1)){
+  if(is.null(GPD1) & GPD_Bayes==FALSE & is.null(Tab1)){
     GPD_con1<-evm(Data_Con1[,con1], th = Thres1)
   }
 
 
   #Fit the specified marginal distribution (Marginal_Dist1) to the non-conditioned variable con2 in Data_Con1.
   if(Marginal_Dist1 == "BS"){
-    if(is.na(Marginal_Dist1_Par)==T){
+    if(is.na(Marginal_Dist1_Par)){
       bdata2 <- data.frame(shape = exp(-0.5), scale = exp(0.5))
       bdata2 <- transform(bdata2, y = Data_Con1[,con2])
       marginal_non_con1<-vglm(y ~ 1, bisa, data = bdata2, trace = FALSE)
@@ -342,21 +342,21 @@ Design_Event_2D_Multi_Pop<-function(Data, Data_Con1, Data_Con2, Data_Con3, Data_
     }
   }
   if(Marginal_Dist1 == "Exp"){
-    if(is.na(Marginal_Dist1_Par)==T){
+    if(is.na(Marginal_Dist1_Par)){
       marginal_non_con1<-fitdistr(Data_Con1[,con2],"exponential")
     }else{
       marginal_non_con1<-Marginal_Dist1_Par
     }
   }
   if(Marginal_Dist1 == "Gam(2)"){
-    if(is.na(Marginal_Dist1_Par)==T){
+    if(is.na(Marginal_Dist1_Par)){
       marginal_non_con1<-fitdistr(Data_Con1[,con2], "gamma")
     }else{
       marginal_non_con1<-Marginal_Dist1_Par
     }
   }
   if(Marginal_Dist1 == "Gam(3)"){
-    if(is.na(Marginal_Dist1_Par)==T){
+    if(is.na(Marginal_Dist1_Par)){
       data.gamlss<-data.frame(X=Data_Con1[,con2])
       marginal_non_con1 <- tryCatch(gamlss(X~1, data=data.gamlss, family=GG),
                                     error = function(e) "error")
@@ -365,7 +365,7 @@ Design_Event_2D_Multi_Pop<-function(Data, Data_Con1, Data_Con2, Data_Con3, Data_
     }
   }
   if(Marginal_Dist1 == "GamMix(2)"){
-    if(is.na(Marginal_Dist1_Par)==T){
+    if(is.na(Marginal_Dist1_Par)){
       data.gamlss<-data.frame(X=Data_Con1[,con2])
       marginal_non_con1 <- tryCatch(gamlssMX(X~1, data=data.gamlss, family=GA, K=2),
                                     error = function(e) "error")
@@ -374,7 +374,7 @@ Design_Event_2D_Multi_Pop<-function(Data, Data_Con1, Data_Con2, Data_Con3, Data_
     }
   }
   if(Marginal_Dist1 == "GamMix(3)"){
-    if(is.na(Marginal_Dist1_Par)==T){
+    if(is.na(Marginal_Dist1_Par)){
       data.gamlss<-data.frame(X=Data_Con1[,con2])
       marginal_non_con1 <- tryCatch(gamlssMX(X~1, data=data.gamlss, family=GA, K=3),
                                     error = function(e) "error")
@@ -383,70 +383,70 @@ Design_Event_2D_Multi_Pop<-function(Data, Data_Con1, Data_Con2, Data_Con3, Data_
     }
   }
   if(Marginal_Dist1 == "Gaus"){
-    if(is.na(Marginal_Dist1_Par)==T){
+    if(is.na(Marginal_Dist1_Par)){
       marginal_non_con1<-fitdistr(Data_Con1[,con2],"normal")
     }else{
       marginal_non_con1<-Marginal_Dist1_Par
     }
   }
   if(Marginal_Dist1 == "Gum"){
-    if(is.na(Marginal_Dist1_Par)==T){
+    if(is.na(Marginal_Dist1_Par)){
       marginal_non_con1 <- gamlss(Data_Con1[,con2]  ~ 1, family= GU)
     }else{
       marginal_non_con1<-Marginal_Dist1_Par
     }
   }
   if(Marginal_Dist1 == "InvG"){
-    if(is.na(Marginal_Dist1_Par)==T){
+    if(is.na(Marginal_Dist1_Par)){
       marginal_non_con1<-fitdist(Data_Con1[,con2], "invgauss", start = list(mean = 5, shape = 1))
     }else{
       marginal_non_con1<-Marginal_Dist1_Par
     }
   }
   if(Marginal_Dist1 == "Lapl"){
-    if(is.na(Marginal_Dist1_Par)==T){
+    if(is.na(Marginal_Dist1_Par)){
       marginal_non_con1<-fitdistr(Data_Con1[,con2], dlaplace, start=list(location=mean(Data_Con1[,con2]), scale=sd(Data_Con1[,con2])/sqrt(2)))
     }else{
     marginal_non_con1<-Marginal_Dist1_Par
     }
   }
   if(Marginal_Dist1 == "Logis"){
-    if(is.na(Marginal_Dist1_Par)==T){
+    if(is.na(Marginal_Dist1_Par)){
       marginal_non_con1<-fitdistr(Data_Con1[,con2], "logistic")
     }else{
       marginal_non_con1<-Marginal_Dist1_Par
     }
   }
   if(Marginal_Dist1 == "LNorm"){
-    if(is.na(Marginal_Dist1_Par)==T){
+    if(is.na(Marginal_Dist1_Par)){
       marginal_non_con1<-fitdistr(Data_Con1[,con2],"lognormal")
     }else{
       marginal_non_con1<-Marginal_Dist1_Par
     }
   }
   if(Marginal_Dist1 == "RGum"){
-    if(is.na(Marginal_Dist1_Par)==T){
+    if(is.na(Marginal_Dist1_Par)){
       marginal_non_con1 <- gamlss(Data_Con1[,con2] ~ 1,family=RG)
     }else{
       marginal_non_con1<-Marginal_Dist1_Par
     }
   }
   if(Marginal_Dist1 == "TNorm"){
-    if(is.na(Marginal_Dist1_Par)==T){
+    if(is.na(Marginal_Dist1_Par)){
       marginal_non_con1<-fitdistr(Data_Con1[,con2],"normal")
     }else{
       marginal_non_con1<-Marginal_Dist1_Par
     }
   }
   if(Marginal_Dist1 == "Twe"){
-    if(is.na(Marginal_Dist1_Par)==T){
+    if(is.na(Marginal_Dist1_Par)){
       marginal_non_con1<-tweedie.profile(Data_Con1[,con2] ~ 1,p.vec=seq(1.5, 2.5, by=0.2), do.plot=FALSE)
     }else{
       marginal_non_con1<-Marginal_Dist1_Par
     }
   }
   if(Marginal_Dist1 == "Weib"){
-    if(is.na(Marginal_Dist1_Par)==T){
+    if(is.na(Marginal_Dist1_Par)){
       marginal_non_con1<-fitdistr(Data_Con1[,con2], "weibull")
     }else{
       marginal_non_con1<-Marginal_Dist1_Par
@@ -467,7 +467,7 @@ Design_Event_2D_Multi_Pop<-function(Data, Data_Con1, Data_Con2, Data_Con3, Data_
 
   ##Fit the specified marginal distribution (Marginal_Dist2) to the non-conditioned variable con1 in Data_Con2.
   if(Marginal_Dist2 == "BS"){
-    if(is.na(Marginal_Dist2_Par)==T){
+    if(is.na(Marginal_Dist2_Par)){
       bdata2 <- data.frame(shape = exp(-0.5), scale = exp(0.5))
       bdata2 <- transform(bdata2, y = Data_Con2[,con1])
       marginal_non_con2<-vglm(y ~ 1, bisa, data = bdata2, trace = FALSE)
@@ -476,21 +476,21 @@ Design_Event_2D_Multi_Pop<-function(Data, Data_Con1, Data_Con2, Data_Con3, Data_
     }
   }
   if(Marginal_Dist2 == "Exp"){
-    if(is.na(Marginal_Dist2_Par)==T){
+    if(is.na(Marginal_Dist2_Par)){
       marginal_non_con2<-fitdistr(Data_Con2[,con1],"exponential")
     }else{
       marginal_non_con2<-Marginal_Dist2_Par
     }
   }
   if(Marginal_Dist2 == "Gam(2)"){
-    if(is.na(Marginal_Dist2_Par)==T){
+    if(is.na(Marginal_Dist2_Par)){
       marginal_non_con2<-fitdistr(Data_Con2[,con1], "gamma")
     }else{
       marginal_non_con2<-Marginal_Dist2_Par
     }
   }
   if(Marginal_Dist2 == "Gam(3)"){
-    if(is.na(Marginal_Dist2_Par)==T){
+    if(is.na(Marginal_Dist2_Par)){
       data.gamlss<-data.frame(X=Data_Con2[,con1])
       marginal_non_con2 <- tryCatch(gamlss(X~1, data=data.gamlss, family=GG),
                                     error = function(e) "error")
@@ -499,7 +499,7 @@ Design_Event_2D_Multi_Pop<-function(Data, Data_Con1, Data_Con2, Data_Con3, Data_
     }
   }
   if(Marginal_Dist2 == "GamMix(2)"){
-    if(is.na(Marginal_Dist2_Par)==T){
+    if(is.na(Marginal_Dist2_Par)){
       data.gamlss<-data.frame(X=Data_Con2[,con1])
       marginal_non_con2 <- tryCatch(gamlssMX(X~1, data=data.gamlss, family=GA, K=2),
                                     error = function(e) "error")
@@ -508,7 +508,7 @@ Design_Event_2D_Multi_Pop<-function(Data, Data_Con1, Data_Con2, Data_Con3, Data_
     }
   }
   if(Marginal_Dist2 == "GamMix(3)"){
-    if(is.na(Marginal_Dist2_Par)==T){
+    if(is.na(Marginal_Dist2_Par)){
       data.gamlss<-data.frame(X=Data_Con2[,con1])
       marginal_non_con2 <- tryCatch(gamlssMX(X~1, data=data.gamlss, family=GA, K=3),
                                     error = function(e) "error")
@@ -517,70 +517,70 @@ Design_Event_2D_Multi_Pop<-function(Data, Data_Con1, Data_Con2, Data_Con3, Data_
     }
   }
   if(Marginal_Dist2 == "Gaus"){
-    if(is.na(Marginal_Dist2_Par)==T){
+    if(is.na(Marginal_Dist2_Par)){
       marginal_non_con2<-fitdistr(Data_Con2[,con1],"normal")
     }else{
       marginal_non_con2<-Marginal_Dist2_Par
     }
   }
   if(Marginal_Dist2 == "Gum"){
-    if(is.na(Marginal_Dist2_Par)==T){
+    if(is.na(Marginal_Dist2_Par)){
       marginal_non_con2 <- gamlss(Data_Con2[,con1]  ~ 1, family= GU)
     }else{
       marginal_non_con2<-Marginal_Dist2_Par
     }
   }
   if(Marginal_Dist2 == "InvG"){
-    if(is.na(Marginal_Dist2_Par)==T){
+    if(is.na(Marginal_Dist2_Par)){
       marginal_non_con2<-fitdist(Data_Con2[,con1], "invgauss", start = list(mean = 5, shape = 1))
     }else{
       marginal_non_con2<-Marginal_Dist2_Par
     }
   }
   if(Marginal_Dist2 == "Lapl"){
-    if(is.na(Marginal_Dist2_Par)==T){
+    if(is.na(Marginal_Dist2_Par)){
       marginal_non_con2<-fitdistr(Data_Con2[,con1], dlaplace, start=list(location=mean(Data_Con2[,con1]), scale=sd(Data_Con2[,con1])/sqrt(2)))
     }else{
       marginal_non_con2<-Marginal_Dist2_Par
     }
   }
   if(Marginal_Dist2 == "Logis"){
-    if(is.na(Marginal_Dist2_Par)==T){
+    if(is.na(Marginal_Dist2_Par)){
       marginal_non_con2<-fitdistr(Data_Con2[,con1],"logistic")
     }else{
       marginal_non_con2<-Marginal_Dist2_Par
     }
   }
   if(Marginal_Dist2 == "LNorm"){
-    if(is.na(Marginal_Dist2_Par)==T){
+    if(is.na(Marginal_Dist2_Par)){
       marginal_non_con2<-fitdistr(Data_Con2[,con1],"lognormal")
     }else{
       marginal_non_con2<-Marginal_Dist2_Par
     }
   }
   if(Marginal_Dist2 == "RGum"){
-    if(is.na(Marginal_Dist2_Par)==T){
+    if(is.na(Marginal_Dist2_Par)){
       marginal_non_con2 <- gamlss(Data_Con2[,con1] ~ 1,family=RG)
     }else{
       marginal_non_con2<-Marginal_Dist2_Par
     }
   }
   if(Marginal_Dist2 == "TNorm"){
-    if(is.na(Marginal_Dist2_Par)==T){
+    if(is.na(Marginal_Dist2_Par)){
       marginal_non_con2<-fitdistr(Data_Con2[,con1],"normal")
     }else{
       marginal_non_con2<-Marginal_Dist2_Par
     }
   }
   if(Marginal_Dist2 == "Twe"){
-    if(is.na(Marginal_Dist2_Par)==T){
+    if(is.na(Marginal_Dist2_Par)){
       marginal_non_con2<-tweedie.profile(Data_Con2[,con1] ~ 1,p.vec=seq(1.5, 2.5, by=0.2), do.plot=FALSE)
     }else{
       marginal_non_con2<-Marginal_Dist2_Par
     }
   }
   if(Marginal_Dist2 == "Weib"){
-    if(is.na(Marginal_Dist2_Par)==T){
+    if(is.na(Marginal_Dist2_Par)){
       marginal_non_con2<-fitdistr(Data_Con2[,con1], "weibull")
     }else{
       marginal_non_con2<-Marginal_Dist2_Par
@@ -597,13 +597,13 @@ Design_Event_2D_Multi_Pop<-function(Data, Data_Con1, Data_Con2, Data_Con3, Data_
   sample<-BiCopSim(round(N*Rate_Con1/(Rate_Con1+Rate_Con2+Rate_Con3+Rate_Con4),0),obj1)
 
   #Transform the realizations of the conditioned variable con1 to the original scale using inverse cumulative distribution a.k.a. quantile functions (inverse probability integral transform) of the GPD contained in the u2gpd function.
-  if(is.null(GPD1)==T & is.null(Tab1)==T){
+  if(is.null(GPD1) & is.null(Tab1)){
     cop.sample1.con<-u2gpd(sample[,con1], p = 1, th=Thres1 , sigma=exp(GPD_con1$coefficients[1]),xi= GPD_con1$coefficients[2])
   }
-  if(is.null(GPD1)==F){
+  if(!is.null(GPD1)){
     cop.sample1.con<-u2gpd(sample[,con1], p = 1, th = GPD1$Threshold, sigma = GPD1$sigma, xi= GPD1$xi)
   }
-  if(is.null(Tab1)==F){
+  if(!is.null(Tab1)){
     cop.sample1.con = approx(1-1/Tab1[,1],Tab1[,2],xout=u1+sample[,con1]*(1-u1))$y
   }
 
@@ -776,7 +776,7 @@ Design_Event_2D_Multi_Pop<-function(Data, Data_Con1, Data_Con2, Data_Con3, Data_
 
   #Fit the specified marginal distribution (Marginal_Dist3) to the non-conditioned variable con4 in Data_Con3.
   if(Marginal_Dist3 == "BS"){
-    if(is.na(Marginal_Dist3_Par)==T){
+    if(is.na(Marginal_Dist3_Par)){
       bdata2 <- data.frame(shape = exp(-0.5), scale = exp(0.5))
       bdata2 <- transform(bdata2, y = Data_Con3[,con4])
       marginal_non_con3<-vglm(y ~ 1, bisa, data = bdata2, trace = FALSE)
@@ -785,21 +785,21 @@ Design_Event_2D_Multi_Pop<-function(Data, Data_Con1, Data_Con2, Data_Con3, Data_
     }
   }
   if(Marginal_Dist3 == "Exp"){
-    if(is.na(Marginal_Dist3_Par)==T){
+    if(is.na(Marginal_Dist3_Par)){
       marginal_non_con3<-fitdistr(Data_Con3[,con4],"exponential")
     }else{
       marginal_non_con3<-Marginal_Dist3_Par
     }
   }
   if(Marginal_Dist3 == "Gam(2)"){
-    if(is.na(Marginal_Dist3_Par)==T){
+    if(is.na(Marginal_Dist3_Par)){
       marginal_non_con3<-fitdistr(Data_Con3[,con4], "gamma")
     }else{
       marginal_non_con3<-Marginal_Dist3_Par
     }
   }
   if(Marginal_Dist3 == "Gam(3)"){
-    if(is.na(Marginal_Dist3_Par)==T){
+    if(is.na(Marginal_Dist3_Par)){
       data.gamlss<-data.frame(X=Data_Con3[,con4])
       marginal_non_con3 <- tryCatch(gamlss(X~1, data=data.gamlss, family=GG),
                                     error = function(e) "error")
@@ -808,7 +808,7 @@ Design_Event_2D_Multi_Pop<-function(Data, Data_Con1, Data_Con2, Data_Con3, Data_
     }
   }
   if(Marginal_Dist3 == "GamMix(2)"){
-    if(is.na(Marginal_Dist3_Par)==T){
+    if(is.na(Marginal_Dist3_Par)){
       data.gamlss<-data.frame(X=Data_Con3[,con4])
       marginal_non_con3 <- tryCatch(gamlssMX(X~1, data=data.gamlss, family=GA, K=2),
                                     error = function(e) "error")
@@ -817,7 +817,7 @@ Design_Event_2D_Multi_Pop<-function(Data, Data_Con1, Data_Con2, Data_Con3, Data_
     }
   }
   if(Marginal_Dist3 == "GamMix(3)"){
-    if(is.na(Marginal_Dist3_Par)==T){
+    if(is.na(Marginal_Dist3_Par)){
       data.gamlss<-data.frame(X=Data_Con3[,con4])
       marginal_non_con3 <- tryCatch(gamlssMX(X~1, data=data.gamlss, family=GA, K=3),
                                     error = function(e) "error")
@@ -826,70 +826,70 @@ Design_Event_2D_Multi_Pop<-function(Data, Data_Con1, Data_Con2, Data_Con3, Data_
     }
   }
   if(Marginal_Dist3 == "Gaus"){
-    if(is.na(Marginal_Dist3_Par)==T){
+    if(is.na(Marginal_Dist3_Par)){
       marginal_non_con3<-fitdistr(Data_Con3[,con4],"normal")
     }else{
       marginal_non_con3<-Marginal_Dist3_Par
     }
   }
   if(Marginal_Dist3 == "Gum"){
-    if(is.na(Marginal_Dist3_Par)==T){
+    if(is.na(Marginal_Dist3_Par)){
       marginal_non_con3 <- gamlss(Data_Con3[,con4]  ~ 1, family= GU)
     }else{
       marginal_non_con3<-Marginal_Dist3_Par
     }
   }
   if(Marginal_Dist3 == "InvG"){
-    if(is.na(Marginal_Dist3_Par)==T){
+    if(is.na(Marginal_Dist3_Par)){
       marginal_non_con3<-fitdist(Data_Con3[,con4], "invgauss", start = list(mean = 5, shape = 1))
     }else{
       marginal_non_con3<-Marginal_Dist3_Par
     }
   }
   if(Marginal_Dist3 == "Lapl"){
-    if(is.na(Marginal_Dist3_Par)==T){
+    if(is.na(Marginal_Dist3_Par)){
       marginal_non_con3<-fitdistr(Data_Con3[,con4], dlaplace, start=list(location=mean(Data_Con3[,con4]), scale=sd(Data_Con3[,con4])/sqrt(2)))
     }else{
       marginal_non_con3<-Marginal_Dist3_Par
     }
   }
   if(Marginal_Dist3 == "Logis"){
-    if(is.na(Marginal_Dist3_Par)==T){
+    if(is.na(Marginal_Dist3_Par)){
       marginal_non_con3<-fitdistr(Data_Con3[,con4], "logistic")
     }else{
       marginal_non_con3<-Marginal_Dist3_Par
     }
   }
   if(Marginal_Dist3 == "LNorm"){
-    if(is.na(Marginal_Dist3_Par)==T){
+    if(is.na(Marginal_Dist3_Par)){
       marginal_non_con3<-fitdistr(Data_Con3[,con4],"lognormal")
     }else{
       marginal_non_con3<-Marginal_Dist3_Par
     }
   }
   if(Marginal_Dist3 == "RGum"){
-    if(is.na(Marginal_Dist3_Par)==T){
+    if(is.na(Marginal_Dist3_Par)){
       marginal_non_con3 <- gamlss(Data_Con3[,con4] ~ 1,family=RG)
     }else{
       marginal_non_con3<-Marginal_Dist3_Par
     }
   }
   if(Marginal_Dist3 == "TNorm"){
-    if(is.na(Marginal_Dist3_Par)==T){
+    if(is.na(Marginal_Dist3_Par)){
       marginal_non_con3<-fitdistr(Data_Con3[,con4],"normal")
     }else{
       marginal_non_con3<-Marginal_Dist3_Par
     }
   }
   if(Marginal_Dist3 == "Twe"){
-    if(is.na(Marginal_Dist3_Par)==T){
+    if(is.na(Marginal_Dist3_Par)){
       marginal_non_con3<-tweedie.profile(Data_Con3[,con4] ~ 1,p.vec=seq(1.5, 2.5, by=0.2), do.plot=FALSE)
     }else{
       marginal_non_con3<-Marginal_Dist3_Par
     }
   }
   if(Marginal_Dist3 == "Weib"){
-    if(is.na(Marginal_Dist3_Par)==T){
+    if(is.na(Marginal_Dist3_Par)){
       marginal_non_con3<fitdistr(Data_Con3[,con4], "weibull")
     }else{
       marginal_non_con3<-Marginal_Dist3_Par
@@ -910,7 +910,7 @@ Design_Event_2D_Multi_Pop<-function(Data, Data_Con1, Data_Con2, Data_Con3, Data_
 
   ##Fit the specified marginal distribution (Marginal_Dist4) to the non-conditioned variable con3 in Data_Con4.
   if(Marginal_Dist4 == "BS"){
-    if(is.na(Marginal_Dist4_Par)==T){
+    if(is.na(Marginal_Dist4_Par)){
       bdata2 <- data.frame(shape = exp(-0.5), scale = exp(0.5))
       bdata2 <- transform(bdata2, y = Data_Con4[,con3])
       marginal_non_con4<-vglm(y ~ 1, bisa, data = bdata2, trace = FALSE)
@@ -919,21 +919,21 @@ Design_Event_2D_Multi_Pop<-function(Data, Data_Con1, Data_Con2, Data_Con3, Data_
     }
   }
   if(Marginal_Dist4 == "Exp"){
-    if(is.na(Marginal_Dist4_Par)==T){
+    if(is.na(Marginal_Dist4_Par)){
       marginal_non_con4<-fitdistr(Data_Con4[,con3],"exponential")
     }else{
       marginal_non_con4<-Marginal_Dist4_Par
     }
   }
   if(Marginal_Dist4 == "Gam(2)"){
-    if(is.na(Marginal_Dist4_Par)==T){
+    if(is.na(Marginal_Dist4_Par)){
       marginal_non_con4<-fitdistr(Data_Con4[,con3], "gamma")
     }else{
       marginal_non_con4<-Marginal_Dist4_Par
     }
   }
   if(Marginal_Dist4 == "Gam(3)"){
-    if(is.na(Marginal_Dist4_Par)==T){
+    if(is.na(Marginal_Dist4_Par)){
       data.gamlss<-data.frame(X=Data_Con4[,con3])
       marginal_non_con4 <- tryCatch(gamlss(X~1, data=data.gamlss, family=GG),
                                     error = function(e) "error")
@@ -942,7 +942,7 @@ Design_Event_2D_Multi_Pop<-function(Data, Data_Con1, Data_Con2, Data_Con3, Data_
     }
   }
   if(Marginal_Dist4 == "GamMix(2)"){
-    if(is.na(Marginal_Dist4_Par)==T){
+    if(is.na(Marginal_Dist4_Par)){
       data.gamlss<-data.frame(X=Data_Con4[,con3])
       marginal_non_con4 <- tryCatch(gamlssMX(X~1, data=data.gamlss, family=GA, K=2),
                                     error = function(e) "error")
@@ -951,7 +951,7 @@ Design_Event_2D_Multi_Pop<-function(Data, Data_Con1, Data_Con2, Data_Con3, Data_
     }
   }
   if(Marginal_Dist4 == "GamMix(3)"){
-    if(is.na(Marginal_Dist4_Par)==T){
+    if(is.na(Marginal_Dist4_Par)){
       data.gamlss<-data.frame(X=Data_Con4[,con3])
       marginal_non_con4 <- tryCatch(gamlssMX(X~1, data=data.gamlss, family=GA, K=3),
                                     error = function(e) "error")
@@ -960,70 +960,70 @@ Design_Event_2D_Multi_Pop<-function(Data, Data_Con1, Data_Con2, Data_Con3, Data_
     }
   }
   if(Marginal_Dist4 == "Gaus"){
-    if(is.na(Marginal_Dist4_Par)==T){
+    if(is.na(Marginal_Dist4_Par)){
       marginal_non_con4<-fitdistr(Data_Con4[,con3],"normal")
     }else{
       marginal_non_con4<-Marginal_Dist4_Par
     }
   }
   if(Marginal_Dist4 == "Gum"){
-    if(is.na(Marginal_Dist4_Par)==T){
+    if(is.na(Marginal_Dist4_Par)){
       marginal_non_con4 <- gamlss(Data_Con4[,con3]  ~ 1, family= GU)
     }else{
       marginal_non_con4<-Marginal_Dist4_Par
     }
   }
   if(Marginal_Dist4 == "InvG"){
-    if(is.na(Marginal_Dist4_Par)==T){
+    if(is.na(Marginal_Dist4_Par)){
       marginal_non_con4<-fitdist(Data_Con4[,con3], "invgauss", start = list(mean = 5, shape = 1))
     }else{
       marginal_non_con4<-Marginal_Dist4_Par
     }
   }
   if(Marginal_Dist4 == "Lapl"){
-    if(is.na(Marginal_Dist4_Par)==T){
+    if(is.na(Marginal_Dist4_Par)){
       marginal_non_con4<-fitdistr(Data_Con4[,con3], dlaplace, start=list(location=mean(Data_Con4[,con3]), scale=sd(Data_Con4[,con3])/sqrt(2)))
     }else{
       marginal_non_con4<-Marginal_Dist4_Par
     }
   }
   if(Marginal_Dist4 == "Logis"){
-    if(is.na(Marginal_Dist4_Par)==T){
+    if(is.na(Marginal_Dist4_Par)){
       marginal_non_con4<-fitdistr(Data_Con4[,con3],"logistic")
     }else{
       marginal_non_con4<-Marginal_Dist4_Par
     }
   }
   if(Marginal_Dist4 == "LNorm"){
-    if(is.na(Marginal_Dist4_Par)==T){
+    if(is.na(Marginal_Dist4_Par)){
       marginal_non_con4<-fitdistr(Data_Con4[,con3],"lognormal")
     }else{
       marginal_non_con4<-Marginal_Dist4_Par
     }
   }
   if(Marginal_Dist4 == "RGum"){
-    if(is.na(Marginal_Dist4_Par)==T){
+    if(is.na(Marginal_Dist4_Par)){
       marginal_non_con4 <- gamlss(Data_Con4[,con3] ~ 1,family=RG)
     }else{
       marginal_non_con4<-Marginal_Dist4_Par
     }
   }
   if(Marginal_Dist4 == "TNorm"){
-    if(is.na(Marginal_Dist4_Par)==T){
+    if(is.na(Marginal_Dist4_Par)){
       marginal_non_con4<-fitdistr(Data_Con4[,con3],"normal")
     }else{
       marginal_non_con4<-Marginal_Dist4_Par
     }
   }
   if(Marginal_Dist4 == "Twe"){
-    if(is.na(Marginal_Dist4_Par)==T){
+    if(is.na(Marginal_Dist4_Par)){
       marginal_non_con4<-tweedie.profile(Data_Con4[,con3] ~ 1,p.vec=seq(1.5, 2.5, by=0.2), do.plot=FALSE)
     }else{
       marginal_non_con4<-Marginal_Dist4_Par
     }
   }
   if(Marginal_Dist4 == "Weib"){
-    if(is.na(Marginal_Dist4_Par)==T){
+    if(is.na(Marginal_Dist4_Par)){
       marginal_non_con4<-fitdistr(Data_Con4[,con3], "weibull")
     }else{
       marginal_non_con4<-Marginal_Dist4_Par
@@ -1631,10 +1631,10 @@ Design_Event_2D_Multi_Pop<-function(Data, Data_Con1, Data_Con2, Data_Con3, Data_
   ###Plot the isoline
 
  #Find the minimum and maximum x- and y-axis limits for the plot. If the limits are not specified in the input use the minimum and maximum values of the Data.
- x_min<-ifelse(is.na(x_lim_min)==T,min(na.omit(Data[,con1])),x_lim_min)
- x_max<-ifelse(is.na(x_lim_max)==T,max(na.omit(Data[,con1])),x_lim_max)
- y_min<-ifelse(is.na(y_lim_min)==T,min(na.omit(Data[,con2])),y_lim_min)
- y_max<-ifelse(is.na(y_lim_max)==T,max(na.omit(Data[,con2])),y_lim_max)
+ x_min<-ifelse(is.na(x_lim_min),min(na.omit(Data[,con1])),x_lim_min)
+ x_max<-ifelse(is.na(x_lim_max),max(na.omit(Data[,con1])),x_lim_max)
+ y_min<-ifelse(is.na(y_lim_min),min(na.omit(Data[,con2])),y_lim_min)
+ y_max<-ifelse(is.na(y_lim_max),max(na.omit(Data[,con2])),y_lim_max)
 
  #Plot
  par(mar=c(4.5,4.2,0.5,0.5))

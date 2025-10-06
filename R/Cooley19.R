@@ -191,15 +191,15 @@ Cooley19<-function(Data,Migpd,p.base=0.01,p.proj=0.001,u=0.95,PLOT=FALSE,x_lim_m
   colnames(I.proj)<-c("x","y")
 
   if(PLOT==TRUE){
-    x_lim_min_T<-ifelse(is.na(x_lim_min_T)==T,min(x_F),x_lim_min_T)
-    x_lim_max_T<-ifelse(is.na(x_lim_max_T)==T,max(x_F),x_lim_max_T)
-    y_lim_min_T<-ifelse(is.na(y_lim_min_T)==T,min(y_F),y_lim_min_T)
-    y_lim_max_T<-ifelse(is.na(y_lim_max_T)==T,max(y_F),y_lim_max_T)
+    x_lim_min_T<-ifelse(is.na(x_lim_min_T),min(x_F),x_lim_min_T)
+    x_lim_max_T<-ifelse(is.na(x_lim_max_T),max(x_F),x_lim_max_T)
+    y_lim_min_T<-ifelse(is.na(y_lim_min_T),min(y_F),y_lim_min_T)
+    y_lim_max_T<-ifelse(is.na(y_lim_max_T),max(y_F),y_lim_max_T)
 
-    x_lim_min<-ifelse(is.na(x_lim_min)==T,min(Data[,1]),x_lim_min)
-    x_lim_max<-ifelse(is.na(x_lim_max)==T,max(Data[,1]),x_lim_max)
-    y_lim_min<-ifelse(is.na(y_lim_min)==T,min(Data[,2]),y_lim_min)
-    y_lim_max<-ifelse(is.na(y_lim_max)==T,max(Data[,2]),y_lim_max)
+    x_lim_min<-ifelse(is.na(x_lim_min),min(Data[,1]),x_lim_min)
+    x_lim_max<-ifelse(is.na(x_lim_max),max(Data[,1]),x_lim_max)
+    y_lim_min<-ifelse(is.na(y_lim_min),min(Data[,2]),y_lim_min)
+    y_lim_max<-ifelse(is.na(y_lim_max),max(Data[,2]),y_lim_max)
 
     par(mfrow=c(2,2))
     par(mar=c(4.2,4.2,2,2))
