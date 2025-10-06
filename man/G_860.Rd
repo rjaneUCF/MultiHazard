@@ -5,7 +5,7 @@
 \alias{G_860}
 \title{Groundwater Levels at Well G-860}
 \format{
-A data frame with 12,272 rows and 2 variables:
+A data frame with 16,507 rows and 2 variables:
 \describe{
 \item{Date}{Date of observation (YYYY-MM-DD)}
 \item{Value}{Groundwater elevation (ft NGVD29)}

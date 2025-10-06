@@ -21,5 +21,5 @@ This function performs block bootstrapping on a given dataset.
 #Boostrap the detrended data at site S-22
 boot_df = bootstrap_block(S22.Detrend.df[,2:3])
 #Calculate the mean of the drivers in bootstrapped sample
-apply(boot_df,2,function(x) mean(x,na.rm=T))
+apply(boot_df,2,function(x) mean(x,na.rm=TRUE))
 }
