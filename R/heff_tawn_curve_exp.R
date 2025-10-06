@@ -75,7 +75,7 @@ heff_tawn_curve_exp = function(data_exp_x,data_exp_y,prob,q,nsim){ #function for
     x = rep(NA,length.out=100)
     for(i in 1:length(y)){ #find corresponding values of X variable using fitted model
       sample_y = rexp(nsim) + y[i]
-      sample_z = sample(YZ,nsim,replace = T)
+      sample_z = sample(YZ,nsim,replace = TRUE)
       sample_x = (sample_y^Ypar[2])*sample_z + Ypar[1]*sample_y
       x[i] = quantile(sample_x,(1-prob/(1-qvalsY[i])))
     }
@@ -87,7 +87,7 @@ heff_tawn_curve_exp = function(data_exp_x,data_exp_y,prob,q,nsim){ #function for
     x = rep(NA,length.out = 1000)
     i = 1
     sample_y = rexp(nsim) + y[i]
-    sample_z = sample(YZ,nsim,replace = T)
+    sample_z = sample(YZ,nsim,replace = TRUE)
     sample_x = (sample_y^Ypar[2])*sample_z + Ypar[1]*sample_y
     x[i] = quantile(sample_x,(1-prob/(1-qvalsY[i])))
 
@@ -95,7 +95,7 @@ heff_tawn_curve_exp = function(data_exp_x,data_exp_y,prob,q,nsim){ #function for
       #using model to obtain estimates of x values on curve
       i = i+1
       sample_y = rexp(nsim) + y[i]
-      sample_z = sample(YZ,nsim,replace = T)
+      sample_z = sample(YZ,nsim,replace = TRUE)
       sample_x = (sample_y^Ypar[2])*sample_z + Ypar[1]*sample_y
       x[i] = quantile(sample_x,(1-prob/(1-qvalsY[i])))
     }
@@ -106,7 +106,7 @@ heff_tawn_curve_exp = function(data_exp_x,data_exp_y,prob,q,nsim){ #function for
     x = rep(NA,length.out=100)
     for(i in 1:length(y)){#using model to obtain estimates of x values on curve
       sample_y = rexp(nsim) + y[i]
-      sample_z = sample(YZ,nsim,replace = T)
+      sample_z = sample(YZ,nsim,replace = TRUE)
       sample_x = (sample_y^Ypar[2])*sample_z + Ypar[1]*sample_y
       x[i] = quantile(sample_x,(1-prob/(1-qvalsY[i])))
     }
@@ -118,9 +118,9 @@ heff_tawn_curve_exp = function(data_exp_x,data_exp_y,prob,q,nsim){ #function for
 
   for(i in (length(qvalsX)+1):(2*length(qvalsX))){#using model to obtain estimates of y values on curve
     sample_x = rexp(nsim) + x[i]
-    sample_z = sample(XZ,nsim,replace = T)
+    sample_z = sample(XZ,nsim,replace = TRUE)
     sample_y = (sample_x^Xpar[2])*sample_z + Xpar[1]*sample_x
-    y[i] = quantile(sample_y,(1-prob/(1-qvalsX[i-length(qvalsX)])),na.rm = T)
+    y[i] = quantile(sample_y,(1-prob/(1-qvalsX[i-length(qvalsX)])),na.rm = TRUE)
   }
 
   #transforming the curve back to standard exponential margins

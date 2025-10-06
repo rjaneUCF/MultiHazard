@@ -151,7 +151,7 @@ GPD_Threshold_Solari_Sel<-function(Event,Data,Solari_Output,Thres,Alpha=0.1,N_Si
       BOOT[I,] = unlist(GPD_MLE_Boot(rgpd(length(Exceedence),xi=as.numeric(Estimate[1]),sigma=as.numeric(Estimate[2]),u=as.numeric(Estimate[3])),RP,N_Years))
       while( BOOT[I,1]==0){
         try({
-          BOOT[I,] = unlist(GPD_MLE_Boot(sample(Exceedence,length(Exceedence),replace=T),RP,N_Years))
+          BOOT[I,] = unlist(GPD_MLE_Boot(sample(Exceedence,length(Exceedence),replace=TRUE),RP,N_Years))
         }, silent = FALSE)
       }
 

@@ -82,7 +82,7 @@ Intensity<-function(Data,Cluster_Max,Base_Line="Mean"){
 
 
  #Calculating Base Line from which intensity is calculated
- Base_Line = ifelse(Base_Line == "Mean", mean(Data,na.rm=T),Base_Line)
+ Base_Line = ifelse(Base_Line == "Mean", mean(Data,na.rm=TRUE),Base_Line)
 
  #Find local maximum in the time series
  x.max = local_maximum(Data)
@@ -104,28 +104,28 @@ Intensity<-function(Data,Cluster_Max,Base_Line="Mean"){
   if (length(pre_high) == 0 || any(is.infinite(pre_high))) {
    stop("No preceding non-infinite high water level found for event ", i)
   }
-  pre.high[i] = max(pre_high, na.rm=T)
+  pre.high[i] = max(pre_high, na.rm=TRUE)
 
   #Following high water level
   fol_high = x.max[x.max>Cluster_Max[i]]
   if (length(fol_high) == 0 || any(is.infinite(fol_high))) {
     stop("No following non-infinite high water level found for event ", i)
   }
-  fol.high[i] = min(fol_high, na.rm=T)
+  fol.high[i] = min(fol_high, na.rm=TRUE)
 
   #Preceding low water level
   pre_low = x.min[x.min<pre.high[i]]
   if (length(pre_low) == 0 || any(is.infinite(pre_low))) {
     stop("No preceding non-infinite low water level found for event ", i)
   }
-  pre.low[i] = max(pre_low, na.rm=T)
+  pre.low[i] = max(pre_low, na.rm=TRUE)
 
   #Following low water level
   fol_low = x.min[x.min>fol.high[i]]
   if (length(fol_low) == 0 || any(is.infinite(fol_low))) {
     stop("No following non-infinite low water level found for event ", i)
   }
-  fol.low[i] = min(fol_low, na.rm=T)
+  fol.low[i] = min(fol_low, na.rm=TRUE)
 
 
   #Identify which values are above Base_Line

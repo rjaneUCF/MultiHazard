@@ -66,7 +66,7 @@ GPD_Fit<-function(Data,Data_Full,u=0.95,Thres=NA,mu=365.25,GPD_Bayes=TRUE,Method
   Data<-na.omit(Data)
 
   if(Method=="Standard"){
-    if(GPD_Bayes==T){
+    if(GPD_Bayes==TRUE){
       gpd<-evm(Data, th = Thres,penalty = "gaussian",priorParameters = list(c(0, 0), matrix(c(100^2, 0, 0, 0.25), nrow = 2)))
     } else{
       gpd<-evm(Data, th = Thres)
@@ -76,7 +76,7 @@ GPD_Fit<-function(Data,Data_Full,u=0.95,Thres=NA,mu=365.25,GPD_Bayes=TRUE,Method
 
   if(Method=="Solari"){
     Exceedence<-Data[which(Data>=Thres)]
-    if(GPD_Bayes==T){
+    if(GPD_Bayes==TRUE){
       gpd <- evm(Exceedence, th = min(Exceedence), penalty = "gaussian",
                  priorParameters = list(c(0, 0), matrix(c(100^2, 0, 0, 0.25), nrow = 2)))
     } else{

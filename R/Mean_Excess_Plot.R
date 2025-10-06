@@ -10,10 +10,10 @@
 #' Mean_Excess_Plot(Data=S20.Detrend.Declustered.df$Rainfall)
 Mean_Excess_Plot<-function(Data){
   if(length(which(is.na(Data)==TRUE))>0){
-    thres<-seq(sort(na.omit(Data),decreasing = T)[length(na.omit(Data))],sort(na.omit(Data),decreasing = T)[2],0.1)
+    thres<-seq(sort(na.omit(Data),decreasing = TRUE)[length(na.omit(Data))],sort(na.omit(Data),decreasing = TRUE)[2],0.1)
     Data<-na.omit(Data)
   } else{
-    thres<-seq(sort(Data,decreasing = T)[length(Data)],sort(Data,decreasing = T)[2],0.1)
+    thres<-seq(sort(Data,decreasing = TRUE)[length(Data)],sort(Data,decreasing = TRUE)[2],0.1)
   }
   MeanExcess<-numeric(length(thres))
   MeanExcess.Lower<-numeric(length(thres))

@@ -25,7 +25,7 @@ Kendall_Lag<-function(Data,Lags=seq(-6,6,1),PLOT=TRUE,GAP=0.1){
       Data_Cor[,i]<-Lag(Data_Cor[,i],-lag[i-1])
     }
     Data_Cor<-na.omit(Data_Cor)
-    return(cor(Data_Cor[2:ncol(Data_Cor)],method = "kendall")[which(lower.tri(cor(Data_Cor[2:ncol(Data_Cor)]))==T)])
+    return(cor(Data_Cor[2:ncol(Data_Cor)],method = "kendall")[which(lower.tri(cor(Data_Cor[2:ncol(Data_Cor)]))==TRUE)])
   }
   n<-ncol(Data)-1
   if(n==3){

@@ -182,7 +182,7 @@ GPD_Threshold_Solari<-function(Event,Data,RPs=c(10,50,100,500,1000),RPs_PLOT=c(2
     for(J in 1:N_Sim){
       while( BOOT[J,1]==0){
         try({
-          BOOT[J,] = unlist(GPD_Eval_MLE(sample(Event[Event>u_Candidate[i]],length(Event[Event>u_Candidate[i]]),replace=T),RPs,N_Years))
+          BOOT[J,] = unlist(GPD_Eval_MLE(sample(Event[Event>u_Candidate[i]],length(Event[Event>u_Candidate[i]]),replace=TRUE),RPs,N_Years))
         }, silent = TRUE)
       }
     }
