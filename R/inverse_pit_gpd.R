@@ -17,7 +17,7 @@
 #' #Generate some uniform (0,1) random variates
 #' unif = runif(100,0,1)
 #' #Transform the unifrom variate to the original scale
-#' x.sim = inverse_pit_gpd(unif,S13.Detrend.df$Rainfall,S13.Rainfall.Declust$Declsutered,0.95)
+#' x.sim = inverse_pit_gpd(unif,na.omit(S13.Detrend.df$Rainfall),S13.Rainfall.Declust$Declsutered,0.95)
 #' #Plotting the empirical distribution functions of the sample and observations
 #' plot(S13.Detrend.df$Rainfall[order(S13.Detrend.df$Rainfall)],
 #'     (1:length(S13.Detrend.df$Rainfall))/length(S13.Detrend.df$Rainfall))
