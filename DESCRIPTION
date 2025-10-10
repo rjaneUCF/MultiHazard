@@ -44,7 +44,7 @@ Description: The `MultiHazard` package provides tools for stationary
     time for a user-specified height of sea level rise to occur under
     various scenarios is supplied.
 License: GPL (>=3) + file LICENSE
-URL: https://rdrr.io/github/rjaneUCF/MultiHazard-R-Package/
+URL: https://rjaneucf.github.io/MultiHazard
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3
@@ -81,3 +81,4 @@ Config/testthat/edition: 3
 Depends: 
     R (>= 3.5)
 LazyData: true
+BugReports: https://github.com/rjaneucf/MultiHazard/issues
