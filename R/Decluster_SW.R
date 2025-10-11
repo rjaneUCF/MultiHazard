@@ -55,8 +55,10 @@ Decluster_SW<-function(Data,Window_Width){
   }
 
   # Check if dates are in ascending order
-  if (any(diff(Data[,1]) <= 0)) {
+  if (class(Data[,1])[1]=="Date"){
+   if(any(diff(Data[,1]) <= 0)) {
     stop("Dates in first column must be in ascending order with no duplicates")
+   }
   }
 
   # Check if second column contains numeric data
