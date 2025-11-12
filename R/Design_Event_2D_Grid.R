@@ -76,6 +76,11 @@
 #'Design.Event$`100`$Isoline
 Design_Event_2D_Grid<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Thres2=NA, N_Both, Copula_Family1, Copula_Family2, Marginal_Dist1, Marginal_Dist2, Marginal_Dist1_Par=NA, Marginal_Dist2_Par=NA, Con1="Rainfall",Con2="OsWL", GPD1=NULL, GPD2=NULL, Rate_Con1=NA, Rate_Con2=NA, Tab1= NULL, Tab2 = NULL, mu=365.25, GPD_Bayes=FALSE, Decimal_Place=2, Grid_x_min = NA ,Grid_x_max = NA, Grid_y_min = NA, Grid_y_max = NA, Grid_x_interval=NA, Grid_y_interval=NA, RP, x_lab="Rainfall (mm)",y_lab="O-sWL (mNGVD 29)",x_lim_min = NA,x_lim_max = NA,y_lim_min = NA,y_lim_max = NA,Isoline_Probs="Sample", N=10^6,N_Ensemble=0,Sim_Max=10,Plot_Quantile_Isoline=FALSE){
 
+  #Remove 1st column of Data if it is a Date or factor object.
+  if(inherits(Data[,1], c("Date", "factor","POSIXct"))){
+    Data<-Data[,-1]
+  }
+
   #Validation of inputs
   if (!is.data.frame(Data) || ncol(Data) != 2) {
     stop("Data must be a data frame with exactly 2 columns.")
@@ -159,8 +164,8 @@ Design_Event_2D_Grid<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Th
     stop("N must be a positive integer.")
   }
 
-  if (N_Ensemble <= 0 || N_Ensemble != round(N_Ensemble)) {
-    stop("N_Ensemble must be a positive integer.")
+  if (N_Ensemble < 0 || N_Ensemble != round(N_Ensemble)) {
+    stop("N_Ensemble must be zero or a positive integer.")
   }
 
   # Simulation constraints
@@ -230,11 +235,6 @@ Design_Event_2D_Grid<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Th
   names(MostLikelyEvent)<-RP
   FullDependence<-vector(mode = "list", length = length(RP))
   names(FullDependence)<-RP
-
-  #Remove 1st column of Data if it is a Date or factor object.
-  if(inherits(Data[,1], c("Date", "factor","POSIXct"))){
-    Data<-Data[,-1]
-  }
 
   #Define the grid over which to calculate Annual Excedence Probabilities
   Grid_x_min = ifelse(is.na(Grid_x_min),min(Data[,1],na.rm=TRUE),Grid_x_min)
@@ -933,11 +933,13 @@ Design_Event_2D_Grid<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Th
     FullDependence[[k]]<-FullDependence.AND
     #Generate a sample of events along the contour. Sample is weighted according to the probabilities
     #given by the KDE estimate for each point on the isoline. Sample size is N_Ensemble.
-    sample.AND <- Iso[sample(1:length(prediction[prediction>0]),size = N_Ensemble, replace = TRUE, prob=prediction[prediction>0]),]
-    colnames(sample.AND) <- c(names(Data)[1],names(Data)[2])
-    #Put the ensemble of design event into a data frame to form part of the function's output.
-    Ensemble[[k]] <- data.frame(sample.AND)
-    #colnames(Ensemble) <- c(names(Data)[1],names(Data)[2])
+    if(N_Ensemble>0){
+     sample.AND <- Iso[sample(1:length(prediction[prediction>0]),size = N_Ensemble, replace = TRUE, prob=prediction[prediction>0]),]
+     colnames(sample.AND) <- c(names(Data)[1],names(Data)[2])
+     #Put the ensemble of design event into a data frame to form part of the function's output.
+     Ensemble[[k]] <- data.frame(sample.AND)
+     #colnames(Ensemble) <- c(names(Data)[1],names(Data)[2])
+    }
   }
 
   ###Plot the isoline
