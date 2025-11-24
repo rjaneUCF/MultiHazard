@@ -1,6 +1,6 @@
 
 #Test that functions work as intended
-S13_Rainfall_Test = S13_Rainfall[10000,]
+S13_Rainfall_Test = S13_Rainfall[1:10000,]
 
 test_that("Decluster_SW functions basic functionality", {
 
