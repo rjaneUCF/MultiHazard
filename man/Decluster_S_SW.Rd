@@ -23,14 +23,16 @@ List comprising vectors containing the original time series \code{Detrend}, the 
 Finds the sum of a time series within a moving window then declusters the summed series using another moving window.
 }
 \examples{
-#Declustering 24 hour rainfall totals at site S13 using a 7-day window for declustering the events.
-plot(S13_Rainfall$Date,S13_Rainfall$Rainfall)
-S13_Rainfall_Totals_Declust<-Decluster_S_SW(Data=S13_Rainfall, Window_Width_Sum=24,
+#Declustering subset of 24 hour rainfall totals at site S13 using a 7-day window for declustering the events.
+#Pulling out a subset of the series
+S13_Rainfall_Test = S13_Rainfall[1:10000,]
+plot(S13_Rainfall_Test$Date,S13_Rainfall_Test$Rainfall)
+S13_Rainfall_Totals_Declust<-Decluster_S_SW(Data=S13_Rainfall_Test, Window_Width_Sum=24,
                                             Window_Width=7*24)
-plot(S13_Rainfall[,1],
+plot(S13_Rainfall_Test[,1],
      S13_Rainfall_Totals_Declust$Totals,
      pch=16,ylim=c(0,10))
-points(S13_Rainfall[S13_Rainfall_Totals_Declust$EventID,1],
+points(S13_Rainfall_Test[S13_Rainfall_Totals_Declust$EventID,1],
        S13_Rainfall_Totals_Declust$Totals[S13_Rainfall_Totals_Declust$EventID],
        col=2,pch=16)
 }
