@@ -90,7 +90,7 @@
 #'                         Data_Con1=con.sample.Rainfall$Data, Data_Con2=con.sample.OsWL$Data,
 #'                         u1=0.98, u2=0.98,
 #'                         Copula_Family1=cop.Rainfall,Copula_Family2=cop.OsWL,
-#'                         Marginal_Dist1="Logis", Marginal_Dist2="Twe",
+#'                         Marginal_Dist1="Logis", Marginal_Dist2="Gam(3)",
 #'                         Con1 = "Rainfall", Con2 = "OsWL",
 #'                         mu = 365.25,
 #'                         Con_Var="Rainfall",

@@ -33,74 +33,103 @@
 #' hist(cor)
 #' df = na.omit(S22.Detrend.df[,1:3])
 #' abline(v=cor(df$Rainfall,df$OsWL, method="kendall"),col=2,lwd=2)
-bootstrap_month = function(data,boot_prop=0.8){
+bootstrap_month <- function(data, boot_prop = 0.8) {
 
-#Finding month and years represented in the observational records
-m.y = data.frame(month(data$Date),year(data$Date))
-colnames(m.y) = c("month","year")
+  # Pre-compute dates once
+  data_months <- month(data$Date)
+  data_years <- year(data$Date)
 
-#Continuous records of alld months and years
-m.y.complete = data.frame(rep(1:12,length(min(m.y$year):max(m.y$year))),rep(min(m.y$year):max(m.y$year),each=12))
+  # Create complete month-year grid
+  year_range <- min(data_years):max(data_years)
+  m.y.complete <- data.frame(
+    month = rep(1:12, length(year_range)),
+    year = rep(year_range, each = 12)
+  )
 
-#Indicator variable denoting which month has rainfall, tail water or both data types available
-I = rep(NA, nrow(m.y.complete))
+  # Vectorized indicator calculation using data.table or dplyr (much faster)
+  # Create a lookup of month-year combinations in data
+  data$month_year <- paste(data_months, data_years, sep = "_")
+  m.y.complete$month_year <- paste(m.y.complete$month, m.y.complete$year, sep = "_")
 
-for(i in 1:nrow(m.y.complete)){
- d = data[which(month(data$Date) == m.y.complete[i,1] & year(data$Date) == m.y.complete[i,2]),]
- x = length(which(!is.na(d[,2])  & is.na(d[,3]))) / nrow(d)
- y = length(which(is.na(d[,2]) & !is.na(d[,3]))) / nrow(d)
- b = length(which(!is.na(d[,2]) & !is.na(d[,3]))) / nrow(d)
+  # Calculate indicators vectorized
+  indicator_calc <- function(my) {
+    rows <- data$month_year == my
+    if (sum(rows) == 0) return(NA)
 
- I[i] = ifelse(b>boot_prop,"B",ifelse(x>boot_prop,"x",ifelse(y>boot_prop,"y",NA)))
+    d <- data[rows, ]
+    n <- nrow(d)
 
+    x_prop <- sum(!is.na(d[, 2]) & is.na(d[, 3])) / n
+    y_prop <- sum(is.na(d[, 2]) & !is.na(d[, 3])) / n
+    b_prop <- sum(!is.na(d[, 2]) & !is.na(d[, 3])) / n
+
+    if (b_prop > boot_prop) return("B")
+    if (x_prop > boot_prop) return("x")
+    if (y_prop > boot_prop) return("y")
+    return(NA)
+  }
+
+  m.y.complete$indicator <- sapply(m.y.complete$month_year, indicator_calc)
+
+  # Handle leap years - vectorized
+  leap_years <- seq(1880, 2052, 4)
+  leap_years <- leap_years[leap_years >= min(data_years) & leap_years <= max(data_years)]
+
+  # Mark February in leap years as month 13
+  leap_feb_idx <- which(m.y.complete$month == 2 & m.y.complete$year %in% leap_years)
+  m.y.complete$month[leap_feb_idx] <- 13
+
+  # Bootstrap only for rows with data
+  valid_idx <- which(!is.na(m.y.complete$indicator))
+
+  # Vectorized bootstrap sampling by group
+  boot_idx <- integer(nrow(m.y.complete))
+
+  for (i in valid_idx) {
+    month_i <- m.y.complete$month[i]
+    indicator_i <- m.y.complete$indicator[i]
+
+    # Find all matching month-indicator combinations
+    candidates <- which(m.y.complete$month == month_i &
+                          m.y.complete$indicator == indicator_i)
+
+    boot_idx[i] <- sample(candidates, 1)
+  }
+
+  # Get bootstrap sample
+  m.y.boot <- m.y.complete[boot_idx, c("month", "year")]
+
+  # Convert month 13 back to 2
+  m.y.boot$month[m.y.boot$month == 13] <- 2
+  m.y.complete$month[m.y.complete$month == 13] <- 2
+
+  # Create bootstrap dataframe - VECTORIZED APPROACH
+  boot_df <- data.frame(
+    Date = data$Date,
+    V2 = NA,
+    V3 = NA
+  )
+  colnames(boot_df) <- colnames(data[,1:3])
+
+  # Use match for faster lookup instead of loops
+  data$orig_month_year <- paste(data_months, data_years, sep = "_")
+
+  for (i in valid_idx) {
+    orig_my <- paste(m.y.complete$month[i], m.y.complete$year[i], sep = "_")
+    boot_my <- paste(m.y.boot$month[i], m.y.boot$year[i], sep = "_")
+
+    orig_rows <- data$orig_month_year == orig_my
+    boot_rows <- data$orig_month_year == boot_my
+
+    boot_df[orig_rows, 2:3] <- data[boot_rows, 2:3]
+  }
+
+  # Clean up temporary columns
+  data$month_year <- NULL
+  data$orig_month_year <- NULL
+
+  return(boot_df)
 }
 
-#Combining information into a matrix
-m.y.complete = data.frame(rep(1:12,length(min(m.y$year):max(m.y$year))),rep(min(m.y$year):max(m.y$year),each=12),I)
-colnames(m.y.complete) = c("month","year","indicator")
-
-#Treating February in leap years as a `13th month`
-leap.years = seq(1880,2052,4)
-s = leap.years[min(which(leap.years>=min(m.y$year)))]
-e = leap.years[max(which(leap.years<=max(m.y$year)))]
-leap.years = seq(s,e,4)
-
-#Identifying leap years
-z1 = rep(NA, length(leap.years))
-
-for(i in 1:length(leap.years)){
- z1[i] = ifelse(length(which(m.y.complete$month==2 & m.y.complete$year==leap.years[i]))>0,which(m.y.complete$month==2 & m.y.complete$year==leap.years[i]),NA)
-}
-
-m.y.complete$month[z1] = 13
-
-#For bootstrap, do not pick months where no data is available
-z = which(!is.na(m.y.complete$indicator))
-
-#Bootstrap by month
-boot.m.y = rep(NA, nrow(m.y.complete))
-
-for(i in 1:nrow(m.y.complete[z,])){
-  boot.m.y[z[i]] = sample(which(m.y.complete$month ==  m.y.complete$month[z[i]] &  m.y.complete$indicator == m.y.complete$indicator[z[i]]),1)
-}
-
-#Bootstrap sample of months and years
-m.y.boot = m.y.complete[boot.m.y,1:2]
-
-#Convert '13' back to '02'
-m.y.boot$month[which(m.y.boot$month==13)] = 2
-m.y.complete$month[which(m.y.complete$month==13)] = 2
-
-#Composing the bootstrap sample
-boot_df = data.frame(data[,1],rep(NA,nrow(data)),rep(NA,nrow(data)))
-colnames(boot_df) = colnames(data)
-
-for(i in 1:nrow(m.y.complete[z,])){
-  boot_df[which(month(data$Date) == m.y.complete[z[i],1] & year(data$Date) == m.y.complete[z[i],2]),] = data[which(month(data$Date) == m.y.boot[z[i],1] & year(data$Date) == m.y.boot[z[i],2]),]
-}
-
-boot_df
-
-}
 
 
