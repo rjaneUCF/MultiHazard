@@ -23,7 +23,8 @@ List comprising vectors containing the original time series \code{Detrend}, the 
 Finds the sum of a time series within a moving window then declusters the summed series using another moving window.
 }
 \examples{
-#Declustering subset of 24 hour rainfall totals at site S13 using a 7-day window for declustering the events.
+#Declustering subset of 24 hour rainfall totals at site S13 using
+#a 7-day window for declustering the events.
 #Pulling out a subset of the series
 S13_Rainfall_Test = S13_Rainfall[1:10000,]
 plot(S13_Rainfall_Test$Date,S13_Rainfall_Test$Rainfall)
