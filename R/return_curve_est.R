@@ -371,7 +371,9 @@ for(k in 1:n_boot){
   curve_angles = atan((boot_curves[[k]][,2]-y0)/(boot_curves[[k]][,1]-x0))
 
   for(i in 1:n_grad){
-    ind = min(which(angles[i] >= curve_angles))
+   match = which(angles[i] >= curve_angles)
+   if(length(match)>0){
+    ind = min(match)
     x1 = boot_curves[[k]][ind,1] - x0
     x2 = boot_curves[[k]][ind-1,1] - x0
     y1 = boot_curves[[k]][ind,2] - y0
@@ -380,23 +382,30 @@ for(k in 1:n_boot){
     xhat = x1 + p*(x2-x1) + x0 #change if computing uncertainty
     yhat = y1 + p*(y2-y1) + y0
     angles_est_points[i,,k] = c(xhat,yhat)
+   } else{
+    angles_est_points[i,,k] = c(NA,NA)
+   }
   }
 
   curve_angles2 = atan((boot_curves2[[k]][,2]-y0)/(boot_curves2[[k]][,1]-x0))
 
-  for(i in 1:n_grad){
-    ind = min(which(angles[i] >= curve_angles2))
-    x1 = boot_curves2[[k]][ind,1] - x0
-    x2 = boot_curves2[[k]][ind-1,1] - x0
-    y1 = boot_curves2[[k]][ind,2] - y0
-    y2 = boot_curves2[[k]][ind-1,2] - y0
-    p = (x1*tan(angles[i]) - y1) / ( (y2-y1) - (x2-x1)*tan(angles[i]) )
-    xhat = x1 + p*(x2-x1) + x0 #change if computing uncertainty
-    yhat = y1 + p*(y2-y1) + y0
-    angles_est_points2[i,,k] = c(xhat,yhat)
+for(i in 1:n_grad){
+ match = which(angles[i] >= curve_angles2)
+  if(length(match)>0){
+   ind = min(match)
+   x1 = boot_curves2[[k]][ind,1] - x0
+   x2 = boot_curves2[[k]][ind-1,1] - x0
+   y1 = boot_curves2[[k]][ind,2] - y0
+   y2 = boot_curves2[[k]][ind-1,2] - y0
+   p = (x1*tan(angles[i]) - y1) / ( (y2-y1) - (x2-x1)*tan(angles[i]) )
+   xhat = x1 + p*(x2-x1) + x0 #change if computing uncertainty
+   yhat = y1 + p*(y2-y1) + y0
+   angles_est_points2[i,,k] = c(xhat,yhat)
+  } else{
+   angles_est_points2[i,,k] = c(NA,NA)
   }
+ }
 }
-
 #Calculating median and 90% confidence interval
 median = array(0,dim=c(n_grad,2))
 lower_bound = array(0,dim=c(n_grad,2))
@@ -407,13 +416,13 @@ lower_bound2 = array(0,dim=c(n_grad,2))
 upper_bound2 = array(0,dim=c(n_grad,2))
 
 for(i in 1:n_grad){
-  median[i,] = angles_est_points[i,,order(angles_est_points[i,2,1:n_boot])[n_boot/2]]
-  lower_bound[i,] = angles_est_points[i,,order(angles_est_points[i,2,1:n_boot])[n_boot*alpha/2]]
-  upper_bound[i,] = angles_est_points[i,,order(angles_est_points[i,2,1:n_boot])[n_boot*(1-alpha/2)]]
+  median[i,] = angles_est_points[i,,order(angles_est_points[i,2,1:n_boot])[round(n_boot/2)]]
+  lower_bound[i,] = angles_est_points[i,,order(angles_est_points[i,2,1:n_boot])[round(n_boot*alpha/2)]]
+  upper_bound[i,] = angles_est_points[i,,order(angles_est_points[i,2,1:n_boot])[round(n_boot*(1-alpha/2))]]
 
-  median2[i,] = angles_est_points2[i,,order(angles_est_points2[i,2,1:n_boot])[n_boot/2]]
-  lower_bound2[i,] = angles_est_points2[i,,order(angles_est_points2[i,2,1:n_boot])[n_boot*alpha/2]]
-  upper_bound2[i,] = angles_est_points2[i,,order(angles_est_points2[i,2,1:n_boot])[n_boot*(1-alpha/2)]]
+  median2[i,] = angles_est_points2[i,,order(angles_est_points2[i,2,1:n_boot])[round(n_boot/2)]]
+  lower_bound2[i,] = angles_est_points2[i,,order(angles_est_points2[i,2,1:n_boot])[round(n_boot*alpha/2)]]
+  upper_bound2[i,] = angles_est_points2[i,,order(angles_est_points2[i,2,1:n_boot])[round(n_boot*(1-alpha/2))]]
 }
 
 colnames(median) <- c(names(data)[2],names(data)[3])
