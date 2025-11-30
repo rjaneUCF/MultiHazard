@@ -36,10 +36,10 @@ sim.peak = sample(S13.Rainfall.Declust$EventsMax,size=500,replace=TRUE)
 
 test_that("U_Sample works", {
 
- result = U_Sample(Data=S13_Rainfall$Rainfall,
+ result =  suppressWarnings(U_Sample(Data=S13_Rainfall$Rainfall,
                    Cluster_Max=S13.Rainfall.Declust$EventsMax,
                    D=d,Start=start,End=end,
-                   Xp=sim.peak)
+                   Xp=sim.peak))
 
  # Checking type of output
  expect_type(result, 'list')
@@ -63,16 +63,23 @@ test_that("U_Sample works", {
 
 test_that("Invalid inputs", {
 
-  expect_error(
+  expect_warning(
     U_Sample(Data=S13_Rainfall$Rainfall,
              Cluster_Max=S13.Rainfall.Declust$EventsMax,
              D=d[-1],Start=start,End=end,
              Xp=sim.peak),
-    "Cluster_Max, D, Start, and End must have the same length.")
-
-  expect_error(
+    "Data contains NA values.")
+  
+  expect_error(  suppressWarnings(
     U_Sample(Data=S13_Rainfall$Rainfall,
              Cluster_Max=S13.Rainfall.Declust$EventsMax,
-             D=d,Start=start,End=end, Xp=NULL),
+             D=d[-1],Start=start,End=end,
+             Xp=sim.peak)),
+    "Cluster_Max, D, Start, and End must have the same length.")
+
+  expect_error( suppressWarnings(
+    U_Sample(Data=S13_Rainfall$Rainfall,
+             Cluster_Max=S13.Rainfall.Declust$EventsMax,
+             D=d,Start=start,End=end, Xp=NULL)),
     "Xp must contain at least one value.")
 })
