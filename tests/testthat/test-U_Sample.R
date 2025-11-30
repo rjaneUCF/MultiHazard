@@ -66,10 +66,10 @@ test_that("Invalid inputs", {
   expect_warning(
     U_Sample(Data=S13_Rainfall$Rainfall,
              Cluster_Max=S13.Rainfall.Declust$EventsMax,
-             D=d[-1],Start=start,End=end,
+             D=d,Start=start,End=end,
              Xp=sim.peak),
     "Data contains NA values.")
-  
+
   expect_error(  suppressWarnings(
     U_Sample(Data=S13_Rainfall$Rainfall,
              Cluster_Max=S13.Rainfall.Declust$EventsMax,
