@@ -173,7 +173,7 @@ colnames(S22.Detrend.df) = c("Date","Rainfall_vol","OsWL","Groundwater")
 
 test_that("Design_Event_2D_Multi_Pop works", {
 
-  result <- Design_Event_2D_Multi_Pop(Data=S22.Detrend.df[,c(1:3)],
+  result <- suppressWarnings(Design_Event_2D_Multi_Pop(Data=S22.Detrend.df[,c(1:3)],
                                       Data_Con1=con.sample.rainfall.tc$Data, Data_Con2=con.sample.rainfall.tc$Data,
                                       Data_Con3=con.sample.oswl.tc$Data, Data_Con4=con.sample.oswl.tc$Data,
                                       u1=NA,u2=NA,u3=NA,u4=NA,
@@ -200,7 +200,7 @@ test_that("Design_Event_2D_Multi_Pop works", {
                                       x_lim_min = 0,
                                       x_lim_max = 100,
                                       y_lim_min = -2,
-                                      y_lim_max = 10)
+                                      y_lim_max = 10))
 
   # Checking type of output
   expect_type(result, 'list')

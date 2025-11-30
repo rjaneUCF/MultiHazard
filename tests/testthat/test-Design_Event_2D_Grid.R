@@ -15,14 +15,14 @@ S22.Copula.OsWL<-Copula_Threshold_2D(Data_Detrend=S22.Detrend.df[,-c(1,4)],
 
 test_that("Design_Event_2D_Grid works", {
 
-  result <- Design_Event_2D_Grid(Data=S22.Detrend.df[,-c(1,4)],
+  result <- suppressWarnings(Design_Event_2D_Grid(Data=S22.Detrend.df[,-c(1,4)],
                                  Data_Con1=S22.Rainfall$Data, Data_Con2=S22.OsWL$Data,
                                  u1=0.97, u2=0.97,
                                  N_Both=3,
                                  Copula_Family1=S22.Copula.Rainfall, Copula_Family2=S22.Copula.OsWL,
                                  Marginal_Dist1="Logis", Marginal_Dist2="Twe",
                                  RP=100,N=10^4,N_Ensemble=10,
-                                 Plot_Quantile_Isoline=FALSE)
+                                 Plot_Quantile_Isoline=FALSE))
 
   # Checking type of output
   expect_type(result, 'list')
