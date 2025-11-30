@@ -315,8 +315,8 @@ Diag_Non_Con_Trunc_Sel<-function(Data,Selected,Omit=NA,x_lab="Data",y_lim_min=0,
   }
 
   if(Selected=="Twe"){
-    fit <- tweedie.profile(Data ~ 1,
-                           p.vec=seq(1.5, 2.5, by=0.2), do.plot=FALSE)
+    fit <- capture.output( tweedie.profile(Data ~ 1, p.vec=seq(1.5, 2.5, by=0.2), do.plot=FALSE),
+              type = "output")
     lines(x,dtweedie(x,  power=fit$p.max, mu=mean(Data), phi=fit$phi.max),col=mypalette[9],lwd=2)
   }
 
@@ -382,7 +382,8 @@ Diag_Non_Con_Trunc_Sel<-function(Data,Selected,Omit=NA,x_lab="Data",y_lim_min=0,
   }
 
   if(Selected=="Twe"){
-    fit <- tweedie.profile(Data ~ 1,p.vec=seq(1.5, 2.5, by=0.2), do.plot=FALSE)
+    fit <- capture.output(tweedie.profile(Data ~ 1,p.vec=seq(1.5, 2.5, by=0.2), do.plot=FALSE),
+                          type = "output")
     lines(x,ptweedie(x,  power=fit$p.max, mu=mean(Data), phi=fit$phi.max),col=mypalette[9],lwd=2,pch=16,ylab="P(X<x)")
   }
 
