@@ -229,10 +229,9 @@ Diag_Non_Con_Trunc_Sel<-function(Data,Selected,Omit=NA,x_lab="Data",y_lim_min=0,
     AIC.TNormal <- 2 * length(fit$estimate) - 2 * fit$loglik
   }
   if(any(Test=="Twe")){
-   capture.output(
-    fit <- tweedie.profile(Data ~ 1,p.vec=seq(1.5, 2.5, by=0.2), do.plot=FALSE),
-    type = "output"
-   )
+    invisible(capture.output(
+    fit <- tweedie.profile(Data ~ 1,p.vec=seq(1.5, 2.5, by=0.2), do.plot=FALSE)
+   ))
    AIC.Tweedie<-2*3-2*fit$L.max
   }
   if(any(Test=="Weib")){
@@ -315,8 +314,9 @@ Diag_Non_Con_Trunc_Sel<-function(Data,Selected,Omit=NA,x_lab="Data",y_lim_min=0,
   }
 
   if(Selected=="Twe"){
-    fit <- capture.output( tweedie.profile(Data ~ 1, p.vec=seq(1.5, 2.5, by=0.2), do.plot=FALSE),
-              type = "output")
+    invisible(capture.output(
+    fit <- tweedie.profile(Data ~ 1, p.vec=seq(1.5, 2.5, by=0.2), do.plot=FALSE)
+    ))
     lines(x,dtweedie(x,  power=fit$p.max, mu=mean(Data), phi=fit$phi.max),col=mypalette[9],lwd=2)
   }
 
@@ -382,8 +382,9 @@ Diag_Non_Con_Trunc_Sel<-function(Data,Selected,Omit=NA,x_lab="Data",y_lim_min=0,
   }
 
   if(Selected=="Twe"){
-    fit <- capture.output(tweedie.profile(Data ~ 1,p.vec=seq(1.5, 2.5, by=0.2), do.plot=FALSE),
-                          type = "output")
+    invisible(capture.output(
+    fit <- tweedie.profile(Data ~ 1,p.vec=seq(1.5, 2.5, by=0.2), do.plot=FALSE)
+    ))
     lines(x,ptweedie(x,  power=fit$p.max, mu=mean(Data), phi=fit$phi.max),col=mypalette[9],lwd=2,pch=16,ylab="P(X<x)")
   }
 

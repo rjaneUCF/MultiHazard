@@ -206,11 +206,10 @@ Diag_Non_Con_Trunc<-function(Data,Omit=NA,x_lab="Data",y_lim_min=0,y_lim_max=1){
     AIC.TNormal <- 2 * length(fit.TNorm$estimate) - 2 * fit.TNorm$loglik
   }
   if(any(Test==9)){
-    capture.output(
+    invisible(capture.output(
      fit.Twe <- tweedie.profile(Data ~ 1,
-                                p.vec=seq(1.5, 2.5, by=0.2), do.plot=FALSE),
-     type = "output"
-    )
+                                p.vec=seq(1.5, 2.5, by=0.2), do.plot=FALSE)
+    ))
     AIC.Tweedie<-2*3-2*fit.Twe$L.max
   }
   if(any(Test==10)){
