@@ -87,8 +87,8 @@ Decluster_SW<-function(Data,Window_Width){
   for(i in 1:(length(Data[,2]))){
     ID  = which(N>=max(1,N[i]-(Window_Width-1)/2) & N<=min(max(N),N[i]+(Window_Width-1)/2))
     AUX = Data[ID,2]
-    MAX = max(AUX,na.rm=T)
-    IDMAX = ifelse(MAX==-Inf,1,which(AUX==MAX))
+    MAX = if(any(!is.na(AUX))) max(AUX, na.rm=T) else NA
+    IDMAX = if(!is.na(MAX)) which(AUX==MAX)[1] else 1
     if(is.na(MAX)==F & N[ID[IDMAX]]==N[i]){
       EVENT.INDEX[ID1]<-N[i]
       EVENT[ID1]<-MAX
