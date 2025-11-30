@@ -117,24 +117,12 @@ for(i in 1:nrow(con.sample.rainfall.nontc$Data)){
 
 n_both_2 = sum(z)
 
+#Add a small random number to conditioned rainfall values to ensure distributions can be fit
 #TC sample
-Diag_Non_Con(Data=con.sample.rainfall.tc$Data$OsWL, x_lab="O-sWL (in the sample con. on rainfall volume)",
-             y_lim_min = 0, y_lim_max = 2.0)
-mar.1  = "Gaus"
 con.sample.oswl.tc$Data$Rainfall_vol<-con.sample.oswl.tc$Data$Rainfall_vol+runif(length(con.sample.oswl.tc$Data$Rainfall_vol),0.0001,0.001)
-Diag_Non_Con_Trunc(Data=con.sample.oswl.tc$Data$Rainfall_vol,x_lab="Rainfall volume (in the sample con. on O-sWL)",
-                   y_lim_min = 0, y_lim_max = 0.5, Omit="Weib")
-mar.2 = "Exp"
-
-
 #Non-TC sample
-Diag_Non_Con(Data=con.sample.rainfall.nontc$Data$OsWL, x_lab="O-sWL (in the sample con. on rainfall volume)",
-             y_lim_min = 0, y_lim_max = 2.0)
-mar.3 = "Gaus"
 con.sample.oswl.nontc$Data$Rainfall_vol<-con.sample.oswl.nontc$Data$Rainfall_vol+runif(length(con.sample.oswl.nontc$Data$Rainfall_vol),0.0001,0.001)
-Diag_Non_Con_Trunc(Data=con.sample.oswl.nontc$Data$Rainfall_vol, x_lab="Rainfall vol (in the sample con. on O-sWL)",
-                   y_lim_min = 0, y_lim_max = 2.0)
-mar.4 = "Gam(2)"
+
 
 #Marginal GPDs for TC sample
 rainfall.exe = which(S22.Detrend.df.declust$Rainfall_vol > rainfall.thres)
@@ -180,8 +168,8 @@ test_that("Design_Event_2D_Multi_Pop works", {
                                       N_Both_1=n_both_1, N_Both_2=n_both_2,
                                       Copula_Family1=cop.rainfall.tc, Copula_Family2=cop.rainfall.nontc,
                                       Copula_Family3=cop.oswl.nontc, Copula_Family4=cop.oswl.nontc,
-                                      Marginal_Dist1=mar.1, Marginal_Dist2=mar.2,
-                                      Marginal_Dist3=mar.3, Marginal_Dist4=mar.4,
+                                      Marginal_Dist1="Gaus", Marginal_Dist2="Exp",
+                                      Marginal_Dist3="Gaus", Marginal_Dist4="Gam(2)",
                                       GPD1 = gpd.rainfall.tc,
                                       Rate_Con1 = rate.rainfall.tc,
                                       GPD2 = gpd.oswl.tc,
