@@ -391,7 +391,9 @@ Design_Event_2D_Grid<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Th
   }
   if(Marginal_Dist1 == "Twe"){
     if(is.na(Marginal_Dist1_Par)){
+      invisible(capture.output(
       marginal_non_con1<-tweedie.profile(Data_Con1[,con2] ~ 1,p.vec=seq(1.5, 2.5, by=0.2), do.plot=FALSE)
+      ))
     }else{
       marginal_non_con1<-Marginal_Dist1_Par
     }
@@ -525,7 +527,9 @@ Design_Event_2D_Grid<-function(Data, Data_Con1, Data_Con2, u1, u2, Thres1=NA, Th
   }
   if(Marginal_Dist2 == "Twe"){
     if(is.na(Marginal_Dist2_Par)){
+      invisible(capture.output(
       marginal_non_con2<-tweedie.profile(Data_Con2[,con1] ~ 1,p.vec=seq(1.5, 2.5, by=0.2), do.plot=FALSE)
+      ))
     }else{
       marginal_non_con2<-Marginal_Dist2_Par
     }
