@@ -131,7 +131,7 @@ for(i in 1:length(rainfall.type)){
   rainfall.type[i] = ifelse(any(!is.na(S22.Detrend.df$Name[(max(1,(rainfall.exe[i]-3))):(min(rainfall.exe[i]+3,nrow(S22.Detrend.df)))])),"tc","nontc")
 }
 declust.rainfall.tc = S22.Detrend.df.declust$Rainfall_vol[rainfall.exe[which(rainfall.type=="tc")]]
-gpd.rainfall.tc= GPD_Fit(Data = declust.rainfall.tc, Data_Full = na.omit(S22.Detrend.df.declust$Rainfall_vol), u=NA, Thres =rainfall.thres , mu = 365.25,  Method = "Standard", PLOT=F)
+gpd.rainfall.tc= suppressWarnings(GPD_Fit(Data = declust.rainfall.tc, Data_Full = na.omit(S22.Detrend.df.declust$Rainfall_vol), u=NA, Thres =rainfall.thres , mu = 365.25,  Method = "Standard", PLOT=F))
 rate.rainfall.tc = length(declust.rainfall.tc)/(length(na.omit(S22.Detrend.df.declust$Rainfall_vol))/(365.25))
 gpd.rainfall.tc$Rate = rate.rainfall.tc
 
@@ -141,18 +141,18 @@ for(i in 1:length(oswl.type)){
   oswl.type[i] = ifelse(any(!is.na(S22.Detrend.df$Name[(x.con[i]-10):(x.con[i]+10)])),"tc","nontc")
 }
 declust.oswl.tc = S22.Detrend.Declustered.df$OsWL[x.con[which(oswl.type=="tc")]] #con.sample.wl.tc$Data$wl
-gpd.oswl.tc = GPD_Fit(Data = declust.oswl.tc, Data_Full = na.omit(S22.Detrend.df$OsWL), u=NA, Thres = oswl.thres , mu = 365.25, Method = "Standard", PLOT=F)
+gpd.oswl.tc = suppressWarnings(GPD_Fit(Data = declust.oswl.tc, Data_Full = na.omit(S22.Detrend.df$OsWL), u=NA, Thres = oswl.thres , mu = 365.25, Method = "Standard", PLOT=F))
 rate.oswl.tc = length(declust.oswl.tc)/(length(na.omit(S22.Detrend.df$OsWL))/(365.25))
 gpd.oswl.tc$Rate = rate.oswl.tc
 
 #Non-TC sample
 declust.rainfall.nontc =  S22.Detrend.df.declust$Rainfall_vol[rainfall.exe[which(rainfall.type=="nontc")]]
-gpd.rainfall.nontc= GPD_Fit(Data = declust.rainfall.nontc, Data_Full = na.omit(S22.Detrend.df.declust$Rainfall_vol), u=NA, Thres =rainfall.thres , mu = 365.25, Method = "Standard", PLOT=F)
+gpd.rainfall.nontc= suppressWarnings(GPD_Fit(Data = declust.rainfall.nontc, Data_Full = na.omit(S22.Detrend.df.declust$Rainfall_vol), u=NA, Thres =rainfall.thres , mu = 365.25, Method = "Standard", PLOT=F))
 rate.rainfall.nontc = length(declust.rainfall.nontc)/(length(na.omit(S22.Detrend.df.declust$Rainfall_vol))/(365.25))
 gpd.rainfall.nontc$Rate = rate.rainfall.nontc
 
 declust.oswl.nontc =  S22.Detrend.Declustered.df$OsWL[x.con[which(oswl.type=="nontc")]]
-gpd.oswl.nontc = GPD_Fit(Data = declust.oswl.nontc, Data_Full = na.omit(S22.Detrend.df$OsWL), u=NA, Thres = oswl.thres , mu = 365.25, Method = "Standard", PLOT=F, min.RI=1)
+gpd.oswl.nontc = suppressWarnings(GPD_Fit(Data = declust.oswl.nontc, Data_Full = na.omit(S22.Detrend.df$OsWL), u=NA, Thres = oswl.thres , mu = 365.25, Method = "Standard", PLOT=F, min.RI=1))
 rate.oswl.nontc = length(declust.oswl.nontc)/(length(na.omit(S22.Detrend.df$OsWL))/(365.25))
 gpd.oswl.nontc$Rate = rate.oswl.nontc
 
