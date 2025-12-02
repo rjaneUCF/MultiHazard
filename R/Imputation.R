@@ -44,7 +44,7 @@ Imputation<-function(Data,Variable,x_lab,y_lab){
   variable<-which(names(data)==Variable)
   Other.variable<-c(1:ncol(data))[-which(names(data)==Variable)]
   data.NA<-which(is.na(data[,variable])==TRUE)
-  Model<-lm(data[,variable] ~ data[,Other.variable])
+  Model<-lm(data[-data.NA,variable] ~ data[-data.NA,Other.variable])
   Data[,(ncol(Data)+1)]<-data[,variable]
   Data[data.NA,ncol(Data)]<-coef(Model)[1]+data[data.NA,Other.variable]*coef(Model)[2]
   names(Data)[ncol(Data)] <- 'ValuesFilled'

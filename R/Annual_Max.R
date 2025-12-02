@@ -11,10 +11,10 @@
 #' @export
 #' @examples
 #' #Converting
-#' S20_T_MAX_Daily_Completed_Detrend_Declustered[,1] <-
-#'                   as.Date(S20_T_MAX_Daily_Completed_Detrend_Declustered[,1], format = "%m/%d/%Y")
+#' S20_T_MAX_Daily_Completed_Detrend_Declustered$Date <-
+#'                   as.Date(S20_T_MAX_Daily_Completed_Detrend_Declustered$Date, format = "%m/%d/%Y")
 #' #Finding annual maximum of detrended time series
-#' Annual_Max(Data_Detrend=S20_T_MAX_Daily_Completed_Detrend_Declustered[,c(1,4)])
+#' Annual_Max(Data_Detrend=S20_T_MAX_Daily_Completed_Detrend_Declustered[,c("Date","ValueFilled")])
 Annual_Max<-function(Data_Detrend, Complete_Prop=0.8){
 
   # Input validation
