@@ -2,7 +2,7 @@
 #Test that functions work as intended
 
 test_that("Declsuter functions basic functionality", {
-  test_data <-S20_T_MAX_Daily_Completed_Detrend_Declustered[,c(2,5)]
+  test_data <-S20_T_MAX_Daily_Completed_Detrend_Declustered[,c("Date","Detrend")]
 
   result <- Decluster(test_data[,2], u = 0.98, SepCrit = 3, mu = 365.25)
 
@@ -18,13 +18,13 @@ test_that("Declsuter functions basic functionality", {
   expect_length(result$Detrended, nrow(test_data))
   expect_length(result$Declustered, nrow(test_data))
 
-  # Check that the result is same as detrended data in the package
-  expect_false(identical(result, S20_T_MAX_Daily_Completed_Detrend_Declustered[,6]))
+  # Check that the result is same as declustered data stored in the package
+  expect_false(identical(result, S20_T_MAX_Daily_Completed_Detrend_Declustered[,"Declustered"]))
 })
 
 # Test declustering logic
 test_that("Declustering actually works", {
-  test_vector <- S20_T_MAX_Daily_Completed_Detrend_Declustered[,5]
+  test_vector <- S20_T_MAX_Daily_Completed_Detrend_Declustered[,"Detrend"]
   result <- Decluster(test_vector)
 
   # Should have more NAs in declustered than original
@@ -37,7 +37,7 @@ test_that("Declustering actually works", {
 test_that("Decluster function parameter validation", {
 
   # Test 8: Parameter validation
-  test_data <- S20_T_MAX_Daily_Completed_Detrend_Declustered[,c(2,5)]
+  test_data <- S20_T_MAX_Daily_Completed_Detrend_Declustered[,c("Date","Detrend")]
 
   # Test with different u values
   result1 <- Decluster(test_data[,2], u = 0.5)
@@ -55,7 +55,7 @@ test_that("Decluster function parameter validation", {
 
 test_that("Decluster function with different mu values", {
 
-  test_data <- S20_T_MAX_Daily_Completed_Detrend_Declustered[,c(2,5)]
+  test_data <- S20_T_MAX_Daily_Completed_Detrend_Declustered[,c("Date","Detrend")]
 
   result1 <- Decluster(test_data[,2], mu = 365.25)
   result2 <- Decluster(test_data[,2], mu = 1)
@@ -65,7 +65,7 @@ test_that("Decluster function with different mu values", {
 })
 
 test_that("Threshold calculation is correct", {
-  test_vector <- S20_T_MAX_Daily_Completed_Detrend_Declustered[,5]
+  test_vector <- S20_T_MAX_Daily_Completed_Detrend_Declustered[,"Detrend"]
   result <- Decluster(test_vector, u = 0.95)
   expected_threshold <- quantile(test_vector, 0.95, na.rm = TRUE)
   expect_equal(result$Threshold, as.numeric(expected_threshold))
@@ -74,7 +74,7 @@ test_that("Threshold calculation is correct", {
 #Test reproducibility
 
 test_that("Function is deterministic", {
-  test_data <- S20_T_MAX_Daily_Completed_Detrend_Declustered[,c(2,5)]
+  test_data <- S20_T_MAX_Daily_Completed_Detrend_Declustered[,c("Date","Detrend")]
 
   # Window method should be reproducible
   result1 <- Decluster(test_data[,2], u = 0.98, SepCrit = 3, mu = 365.25)
@@ -85,7 +85,7 @@ test_that("Function is deterministic", {
 
 # Test NA handling
 test_that("Handles NA values", {
-  test_data_with_na <- S20_T_MAX_Daily_Completed_Detrend_Declustered[,c(2,3)]
+  test_data_with_na <- S20_T_MAX_Daily_Completed_Detrend_Declustered[,c("Date","Value")]
   result <- Decluster(test_data_with_na[,2], u = 0.95)
   expect_type(result, "list")
   expect_true(any(is.na(result$Detrended)) || any(is.na(result$Declustered)))
@@ -93,7 +93,7 @@ test_that("Handles NA values", {
 
 # Test that invalid inputs gives errors
 test_that("Invalid inputs produce errors", {
-  test_vector <- S20_T_MAX_Daily_Completed_Detrend_Declustered[,5]
+  test_vector <- S20_T_MAX_Daily_Completed_Detrend_Declustered[,"Detrend"]
   expect_error(Decluster(test_vector, u = 1.5))      # u > 1
   expect_error(Decluster(test_vector, u = -0.1))     # u < 0
   expect_error(Decluster(letters[1:10]))             # character data
@@ -101,7 +101,7 @@ test_that("Invalid inputs produce errors", {
 
 # Test data integrity
 test_that("Data integrity preserved", {
-  test_vector <- S20_T_MAX_Daily_Completed_Detrend_Declustered[,5]
+  test_vector <- S20_T_MAX_Daily_Completed_Detrend_Declustered[,"Detrend"]
   result <- Decluster(test_vector, u = 0.95)
   expect_equal(length(result$Declustered), length(test_vector))
 })

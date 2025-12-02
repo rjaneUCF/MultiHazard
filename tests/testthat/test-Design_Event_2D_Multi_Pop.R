@@ -1,4 +1,5 @@
 #Append S-22 dataframe with HURDAT data
+S22.Detrend.df$Date = as.Date(S22.Detrend.df)
 S22.Detrend.df = HURDAT(Data=S22.Detrend.df,lat.loc=25.669610,lon.loc=80.283732,rad=500)
 
 #Inter event rainfall
