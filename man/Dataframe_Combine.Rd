@@ -42,7 +42,7 @@ Combines up to five time series, detrended where necessary, into a single data f
 #Formatting data
 S20.Rainfall.df<-Perrine_df
 S20.Rainfall.df$Date<-as.Date(S20.Rainfall.df$Date)
-S20.OsWL.df<-S20_T_MAX_Daily_Completed_Detrend_Declustered[,c(2,4)]
+S20.OsWL.df<-S20_T_MAX_Daily_Completed_Detrend_Declustered[,c("Date","ValueFilled")]
 S20.OsWL.df$Date<-as.Date(S20.OsWL.df$Date)
 #Detrending O-sWL series at Site S20
 S20.OsWL.Detrend<-Detrend(Data=S20.OsWL.df,Method = "window",PLOT=FALSE,
