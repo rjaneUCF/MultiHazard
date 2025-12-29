@@ -1,4 +1,4 @@
-S22.Detrend.df$Date = as.Date(S22.Detrend.df)
+S22.Detrend.df$Date = as.Date(S22.Detrend.df$Date)
 Rainfall_Declust_SW<-suppressWarnings(Decluster_SW(Data=S22.Detrend.df[,c("Date","Rainfall")],Window_Width=7))
 
 
