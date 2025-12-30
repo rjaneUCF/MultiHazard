@@ -1,20 +1,12 @@
-# Add to your test to diagnose:
-cat("S22.Detrend.df rows:", nrow(S22.Detrend.df), "\n")
-cat("S22.Detrend.df date range:", min(S22.Detrend.df$Date), "to", max(S22.Detrend.df$Date), "\n")
-cat("Feb dates already in data:", sum(S22.Detrend.df$Date >= as.Date("2019-02-04") & 
-                                       S22.Detrend.df$Date <= as.Date("2019-02-28")), "\n")
-cat("S22.Detrend.df.extended rows:", nrow(S22.Detrend.df.extended), "\n")
+final.month <- data.frame(
+  Date = seq(as.Date("2019-02-04"), as.Date("2019-02-28"), by="day"),
+  Rainfall = NA,
+  OsWL = NA,
+  Groundwater = NA
+)
 
-if (!exists("S22.Detrend.df.extended")) {
- final.month = data.frame(seq(as.Date("2019-02-04"),as.Date("2019-02-28"),by="day"),NA,NA,NA)
- colnames(final.month) = c("Date","Rainfall","OsWL","Groundwater")
-
- # Remove any dates that already exist in S22.Detrend.df
-  final.month = final.month[!final.month$Date %in% S22.Detrend.df$Date, ]
- 
- S22.Detrend.df.extended = rbind(S22.Detrend.df,final.month)
- S22.Detrend.df.extended$Date = as.Date(S22.Detrend.df.extended$Date)
-}
+S22.Detrend.df.extended <- rbind(S22.Detrend.df, final.month)
+S22.Detrend.df.extended$Date <- as.Date(S22.Detrend.df.extended$Date)
 
 test_that("return_curve_est works", {
 
