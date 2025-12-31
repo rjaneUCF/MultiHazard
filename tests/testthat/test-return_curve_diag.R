@@ -43,7 +43,7 @@ test_that("return_curve_est_diag works", {
 test_that("return_curve_est_diag invalid inputs", {
 
   expect_error(
-      return_curve_diag(data=S22.Detrend.df.extended[,1:3],
+      return_curve_diag(data=S22.Detrend.df[1:25964,1:3],
                                q=0.985,rp=1,mu=365.25,n_sim=100,
                                n_grad=50,n_boot=100,boot_method="monthly",
                                boot_replace=NA, block_length=NA, boot_prop=0.8,
@@ -57,7 +57,7 @@ test_that("return_curve_est_diag invalid inputs", {
              "u_x threshold must be between 0 and 1.")
 
   expect_error(
-    return_curve_diag(data=S22.Detrend.df.extended[,1:3],
+    return_curve_diag(data=S22.Detrend.df[1:25964,1:3],
                       q=0.985,mu=365.25,n_sim=100,
                       n_grad=50,n_boot=100,boot_method="monthly",
                       boot_replace=NA, block_length=NA, boot_prop=0.8,
