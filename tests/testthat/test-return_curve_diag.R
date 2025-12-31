@@ -1,7 +1,3 @@
-cat("Date column class:", class(S22.Detrend.df[,1]), "\n")
-cat("Date column type:", typeof(S22.Detrend.df$Date), "\n")
-cat("Is Date?", inherits(S22.Detrend.df$Date, "Date"), "\n")
-
 test_that("return_curve_est_diag works", {
 
 
