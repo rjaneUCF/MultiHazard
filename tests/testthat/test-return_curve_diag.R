@@ -1,17 +1,11 @@
-final.month <- data.frame(
-  Date = seq(as.Date("2019-02-04"), as.Date("2019-02-28"), by="day"),
-  Rainfall = NA,
-  OsWL = NA,
-  Groundwater = NA
-)
-
-S22.Detrend.df.extended <- rbind(S22.Detrend.df, final.month)
-S22.Detrend.df.extended$Date <- as.Date(S22.Detrend.df.extended$Date)
+cat("Date column class:", class(S22.Detrend.df[,1]), "\n")
+cat("Date column type:", typeof(S22.Detrend.df$Date), "\n")
+cat("Is Date?", inherits(S22.Detrend.df$Date, "Date"), "\n")
 
 test_that("return_curve_est_diag works", {
 
 
-  result <-  return_curve_diag(data=S22.Detrend.df.extended[,1:3],
+  result <-  return_curve_diag(data=S22.Detrend.df[1:25964,1:3],
                                q=0.985,rp=1,mu=365.25,n_sim=100,
                                n_grad=50,n_boot=100,boot_method="monthly",
                                boot_replace=NA, block_length=NA, boot_prop=0.8,
