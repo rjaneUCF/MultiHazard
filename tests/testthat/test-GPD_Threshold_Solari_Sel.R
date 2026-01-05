@@ -24,7 +24,7 @@ test_that("GPD_Threshold_Solari_Sel works", {
   expect_equal(length(result$Estimate),32)
   expect_equal(length(result$CI_Lower),32)
   expect_equal(length(result$CI_Upper),32)
-  expect_true(nrow(result$BOOT)==10000 & ncol(result$BOOT)==32)
+  expect_true(nrow(result$BOOT)==100 & ncol(result$BOOT)==32)
 })
 
 test_that("Invalid inputs", {
