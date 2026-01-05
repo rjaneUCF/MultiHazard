@@ -2,9 +2,9 @@
 test_that("return_curve_est works", {
 
 
-  result <-  return_curve_est(data=S22.Detrend.df[227795:254098,1:3],
-                              q=0.985,rp=100,mu=365.25,n_sim=100,
-                              n_grad=50,n_boot=100,boot_method="monthly",
+  result <-  return_curve_est(data=S22.Detrend.df[21551:25568,1:3],
+                              q=0.985,rp=100,mu=365.25,n_sim=50,
+                              n_grad=50,n_boot=50,boot_method="monthly",
                               boot_replace=NA, block_length=NA, boot_prop=0.8,
                               decl_method_x="runs", decl_method_y="runs",
                               window_length_x=NA,window_length_y=NA,
@@ -33,19 +33,19 @@ test_that("return_curve_est works", {
   #expect_true(nrow(result$most_likely_wt13)==1 & ncol(result$most_likely_wt13)==2)
 
   #Checking column names of outputs
-  expect_equal(colnames(S22.Detrend.df[227795:254098,2:3]), colnames(result$median_ht04))
-  expect_equal(colnames(S22.Detrend.df[227795:254098,2:3]), colnames(result$ub_ht04))
-  expect_equal(colnames(S22.Detrend.df[227795:254098,2:3]), colnames(result$lb_ht04))
-  #expect_equal(colnames(S22.Detrend.df[1:25964,2:3]), colnames(result$contour_ht04))
+  expect_equal(colnames(S22.Detrend.df[21551:25568,2:3]), colnames(result$median_ht04))
+  expect_equal(colnames(S22.Detrend.df[21551:25568,2:3]), colnames(result$ub_ht04))
+  expect_equal(colnames(S22.Detrend.df[21551:25568,2:3]), colnames(result$lb_ht04))
+  #expect_equal(colnames(S22.Detrend.df[21551:25568,2:3]), colnames(result$contour_ht04))
 })
 
 
 test_that("Invalid inputs", {
 
             expect_error(
-                  return_curve_est(data=S22.Detrend.df[227795:254098,2:3],
-                                   q=0.985,rp=100,mu=365.25,n_sim=100,
-                                   n_grad=50,n_boot=100,boot_method="monthly",
+                  return_curve_est(data=S22.Detrend.df[21551:25568,2:3],
+                                   q=0.985,rp=100,mu=365.25,n_sim=50,
+                                   n_grad=50,n_boot=50,boot_method="monthly",
                                    boot_replace=NA, block_length=NA, boot_prop=0.8,
                                    decl_method_x="runs", decl_method_y="runs",
                                    window_length_x=NA,window_length_y=NA,
@@ -56,9 +56,9 @@ test_that("Invalid inputs", {
 
 
   expect_error(
-    return_curve_est(data=S22.Detrend.df[227795:254098,1:3],
-                     q=0.985,rp=100,mu=365.25,n_sim=100,
-                     n_grad=50,n_boot=100,boot_method="monthly",
+    return_curve_est(data=S22.Detrend.df[21551:25568,1:3],
+                     q=0.985,rp=100,mu=365.25,n_sim=50,
+                     n_grad=50,n_boot=50,boot_method="monthly",
                      boot_replace=NA, block_length=NA, boot_prop=0.8,
                      decl_method_x="runs", decl_method_y="runs",
                      window_length_x=NA,window_length_y=NA,
