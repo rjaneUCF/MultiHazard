@@ -162,18 +162,18 @@ Diag_Non_Con_Trunc_Sel<-function(Data,Selected,Omit=NA,x_lab="Data",y_lim_min=0,
   if(any(Test=="BS")){
     bdata2 <- data.frame(shape = exp(-0.5), scale = exp(0.5))
     bdata2 <- transform(bdata2, y = Data)
-    fit <- vglm(y ~ 1, bisa, data = bdata2, trace = FALSE)
-    AIC.BS<-2*length(coef(fit))-2*logLik(fit)
+    fit.BS <- vglm(y ~ 1, bisa, data = bdata2, trace = FALSE)
+    AIC.BS<-2*length(coef(fit.BS))-2*logLik(fit.BS)
   }
 
   if(any(Test=="Exp")){
-    fit<-fitdistr(Data,"exponential")
-    AIC.Exp<-2*length(fit$estimate)-2*fit$loglik
+    fit.Exp<-fitdistr(Data,"exponential")
+    AIC.Exp<-2*length(fit.Exp$estimate)-2*fit.Exp$loglik
   }
 
   if(any(Test=="Gam(2)")){
-    fit<-fitdistr(Data, "gamma")
-    AIC.Gam2<-2*length(fit$estimate)-2*fit$loglik
+    fit.Gam2 <-fitdistr(Data, "gamma")
+    AIC.Gam2<-2*length(fit.Gam2$estimate)-2*fit.Gam2$loglik
   }
 
   if(any(Test=="Gam(3)")){
@@ -221,22 +221,22 @@ Diag_Non_Con_Trunc_Sel<-function(Data,Selected,Omit=NA,x_lab="Data",y_lim_min=0,
   }
 
   if(any(Test=="LNorm")){
-    fit<-fitdistr(Data,"lognormal")
-    AIC.logNormal<-2*length(fit$estimate)-2*fit$loglik
+    fit.logNormal<-fitdistr(Data,"lognormal")
+    AIC.logNormal<-2*length(fit.logNormal$estimate)-2*fit.logNormal$loglik
   }
   if(any(Test=="TNorm")){
-    fit <- fitdistr(Data, "normal")
-    AIC.TNormal <- 2 * length(fit$estimate) - 2 * fit$loglik
+    fit.TNormal <- fitdistr(Data, "normal")
+    AIC.TNormal <- 2 * length(fit.TNormal$estimate) - 2 * fit.TNormal$loglik
   }
   if(any(Test=="Twe")){
     invisible(capture.output(
-    fit <- tweedie.profile(Data ~ 1,p.vec=seq(1.5, 2.5, by=0.2), do.plot=FALSE)
+    fit.Tweedie <- tweedie.profile(Data ~ 1,p.vec=seq(1.5, 2.5, by=0.2), do.plot=FALSE)
    ))
-   AIC.Tweedie<-2*3-2*fit$L.max
+   AIC.Tweedie<-2*3-2*fit.Tweedie$L.max
   }
   if(any(Test=="Weib")){
-    fit<-fitdistr(Data,"weibull")
-    AIC.Weib<-2*length(fit$estimate)-2*fit$loglik
+    fit.Weib<-fitdistr(Data,"weibull")
+    AIC.Weib<-2*length(fit.Weib$estimate)-2*fit.Weib$loglik
   }
 
   #Plot layout
@@ -245,7 +245,7 @@ Diag_Non_Con_Trunc_Sel<-function(Data,Selected,Omit=NA,x_lab="Data",y_lim_min=0,
 
   #Plotting AIC
   plot(0,xlim=c(0,length(Test)),ylim=c(min(0,AIC.BS,AIC.Exp,AIC.Gam2,AIC.Gam3,AIC.GamMix2,AIC.GamMix3,AIC.logNormal,AIC.TNormal,AIC.Tweedie,AIC.Weib,na.rm=TRUE),max(0,AIC.BS,AIC.Exp,AIC.Gam2,AIC.Gam3,AIC.GamMix2,AIC.GamMix3,AIC.TNormal,AIC.logNormal,AIC.Tweedie,AIC.Weib,na.rm=TRUE)),type='n',xlab="Probability Distribution",ylab="AIC",xaxt='n',cex.axis=1,cex.lab=1,las=1)
-  axis(1,seq(0.5,length(Test)-0.5,1),c("Birn-S","Exp","Gam(2)","Gam(3)","GamMix(2)","GamMix(3)","LogN","TNorm","Twe","Weib")[Test],cex.axis=0.71)
+  axis(1,seq(0.5,length(Test)-0.5,1),c("Birn-S","Exp","Gam(2)","Gam(3)","GamMix(2)","GamMix(3)","LogN","TNorm","Twe","Weib")[match(Test, Dist)],cex.axis=0.71)
   if(any(Test=="BS")){rect(which(Test=="BS")-0.5-length(Test)/40,0,which(Test=="BS")-0.5+length(Test)/40,AIC.BS,col=ifelse(Selected=="BS",mypalette[1],"white"))}
   if(any(Test=="Exp")){rect(which(Test=="Exp")-0.5-length(Test)/40,0,which(Test=="Exp")-0.5+length(Test)/40,AIC.Exp,col=ifelse(Selected=="Exp",mypalette[2],"white"))}
   if(any(Test=="Gam(2)")){rect(which(Test=="Gam(2)")-0.5-length(Test)/40,0,which(Test=="Gam(2)")-0.5+length(Test)/40,AIC.Gam2,col=ifelse(Selected=="Gam(2)",mypalette[3],"white"))}
@@ -264,20 +264,15 @@ Diag_Non_Con_Trunc_Sel<-function(Data,Selected,Omit=NA,x_lab="Data",y_lim_min=0,
   legend("topright",paste("Fitted",Selected,"dist."),lty=1,col=mypalette[which(Dist==Selected)],cex=0.9,bty='n')
 
   if(Selected=="BS"){
-    bdata2 <- data.frame(shape = exp(-0.5), scale = exp(0.5))
-    bdata2 <- transform(bdata2, y = Data)
-    fit <- vglm(y ~ 1, bisa, data = bdata2, trace = FALSE)
-    lines(x,dbisa(x,Coef(fit)[1],Coef(fit)[2]),col=mypalette[1],lwd=2)
+    lines(x,dbisa(x,Coef(fit.BS)[1],Coef(fit.BS)[2]),col=mypalette[1],lwd=2)
   }
 
   if(Selected=="Exp"){
-    fit<-fitdistr(Data,"exponential")
-    lines(x,dexp(x,fit$estimate[1]),col=mypalette[2],lwd=2)
+    lines(x,dexp(x,fit.Exp$estimate[1]),col=mypalette[2],lwd=2)
   }
 
   if(Selected=="Gam(2)"){
-    fit<-fitdistr(Data, "gamma")
-    lines(x,dgamma(x,fit$estimate[1],fit$estimate[2]),col=mypalette[3],lwd=2)
+    lines(x,dgamma(x,fit.Gam2$estimate[1],fit.Gam2$estimate[2]),col=mypalette[3],lwd=2)
   }
 
   if(Selected=="Gam(3)" && exists("fit.Gamma3")){
@@ -304,25 +299,19 @@ Diag_Non_Con_Trunc_Sel<-function(Data,Selected,Omit=NA,x_lab="Data",y_lim_min=0,
   }
 
   if(Selected=="LNorm"){
-    fit<-fitdistr(Data,"lognormal")
-    lines(x,dlnorm(x,fit$estimate[1],fit$estimate[2]),col=mypalette[7],lwd=2)
+    lines(x,dlnorm(x,fit.logNormal$estimate[1],fit.logNormal$estimate[2]),col=mypalette[7],lwd=2)
   }
 
   if(Selected=="TNorm"){
-    fit<-fitdistr(Data, "normal")
-    lines(x,dtruncnorm(x,a=min(Data),mean=fit$estimate[1],sd=fit$estimate[2]),col=mypalette[8],lwd=2)
+    lines(x,dtruncnorm(x,a=min(Data),mean=fit.TNormal$estimate[1],sd=fit.TNormal$estimate[2]),col=mypalette[8],lwd=2)
   }
 
   if(Selected=="Twe"){
-    invisible(capture.output(
-    fit <- tweedie.profile(Data ~ 1, p.vec=seq(1.5, 2.5, by=0.2), do.plot=FALSE)
-    ))
-    lines(x,dtweedie(x,  power=fit$p.max, mu=mean(Data), phi=fit$phi.max),col=mypalette[9],lwd=2)
+    lines(x,dtweedie(x,  power=fit.Tweedie$p.max, mu=mean(Data), phi=fit.Tweedie$phi.max),col=mypalette[9],lwd=2)
   }
 
   if(Selected=="Weib"){
-    fit<-fitdistr(Data,"weibull")
-    lines(x,dweibull(x,fit$estimate[1],fit$estimate[2]),col=mypalette[10],lwd=2)
+    lines(x,dweibull(x,fit.Weib$estimate[1],fit.Weib$estimate[2]),col=mypalette[10],lwd=2)
   }
 
   #CDF plot
@@ -334,27 +323,22 @@ Diag_Non_Con_Trunc_Sel<-function(Data,Selected,Omit=NA,x_lab="Data",y_lim_min=0,
   legend("bottomright",c("95% Conf. Interval",paste("Fitted",Selected, "dist.")),lty=c(2,1),col=mypalette[which(Dist==Selected)],cex=1,bty='n',border = "white")
 
   if(Selected=="BS"){
-    bdata2 <- data.frame(shape = exp(-0.5), scale = exp(0.5))
-    bdata2 <- transform(bdata2, y = Data)
-    fit <- vglm(y ~ 1, bisa, data = bdata2, trace = FALSE)
-    lines(x,pbisa(x,Coef(fit)[1],Coef(fit)[2]),col=mypalette[1],lwd=2)
+    lines(x,pbisa(x,Coef(fit.BS)[1],Coef(fit.BS)[2]),col=mypalette[1],lwd=2)
   }
 
   if(Selected=="Exp"){
-    fit<-fitdistr(Data,"exponential")
-    lines(x,pexp(x,fit$estimate[1]),col=mypalette[2],lwd=2)
+    lines(x,pexp(x,fit.Exp$estimate[1]),col=mypalette[2],lwd=2)
   }
 
   if(Selected=="Gam(2)"){
-    fit<-fitdistr(Data, "gamma")
-    lines(x,pgamma(x,fit$estimate[1],fit$estimate[2]),col=mypalette[3],lwd=2)
+    lines(x,pgamma(x,fit.Gam2$estimate[1],fit.Gam2$estimate[2]),col=mypalette[3],lwd=2)
   }
 
-  if(Selected=="Gam(3)" && exists("fit.GamMIX3_GA")){
+  if(Selected=="Gam(3)" && exists("fit.Gamma3")){
     lines(x,pGG(x, mu=exp(fit.Gamma3$mu.coefficients), sigma=exp(fit.Gamma3$sigma.coefficients), nu=fit.Gamma3$nu.coefficients),col=mypalette[4],lwd=2)
   }
 
-  if(Selected=="GamMix(2)" && exists("fit.GamMIX3_GA")){
+  if(Selected=="GamMix(2)" && exists("fit.GamMIX2_GA")){
     prob.MX1 <- round(fit.GamMIX2_GA$prob[1],3)
     prob.MX2 <- 1 - prob.MX1
     lines(x,pMX(x, mu=list(mu1=exp(fit.GamMIX2_GA$models[[1]]$mu.coefficients), mu2=exp(fit.GamMIX2_GA$models[[2]]$mu.coefficients)),
@@ -372,24 +356,24 @@ Diag_Non_Con_Trunc_Sel<-function(Data,Selected,Omit=NA,x_lab="Data",y_lim_min=0,
   }
 
   if(Selected=="LNorm"){
-    fit<-fitdistr(Data,"lognormal")
-    lines(x,plnorm(x,fit$estimate[1],fit$estimate[2]),col=mypalette[7],lwd=2)
+   lines(x,plnorm(x,fit.logNormal$estimate[1],fit.logNormal$estimate[2]),col=mypalette[7],lwd=2)
   }
 
   if(Selected=="TNorm"){
-    fit<-fitdistr(Data,"normal")
-    lines(x,ptruncnorm(x,a=min(Data),mean=fit$estimate[1],sd=fit$estimate[2]),col=mypalette[8],lwd=2)
+    lines(x,ptruncnorm(x,a=min(Data),mean=fit.TNormal$estimate[1],sd=fit.TNormal$estimate[2]),col=mypalette[8],lwd=2)
   }
 
   if(Selected=="Twe"){
-    invisible(capture.output(
-    fit <- tweedie.profile(Data ~ 1,p.vec=seq(1.5, 2.5, by=0.2), do.plot=FALSE)
-    ))
-    lines(x,ptweedie(x,  power=fit$p.max, mu=mean(Data), phi=fit$phi.max),col=mypalette[9],lwd=2,pch=16,ylab="P(X<x)")
+    lines(x,ptweedie(x,  power=fit.Tweedie$p.max, mu=mean(Data), phi=fit.Tweedie$phi.max),col=mypalette[9],lwd=2,pch=16,ylab="P(X<x)")
   }
 
   if(Selected=="Weib"){
-    fit<-fitdistr(Data, "weibull")
-    lines(x,pweibull(x,fit$estimate[1],fit$estimate[2]),col=mypalette[10],lwd=2)
+    lines(x,pweibull(x,fit.Weib$estimate[1],fit.Weib$estimate[2]),col=mypalette[10],lwd=2)
+  }
+
+  # After all fitting is done, before plotting:
+  if(!any(Test==Selected)){
+    stop("Selected distribution '", Selected, "' failed to fit. Choose from: ",
+         paste(Test, collapse=", "))
   }
 }
