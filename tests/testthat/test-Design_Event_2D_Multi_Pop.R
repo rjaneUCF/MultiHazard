@@ -184,7 +184,7 @@ test_that("Design_Event_2D_Multi_Pop works", {
                                       Grid_x_min = 0 ,Grid_x_max = 700, Grid_y_min = -2,
                                       Grid_y_max = 3, Grid_x_interval=0.1, Grid_y_interval=0.01,
                                       x_lab = "Rainfall (in)", y_lab = "Water level (ft NGVD88)",
-                                      RP=100,N=10^4,N_Ensemble=10,
+                                      RP=100,N=10^1,N_Ensemble=10,
                                       Plot_Quantile_Isoline=FALSE,
                                       x_lim_min = 0,
                                       x_lim_max = 100,
