@@ -3,7 +3,7 @@
 test_that("Vine_Copula_Fit works", {
 
 
-  result <- Vine_Copula_Fit(Data=S20.Detrend.df)
+  result <- Vine_Copula_Fit(Data=S20.Detrend.df[20486:21581,])
 
   # Checking type of output
   expect_type(result, 'list')

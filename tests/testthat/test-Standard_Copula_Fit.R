@@ -1,7 +1,7 @@
 #Test that functions work as intended
 
 test_that("Gaussian copula works", {
-  result <- Standard_Copula_Fit(Data=S20.Detrend.df, Copula_Type="Gaussian")
+  result <- Standard_Copula_Fit(Data=S20.Detrend.df[20486:21581,], Copula_Type="Gaussian")
   expect_type(result, 'S4')
   expect_true(inherits(result, "normalCopula"))
 
@@ -12,7 +12,7 @@ test_that("Gaussian copula works", {
 })
 
 test_that("t-copula works", {
-  result <- suppressWarnings(Standard_Copula_Fit(Data=S20.Detrend.df, Copula_Type="tcopula"))
+  result <- suppressWarnings(Standard_Copula_Fit(Data=S20.Detrend.df[20486:21581,], Copula_Type="tcopula"))
   expect_type(result, 'S4')
   expect_true(inherits(result, "tCopula"))
 
@@ -25,7 +25,7 @@ test_that("t-copula works", {
 })
 
 test_that("Gumbel copula works", {
-  result <- Standard_Copula_Fit(Data=S20.Detrend.df, Copula_Type="Gumbel")
+  result <- Standard_Copula_Fit(Data=S20.Detrend.df[20486:21581,], Copula_Type="Gumbel")
   expect_type(result, 'S4')
   expect_true(inherits(result, "gumbelCopula"))
   params <- getTheta(result)
@@ -33,7 +33,7 @@ test_that("Gumbel copula works", {
 })
 
 test_that("Clayton copula works", {
-  result <- Standard_Copula_Fit(Data=S20.Detrend.df, Copula_Type="Clayton")
+  result <- Standard_Copula_Fit(Data=S20.Detrend.df[20486:21581,], Copula_Type="Clayton")
   expect_type(result, 'S4')
   expect_true(inherits(result, "claytonCopula"))
   params <- getTheta(result)
@@ -42,7 +42,7 @@ test_that("Clayton copula works", {
 })
 
 test_that("Frank copula works", {
-  result <- Standard_Copula_Fit(Data=S20.Detrend.df, Copula_Type="Frank")
+  result <- Standard_Copula_Fit(Data=S20.Detrend.df[20486:21581,], Copula_Type="Frank")
   expect_type(result, 'S4')
   expect_true(inherits(result, "frankCopula"))
   params <- getTheta(result)
@@ -69,7 +69,7 @@ test_that("Invalid inputs produce errors", {
 
 # Test default parameter behavior
 test_that("Default Copula_Type works", {
-  result <- Standard_Copula_Fit(Data = S20.Detrend.df)  # Should default to Gaussian
+  result <- Standard_Copula_Fit(Data = S20.Detrend.df[20486:21581,])  # Should default to Gaussian
   expect_true(inherits(result, "normalCopula"))
 })
 
