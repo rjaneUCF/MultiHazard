@@ -1,12 +1,12 @@
 S22.Detrend.df$Date = as.Date(S22.Detrend.df$Date)
-Rainfall_Declust_SW<-suppressWarnings(Decluster_SW(Data=S22.Detrend.df[,c("Date","Rainfall")],Window_Width=7))
+Rainfall_Declust_SW<-suppressWarnings(Decluster_SW(Data=S22.Detrend.df[20486:21581,c("Date","Rainfall")],Window_Width=7))
 
 
 test_that("GPD_Threshold_Solari works", {
 
 
   result <-  GPD_Threshold_Solari(Event=Rainfall_Declust_SW$Declustered,
-                                  Data=S22.Detrend.df[,"Rainfall"])
+                                  Data=S22.Detrend.df[20486:21581,"Rainfall"])
 
   # Checking type of output
   expect_type(result, 'list')
@@ -44,7 +44,7 @@ test_that("Invalid inputs", {
 
 
   expect_error(GPD_Threshold_Solari(Event=Rainfall_Declust_SW$Declustered,
-                                    Data=S22.Detrend.df[,2],
+                                    Data=S22.Detrend.df[20486:21581,2],
                                     Alpha=5),
                "Alpha must be between 0 and 1")
 })

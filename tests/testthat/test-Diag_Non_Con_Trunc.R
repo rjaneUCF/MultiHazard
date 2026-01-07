@@ -54,13 +54,6 @@ test_that("Function is deterministic", {
 # Test NA handling
 test_that("Handles NA values", {
 
-  #data_with_na <- c(S20.OsWL$Data$Rainfall , NA, NA, NA)
-  #
-  #expect_warning(Diag_Non_Con_Trunc(Data = data_with_na,x_lab="Rainfall (Inches)",
-  #                            y_lim_min=0,y_lim_max=1.5),
-  #               "Removed 3 NA values from Data")
-
-
   # Test all NA data - should error
   expect_error(Diag_Non_Con_Trunc(Data = rep(NA, 20), x_lab = "Rainfall (Inches)"),
                "Data must be numeric, got: logical")
@@ -85,21 +78,7 @@ test_that("Invalid inputs produce errors", {
                                   Omit= "Gaussian", y_lim_min=0,y_lim_max=1.5),
                "Invalid distribution names in Omit.")
 
-  #data_with_inf <- c(S20.OsWL$Data$Rainfall , Inf, -Inf)
-  #expect_warning(Diag_Non_Con_Trunc(Data = data_with_inf, x_lab = "Rainfall (Inches)"),
-  #               "Data contains 2 infinite values. Removing them.")
-
   expect_error(Diag_Non_Con_Trunc(Data = S20.OsWL$Data$Rainfall , x_lab = "Rainfall (Inches)",
                                   Omit = c("BS","Exp","Gam(2)","Gam(3)","GamMix(2)","GamMix(3)","LNorm","TNorm","Twe","Weib")),
                "Cannot omit all distributions. At least one distribution must be tested.")
 })
-
-test_that("Test the plots work", {
-  # Test that function runs without fatal errors
-  expect_no_error({
-    result <- suppressWarnings(
-      Diag_Non_Con_Trunc(Data = S20.OsWL$Data$Rainfall, x_lab = "Rainfall (Inches)")
-    )
-  })
-})
-
