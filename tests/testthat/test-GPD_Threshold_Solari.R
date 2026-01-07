@@ -5,7 +5,10 @@ Rainfall_Declust_SW<-suppressWarnings(Decluster_SW(Data=S22.Detrend.df[20486:215
 test_that("GPD_Threshold_Solari works", {
 
 
-  result <-  GPD_Threshold_Solari(Event=Rainfall_Declust_SW$Declustered,
+ result <-  suppressMessages(suppressWarnings(GPD_Threshold_Solari(Event=Rainfall_Declust_SW$Declustered,
+                                      Data=S22.Detrend.df[20486:21581,"Rainfall"],Min_Quantile = 0.965)))
+
+  GPD_Threshold_Solari(Event=Rainfall_Declust_SW$Declustered,
                                   Data=S22.Detrend.df[20486:21581,"Rainfall"])
 
   # Checking type of output
@@ -17,13 +20,13 @@ test_that("GPD_Threshold_Solari works", {
 
 
   #Checking length of outputs
-  expect_length(result$Thres_Candidate,248)
-  expect_length(result$Thres_Candidate_Quantile,962)
-  expect_true(nrow(result$GPD_MLE)==248 & ncol(result$GPD_MLE)==11,)
-  expect_true(nrow(result$CI_Upper)==248 & ncol(result$CI_Upper)==11,)
-  expect_true(nrow(result$CI_Lower)==248 & ncol(result$CI_Lower)==11,)
-  expect_length(result$AR2,248)
-  expect_length(result$AR2_pValue,248)
+  expect_length(result$Thres_Candidate,2)
+  expect_length(result$Thres_Candidate_Quantile,32)
+  expect_true(nrow(result$GPD_MLE)==2 & ncol(result$GPD_MLE)==11)
+  expect_true(nrow(result$CI_Upper)==2 & ncol(result$CI_Upper)==11)
+  expect_true(nrow(result$CI_Lower)==2 & ncol(result$CI_Lower)==11)
+  expect_length(result$AR2,2)
+  expect_length(result$AR2_pValue,2)
   expect_length(result$Candidate_Thres,1)
 
   #Checking column names of outputs
