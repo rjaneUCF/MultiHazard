@@ -8,9 +8,6 @@ test_that("GPD_Threshold_Solari works", {
  result <-  suppressMessages(suppressWarnings(GPD_Threshold_Solari(Event=Rainfall_Declust_SW$Declustered,
                                       Data=S22.Detrend.df[20486:21581,"Rainfall"],Min_Quantile = 0.965)))
 
-  GPD_Threshold_Solari(Event=Rainfall_Declust_SW$Declustered,
-                                  Data=S22.Detrend.df[20486:21581,"Rainfall"])
-
   # Checking type of output
   expect_type(result, 'list')
   expect_named(result, c("Thres_Candidate", "Thres_Candidate_Quantile",
