@@ -2,7 +2,7 @@
 
 S20.Rainfall<-Con_Sampling_2D(Data_Detrend=S20.Detrend.df[,-c(1,4)],
                               Data_Declust=S20.Detrend.Declustered.df[,-c(1,4)],
-                              Con_Variable="Rainfall",Thres=0.97)
+                              Con_Variable="Rainfall",u=0.97)
 
 
 
