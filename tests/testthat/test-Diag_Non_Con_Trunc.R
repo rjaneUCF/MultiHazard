@@ -2,7 +2,7 @@
 
 S20.OsWL<-Con_Sampling_2D(Data_Detrend=S20.Detrend.df[,-c(1,4)],
                           Data_Declust=S20.Detrend.Declustered.df[,-c(1,4)],
-                          Con_Variable="OsWL",Thres=0.97)
+                          Con_Variable="OsWL",u=0.97)
 
 S20.OsWL$Data$Rainfall <- S20.OsWL$Data$Rainfall + runif(length(S20.OsWL$Data$Rainfall),0.001,0.01)
 
@@ -82,3 +82,4 @@ test_that("Invalid inputs produce errors", {
                                   Omit = c("BS","Exp","Gam(2)","Gam(3)","GamMix(2)","GamMix(3)","LNorm","TNorm","Twe","Weib")),
                "Cannot omit all distributions. At least one distribution must be tested.")
 })
+
