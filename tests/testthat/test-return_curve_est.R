@@ -3,7 +3,7 @@ test_that("return_curve_est works", {
 
 
   result <-  return_curve_est(data=S22.Detrend.df[20486:24107,1:3],
-                              q=0.985,rp=100,mu=365.25,n_sim=10,
+                              q=0.985,rp=100,mu=365.25,n_sim=50,
                               n_grad=50,n_boot=10,boot_method="basic",
                               boot_replace=TRUE, block_length=NA, boot_prop=0.8,
                               decl_method_x="runs", decl_method_y="runs",
@@ -67,4 +67,5 @@ test_that("Invalid inputs", {
                      alpha=0.1, x_lab=NA, y_lab=NA,most_likely=FALSE),
     "u_x threshold must be between 0 and 1.")
 })
+
 
