@@ -1,6 +1,6 @@
 Package: MultiHazard
 Title: Tools for modeling compound events
-Version: 1.13
+Version: 1.2
 Authors@R: c(
     person("Robert", "Jane", , "r.jane@ucf.edu", role = c("cre", "aut"),
            comment = c(ORCID = "0000-0003-4194-852X")),
