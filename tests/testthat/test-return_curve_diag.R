@@ -2,8 +2,8 @@ test_that("return_curve_est_diag works", {
 
 
   result <-  return_curve_diag(data=S22.Detrend.df[20486:24107,1:3],
-                               q=0.985,rp=1,mu=365.25,n_sim=40,
-                               n_grad=10,n_boot=40,boot_method="basic",
+                               q=0.985,rp=1,mu=365.25,n_sim=50,
+                               n_grad=20,n_boot=40,boot_method="basic",
                                boot_replace=TRUE, block_length=NA, boot_prop=NA,
                                decl_method_x="runs", decl_method_y="runs",
                                window_length_x=NA,window_length_y=NA,
