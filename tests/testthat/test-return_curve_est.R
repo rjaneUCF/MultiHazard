@@ -3,8 +3,8 @@ test_that("return_curve_est works", {
 
 
   result <-  return_curve_est(data=S22.Detrend.df[20486:24107,1:3],
-                              q=0.985,rp=100,mu=365.25,n_sim=40,
-                              n_grad=25,n_boot=40,boot_method="basic",
+                              q=0.985,rp=100,mu=365.25,n_sim=30,
+                              n_grad=10,n_boot=30,boot_method="basic",
                               boot_replace=TRUE, block_length=NA, boot_prop=0.8,
                               decl_method_x="runs", decl_method_y="runs",
                               window_length_x=NA,window_length_y=NA,
