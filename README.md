@@ -1,6 +1,22 @@
 
 # MultiHazard <img src="https://user-images.githubusercontent.com/15319503/195926656-9d3d37b5-86ab-4d4b-9e6d-3c70d5399c73.png" align="right" height="200"/>
 
+<p align="center">
+  <a href="https://doi.org/10.21105/joss.08350">
+    <img src="https://img.shields.io/badge/DOI-10.21105%2Fjoss.08350-orange.svg?style=for-the-badge" alt="DOI: 10.21105/joss.08350">
+  </a>
+  
+  <a href="https://rjaneucf.github.io/MultiHazard/">
+    <img src="https://img.shields.io/badge/Docs-Vignette-brightgreen.svg?style=for-the-badge" alt="Vignette">
+  </a>
+  
+  <a href="https://github.com/rjaneUCF/MultiHazard/blob/master/LICENSE">
+    <img src="https://img.shields.io/badge/License-GPL--3.0-blue.svg?style=for-the-badge" alt="License: GPL-3.0">
+  </a>
+</p>
+
+<br>
+
 ## Overview
 
 The `MultiHazard` package provides tools for stationary multivariate
@@ -52,7 +68,9 @@ water level curve for simulated peak rainfall and peak sea level events.
 ## Learn More
 
 For detailed tutorials and examples, see the package [vignette](https://rjaneucf.github.io/MultiHazard/).
-[![DOI](https://joss.theoj.org/papers/10.21105/joss.08350/status.svg)]
+
+![DOI](https://joss.theoj.org/papers/10.21105/joss.08350/status.svg)
+
 ## Citation
 
 If you use this package, please cite:
@@ -117,6 +135,7 @@ This package has been used in several peer-reviewed publications:
 > Multivariate statistical modelling of the drivers of compound flood
 > events in South Florida, Nat. Hazards Earth Syst. Sci., 20, 2681–2699,
 > <https://doi.org/10.5194/nhess-20-2681-2020>.
+
 
 
 
