@@ -12,7 +12,7 @@ output:
     df_print: paged
   pdf_document: default
 authors:
-- name: Robert A. Jane
+- name: Robert Jane
   orcid: "0000-0003-4194-852X"
   corresponding: true
   affiliation: 1
@@ -92,4 +92,5 @@ Several packages employ copula-based approaches to derive isolines. The MATLAB t
 The Authors thank the South Florida Water Management District for funding the development of this package through several projects over the past few years. Robert Jane and Thomas Wahl acknowledge financial support from the USACE Climate Preparedness and Resilience Community of Practice.
 
 # References
+
 
