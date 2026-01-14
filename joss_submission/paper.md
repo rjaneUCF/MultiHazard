@@ -6,7 +6,7 @@ tags:
 - isolines
 - flood risk analysis
 - multivariate statistics
-date: "1 December 2024"
+date: "14 January 2026"
 output:
   html_document:
     df_print: paged
@@ -28,7 +28,7 @@ authors:
   affiliation: 3
 - given-names: Callum Murphy-Barltrop
   orchid: "0000-0002-3479-2902"
-  affiliation: "4, 5"
+  affiliation: [4, 5]
 - name: Javed Ali
   orcid: "0000-0002-6203-1190"
   affiliation: 1
@@ -92,5 +92,6 @@ Several packages employ copula-based approaches to derive isolines. The MATLAB t
 The Authors thank the South Florida Water Management District for funding the development of this package through several projects over the past few years. Robert Jane and Thomas Wahl acknowledge financial support from the USACE Climate Preparedness and Resilience Community of Practice.
 
 # References
+
 
 
