@@ -60,7 +60,7 @@ If you use this package, please cite:
 > Jane, R., Wahl, T., Peña, F., Obeysekera, J., Murphy-Barltrop, C.,
 > Ali, J., Maduwantha, P., Li, H., and Malagón Santos, V. (2026)
 > MultiHazard: Copula-based Joint Probability Analysis in R. Journal of
-> Open Source Software, 11(117), 8350 <https://doi.org/10.21105/joss.08350>.
+> Open Source Software, 11(117), 8350, <https://doi.org/10.21105/joss.08350>.
 
 <br>
 
@@ -117,6 +117,7 @@ This package has been used in several peer-reviewed publications:
 > Multivariate statistical modelling of the drivers of compound flood
 > events in South Florida, Nat. Hazards Earth Syst. Sci., 20, 2681–2699,
 > <https://doi.org/10.5194/nhess-20-2681-2020>.
+
 
 
 
