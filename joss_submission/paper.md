@@ -57,8 +57,6 @@ affiliations:
 - name: Royal Netherlands Institute for Sea Research, NL
   index: 7
 bibliography: paper.bib
-aas-doi: "10.3847/xxxxx <- update this with the DOI from AAS once you know it."
-aas-journal: "Journal of Open Source Software"
 ---
 
 # Summary
@@ -91,6 +89,7 @@ Several packages employ copula-based approaches to derive isolines. The MATLAB t
 The Authors thank the South Florida Water Management District for funding the development of this package through several projects over the past few years. Robert Jane and Thomas Wahl acknowledge financial support from the USACE Climate Preparedness and Resilience Community of Practice.
 
 # References
+
 
 
 
