@@ -69,11 +69,9 @@ water level curve for simulated peak rainfall and peak sea level events.
 
 For detailed tutorials and examples, see the package [vignette](https://rjaneucf.github.io/MultiHazard/).
 
-![DOI](https://joss.theoj.org/papers/10.21105/joss.08350/status.svg)
-
 ## Citation
 
-If you use this package, please cite:
+If you use this package, please cite ![DOI](https://joss.theoj.org/papers/10.21105/joss.08350/status.svg):
 
 > Jane, R., Wahl, T., Peña, F., Obeysekera, J., Murphy-Barltrop, C.,
 > Ali, J., Maduwantha, P., Li, H., and Malagón Santos, V. (2026)
@@ -135,6 +133,7 @@ This package has been used in several peer-reviewed publications:
 > Multivariate statistical modelling of the drivers of compound flood
 > events in South Florida, Nat. Hazards Earth Syst. Sci., 20, 2681–2699,
 > <https://doi.org/10.5194/nhess-20-2681-2020>.
+
 
 
 
