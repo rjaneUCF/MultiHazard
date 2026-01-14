@@ -27,7 +27,7 @@ authors:
   orcid: "0000-0002-6203-1190"
   affiliation: 3
 - name: Callum Murphy-Barltrop
-  orchid: "0000-0002-3479-2902"
+  orcid: "0000-0002-3479-2902"
   affiliation: [4, 5]
 - name: Javed Ali
   orcid: "0000-0002-6203-1190"
@@ -92,6 +92,7 @@ Several packages employ copula-based approaches to derive isolines. The MATLAB t
 The Authors thank the South Florida Water Management District for funding the development of this package through several projects over the past few years. Robert Jane and Thomas Wahl acknowledge financial support from the USACE Climate Preparedness and Resilience Community of Practice.
 
 # References
+
 
 
 
