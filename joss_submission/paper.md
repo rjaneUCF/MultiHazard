@@ -21,14 +21,13 @@ authors:
   affiliation: 1
 - name: Francisco Pena
   orcid: "0000-0002-1779-9926"
-  equal-contrib: true
   affiliation: 2
 - name: Jayantha Obeysekera
-  orcid: "0000-0002-6203-1190"
+  orcid: "0000-0002-7038-1668"
   affiliation: 3
 - name: Callum Murphy-Barltrop
   orcid: "0000-0002-3479-2902"
-  affiliation: [4, 5]
+  affiliation: "4, 5"
 - name: Javed Ali
   orcid: "0000-0002-6203-1190"
   affiliation: 1
@@ -36,10 +35,10 @@ authors:
   orcid: "0000-0002-9819-5170"
   affiliation: 1
 - name: Huazhi Li
-  orchid: "0000-0001-9589-2918"
+  orcid: "0000-0001-9589-2918"
   affiliation: 6
 - name: Victor Malagon Santos
-  orchid: "0000-0002-4458-0890"
+  orcid: "0000-0002-4458-0890"
   affiliation: 7
 affiliations:
 - name: University of Central Florida, USA
@@ -92,6 +91,7 @@ Several packages employ copula-based approaches to derive isolines. The MATLAB t
 The Authors thank the South Florida Water Management District for funding the development of this package through several projects over the past few years. Robert Jane and Thomas Wahl acknowledge financial support from the USACE Climate Preparedness and Resilience Community of Practice.
 
 # References
+
 
 
 
