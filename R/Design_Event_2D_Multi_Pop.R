@@ -1033,7 +1033,7 @@ Design_Event_2D_Multi_Pop<-function(Data, Data_Con1, Data_Con2, Data_Con3, Data_
   ###Generate samples from the copula models to which a kernel density estimate will be applied to estimate relative probabilities along the isoline.
 
   #Fit the specified copula family (Copula_Family1) to the observations in Data_Con1.
-  obj3<-BiCopSelect(pobs(Data_Con3[,1]), pobs(Data_Con3[,2]), familyset=Copula_Family1, selectioncrit = "AIC",
+  obj3<-BiCopSelect(pobs(Data_Con3[,1]), pobs(Data_Con3[,2]), familyset=Copula_Family3, selectioncrit = "AIC",
                     indeptest = FALSE, level = 0.05, weights = NA, rotations = TRUE,
                     se = FALSE, presel = TRUE, method = "mle")
   #Simulate a sample from the fitted copula. Out of the sample size 'N' the proportion of the sample from the copula associated with Data_Con1 is proportional to the size of Data_Con1 relative to Data_Con2.
