@@ -46,6 +46,14 @@
 #'                         Upper=c(6,8), Lower=c(6,8),GAP=0.1)
 Copula_Threshold_2D_Lag<-function(Data_Detrend,Data_Declust,u1=seq(0.9,0.99,0.01),u2=seq(0.9,0.99,0.01),PLOT=TRUE,Lag_Backward_Var1=1,Lag_Forward_Var1=1,Lag_Backward_Var2=1,Lag_Forward_Var2=1,x_lim_min=NA,x_lim_max=NA,y_lim_min=-1,y_lim_max=1,Upper=NA,Lower=NA,GAP=0.05,Legend=TRUE,Cex_Legend=1,Cex_Axis=1,Cex_Axis_Original=1){
 
+  #Removing date column
+  if(class(Data_Detrend[,1])[1]=="Date" | class(Data_Detrend[,1])[1]=="factor" | class(Data_Detrend[,1])[1]=="POSIXct" | class(Data_Detrend[,1])[1]=="character"){
+    Data_Detrend<-Data_Detrend[,-1]
+  }
+  if(class(Data_Declust[,1])[1]=="Date" | class(Data_Declust[,1])[1]=="factor" | class(Data_Declust[,1])[1]=="POSIXct" | class(Data_Detrend[,1])[1]=="character"){
+    Data_Declust<-Data_Declust[,-1]
+  }
+
   # Input validation
   if (!is.data.frame(Data_Detrend) && !is.matrix(Data_Detrend)) {
     stop("Data_Detrend must be a data frame or matrix")
@@ -63,33 +71,8 @@ Copula_Threshold_2D_Lag<-function(Data_Detrend,Data_Declust,u1=seq(0.9,0.99,0.01
     stop("Data_Declust must comprise two columns, got: ", ncol(Data_Declust))
   }
 
-
-  if (any(u1 > 1) || any(u1 < 0)) {
-    stop("u1 must be between 0 and 1, got values in range: ", min(u1), "to", max(u1))
-  }
-
-  if (any(u2 > 1) || any(u2 < 0)) {
-    stop("u2 must be between 0 and 1, got values in range: ", min(u2), "to", max(u2))
-  }
-
-  if (is.null(Lag_Backward_Var1) || !is.numeric(Lag_Backward_Var1)){
-    stop("Lag_Backward_Var1 must be numeric, given:", class(Lag_Backward_Var1))
-  }
-
-  if (is.null(Lag_Forward_Var1) || !is.numeric(Lag_Forward_Var1)){
-    stop("Lag_Forward_Var1 must be numeric, given:", class(Lag_Forward_Var1))
-  }
-
-  if (is.null(Lag_Backward_Var2) || !is.numeric(Lag_Backward_Var2)){
-    stop("Lag_Backward_Var2 must be numeric, given:", class(Lag_Backward_Var2))
-  }
-
-  if (is.null(Lag_Forward_Var2) || !is.numeric(Lag_Forward_Var2)){
-    stop("Lag_Forward_Var2 must be numeric, given:", class(Lag_Forward_Var2))
-  }
-
   if (y_lim_min >= y_lim_max) {
-    stop("y_lim_min must be less than y_lim_max, given: y_lim_min = ", y_lim_min, ", y_lim_max = ", y_lim_max)
+    stop("y_lim_min must be less than y_lim_max")
   }
 
   #Axes limits for plots
@@ -104,14 +87,6 @@ Copula_Threshold_2D_Lag<-function(Data_Detrend,Data_Declust,u1=seq(0.9,0.99,0.01
                              "Rot. BB7","Rot. BB8","Rot. Clayton","Rot. Gumbel","Rot. Joe","Rot. BB1","Rot. BB6","Rot. BB7","Rot. BB8",
                              "Tawn type 1","Rot. Tawn type 1","Rot. Tawn type 1","Rot. Tawn type 1","Tawn type 2","Rot. Tawn type 2","Rot. Tawn type 2","Rot. Tawn type 2"))
   colnames(copula_table)<-c("Number","Family")
-
-  #Removing date column
-  if(class(Data_Detrend[,1])[1]=="Date" | class(Data_Detrend[,1])[1]=="factor" | class(Data_Detrend[,1])[1]=="POSIXct" | class(Data_Detrend[,1])[1]=="character"){
-    Data_Detrend<-Data_Detrend[,-1]
-  }
-  if(class(Data_Declust[,1])[1]=="Date" | class(Data_Declust[,1])[1]=="factor" | class(Data_Declust[,1])[1]=="POSIXct" | class(Data_Detrend[,1])[1]=="character"){
-    Data_Declust<-Data_Declust[,-1]
-  }
 
   #Conditional on Var1
   if(is.na(u1[1])==FALSE){
@@ -318,3 +293,4 @@ Copula_Threshold_2D_Lag<-function(Data_Detrend,Data_Declust,u1=seq(0.9,0.99,0.01
 
   return(res)
 }
+

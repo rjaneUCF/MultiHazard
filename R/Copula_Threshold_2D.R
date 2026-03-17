@@ -42,6 +42,14 @@
 #'                     Upper=c(6,8), Lower=c(6,8),GAP=0.1)
 Copula_Threshold_2D<-function(Data_Detrend,Data_Declust,u1=seq(0.9,0.99,0.01),u2=seq(0.9,0.99,0.01),PLOT=TRUE,x_lim_min=NA,x_lim_max=NA,y_lim_min=-1,y_lim_max=1,Upper=NA,Lower=NA,GAP=0.05,Legend=TRUE,Cex_Legend=1,Cex_Axis=1,Cex_Axis_Original=1){
 
+  #Removing date column
+  if(class(Data_Detrend[,1])[1]=="Date" | class(Data_Detrend[,1])[1]=="factor" | class(Data_Detrend[,1])[1]=="POSIXct" | class(Data_Detrend[,1])[1]=="character"){
+    Data_Detrend<-Data_Detrend[,-1]
+  }
+  if(class(Data_Declust[,1])[1]=="Date" | class(Data_Declust[,1])[1]=="factor" | class(Data_Declust[,1])[1]=="POSIXct" | class(Data_Detrend[,1])[1]=="character"){
+    Data_Declust<-Data_Declust[,-1]
+  }
+
   # Input validation
   if (!is.data.frame(Data_Detrend) && !is.matrix(Data_Detrend)) {
     stop("Data_Detrend must be a data frame or matrix")
@@ -87,14 +95,6 @@ Copula_Threshold_2D<-function(Data_Detrend,Data_Declust,u1=seq(0.9,0.99,0.01),u2
                              "Rot. BB7","Rot. BB8","Rot. Clayton","Rot. Gumbel","Rot. Joe","Rot. BB1","Rot. BB6","Rot. BB7","Rot. BB8",
                              "Tawn type 1","Rot. Tawn type 1","Rot. Tawn type 1","Rot. Tawn type 1","Tawn type 2","Rot. Tawn type 2","Rot. Tawn type 2","Rot. Tawn type 2"))
   colnames(copula_table)<-c("Number","Family")
-
-  #Removing date column
-  if(class(Data_Detrend[,1])[1]=="Date" | class(Data_Detrend[,1])[1]=="factor" | class(Data_Detrend[,1])[1]=="POSIXct" | class(Data_Detrend[,1])[1]=="character"){
-    Data_Detrend<-Data_Detrend[,-1]
-  }
-  if(class(Data_Declust[,1])[1]=="Date" | class(Data_Declust[,1])[1]=="factor" | class(Data_Declust[,1])[1]=="POSIXct" | class(Data_Detrend[,1])[1]=="character"){
-    Data_Declust<-Data_Declust[,-1]
-  }
 
   #Conditional on Var1
   if(is.na(u1[1])==FALSE){
