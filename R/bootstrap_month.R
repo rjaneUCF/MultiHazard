@@ -83,7 +83,7 @@ bootstrap_month <- function(data, boot_prop = 0.8) {
   valid_idx <- which(!is.na(m.y.complete$indicator))
 
   # Vectorized bootstrap sampling by group
-  boot_idx <- integer(nrow(m.y.complete))
+  boot_idx <- rep(NA_integer_, nrow(m.y.complete)) 
 
   for (i in valid_idx) {
     month_i <- m.y.complete$month[i]
