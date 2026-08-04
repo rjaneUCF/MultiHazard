@@ -72,8 +72,7 @@ bootstrap_month <- function(data, boot_prop = 0.8) {
   m.y.complete$indicator <- sapply(m.y.complete$month_year, indicator_calc)
 
   # Handle leap years - vectorized
-  leap_years <- seq(1880, 2052, 4)
-  leap_years <- leap_years[leap_years >= min(data_years) & leap_years <= max(data_years)]
+  leap_years <- year_range[lubridate::leap_year(year_range)]
 
   # Mark February in leap years as month 13
   leap_feb_idx <- which(m.y.complete$month == 2 & m.y.complete$year %in% leap_years)
