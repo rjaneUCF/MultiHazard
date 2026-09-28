@@ -21,6 +21,9 @@
 #' @seealso \code{\link{Dataframe_Combine}} \code{\link{Migpd_Fit}}
 #' @export
 #' @examples
+#' #Format date column
+#' S20.Detrend.Declustered.df$Date =
+#'       as.Date(as.character(S20.Detrend.Declustered.df$Date), format = "%m/%d/%Y")
 #' #Fit GPD marginal distributions above the threshold
 #' S20.Migpd<-Migpd_Fit(Data=S20.Detrend.Declustered.df[,-1],
 #'                      Data_Full=S20.Detrend.Declustered.df[,-1],
@@ -41,7 +44,7 @@
 #' pairs(S20.Pairs.Plot.Data[,1:3],
 #'       col=ifelse(S20.Pairs.Plot.Data$Type=="Observation","Black","Red"),
 #'       upper.panel=NULL,pch=16)
-HT04<-function(data_Detrend_Dependence_df,data_Detrend_Declustered_df,u_Dependence,Migpd,mu=365.25,N=100,Margins="gumbel",V=10,Maxit=10000){
+HT04<-function(data_Detrend_Dependence_df,data_Detrend_Declustered_df,u_Dependence=0.7,Migpd,mu=365.25,N=100,Margins="gumbel",V=10,Maxit=10000){
 
   # Input Validation
 
@@ -106,7 +109,7 @@ HT04<-function(data_Detrend_Dependence_df,data_Detrend_Declustered_df,u_Dependen
   }
 
   if(length(N) != 1 || N <= 0 || N != round(N)){
-     stop("mu must be a positive numeric value.")
+     stop("N must be a positive numeric value.")
   }
 
   if(!is.numeric(V)){
@@ -158,7 +161,7 @@ HT04<-function(data_Detrend_Dependence_df,data_Detrend_Declustered_df,u_Dependen
     }
     colnames(HT04.Dataset)<-colnames(data_Detrend_Dependence_df)
     Migpd$data<-na.omit(HT04.Dataset)
-    HT04_Model[[i]]=mexDependence(Migpd,which=colnames(data_Detrend_Dependence_df)[i],dqu=u_Dependence, margins = "laplace",
+    HT04_Model[[i]]=mexDependence(Migpd,which=colnames(data_Detrend_Dependence_df)[i],dqu=u_Dependence, margins = Margins,
                                   constrain = FALSE,v = V, maxit = Maxit)
     names(HT04_Model) <- colnames(data_Detrend_Dependence_df)
 
